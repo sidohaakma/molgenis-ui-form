@@ -38,10 +38,6 @@ module.exports = {
         build: 'build-${TRAVIS_JOB_NUMBER}',
         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
       },
-      screenshots: {
-        enabled: false,
-        path: ""
-      },
       globals: {
         waitForConditionTimeout: 10000
       }
