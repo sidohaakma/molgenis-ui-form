@@ -2,4 +2,5 @@
 
 yarn install
 yarn build
-yarn test --env ci
+yarn unit
+yarn e2e -- --env ci
