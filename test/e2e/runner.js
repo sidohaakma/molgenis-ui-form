@@ -33,8 +33,6 @@ devConfigPromise.then(devConfig => {
     opts = opts.concat(['--env', 'chrome'])
   }
 
-  console.log(opts)
-
   const spawn = require('cross-spawn')
   const runner = spawn('./node_modules/.bin/nightwatch', opts, { stdio: 'inherit' })
 
