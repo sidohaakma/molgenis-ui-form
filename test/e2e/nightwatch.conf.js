@@ -1,6 +1,6 @@
 require('babel-register')
 var config = require('../../config')
-var packageJson = require('../../package.json')
+var packageJson = require('../../package.json');
 
 // http://nightwatchjs.org/gettingstarted#settings-file
 module.exports = {
@@ -36,8 +36,7 @@ module.exports = {
       username: process.env.SAUCE_USERNAME,
       access_key: process.env.SAUCE_ACCESS_KEY,
       desiredCapabilities: {
-        name: packageJson.version,
-        version: packageJson.name,
+        name: packageJson.name,
         build: 'build-${TRAVIS_JOB_NUMBER}',
         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
       },
