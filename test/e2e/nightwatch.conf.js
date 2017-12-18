@@ -27,6 +27,26 @@ module.exports = {
       }
     },
 
+    ci: {
+      launch_url: "http://ondemand.saucelabs.com:80",
+      selenium_port: 80,
+      selenium_host: 'ondemand.saucelabs.com',
+      silent: true,
+      username: process.env.SAUCE_USERNAME,
+      access_key: process.env.SAUCE_ACCESS_KEY,
+      desiredCapabilities: {
+        build: 'build-${TRAVIS_JOB_NUMBER}',
+        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
+      },
+      screenshots: {
+        enabled: false,
+        path: ""
+      },
+      globals: {
+        waitForConditionTimeout: 10000
+      }
+    },
+
     chrome: {
       desiredCapabilities: {
         browserName: 'chrome',
