@@ -29,7 +29,7 @@
   import VueForm from 'vue-form'
 
   export default {
-    name: 'text-field-component',
+    name: 'TextFieldComponent',
     props: ['value', 'field', 'state'],
     mixins: [VueForm],
     data () {
