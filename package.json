@@ -4,7 +4,9 @@
   "description": "Library for generating HTML web forms",
   "author": "Mark-de-Haan <markdehaan90@gmail.com>",
   "main": "dist/static/molgenis-ui-form.js",
-  "files": [ "dist" ],
+  "files": [
+    "dist"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/molgenis/molgenis-ui-form.git"
@@ -19,7 +21,9 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "build": "node build/build.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "vue-form": "^4.7.0"
+  },
   "peerDependencies": {
     "vue": "2.5.13"
   },
