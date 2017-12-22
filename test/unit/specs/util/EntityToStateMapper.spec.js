@@ -1,43 +1,43 @@
-import {generateFormFields} from '@/util/EntityToStateMapper'
+import {generateFormFields, generateFormData} from '@/util/EntityToStateMapper'
 
 describe('Entity to state mapper', () => {
-  describe('generateFormFields', () => {
-    const schema = {
-      'href': '/api/v2/it_emx_datatypes_TypeTest',
-      'hrefCollection': '/api/v2/it_emx_datatypes_TypeTest',
-      'name': 'it_emx_datatypes_TypeTest',
-      'label': 'TypeTest',
-      'description': 'MOLGENIS Data types test entity',
-      'attributes': [
-        {
-          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/string',
-          'fieldType': 'STRING',
-          'name': 'string',
-          'label': 'String Field',
-          'attributes': [],
-          'auto': false,
-          'nillable': false,
-          'readOnly': false,
-          'labelAttribute': true,
-          'unique': true,
-          'visible': true,
-          'lookupAttribute': true,
-          'isAggregatable': false,
-          'description': 'STRING description',
-          'nullableExpression': '$("text").value() !== "test"',
-          'validationExpression': '$("string").value() === "valid"'
-        }
-      ],
-      'labelAttribute': 'id',
-      'idAttribute': 'id',
-      'lookupAttributes': [
-        'id'
-      ],
-      'isAbstract': false,
-      'writable': true,
-      'languageCode': 'en'
-    }
+  const schema = {
+    'href': '/api/v2/it_emx_datatypes_TypeTest',
+    'hrefCollection': '/api/v2/it_emx_datatypes_TypeTest',
+    'name': 'it_emx_datatypes_TypeTest',
+    'label': 'TypeTest',
+    'description': 'MOLGENIS Data types test entity',
+    'attributes': [
+      {
+        'href': '/api/v2/it_emx_datatypes_TypeTest/meta/string',
+        'fieldType': 'STRING',
+        'name': 'string',
+        'label': 'String Field',
+        'attributes': [],
+        'auto': false,
+        'nillable': false,
+        'readOnly': false,
+        'labelAttribute': true,
+        'unique': true,
+        'visible': true,
+        'lookupAttribute': true,
+        'isAggregatable': false,
+        'description': 'STRING description',
+        'nullableExpression': '$("text").value() !== "test"',
+        'validationExpression': '$("string").value() === "valid"'
+      }
+    ],
+    'labelAttribute': 'id',
+    'idAttribute': 'id',
+    'lookupAttributes': [
+      'id'
+    ],
+    'isAbstract': false,
+    'writable': true,
+    'languageCode': 'en'
+  }
 
+  describe('generateFormFields', () => {
     it('should map a STRING entity to state object', () => {
       const formFields = generateFormFields(schema)
       expect(formFields.length).to.equal(1)
@@ -54,6 +54,22 @@ describe('Entity to state mapper', () => {
       expect(field.required({'text': 'test'})).to.equal(false)
       expect(field.validators[0]({'string': 'valid'})).to.deep.equal({ valid: true, message: null })
       expect(field.validators[0]({'string': 'not valid'})).to.deep.equal({ valid: false, message: 'Invalid value!' })
+    })
+  })
+
+  describe('generateFormData', () => {
+    it('do things', () => {
+      const formFields = generateFormFields(schema)
+      const data = {
+        string: 'string value',
+        text: 'text value',
+        hyperlink: 'www.nu.nl',
+        categorical_mref: ['1', '2'],
+        date: '2018/01/01',
+        xref: {id: '1', value: '1', label: 'Option 1'}
+      }
+      const formData = generateFormData(formFields, data)
+      expect(formData).to.deep.equal({string: 'string value'})
     })
   })
 })
