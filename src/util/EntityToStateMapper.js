@@ -124,11 +124,10 @@ const isNillable = (attribute) => {
  * @returns {{type: String, id, label, description, required: boolean, disabled, visible, options: ({uri, id, label, multiple}|{uri, id, label})}}
  */
 const generateFormSchemaField = (attribute) => {
-  // const validators = [isValid]
   const validators = [
     (data) => {
       const valid = data['string'] === 'valid'
-      return valid ? {valid: valid, message: null} : { valid: false, message: 'Learn to type a valid value!' }
+      return valid ? {valid: valid, message: null} : { valid: false, message: 'Invalid value!' }
     }
   ]
 
@@ -169,7 +168,7 @@ const generateFormFields = (schema) => schema.attributes.reduce((accumulator, at
   return accumulator
 }, [])
 
-export default {
+export {
   generateFormFields,
   generateFormData
 }
