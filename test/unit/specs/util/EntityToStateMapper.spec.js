@@ -52,7 +52,7 @@ describe('Entity to state mapper', () => {
         expect(field.disabled).to.equal(false)
         expect(field.readOnly).to.equal(false)
         expect(field.visible).to.equal(true)
-        expect(field.options).to.deep.equal({})
+        expect(field.inputProperties).to.equal(undefined)
         expect(field.required({'text': 'not test'})).to.equal(true)
         expect(field.required({'text': 'test'})).to.equal(false)
         expect(field.validators[0]({'string': 'valid'})).to.deep.equal({valid: true, message: null})
@@ -104,7 +104,7 @@ describe('Entity to state mapper', () => {
         expect(field.disabled).to.equal(false)
         expect(field.readOnly).to.equal(false)
         expect(field.visible).to.equal(true)
-        expect(field.options).to.deep.equal({})
+        expect(field.inputProperties).to.equal(undefined)
       })
     })
 
@@ -112,6 +112,61 @@ describe('Entity to state mapper', () => {
       const formData = EntityToStateMapper.generateFormData(formFields, data)
       it('should map a type data row to form data', () => {
         expect(formData).to.deep.equal({text: 'text value'})
+      })
+    })
+  })
+
+  describe('BOOL type mapper', () => {
+    const schema = {
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/boolean',
+          'fieldType': 'BOOL',
+          'name': 'boolean',
+          'label': 'Boolean Field',
+          'attributes': [],
+          'auto': false,
+          'nillable': true,
+          'readOnly': false,
+          'labelAttribute': true,
+          'unique': true,
+          'visible': true,
+          'lookupAttribute': true,
+          'isAggregatable': false,
+          'description': 'Boolean description'
+        }
+      ]
+    }
+
+    const formFields = EntityToStateMapper.generateFormFields(schema)
+    const data = {boolean: false}
+
+    describe('generateFormFields', () => {
+      it('should map a BOOLEAN entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('radios')
+        expect(field.id).to.equal('boolean')
+        expect(field.label).to.equal('Boolean Field')
+        expect(field.description).to.equal('Boolean description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible).to.equal(true)
+        expect(field.inputProperties).to.deep.equal({
+          options: [
+            {id: 'true', value: true, label: 'True'},
+            {id: 'false', value: false, label: 'False'},
+            {id: 'null', value: 'null', label: 'N/A'}
+          ]
+        }
+        )
+      })
+    })
+
+    describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
+      it('should map a type data row to form data', () => {
+        expect(formData).to.deep.equal({boolean: false})
       })
     })
   })

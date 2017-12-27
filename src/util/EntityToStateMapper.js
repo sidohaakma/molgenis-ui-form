@@ -43,12 +43,15 @@ const getHtmlFieldType = (fieldType) => {
 }
 
 /**
- * Return an options array consisting of objects containing id, value, and label
+ * Build object containing properties needed to render the input, input-group or select.
+ * Simple types like STRING or TEXT do not have input properties, in this case 'null' is returned
+ * Returned object contains a options array consisting of objects containing id, value, and label
  * For asynchronous option retrieval return an object containing URI, id, and label of the referencing table
  *
  * @param attribute
+ * @returns Object|null
  */
-const getOptions = (attribute) => {
+const buildInputProperties = (attribute) => {
   switch (attribute.fieldType) {
     case 'XREF':
     case 'ONETOMANY':
@@ -95,7 +98,7 @@ const getOptions = (attribute) => {
         ]
       }
     default:
-      return {}
+      return null
   }
 }
 
@@ -131,7 +134,8 @@ const generateFormSchemaField = (attribute) => {
     }
   ]
 
-  return {
+  const inputProperties = buildInputProperties(attribute)
+  const fieldProperties = {
     type: getHtmlFieldType(attribute.fieldType),
     id: attribute.name,
     label: attribute.label,
@@ -140,9 +144,10 @@ const generateFormSchemaField = (attribute) => {
     disabled: attribute.readOnly,
     readOnly: attribute.readOnly,
     visible: isVisible(attribute),
-    options: getOptions(attribute),
     validators: validators
   }
+
+  return inputProperties ? { ...fieldProperties, inputProperties: inputProperties } : fieldProperties
 }
 
 /**
