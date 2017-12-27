@@ -58,16 +58,9 @@ describe('Entity to state mapper', () => {
   })
 
   describe('generateFormData', () => {
-    it('do things', () => {
+    it('should map a string type data row to form data', () => {
       const formFields = EntityToStateMapper.generateFormFields(schema)
-      const data = {
-        string: 'string value',
-        text: 'text value',
-        hyperlink: 'www.nu.nl',
-        categorical_mref: ['1', '2'],
-        date: '2018/01/01',
-        xref: {id: '1', value: '1', label: 'Option 1'}
-      }
+      const data = { string: 'string value' }
       const formData = EntityToStateMapper.generateFormData(formFields, data)
       expect(formData).to.deep.equal({string: 'string value'})
     })
