@@ -1,7 +1,7 @@
 import EntityToStateMapper from '@/util/EntityToStateMapper'
 
 describe('Entity to state mapper', () => {
-  describe('String type mapper', () => {
+  describe('STRING type mapper', () => {
     const schema = {
       'href': '/api/v2/it_emx_datatypes_TypeTest',
       'hrefCollection': '/api/v2/it_emx_datatypes_TypeTest',
@@ -61,12 +61,58 @@ describe('Entity to state mapper', () => {
     })
 
     describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
       it('should map a string type data row to form data', () => {
-
-        const formData = EntityToStateMapper.generateFormData(formFields, data)
         expect(formData).to.deep.equal({string: 'string value'})
       })
     })
+  })
 
+  describe('TEXT type mapper', () => {
+    const schema = {
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/text',
+          'fieldType': 'TEXT',
+          'name': 'text',
+          'label': 'Text Field',
+          'attributes': [],
+          'auto': false,
+          'nillable': true,
+          'readOnly': false,
+          'labelAttribute': true,
+          'unique': true,
+          'visible': true,
+          'lookupAttribute': true,
+          'isAggregatable': false,
+          'description': 'TEXT description'
+        }
+      ]
+    }
+
+    const formFields = EntityToStateMapper.generateFormFields(schema)
+    const data = {text: 'text value'}
+
+    describe('generateFormFields', () => {
+      it('should map a TEXT entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('text-area')
+        expect(field.id).to.equal('text')
+        expect(field.label).to.equal('Text Field')
+        expect(field.description).to.equal('TEXT description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible).to.equal(true)
+        expect(field.options).to.deep.equal({})
+      })
+    })
+
+    describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
+      it('should map a type data row to form data', () => {
+        expect(formData).to.deep.equal({text: 'text value'})
+      })
+    })
   })
 })
