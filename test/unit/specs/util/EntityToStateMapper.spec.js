@@ -1,4 +1,4 @@
-import {generateFormFields, generateFormData} from '@/util/EntityToStateMapper'
+import EntityToStateMapper from '@/util/EntityToStateMapper'
 
 describe('Entity to state mapper', () => {
   const schema = {
@@ -39,7 +39,7 @@ describe('Entity to state mapper', () => {
 
   describe('generateFormFields', () => {
     it('should map a STRING entity to state object', () => {
-      const formFields = generateFormFields(schema)
+      const formFields = EntityToStateMapper.generateFormFields(schema)
       expect(formFields.length).to.equal(1)
       const field = formFields[0]
       expect(field.type).to.equal('text')
@@ -59,7 +59,7 @@ describe('Entity to state mapper', () => {
 
   describe('generateFormData', () => {
     it('do things', () => {
-      const formFields = generateFormFields(schema)
+      const formFields = EntityToStateMapper.generateFormFields(schema)
       const data = {
         string: 'string value',
         text: 'text value',
@@ -68,7 +68,7 @@ describe('Entity to state mapper', () => {
         date: '2018/01/01',
         xref: {id: '1', value: '1', label: 'Option 1'}
       }
-      const formData = generateFormData(formFields, data)
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
       expect(formData).to.deep.equal({string: 'string value'})
     })
   })

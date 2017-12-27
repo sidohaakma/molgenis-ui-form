@@ -168,7 +168,7 @@ const generateFormFields = (schema) => schema.attributes.reduce((accumulator, at
   return accumulator
 }, [])
 
-export {
+export default {
   generateFormFields,
   generateFormData
 }
