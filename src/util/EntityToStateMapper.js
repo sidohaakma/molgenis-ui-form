@@ -103,8 +103,11 @@ const buildInputProperties = (attribute) => {
 }
 
 /**
- * If there is a visible expression present, return a function which evaluates said expression.
+ * If there is a visible expression present, return a function which evaluates the expression.
  * Else return the visible value from the attribute
+ *
+ * @param attribute
+ * @returns {Function|boolean}
  */
 const isVisible = (attribute) => {
   const expression = attribute.visibleExpression
@@ -114,6 +117,8 @@ const isVisible = (attribute) => {
 /**
  * If there is a nullable expression present, return a function which evaluates said expression.
  * Else return the !nillable value from the attribute
+ * @param attribute
+ * @returns {Function|boolean}
  */
 const isNillable = (attribute) => {
   const expression = attribute.nullableExpression

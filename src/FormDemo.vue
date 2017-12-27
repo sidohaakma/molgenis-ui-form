@@ -28,7 +28,7 @@
 <script>
 import { FormComponent, EntityToStateMapper } from './molgenisUiForm'
 
-const demoSchema = {
+const demoResponse = {
   'href': '/api/v2/it_emx_datatypes_TypeTest',
   'hrefCollection': '/api/v2/it_emx_datatypes_TypeTest',
   'name': 'it_emx_datatypes_TypeTest',
@@ -72,7 +72,7 @@ const data = {
   date: '2018/01/01',
   xref: {id: '1', value: '1', label: 'Option 1'}
 }
-const demoField = EntityToStateMapper.generateFormFields(demoSchema)
+const demoField = EntityToStateMapper.generateFormFields(demoResponse)
 
 export default {
   name: 'form-demo',
