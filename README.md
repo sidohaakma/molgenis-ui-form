@@ -1,6 +1,46 @@
 # molgenis-ui-form
 
 > Library for generating HTML web forms
+##Usage 
+
+Add library using yarn.
+
+```yarn add @molgenis/molgenis-ui-form```
+
+Import vue component using.
+
+```import { FormComponent } from '@molgenis/molgenis-ui-form'```
+
+Import entity mapper EntityToStateMapper using.
+
+```import { EntityToStateMapper } from '@molgenis/molgenis-ui-form'```
+
+This takes a molgenis entity response and turns it into a molgenis-ui-form data object
+
+```
+...
+const formSchema = EntityToStateMapper.generateFormFields(response.meta)
+const formData = EntityToStateMapper.generateFormData(formSchema, response.items[0]
+
+data () {
+  return {
+    schema: {
+      fields: formSchema
+    },
+    data: formData
+  }
+}
+...
+```
+
+Use in template 
+
+```
+<template>
+    <form-component id="my-form" :schema="schema" :data="data"></form-component>
+</template>
+```
+
 
 ## Build Setup
 

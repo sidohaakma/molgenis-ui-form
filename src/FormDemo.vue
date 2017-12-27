@@ -16,7 +16,7 @@
           </div>
 
           <div class="card-body">
-            <form-component id="example-form" :schema="schema"></form-component>
+            <form-component id="example-form" :schema="schema" :data="data"></form-component>
           </div>
         </div>
       </div>
@@ -26,7 +26,53 @@
 </template>
 
 <script>
-import FormComponent from './components/FormComponent'
+import { FormComponent, EntityToStateMapper } from './molgenisUiForm'
+
+const demoResponse = {
+  'href': '/api/v2/it_emx_datatypes_TypeTest',
+  'hrefCollection': '/api/v2/it_emx_datatypes_TypeTest',
+  'name': 'it_emx_datatypes_TypeTest',
+  'label': 'TypeTest',
+  'description': 'MOLGENIS Data types test entity',
+  'attributes': [
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/string',
+      'fieldType': 'STRING',
+      'name': 'string',
+      'label': 'String Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'STRING description',
+      'nullableExpression': '$("text").value() !== "test"',
+      'validationExpression': '$("string").value() === "valid"'
+    }
+  ],
+  'labelAttribute': 'id',
+  'idAttribute': 'id',
+  'lookupAttributes': [
+    'id'
+  ],
+  'isAbstract': false,
+  'writable': true,
+  'languageCode': 'en'
+}
+
+const data = {
+  string: 'string value',
+  text: 'text value',
+  hyperlink: 'www.nu.nl',
+  categorical_mref: ['1', '2'],
+  date: '2018/01/01',
+  xref: {id: '1', value: '1', label: 'Option 1'}
+}
+const demoField = EntityToStateMapper.generateFormFields(demoResponse)
 
 export default {
   name: 'form-demo',
@@ -36,28 +82,9 @@ export default {
   data () {
     return {
       schema: {
-        fields: [
-          {
-            type: 'text',
-            id: 'text-field',
-            label: 'Text field',
-            description: 'This is a cool text field',
-            visible: true,
-            required: true,
-            disabled: false,
-            validators: [
-              (value) => {
-                const valid = value.indexOf('test') !== -1
-                const message = valid ? '' : 'not valid value. Please include the word test'
-                return {
-                  valid: valid,
-                  message: message
-                }
-              }
-            ]
-          }
-        ]
-      }
+        fields: demoField
+      },
+      data: EntityToStateMapper.generateFormData(demoField, data)
     }
   }
 }

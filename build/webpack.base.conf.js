@@ -22,7 +22,7 @@ const createLintingRule = () => ({
 module.exports = {
   context: path.resolve(__dirname, '../'),
   entry: {
-    "molgenis-ui-form": process.env.NODE_ENV === 'production' ? './src/components/FormComponent.vue' : './src/main.js'
+    "molgenis-ui-form": process.env.NODE_ENV === 'production' ? './src/molgenisUiForm.js' : './src/main.js'
   },
   output: {
     path: config.build.assetsRoot,
