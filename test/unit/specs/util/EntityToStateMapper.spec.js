@@ -74,6 +74,42 @@ describe('Entity to state mapper', () => {
       })
     })
 
+    describe('generateFormFields with visible expression', () => {
+      const schema = {
+        'attributes': [
+          {
+            'href': '/api/v2/it_emx_datatypes_TypeTest/meta/string',
+            'fieldType': 'STRING',
+            'name': 'string',
+            'label': 'String Field',
+            'attributes': [],
+            'auto': false,
+            'nillable': false,
+            'readOnly': false,
+            'labelAttribute': true,
+            'unique': true,
+            'visibleExpression': '$("string").value() === "show me"',
+            'lookupAttribute': true,
+            'isAggregatable': false,
+            'description': 'STRING description'
+          }
+        ]
+      }
+
+      const formFields = EntityToStateMapper.generateFormFields(schema)
+      it('should map a STRING entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('text')
+        expect(field.id).to.equal('string')
+        expect(field.label).to.equal('String Field')
+        expect(field.description).to.equal('STRING description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible({'string': 'hide me'})).to.deep.equal(false)
+      })
+    })
+
     describe('generateFormData', () => {
       const formData = EntityToStateMapper.generateFormData(formFields, data)
       it('should map a string type data row to form data', () => {
