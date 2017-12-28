@@ -82,6 +82,53 @@ describe('Entity to state mapper', () => {
     })
   })
 
+  describe('EMAIL type mapper', () => {
+    const schema = {
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/email',
+          'fieldType': 'EMAIL',
+          'name': 'email',
+          'label': 'Email Field',
+          'attributes': [],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'labelAttribute': true,
+          'unique': true,
+          'visible': true,
+          'lookupAttribute': true,
+          'isAggregatable': false,
+          'description': 'Email description'
+        }
+      ]
+    }
+
+    const formFields = EntityToStateMapper.generateFormFields(schema)
+    const data = {email: 'foobar@molgenis.org'}
+
+    describe('generateFormFields', () => {
+      it('should map a Email entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('email')
+        expect(field.id).to.equal('email')
+        expect(field.label).to.equal('Email Field')
+        expect(field.description).to.equal('Email description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible).to.equal(true)
+      })
+    })
+
+    describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
+      it('should map a type data row to form data', () => {
+        expect(formData).to.deep.equal({email: 'foobar@molgenis.org'})
+      })
+    })
+  })
+
   describe('TEXT type mapper', () => {
     const schema = {
       'attributes': [
@@ -383,6 +430,73 @@ describe('Entity to state mapper', () => {
       const formData = EntityToStateMapper.generateFormData(formFields, data)
       it('should map a type data row to form data', () => {
         expect(formData).to.deep.equal({decimal: 0.205})
+      })
+    })
+  })
+
+  describe('FILE type mapper', () => {
+    const schema = {
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/file',
+          'fieldType': 'FILE',
+          'name': 'file',
+          'label': 'File Field',
+          'attributes': [],
+          'auto': false,
+          'nillable': true,
+          'readOnly': false,
+          'labelAttribute': true,
+          'unique': true,
+          'visible': true,
+          'lookupAttribute': true,
+          'isAggregatable': false,
+          'description': 'File description'
+        }
+      ]
+    }
+
+    const formFields = EntityToStateMapper.generateFormFields(schema)
+    const data = {
+      file: {
+        'href': '/api/v1/sys_FileMeta/aaa123bbb',
+        'id': 'aaa123bbb',
+        'filename': 'foo.txt',
+        'contentType': 'text/plain',
+        'size': 5,
+        'url': 'https://someserver/files/api',
+        'ownerUsername': 'admin'
+      }
+    }
+
+    describe('generateFormFields', () => {
+      it('should map a File entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('file')
+        expect(field.id).to.equal('file')
+        expect(field.label).to.equal('File Field')
+        expect(field.description).to.equal('File description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible).to.equal(true)
+      })
+    })
+
+    describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
+      it('should map a type data row to form data', () => {
+        expect(formData).to.deep.equal({
+          file: {
+            'href': '/api/v1/sys_FileMeta/aaa123bbb',
+            'id': 'aaa123bbb',
+            'filename': 'foo.txt',
+            'contentType': 'text/plain',
+            'size': 5,
+            'url': 'https://someserver/files/api',
+            'ownerUsername': 'admin'
+          }
+        })
       })
     })
   })
