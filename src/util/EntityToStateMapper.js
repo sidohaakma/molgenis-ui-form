@@ -92,7 +92,7 @@ const buildInputProperties = (attribute) => {
     case 'CATEGORICAL':
     case 'CATEGORICAL_MREF':
       return {
-        options: [],
+        options: [], // todo what about nillable
         uri: attribute.refEntity.hrefCollection
       }
     case 'ENUM':
