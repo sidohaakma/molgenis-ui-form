@@ -96,15 +96,17 @@ const buildInputProperties = (attribute) => {
         uri: attribute.refEntity.hrefCollection
       }
     case 'ENUM':
-      return {
-        options: attribute.enumOptions.map(option => {
-          return {
-            id: option,
-            value: option,
-            label: option
-          }
-        })
+      const enumOptions = attribute.enumOptions.map(option => {
+        return {
+          id: option,
+          value: option,
+          label: option
+        }
+      })
+      if (attribute.nillable) {
+        enumOptions.push({id: 'null', value: 'null', label: 'N/A'})
       }
+      return { options: enumOptions }
     case 'BOOL':
       return {
         options: attribute.nillable ? [
