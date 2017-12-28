@@ -482,7 +482,6 @@ describe('Entity to state mapper', () => {
   })
 
   describe('ENUM type mapper', () => {
-
     describe('generateFormFields', () => {
       it('should map a nullable ENUM entity to state object with a null option', () => {
         const schema = {
@@ -597,6 +596,53 @@ describe('Entity to state mapper', () => {
       const formData = EntityToStateMapper.generateFormData(formFields, data)
       it('should map a type data row to form data', () => {
         expect(formData).to.deep.equal({enum: 'enum1'})
+      })
+    })
+  })
+
+  describe('DATE type mapper', () => {
+    const schema = {
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/date',
+          'fieldType': 'DATE',
+          'name': 'date',
+          'label': 'Date Field',
+          'attributes': [],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'labelAttribute': true,
+          'unique': true,
+          'visible': true,
+          'lookupAttribute': true,
+          'isAggregatable': false,
+          'description': 'Date description'
+        }
+      ]
+    }
+
+    const formFields = EntityToStateMapper.generateFormFields(schema)
+    const data = {date: '1947/04/07'}
+
+    describe('generateFormFields', () => {
+      it('should map a Date entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('date')
+        expect(field.id).to.equal('date')
+        expect(field.label).to.equal('Date Field')
+        expect(field.description).to.equal('Date description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible).to.equal(true)
+      })
+    })
+
+    describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
+      it('should map a type data row to form data', () => {
+        expect(formData).to.deep.equal({date: '1947/04/07'})
       })
     })
   })
