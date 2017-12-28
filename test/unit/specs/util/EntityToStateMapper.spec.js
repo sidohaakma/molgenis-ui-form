@@ -1,7 +1,7 @@
 import EntityToStateMapper from '@/util/EntityToStateMapper'
 
 describe('Entity to state mapper', () => {
-  describe('general generateFormData functions', () => {
+  describe('General generateFormData functions', () => {
     it('should thrown an error for a unknown fieldType', () => {
       const invalidSchema = {
         attributes: [{
@@ -181,6 +181,241 @@ describe('Entity to state mapper', () => {
       const formData = EntityToStateMapper.generateFormData(formFields, data)
       it('should map a type data row to form data', () => {
         expect(formData).to.deep.equal({boolean: false})
+      })
+    })
+  })
+
+  describe('INT type mapper', () => {
+    const schema = {
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/integer',
+          'fieldType': 'INT',
+          'name': 'integer',
+          'label': 'Integer Field',
+          'attributes': [],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'labelAttribute': true,
+          'unique': true,
+          'visible': true,
+          'lookupAttribute': true,
+          'isAggregatable': false,
+          'description': 'Integer description'
+        }
+      ]
+    }
+
+    const formFields = EntityToStateMapper.generateFormFields(schema)
+    const data = {integer: 99}
+
+    describe('generateFormFields', () => {
+      it('should map a INT entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('number')
+        expect(field.id).to.equal('integer')
+        expect(field.label).to.equal('Integer Field')
+        expect(field.description).to.equal('Integer description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible).to.equal(true)
+      })
+    })
+
+    describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
+      it('should map a type data row to form data', () => {
+        expect(formData).to.deep.equal({integer: 99})
+      })
+    })
+  })
+
+  describe('LONG type mapper', () => {
+    const schema = {
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/long',
+          'fieldType': 'LONG',
+          'name': 'long',
+          'label': 'Long Field',
+          'attributes': [],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'labelAttribute': true,
+          'unique': true,
+          'visible': true,
+          'lookupAttribute': true,
+          'isAggregatable': false,
+          'description': 'Long description'
+        }
+      ]
+    }
+
+    const formFields = EntityToStateMapper.generateFormFields(schema)
+    const data = {long: 2147483648} // max java int + 1
+
+    describe('generateFormFields', () => {
+      it('should map a Long entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('number')
+        expect(field.id).to.equal('long')
+        expect(field.label).to.equal('Long Field')
+        expect(field.description).to.equal('Long description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible).to.equal(true)
+      })
+    })
+
+    describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
+      it('should map a type data row to form data', () => {
+        expect(formData).to.deep.equal({long: 2147483648})
+      })
+    })
+  })
+
+  describe('DECIMAL type mapper', () => {
+    const schema = {
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/decimal',
+          'fieldType': 'DECIMAL',
+          'name': 'decimal',
+          'label': 'Decimal Field',
+          'attributes': [],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'labelAttribute': true,
+          'unique': true,
+          'visible': true,
+          'lookupAttribute': true,
+          'isAggregatable': false,
+          'description': 'Decimal description'
+        }
+      ]
+    }
+
+    const formFields = EntityToStateMapper.generateFormFields(schema)
+    const data = {decimal: 0.205}
+
+    describe('generateFormFields', () => {
+      it('should map a Decimal entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('number')
+        expect(field.id).to.equal('decimal')
+        expect(field.label).to.equal('Decimal Field')
+        expect(field.description).to.equal('Decimal description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible).to.equal(true)
+      })
+    })
+
+    describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
+      it('should map a type data row to form data', () => {
+        expect(formData).to.deep.equal({decimal: 0.205})
+      })
+    })
+  })
+
+  describe('HTML type mapper', () => {
+    const schema = {
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/html',
+          'fieldType': 'HTML',
+          'name': 'html',
+          'label': 'Html Field',
+          'attributes': [],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'labelAttribute': true,
+          'unique': true,
+          'visible': true,
+          'lookupAttribute': true,
+          'isAggregatable': false,
+          'description': 'Html description'
+        }
+      ]
+    }
+
+    const formFields = EntityToStateMapper.generateFormFields(schema)
+    const data = {html: '<p>gloves on</p>'}
+
+    describe('generateFormFields', () => {
+      it('should map a Html entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('text-area')
+        expect(field.id).to.equal('html')
+        expect(field.label).to.equal('Html Field')
+        expect(field.description).to.equal('Html description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible).to.equal(true)
+      })
+    })
+
+    describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
+      it('should map a type data row to form data', () => {
+        expect(formData).to.deep.equal({html: '<p>gloves on</p>'})
+      })
+    })
+  })
+
+  describe('HYPERLINK type mapper', () => {
+    const schema = {
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/hyperlink',
+          'fieldType': 'HYPERLINK',
+          'name': 'hyperlink',
+          'label': 'Hyperlink Field',
+          'attributes': [],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'labelAttribute': true,
+          'unique': true,
+          'visible': true,
+          'lookupAttribute': true,
+          'isAggregatable': false,
+          'description': 'Hyperlink description'
+        }
+      ]
+    }
+
+    const formFields = EntityToStateMapper.generateFormFields(schema)
+    const data = {hyperlink: 'https://google.com'}
+
+    describe('generateFormFields', () => {
+      it('should map a HyperLink entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('url')
+        expect(field.id).to.equal('hyperlink')
+        expect(field.label).to.equal('Hyperlink Field')
+        expect(field.description).to.equal('Hyperlink description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible).to.equal(true)
+      })
+    })
+
+    describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
+      it('should map a type data row to form data', () => {
+        expect(formData).to.deep.equal({hyperlink: 'https://google.com'})
       })
     })
   })
