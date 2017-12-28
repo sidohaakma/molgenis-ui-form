@@ -646,4 +646,51 @@ describe('Entity to state mapper', () => {
       })
     })
   })
+
+  describe('DATE_TIME type mapper', () => {
+    const schema = {
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/datetime',
+          'fieldType': 'DATE_TIME',
+          'name': 'datetime',
+          'label': 'Date and time Field',
+          'attributes': [],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'labelAttribute': true,
+          'unique': true,
+          'visible': true,
+          'lookupAttribute': true,
+          'isAggregatable': false,
+          'description': 'Date and time description'
+        }
+      ]
+    }
+
+    const formFields = EntityToStateMapper.generateFormFields(schema)
+    const data = {datetime: '1985-08-12T11:12:13+0500'}
+
+    describe('generateFormFields', () => {
+      it('should map a Date entity to state object', () => {
+        expect(formFields.length).to.equal(1)
+        const field = formFields[0]
+        expect(field.type).to.equal('date-time')
+        expect(field.id).to.equal('datetime')
+        expect(field.label).to.equal('Date and time Field')
+        expect(field.description).to.equal('Date and time description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible).to.equal(true)
+      })
+    })
+
+    describe('generateFormData', () => {
+      const formData = EntityToStateMapper.generateFormData(formFields, data)
+      it('should map a type data row to form data', () => {
+        expect(formData).to.deep.equal({datetime: '1985-08-12T11:12:13+0500'})
+      })
+    })
+  })
 })
