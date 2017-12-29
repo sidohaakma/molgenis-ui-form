@@ -1,5 +1,5 @@
 // @flow
-import type { EntiyFieldType, HtmlFieldType, FormField } from '../flow.types'
+import type { EntityFieldType, HtmlFieldType, FormField } from '../flow.types'
 
 import evaluator from './helpers/evaluator'
 
@@ -24,7 +24,7 @@ MappingException.prototype.toString = function () {
  * @param fieldType Attribute type e.g. STRING, XREF etc...
  * @returns String HTML type e.g. text, number, select etc...
  */
-const getHtmlFieldType = (fieldType: EntiyFieldType): HtmlFieldType => {
+const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
   switch (fieldType) {
     case 'BOOL':
     case 'CATEGORICAL':
