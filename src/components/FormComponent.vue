@@ -1,7 +1,12 @@
 <template>
   <vue-form :id="id" :state="state">
     <fieldset v-for="field in schema.fields">
-      <text-field-component v-model="data[field.id]" :field="field" :state="state"></text-field-component>
+      <text-field-component
+        v-model="data[field.id]"
+        :field="field"
+        :state="state"
+        :validate="validate">
+      </text-field-component>
     </fieldset>
   </vue-form>
 </template>
@@ -34,6 +39,17 @@
     data () {
       return {
         state: {}
+      }
+    },
+    methods: {
+      validate (field) {
+        let valid = true
+        const formData = this.data
+        field.validators.forEach(validator => {
+          // validate with all the data in the form
+          valid = validator(formData)
+        })
+        return valid
       }
     }
   }

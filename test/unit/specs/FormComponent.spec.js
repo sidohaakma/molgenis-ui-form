@@ -40,13 +40,9 @@ describe('FormComponent unit tests', () => {
           required: true,
           disabled: false,
           validators: [
-            (value) => {
-              const valid = value.indexOf('test') !== -1
-              const message = valid ? '' : 'not valid value. Please include the word test'
-              return {
-                valid: valid,
-                message: message
-              }
+            (data) => {
+              const value = data['text-field']
+              return value ? value.indexOf('test') !== -1 : true
             }
           ]
         }
