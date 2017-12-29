@@ -1,4 +1,21 @@
+// @flow
+import type { EntityFieldType, HtmlFieldType, FormField } from '../flow.types'
+
 import evaluator from './helpers/evaluator'
+
+// Create an object type UserException
+function MappingException (message: string) {
+  this.message = message
+  this.name = 'MappingException'
+}
+
+// Make the exception convert to a pretty string when used as a string
+// (e.g. by the error console)
+// Add flow flowfixme as a workaround for flow bug
+// $FlowFixMe
+MappingException.prototype.toString = function () {
+  return this.name + ': "' + this.message + '"'
+}
 
 /**
  * Translate MOLGENIS attribute types to HTML field types
@@ -7,7 +24,7 @@ import evaluator from './helpers/evaluator'
  * @param fieldType Attribute type e.g. STRING, XREF etc...
  * @returns String HTML type e.g. text, number, select etc...
  */
-const getHtmlFieldType = (fieldType) => {
+const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
   switch (fieldType) {
     case 'BOOL':
     case 'CATEGORICAL':
@@ -39,6 +56,8 @@ const getHtmlFieldType = (fieldType) => {
       return 'email'
     case 'FILE':
       return 'file'
+    default:
+      throw new MappingException(`unknown fieldType (${fieldType})`)
   }
 }
 
@@ -162,7 +181,7 @@ const generateFormSchemaField = (attribute) => {
  * @param data a data object containing everything a EntityType V2 response has in its item list
  * @returns a {fieldId: value} object
  */
-const generateFormData = (fields, data) => fields.reduce((accumulator, field) => {
+const generateFormData = (fields: any, data: any) => fields.reduce((accumulator, field) => {
   accumulator[field.id] = data[field.id]
   return accumulator
 }, {})
@@ -173,7 +192,7 @@ const generateFormData = (fields, data) => fields.reduce((accumulator, field) =>
  * @param schema an object containing the metadata from an EntityType V2 response
  * @returns a an array of Field objects
  */
-const generateFormFields = (schema) => schema.attributes.reduce((accumulator, attribute) => {
+const generateFormFields = (schema: any): Array<FormField> => schema.attributes.reduce((accumulator, attribute) => {
   accumulator.push(generateFormSchemaField(attribute))
   return accumulator
 }, [])

@@ -1,6 +1,20 @@
 import EntityToStateMapper from '@/util/EntityToStateMapper'
 
 describe('Entity to state mapper', () => {
+  describe('general generateFormData functions', () => {
+    it('should thrown an error for a unknown fieldType', () => {
+      const invalidSchema = {
+        attributes: [{
+          'fieldType': 'NON_EXISTING_TYPE'
+        }]
+      }
+      const result = () => {
+        EntityToStateMapper.generateFormFields(invalidSchema)
+      }
+      expect(result).to.throw('unknown fieldType (NON_EXISTING_TYPE)')
+    })
+  })
+
   describe('STRING type mapper', () => {
     const schema = {
       'href': '/api/v2/it_emx_datatypes_TypeTest',
