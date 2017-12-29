@@ -21,10 +21,14 @@ describe('TextFieldComponent unit tests', () => {
       }
     ]
   }
+  const mockParentFunction = function () {
+    return null
+  }
   const state = {
     $touched: false,
     $submitted: false,
-    $invalid: false
+    $invalid: false,
+    _addControl: mockParentFunction
   }
   const propsData = {value: 'hallo', field: field, state: state}
 
@@ -66,7 +70,7 @@ describe('TextFieldComponent unit tests', () => {
     expect(input.name).to.equal('test-field')
     expect(input.type).to.equal('text')
     expect(input.required).to.equal(true)
-    expect(input.className).to.equal('form-control form-control-lg')
+    expect(input.className).to.equal('form-control form-control-lg vf-pristine vf-invalid vf-untouched vf-invalid-validators')
   })
   it('should emit an updated value on change', () => {
     wrapper.setData({localValue: 'test'})
@@ -82,7 +86,7 @@ describe('TextFieldComponent unit tests', () => {
         $invalid: true
       }
     })
-    expect(wrapper.find('input').classes()).to.deep.equal(['form-control', 'form-control-lg', 'is-invalid'])
+    expect(wrapper.find('input').classes()).to.deep.equal(['form-control', 'form-control-lg', 'is-invalid', 'vf-pristine', 'vf-invalid', 'vf-untouched', 'vf-invalid-validators'])
   })
   it('should show a field message if input is invalid', () => {
     wrapper.setData({
