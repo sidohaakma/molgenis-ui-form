@@ -2,8 +2,18 @@
   <vue-form :id="id" :state="state">
     <fieldset v-for="field in schema.fields">
 
+      <!-- Render checkbox field -->
+      <template v-if="field.type === 'checkbox'">
+        <checkbox-field-component
+          v-model="data[field.id]"
+          :field="field"
+          :state="state[field.id]"
+          :validate="validate">
+        </checkbox-field-component>
+      </template>
+
       <!-- Render radio field -->
-      <template v-if="field.type === 'radio'">
+      <template v-else-if="field.type === 'radio'">
         <radio-field-component
           v-model="data[field.id]"
           :field="field"
@@ -17,7 +27,7 @@
         <text-field-component
           v-model="data[field.id]"
           :field="field"
-          :state="state"
+          :state="state[field.id]"
           :validate="validate">
         </text-field-component>
       </template>
@@ -29,6 +39,7 @@
 <script>
   import VueForm from 'vue-form'
 
+  import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
   import TextFieldComponent from './field-types/TextFieldComponent'
 
@@ -67,6 +78,7 @@
       }
     },
     components: {
+      CheckboxFieldComponent,
       RadioFieldComponent,
       TextFieldComponent
     }
