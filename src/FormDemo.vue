@@ -52,6 +52,23 @@ const demoResponse = {
       'description': 'STRING description',
       'nullableExpression': '$("text").value() !== "test"',
       'validationExpression': '$("string").value() === "valid"'
+    },
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/enum',
+      'fieldType': 'ENUM',
+      'name': 'enum',
+      'label': 'Enum Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': true,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Enum description',
+      'enumOptions': ['enum1', 'enum2', 'enum3']
     }
   ],
   'labelAttribute': 'id',
