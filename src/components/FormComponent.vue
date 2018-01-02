@@ -1,12 +1,17 @@
 <template>
   <vue-form :id="id" :state="state">
     <fieldset v-for="field in schema.fields">
-      <text-field-component
-        v-model="data[field.id]"
-        :field="field"
-        :state="state"
-        :validate="validate">
-      </text-field-component>
+
+      <!-- Render text fields -->
+      <template v-if="field.type === 'text'">
+        <text-field-component
+          v-model="data[field.id]"
+          :field="field"
+          :state="state"
+          :validate="validate">
+        </text-field-component>
+      </template>
+
     </fieldset>
   </vue-form>
 </template>
@@ -18,9 +23,6 @@
   export default {
     name: 'FormComponent',
     mixins: [VueForm],
-    components: {
-      TextFieldComponent
-    },
     props: {
       id: {
         type: String,
@@ -51,6 +53,9 @@
         })
         return valid
       }
+    },
+    components: {
+      TextFieldComponent
     }
   }
 </script>
