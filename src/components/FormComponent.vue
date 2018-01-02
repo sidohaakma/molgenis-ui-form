@@ -2,8 +2,18 @@
   <vue-form :id="id" :state="state">
     <fieldset v-for="field in schema.fields">
 
+      <!-- Render radio field -->
+      <template v-if="field.type === 'radio'">
+        <radio-field-component
+          v-model="data[field.id]"
+          :field="field"
+          :state="state[field.id]"
+          :validate="validate">
+        </radio-field-component>
+      </template>
+
       <!-- Render text fields -->
-      <template v-if="field.type === 'text'">
+      <template v-else-if="field.type === 'text'">
         <text-field-component
           v-model="data[field.id]"
           :field="field"
@@ -18,6 +28,8 @@
 
 <script>
   import VueForm from 'vue-form'
+
+  import RadioFieldComponent from './field-types/RadioFieldComponent'
   import TextFieldComponent from './field-types/TextFieldComponent'
 
   export default {
@@ -55,6 +67,7 @@
       }
     },
     components: {
+      RadioFieldComponent,
       TextFieldComponent
     }
   }
