@@ -21,9 +21,10 @@ describe('TextFieldComponent unit tests', () => {
       }
     ]
   }
-  const mockParentFunction = function () {
+  const mockParentFunction = () => {
     return null
   }
+
   const state = {
     $touched: false,
     $submitted: false,
