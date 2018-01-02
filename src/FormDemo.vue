@@ -102,6 +102,31 @@
             }
           ]
         }
+      },
+      {
+        type: 'number',
+        id: 'number-field',
+        label: 'number',
+        description: 'This is a cool number field',
+        visible: true,
+        required: true,
+        disabled: false,
+        validators: [
+          (data) => {
+            const value = data['number-field']
+            return value ? value > 5 : true
+          }
+        ]
+      },
+      {
+        type: 'email',
+        id: 'email-field',
+        label: 'Email field',
+        description: 'This is a cool email field',
+        visible: true,
+        required: true,
+        disabled: false,
+        validators: []
       }
     ]
   }
