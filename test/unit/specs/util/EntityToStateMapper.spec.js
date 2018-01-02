@@ -242,22 +242,23 @@ describe('Entity to state mapper', () => {
         const formFields = EntityToStateMapper.generateFormFields(schema)
         expect(formFields.length).to.equal(1)
         const field = formFields[0]
-        expect(field.type).to.equal('radios')
+        expect(field.type).to.equal('radio')
         expect(field.id).to.equal('boolean')
         expect(field.label).to.equal('Boolean Field')
         expect(field.description).to.equal('Boolean description')
         expect(field.disabled).to.equal(false)
         expect(field.readOnly).to.equal(false)
         expect(field.visible).to.equal(true)
-        expect(field.inputProperties).to.deep.equal({
-          options: [
-            {id: 'true', value: true, label: 'True'},
-            {id: 'false', value: false, label: 'False'},
-            {id: 'null', value: 'null', label: 'N/A'}
-          ]
-        }
-        )
+        expect(typeof field.options).to.equal('function')
+
+        const options = field.options()
+        expect(options).to.deep.equal([
+          {id: 'true', value: true, label: 'True'},
+          {id: 'false', value: false, label: 'False'},
+          {id: 'null', value: 'null', label: 'N/A'}
+        ])
       })
+
       it('should map a non nullable BOOLEAN entity to state object without a null option', () => {
         const schema = {
           'attributes': [
@@ -283,19 +284,20 @@ describe('Entity to state mapper', () => {
         const formFields = EntityToStateMapper.generateFormFields(schema)
         expect(formFields.length).to.equal(1)
         const field = formFields[0]
-        expect(field.type).to.equal('radios')
+        expect(field.type).to.equal('radio')
         expect(field.id).to.equal('boolean')
         expect(field.label).to.equal('Boolean Field')
         expect(field.description).to.equal('Boolean description')
         expect(field.disabled).to.equal(false)
         expect(field.readOnly).to.equal(false)
         expect(field.visible).to.equal(true)
-        expect(field.inputProperties).to.deep.equal({
-          options: [
-            {id: 'true', value: true, label: 'True'},
-            {id: 'false', value: false, label: 'False'}
-          ]
-        })
+        expect(typeof field.options).to.equal('function')
+
+        const options = field.options()
+        expect(options).to.deep.equal([
+          {id: 'true', value: true, label: 'True'},
+          {id: 'false', value: false, label: 'False'}
+        ])
       })
     })
 
@@ -659,22 +661,24 @@ describe('Entity to state mapper', () => {
         const formFields = EntityToStateMapper.generateFormFields(schema)
         expect(formFields.length).to.equal(1)
         const field = formFields[0]
-        expect(field.type).to.equal('radios')
+        expect(field.type).to.equal('radio')
         expect(field.id).to.equal('enum')
         expect(field.label).to.equal('Enum Field')
         expect(field.description).to.equal('Enum description')
         expect(field.disabled).to.equal(false)
         expect(field.readOnly).to.equal(false)
         expect(field.visible).to.equal(true)
-        expect(field.inputProperties).to.deep.equal({
-          options: [
-            {id: 'enum1', value: 'enum1', label: 'enum1'},
-            {id: 'enum2', value: 'enum2', label: 'enum2'},
-            {id: 'enum3', value: 'enum3', label: 'enum3'},
-            {id: 'null', value: 'null', label: 'N/A'}
-          ]
-        })
+        expect(typeof field.options).to.equal('function')
+
+        const options = field.options()
+        expect(options).to.deep.equal([
+          {id: 'enum1', value: 'enum1', label: 'enum1'},
+          {id: 'enum2', value: 'enum2', label: 'enum2'},
+          {id: 'enum3', value: 'enum3', label: 'enum3'},
+          {id: 'null', value: 'null', label: 'N/A'}
+        ])
       })
+
       it('should map a non nullable ENUM entity to state object without a null option', () => {
         const schema = {
           'attributes': [
@@ -701,20 +705,21 @@ describe('Entity to state mapper', () => {
         const formFields = EntityToStateMapper.generateFormFields(schema)
         expect(formFields.length).to.equal(1)
         const field = formFields[0]
-        expect(field.type).to.equal('radios')
+        expect(field.type).to.equal('radio')
         expect(field.id).to.equal('enum')
         expect(field.label).to.equal('Enum Field')
         expect(field.description).to.equal('Enum description')
         expect(field.disabled).to.equal(false)
         expect(field.readOnly).to.equal(false)
         expect(field.visible).to.equal(true)
-        expect(field.inputProperties).to.deep.equal({
-          options: [
-            {id: 'enum1', value: 'enum1', label: 'enum1'},
-            {id: 'enum2', value: 'enum2', label: 'enum2'},
-            {id: 'enum3', value: 'enum3', label: 'enum3'}
-          ]
-        })
+        expect(typeof field.options).to.equal('function')
+
+        const options = field.options()
+        expect(options).to.deep.equal([
+          {id: 'enum1', value: 'enum1', label: 'enum1'},
+          {id: 'enum2', value: 'enum2', label: 'enum2'},
+          {id: 'enum3', value: 'enum3', label: 'enum3'}
+        ])
       })
     })
 
@@ -840,147 +845,6 @@ describe('Entity to state mapper', () => {
       const formData = EntityToStateMapper.generateFormData(formFields, data)
       it('should map a type data row to form data', () => {
         expect(formData).to.deep.equal({datetime: '1985-08-12T11:12:13+0500'})
-      })
-    })
-  })
-
-  describe('CATEGORICAL type mapper', () => {
-    describe('generateFormFields', () => {
-      // it('should map a nullable CATEGORICAL entity to state object with a null option', () => {
-      //   const schema = {
-      //     'attributes': [
-      //       {
-      //         'href': '/api/v2/it_emx_datatypes_TypeTest/meta/enum',
-      //         'fieldType': 'CATEGORICAL',
-      //         'name': 'categorical',
-      //         'label': 'Categorical Field',
-      //         'attributes': [],
-      //         'auto': false,
-      //         'nillable': true,
-      //         'readOnly': false,
-      //         'labelAttribute': true,
-      //         'unique': true,
-      //         'visible': true,
-      //         'lookupAttribute': true,
-      //         'isAggregatable': false,
-      //         'description': 'Categorical description',
-      //         'refEntity': {
-      //           href: '/api/v1/it_emx_datatypes_TypeTestRef/meta',
-      //           hrefCollection: '/api/v1/it_emx_datatypes_TypeTestRef',
-      //           idAttribute: 'value',
-      //           languageCode: 'en',
-      //           writable: true
-      //         }
-      //       }
-      //     ]
-      //   }
-      //
-      //   const formFields = EntityToStateMapper.generateFormFields(schema)
-      //   expect(formFields.length).to.equal(1)
-      //   const field = formFields[0]
-      //   expect(field.type).to.equal('radios')
-      //   expect(field.id).to.equal('categorical')
-      //   expect(field.label).to.equal('Categorical Field')
-      //   expect(field.description).to.equal('Categorical description')
-      //   expect(field.disabled).to.equal(false)
-      //   expect(field.readOnly).to.equal(false)
-      //   expect(field.visible).to.equal(true)
-      //   const inputProperties = field.inputProperties
-      //   expect(inputProperties.options).to.deep.equal([{id: 'null', value: 'null', label: 'N/A'}])
-      //   expect(inputProperties.uri).to.equal('/api/v1/it_emx_datatypes_TypeTestRef')
-      //
-      // })
-      it('should map a non nullable CATEGORICAL entity to state object without a null option', () => {
-        const schema = {
-          'attributes': [
-            {
-              'href': '/api/v2/it_emx_datatypes_TypeTest/meta/enum',
-              'fieldType': 'CATEGORICAL',
-              'name': 'categorical',
-              'label': 'Categorical Field',
-              'attributes': [],
-              'auto': false,
-              'nillable': false,
-              'readOnly': false,
-              'labelAttribute': true,
-              'unique': true,
-              'visible': true,
-              'lookupAttribute': true,
-              'isAggregatable': false,
-              'description': 'Categorical description',
-              'refEntity': {
-                href: '/api/v1/it_emx_datatypes_TypeTestRef/meta',
-                hrefCollection: '/api/v1/it_emx_datatypes_TypeTestRef',
-                idAttribute: 'value',
-                languageCode: 'en',
-                writable: true
-              }
-            }
-          ]
-        }
-
-        const formFields = EntityToStateMapper.generateFormFields(schema)
-        expect(formFields.length).to.equal(1)
-        const field = formFields[0]
-        expect(field.type).to.equal('radios')
-        expect(field.id).to.equal('categorical')
-        expect(field.label).to.equal('Categorical Field')
-        expect(field.description).to.equal('Categorical description')
-        expect(field.disabled).to.equal(false)
-        expect(field.readOnly).to.equal(false)
-        expect(field.visible).to.equal(true)
-        const inputProperties = field.inputProperties
-        expect(inputProperties.options).to.deep.equal([])
-        expect(inputProperties.uri).to.equal('/api/v1/it_emx_datatypes_TypeTestRef')
-      })
-    })
-
-    describe('generateFormData', () => {
-      const data = {
-        categorical: {
-          href: '/api/v1/it_emx_datatypes_TypeTestRef/ref1',
-          value: 'ref1',
-          label: 'label1'
-        }
-      }
-      const schema = {
-        'attributes': [
-          {
-            'href': '/api/v2/it_emx_datatypes_TypeTest/meta/enum',
-            'fieldType': 'CATEGORICAL',
-            'name': 'categorical',
-            'label': 'Categorical Field',
-            'attributes': [],
-            'auto': false,
-            'nillable': false,
-            'readOnly': false,
-            'labelAttribute': true,
-            'unique': true,
-            'visible': true,
-            'lookupAttribute': true,
-            'isAggregatable': false,
-            'description': 'Categorical description',
-            'refEntity': {
-              href: '/api/v1/it_emx_datatypes_TypeTestRef/meta',
-              hrefCollection: '/api/v1/it_emx_datatypes_TypeTestRef',
-              idAttribute: 'value',
-              languageCode: 'en',
-              writable: true
-            }
-          }
-        ]
-      }
-
-      const formFields = EntityToStateMapper.generateFormFields(schema)
-      const formData = EntityToStateMapper.generateFormData(formFields, data)
-      it('should map a type data row to form data', () => {
-        expect(formData).to.deep.equal({
-          categorical: {
-            href: '/api/v1/it_emx_datatypes_TypeTestRef/ref1',
-            value: 'ref1',
-            label: 'label1'
-          }
-        })
       })
     })
   })
