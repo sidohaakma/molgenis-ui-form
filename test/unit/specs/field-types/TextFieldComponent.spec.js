@@ -21,6 +21,7 @@ describe('TextFieldComponent unit tests', () => {
       }
     ]
   }
+
   const mockParentFunction = () => {
     return null
   }
@@ -103,7 +104,8 @@ describe('TextFieldComponent unit tests', () => {
         $invalid: true
       }
     })
-    expect(wrapper.find('input').classes()).to.deep.equal(['form-control', 'form-control-lg', 'is-invalid', 'vf-pristine', 'vf-invalid', 'vf-untouched', 'vf-invalid-validate'])
+
+    expect(wrapper.find('input').classes()).to.deep.equal(['form-control', 'form-control-lg', 'is-invalid', 'vf-pristine', 'vf-invalid', 'vf-untouched', 'vf-pending', 'vf-invalid-validate'])
   })
 
   it('should show a field message if input is invalid', () => {
