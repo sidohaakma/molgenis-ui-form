@@ -130,7 +130,7 @@ export default function (script, entity) {
         return this
       },
       /**
-       * Maps categories to eachother.
+       * Maps categories to each other.
        *
        * Example: Dataset1 -> Male = 1, Female = 2 Dataset2 -> Male = 0,
        * Female = 1 $('Dataset2').map({0:1, 1:2}).value()
@@ -139,7 +139,7 @@ export default function (script, entity) {
         *            The mapping in JSON format to apply
        * @param defaultValue :
         *            a value to use for categories that are not mentioned
-       *            in the categoryMappign
+       *            in the categoryMapping
        * @param nullValue :
         *            a value to use for null instances
        *
@@ -162,7 +162,7 @@ export default function (script, entity) {
        * Group values into defined ranges
        *
        * Example: age -> 19, 39, 50, 75
-       * $('age').group({18, 35, 50, 75}).value() produces the following ranges which are left inclusive, (-∞, 18), [18, 35), [35, 50), [50, 75), [75, +∞)
+       * $('age').group([18, 35, 50, 75]).value() produces the following ranges which are left inclusive, (-∞, 18), [18, 35), [35, 50), [50, 75), [75, +∞)
        * the text representations are '-18','18-35','35-50','50-75','75+'
        *
        * @param arrayOfBounds :
@@ -357,20 +357,6 @@ export default function (script, entity) {
        */
       le: function (value) {
         this.val = _isNull(this.val) ? false : (this.val <= value)
-        return this
-      },
-      /**
-       * Sets the measurement unit of the current value to the specified
-       * unit. Returns the current unit when no argument is supplied.
-       *
-       * @memberof $
-       * @method unit
-       */
-      unit: function (newUnit) {
-        if (!newUnit) {
-          return this.unit
-        }
-        this.unit = newUnit
         return this
       }
     }
