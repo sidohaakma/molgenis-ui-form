@@ -26,66 +26,102 @@
 </template>
 
 <script>
-import { FormComponent, EntityToStateMapper } from './molgenisUiForm'
+  import { FormComponent } from './molgenisUiForm'
 
-const demoResponse = {
-  'href': '/api/v2/it_emx_datatypes_TypeTest',
-  'hrefCollection': '/api/v2/it_emx_datatypes_TypeTest',
-  'name': 'it_emx_datatypes_TypeTest',
-  'label': 'TypeTest',
-  'description': 'MOLGENIS Data types test entity',
-  'attributes': [
-    {
-      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/string',
-      'fieldType': 'STRING',
-      'name': 'string',
-      'label': 'String Field',
-      'attributes': [],
-      'auto': false,
-      'nillable': false,
-      'readOnly': false,
-      'labelAttribute': true,
-      'unique': true,
-      'visible': true,
-      'lookupAttribute': true,
-      'isAggregatable': false,
-      'description': 'STRING description',
-      'nullableExpression': '$("text").value() !== "test"',
-      'validationExpression': '$("string").value() === "valid"'
-    }
-  ],
-  'labelAttribute': 'id',
-  'idAttribute': 'id',
-  'lookupAttributes': [
-    'id'
-  ],
-  'isAbstract': false,
-  'writable': true,
-  'languageCode': 'en'
-}
-
-const data = {
-  string: 'string value',
-  text: 'text value',
-  hyperlink: 'www.nu.nl',
-  categorical_mref: ['1', '2'],
-  date: '2018/01/01',
-  xref: {id: '1', value: '1', label: 'Option 1'}
-}
-const demoField = EntityToStateMapper.generateFormFields(demoResponse)
-
-export default {
-  name: 'form-demo',
-  components: {
-    FormComponent
-  },
-  data () {
-    return {
-      schema: {
-        fields: demoField
+  const schema = {
+    fields: [
+      {
+        type: 'text',
+        id: 'text-field',
+        label: 'Text field',
+        description: 'This is a cool text field',
+        visible: true,
+        required: true,
+        disabled: false,
+        validators: [
+          (data) => {
+            const value = data['text-field']
+            return value ? value.indexOf('test') !== -1 : true
+          }
+        ]
       },
-      data: EntityToStateMapper.generateFormData(demoField, data)
+      {
+        type: 'radio',
+        id: 'radio-field',
+        label: 'Radio field',
+        description: 'This is a nice radio button selection',
+        visible: true,
+        required: true,
+        disabled: false,
+        validators: [],
+        options: () => {
+          return [
+            {
+              id: '1',
+              label: 'Option 1',
+              value: '1'
+            },
+            {
+              id: '2',
+              label: 'Option 2',
+              value: '2'
+            },
+            {
+              id: '3',
+              label: 'Option 3',
+              value: '3'
+            }
+          ]
+        }
+      },
+      {
+        type: 'checkbox',
+        id: 'checkbox-field',
+        label: 'Checkbox field',
+        description: 'This is a nice Checkbox selection',
+        visible: true,
+        required: true,
+        disabled: false,
+        validators: [],
+        options: () => {
+          return [
+            {
+              id: '1',
+              label: 'Option 1',
+              value: '1'
+            },
+            {
+              id: '2',
+              label: 'Option 2',
+              value: '2'
+            },
+            {
+              id: '3',
+              label: 'Option 3',
+              value: '3'
+            }
+          ]
+        }
+      }
+    ]
+  }
+
+  const data = {
+    'text-field': 'text value',
+    'radio-field': '1',
+    'checkbox-field': ['1', '3']
+  }
+
+  export default {
+    name: 'form-demo',
+    components: {
+      FormComponent
+    },
+    data () {
+      return {
+        schema: schema,
+        data: data
+      }
     }
   }
-}
 </script>
