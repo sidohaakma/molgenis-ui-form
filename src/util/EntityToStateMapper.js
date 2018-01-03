@@ -1,5 +1,5 @@
 // @flow
-import type { EntityFieldType, HtmlFieldType, FormField } from '../flow.types'
+import type { EntityFieldType, FormField, HtmlFieldType } from '../flow.types'
 
 import evaluator from './helpers/evaluator'
 
@@ -29,7 +29,7 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
     case 'BOOL':
     case 'CATEGORICAL':
     case 'ENUM':
-      return 'radios'
+      return 'radio'
     case 'XREF':
     case 'MREF':
     case 'ONETOMANY':
@@ -62,39 +62,40 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
 }
 
 /**
- * Build object containing properties needed to render the input, input-group or select.
+ * Build a function that returns an array containing options needed to render the input, input-group or select.
+ *
  * Simple types like STRING or TEXT do not have input properties, in this case 'null' is returned
- * Returned object contains a options array consisting of objects containing id, value, and label
- * For asynchronous option retrieval return an object containing URI, id, and label of the referencing table
+ * The returned function returns an array consisting of objects containing id, value, and label
+ *
+ * @example Example schema for generating field options
+ * const schema = {
+ *  fields: [
+ *    {
+ *      id: 'example',
+ *      label: 'Example field',
+ *      options: () => {
+ *        return [
+ *          {
+ *            id: '1',
+ *            value: '1',
+ *            label: 'Example option 1'
+ *          },
+ *          {
+ *            id: '2',
+ *            value: '2',
+ *            label: 'Example option 2'
+ *          }
+ *        ]
+ *      }
+ *    }
+ *  ]
+ * }
  *
  * @param attribute
- * @returns Object|null
+ * @returns Function|null
  */
-const buildInputProperties = (attribute) => {
+const getFieldOptions = (attribute) => {
   switch (attribute.fieldType) {
-    case 'XREF':
-    case 'ONETOMANY':
-      return {
-        uri: attribute.refEntity.hrefCollection,
-        multiple: false,
-        id: attribute.refEntity.idAttribute,
-        label: attribute.refEntity.labelAttribute,
-        options: []
-      }
-    case 'MREF':
-      return {
-        uri: attribute.refEntity.hrefCollection,
-        multiple: true,
-        id: attribute.refEntity.idAttribute,
-        label: attribute.refEntity.labelAttribute,
-        options: []
-      }
-    case 'CATEGORICAL':
-    case 'CATEGORICAL_MREF':
-      return {
-        options: [], // todo what about nillable
-        uri: attribute.refEntity.hrefCollection
-      }
     case 'ENUM':
       const enumOptions = attribute.enumOptions.map(option => {
         return {
@@ -103,21 +104,22 @@ const buildInputProperties = (attribute) => {
           label: option
         }
       })
+
       if (attribute.nillable) {
         enumOptions.push({id: 'null', value: 'null', label: 'N/A'})
       }
-      return { options: enumOptions }
+
+      return () => enumOptions
     case 'BOOL':
-      return {
-        options: attribute.nillable ? [
-          {id: 'true', value: true, label: 'True'},
-          {id: 'false', value: false, label: 'False'},
-          {id: 'null', value: 'null', label: 'N/A'}
-        ] : [
-          {id: 'true', value: true, label: 'True'},
-          {id: 'false', value: false, label: 'False'}
-        ]
-      }
+      const boolOptions = attribute.nillable ? [
+        {id: 'true', value: true, label: 'True'},
+        {id: 'false', value: false, label: 'False'},
+        {id: 'null', value: 'null', label: 'N/A'}
+      ] : [
+        {id: 'true', value: true, label: 'True'},
+        {id: 'false', value: false, label: 'False'}
+      ]
+      return () => boolOptions
     default:
       return null
   }
@@ -156,11 +158,12 @@ const generateFormSchemaField = (attribute) => {
   const validators = [
     (data) => {
       const valid = data['string'] === 'valid'
-      return valid ? {valid: valid, message: null} : { valid: false, message: 'Invalid value!' }
+      return valid ? {valid: valid, message: null} : {valid: false, message: 'Invalid value!'}
     }
   ]
 
-  const inputProperties = buildInputProperties(attribute)
+  // options is a function that always returns an array of option objects
+  const options = getFieldOptions(attribute)
   const fieldProperties = {
     type: getHtmlFieldType(attribute.fieldType),
     id: attribute.name,
@@ -173,7 +176,7 @@ const generateFormSchemaField = (attribute) => {
     validators: validators
   }
 
-  return inputProperties ? { ...fieldProperties, inputProperties: inputProperties } : fieldProperties
+  return options ? {...fieldProperties, options} : fieldProperties
 }
 
 /**
