@@ -358,20 +358,6 @@ export default function (script, entity) {
       le: function (value) {
         this.val = _isNull(this.val) ? false : (this.val <= value)
         return this
-      },
-      /**
-       * Sets the measurement unit of the current value to the specified
-       * unit. Returns the current unit when no argument is supplied.
-       *
-       * @memberof $
-       * @method unit
-       */
-      unit: function (newUnit) {
-        if (!newUnit) {
-          return this.unit
-        }
-        this.unit = newUnit
-        return this
       }
     }
 
