@@ -12,13 +12,15 @@ describe('CheckboxFieldComponent unit tests', () => {
     disabled: false,
     validators: [],
     options: () => {
-      return [
-        {
-          id: '1',
-          label: 'Option 1',
-          value: '1'
-        }
-      ]
+      return new Promise((resolve, reject) => {
+        resolve([
+          {
+            id: '1',
+            label: 'Option 1',
+            value: '1'
+          }
+        ])
+      })
     }
   }
 

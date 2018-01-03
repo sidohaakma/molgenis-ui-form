@@ -2,6 +2,8 @@
 import type { EntityFieldType, FormField, HtmlFieldType } from '../flow.types'
 
 import evaluator from './helpers/evaluator'
+// $FlowFixMe
+import api from '@molgenis/molgenis-api-client'
 
 // Create an object type UserException
 function MappingException (message: string) {
@@ -18,47 +20,26 @@ MappingException.prototype.toString = function () {
 }
 
 /**
- * Translate MOLGENIS attribute types to HTML field types
+ * Uses the idAttribute, labelAttribute, and hrefCollection parameters of the refEntity
+ * to query a data table. Returns a list of {id, value, label} items as a Promise
  *
- * @private
- * @param fieldType Attribute type e.g. STRING, XREF etc...
- * @returns String HTML type e.g. text, number, select etc...
+ * @param refEntity The refEntity of the attribute.
+ * @return Promise
  */
-const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
-  switch (fieldType) {
-    case 'BOOL':
-    case 'CATEGORICAL':
-    case 'ENUM':
-      return 'radio'
-    case 'XREF':
-    case 'MREF':
-    case 'ONETOMANY':
-      return 'select'
-    case 'INT':
-    case 'DECIMAL':
-    case 'LONG':
-      return 'number'
-    case 'TEXT':
-    case 'SCRIPT':
-    case 'HTML':
-      return 'text-area'
-    case 'DATE':
-      return 'date'
-    case 'DATE_TIME':
-      return 'date-time'
-    case 'CATEGORICAL_MREF':
-      return 'checkboxes'
-    case 'STRING':
-      return 'text'
-    case 'HYPERLINK':
-      return 'url'
-    case 'EMAIL':
-      return 'email'
-    case 'FILE':
-      return 'file'
-    default:
-      throw new MappingException(`unknown fieldType (${fieldType})`)
-  }
+const fetchFieldOptions = (refEntity) => {
+  const idAttribute = refEntity.idAttribute
+  const labelAttribute = refEntity.labelAttribute ? refEntity.labelAttribute : refEntity.idAttribute
+  const uri = refEntity.hrefCollection
+
+  return api.get(uri).then(response => {
+    return response.items.map(item => {
+      return {
+        id: item[idAttribute],
+        value: item[idAttribute],
+        label: item[labelAttribute]
+      }
+    })
+  })
 }
 
 /**
@@ -96,6 +77,18 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
  */
 const getFieldOptions = (attribute) => {
   switch (attribute.fieldType) {
+    case 'CATEGORICAL':
+      return () => {
+        return fetchFieldOptions(attribute.refEntity).then(response => {
+          return response
+        })
+      }
+    case 'CATEGORICAL_MREF':
+      return () => {
+        return fetchFieldOptions(attribute.refEntity).then(response => {
+          return response
+        })
+      }
     case 'ENUM':
       const enumOptions = attribute.enumOptions.map(option => {
         return {
@@ -109,7 +102,7 @@ const getFieldOptions = (attribute) => {
         enumOptions.push({id: 'null', value: 'null', label: 'N/A'})
       }
 
-      return () => enumOptions
+      return () => Promise.resolve(enumOptions)
     case 'BOOL':
       const boolOptions = attribute.nillable ? [
         {id: 'true', value: true, label: 'True'},
@@ -119,9 +112,53 @@ const getFieldOptions = (attribute) => {
         {id: 'true', value: true, label: 'True'},
         {id: 'false', value: false, label: 'False'}
       ]
-      return () => boolOptions
+      return () => Promise.resolve(boolOptions)
     default:
       return null
+  }
+}
+
+/**
+ * Translate MOLGENIS attribute types to HTML field types
+ *
+ * @private
+ * @param fieldType Attribute type e.g. STRING, XREF etc...
+ * @returns String HTML type e.g. text, number, select etc...
+ */
+const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
+  switch (fieldType) {
+    case 'BOOL':
+    case 'CATEGORICAL':
+    case 'ENUM':
+      return 'radio'
+    case 'XREF':
+    case 'MREF':
+    case 'ONETOMANY':
+      return 'select'
+    case 'INT':
+    case 'DECIMAL':
+    case 'LONG':
+      return 'number'
+    case 'TEXT':
+    case 'SCRIPT':
+    case 'HTML':
+      return 'text-area'
+    case 'DATE':
+      return 'date'
+    case 'DATE_TIME':
+      return 'date-time'
+    case 'CATEGORICAL_MREF':
+      return 'checkbox'
+    case 'STRING':
+      return 'text'
+    case 'HYPERLINK':
+      return 'url'
+    case 'EMAIL':
+      return 'email'
+    case 'FILE':
+      return 'file'
+    default:
+      throw new MappingException(`unknown fieldType (${fieldType})`)
   }
 }
 
