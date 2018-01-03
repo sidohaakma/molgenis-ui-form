@@ -19,8 +19,11 @@
       </small>
 
       <field-messages :name="field.id" show="$touched || $submitted" class="form-control-feedback">
-        <div slot="required">This field is required</div>
-        <div slot="validate">Validation failed</div>
+        <div class="invalid-message" slot="required">This field is required</div>
+        <div class="invalid-message" slot="number">Not a valid number</div>
+        <div class="invalid-message" slot="url">Not a valid URL</div>
+        <div class="invalid-message" slot="email">Not a valid email</div>
+        <div class="invalid-message" slot="validate">Validation failed</div>
       </field-messages>
     </div>
   </validate>
@@ -30,7 +33,7 @@
   import VueForm from 'vue-form'
 
   export default {
-    name: 'TextFieldComponent',
+    name: 'TypedFieldComponent',
     props: ['value', 'field', 'state', 'validate'],
     mixins: [VueForm],
     data () {
