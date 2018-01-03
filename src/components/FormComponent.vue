@@ -22,14 +22,14 @@
         </radio-field-component>
       </template>
 
-      <!-- Render text fields -->
-      <template v-else-if="field.type === 'text'">
-        <text-field-component
+      <!-- Render email, url, password, number, and text fields -->
+      <template v-else>
+        <typed-field-component
           v-model="data[field.id]"
           :field="field"
           :state="state[field.id]"
           :validate="validate">
-        </text-field-component>
+        </typed-field-component>
       </template>
 
     </fieldset>
@@ -41,7 +41,7 @@
 
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
-  import TextFieldComponent from './field-types/TextFieldComponent'
+  import TypedFieldComponent from './field-types/TypedFieldComponent'
 
   export default {
     name: 'FormComponent',
@@ -80,7 +80,7 @@
     components: {
       CheckboxFieldComponent,
       RadioFieldComponent,
-      TextFieldComponent
+      TypedFieldComponent
     }
   }
 </script>
