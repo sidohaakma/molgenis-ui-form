@@ -27,7 +27,7 @@
 
 <script>
   import { EntityToStateMapper, FormComponent } from './molgenisUiForm'
-  import EntityTypeV2Response from './util/data'
+  import EntityTypeV2Response from './formDemoMockResponse'
 
   export default {
     name: 'form-demo',
