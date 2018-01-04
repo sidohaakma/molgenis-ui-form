@@ -12,7 +12,7 @@ module.exports = {
       .url(devServer)
       .waitForElementVisible('#form-demo', 5000)
       .assert.elementPresent('form')
-      .assert.elementCount('input', 20)
+      .assert.elementCount('input', 32)
       .end()
   }
 }
