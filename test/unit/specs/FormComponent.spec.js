@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import VueForm from 'vue-form'
 import FormComponent from '@/components/FormComponent'
-import { shallow } from 'vue-test-utils'
-import type { FormHook } from '../../../src/flow.types'
 
 describe('FormComponent unit tests', () => {
   it('should load the component with "FormComponent" as a name', () => {
@@ -24,38 +22,45 @@ describe('FormComponent unit tests', () => {
 
   it('renders correctly with minimal props', () => {
     const Constructor = Vue.extend(FormComponent)
-    const propsData = {id: 'test-form', schema: {}}
-    const vm = new Constructor({ propsData: propsData, mixins: [VueForm] }).$mount()
+    const propsData = {id: 'test-form', schema: {fields: []}}
+    const vm = new Constructor({propsData: propsData, mixins: [VueForm]}).$mount()
     expect(vm.$el.id).to.equal('test-form')
   })
 
-  it('renders correctly with onSubmit hook', () => {
-    var hookReturnValue = null
-    const hooks : FormHook = {
-      onSubmit: (formData) => {
-        hookReturnValue = 'Hello world submit'
-      }
+  it('should throw a warning when field IDs are not unique', () => {
+    const Constructor = Vue.extend(FormComponent)
+    const schema = {
+      fields: [
+        {
+          type: 'text',
+          id: 'text-field',
+          label: 'Text field',
+          description: 'This is a cool text field',
+          visible: true,
+          required: true,
+          disabled: false,
+          validators: []
+        },
+        {
+          type: 'text',
+          id: 'text-field',
+          label: 'Text field',
+          description: 'This is a cool text field',
+          visible: true,
+          required: true,
+          disabled: false,
+          validators: []
+        }
+      ]
     }
-    const propsData = {id: 'test-form', schema: {}, hooks}
-    const wrapper = shallow(FormComponent, { propsData: propsData, mixins: [VueForm] })
 
-    wrapper.find('#test-form').trigger('submit')
-    expect(hookReturnValue).to.equal('Hello world submit')
-  })
+    const spy = sinon.spy(console, 'log')
 
-  it('renders correctly with onCancel hook', () => {
-    var hookReturnValue = null
-    const hooks : FormHook = {
-      onCancel: () => {
-        hookReturnValue = 'Hello world cancel'
-      }
-    }
+    const propsData = {id: 'test-form', schema}
+    new Constructor({propsData: propsData, mixins: [VueForm]}).$mount()
 
-    const propsData = {id: 'test-form', schema: {}, hooks}
-    const wrapper = shallow(FormComponent, { propsData: propsData, mixins: [VueForm] })
-
-    wrapper.find('#test-form').trigger('reset')
-    expect(hookReturnValue).to.equal('Hello world cancel')
+    expect(spy.args[0][0]).to.equal('Identifiers for fields inside your schema must be unique!')
+    console.log.restore()
   })
 
   it('renders correctly with real props', () => {
@@ -80,10 +85,10 @@ describe('FormComponent unit tests', () => {
       ]
     }
     const propsData = {id: 'test-form', schema}
-    const vm = new Constructor({ propsData: propsData, mixins: [VueForm] }).$mount()
-    const expextedHtml = `<form novalidate="novalidate" class="vf-form-pristine vf-form-valid vf-form-untouched" id="test-form"><fieldset><div class="vf-field-pristine vf-field-valid vf-field-untouched"><div class="form-group"><label for="text-field">Text field</label> <input id="text-field" name="text-field" aria-describedby="text-field-description" required="required" type="text" vue-form-validator="" class="form-control form-control-lg vf-pristine vf-invalid vf-untouched vf-invalid-required"> <small id="text-field-description" class="form-text text-muted">
+    const vm = new Constructor({propsData: propsData, mixins: [VueForm]}).$mount()
+    const expectedHTML = `<form novalidate="novalidate" class="vf-form-pristine vf-form-valid vf-form-untouched" id="test-form"><fieldset><div class="vf-field-pristine vf-field-valid vf-field-untouched"><div class="form-group"><label for="text-field">Text field</label> <input id="text-field" name="text-field" aria-describedby="text-field-description" required="required" type="text" vue-form-validator="" class="form-control form-control-lg vf-pristine vf-invalid vf-untouched vf-invalid-required"> <small id="text-field-description" class="form-text text-muted">
       This is a cool text field
     </small> <div class="form-control-feedback"></div></div></div></fieldset></form>`
-    expect(vm.$el.outerHTML).to.equal(expextedHtml)
+    expect(vm.$el.outerHTML).to.equal(expectedHTML)
   })
 })
