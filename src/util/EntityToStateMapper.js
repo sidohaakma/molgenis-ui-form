@@ -1,5 +1,5 @@
 // @flow
-import type { EntityFieldType, FormField, HtmlFieldType } from '../flow.types'
+import type { EntityFieldType, FieldOption, FormField, HtmlFieldType, RefEntityType } from '../flow.types'
 
 import evaluator from './helpers/evaluator'
 // $FlowFixMe
@@ -24,9 +24,9 @@ MappingException.prototype.toString = function () {
  * to query a data table. Returns a list of {id, value, label} items as a Promise
  *
  * @param refEntity The refEntity of the attribute.
- * @return Promise
+ * @return Promise<Array<FieldOption>> a promise containing an array with objects of type FieldOption
  */
-const fetchFieldOptions = (refEntity) => {
+const fetchFieldOptions = (refEntity: RefEntityType): Promise<Array<FieldOption>> => {
   const idAttribute = refEntity.idAttribute
   const labelAttribute = refEntity.labelAttribute ? refEntity.labelAttribute : refEntity.idAttribute
   const uri = refEntity.hrefCollection
@@ -43,10 +43,10 @@ const fetchFieldOptions = (refEntity) => {
 }
 
 /**
- * Build a function that returns an array containing options needed to render the input, input-group or select.
+ * Build a function that returns a Promise of an array containing objects of type FieldOption
  *
  * Simple types like STRING or TEXT do not have input properties, in this case 'null' is returned
- * The returned function returns an array consisting of objects containing id, value, and label
+ * The returned function returns a Promise of an array consisting of type FieldOption
  *
  * @example Example schema for generating field options
  * const schema = {
@@ -73,9 +73,9 @@ const fetchFieldOptions = (refEntity) => {
  * }
  *
  * @param attribute
- * @returns Function|null
+ * @returns (Function => Promise<Array<FieldOptions>>) | null
  */
-const getFieldOptions = (attribute) => {
+const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
   switch (attribute.fieldType) {
     case 'CATEGORICAL':
       return () => {

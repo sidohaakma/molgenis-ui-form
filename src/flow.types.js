@@ -16,3 +16,18 @@ export type FormField = {
   inputProperties?: mixed,
   validators: Array<mixed>
 }
+
+export type FieldOption = {
+  id: string,
+  value: string | boolean | number,
+  label: string
+}
+
+export type RefEntityType = {
+  href: string,
+  hrefCollection: string,
+  idAttribute: string,
+  labelAttribute?: string,
+  languageCode?: string,
+  writable?: boolean
+}
