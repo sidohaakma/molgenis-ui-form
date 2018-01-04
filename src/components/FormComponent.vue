@@ -56,6 +56,7 @@
         required: true,
         validator: (schema) => {
           const fieldIds = new Set()
+
           const notUnique = schema.fields.some(field => {
             return fieldIds.size === fieldIds.add(field.id).size
           })
