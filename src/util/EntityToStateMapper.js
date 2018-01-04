@@ -164,25 +164,38 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
 
 /**
  * If there is a visible expression present, return a function which evaluates the expression.
- * Else return the visible value from the attribute
+ * If there is no expression present, return a function which evaluates to the value of attribute.visible
  *
  * @param attribute
  * @returns {Function|boolean}
  */
 const isVisible = (attribute) => {
   const expression = attribute.visibleExpression
-  return expression ? (data) => evaluator(expression, data) : attribute.visible
+  return expression ? (data) => evaluator(expression, data) : () => attribute.visible
 }
 
 /**
  * If there is a nullable expression present, return a function which evaluates said expression.
- * Else return the !nillable value from the attribute
+ * If there is no expression present, return a function which evaluates to the !value of attribute.nillable
+ *
  * @param attribute
  * @returns {Function|boolean}
  */
 const isNillable = (attribute) => {
   const expression = attribute.nullableExpression
-  return expression ? (data) => evaluator(expression, data) : !attribute.nillable
+  return expression ? (data) => evaluator(expression, data) : () => !attribute.nillable
+}
+
+/**
+ * If there is a validation expression present, return a function which evaluates said expression.
+ * If there is no expression present, return a function which always evaluates to true
+ *
+ * @param attribute
+ * @return {*}
+ */
+const isValid = (attribute) => {
+  const expression = attribute.validationExpression
+  return expression ? (data) => evaluator(expression, data) : () => true
 }
 
 /**
@@ -192,13 +205,6 @@ const isNillable = (attribute) => {
  * @returns {{type: String, id, label, description, required: boolean, disabled, visible, options: ({uri, id, label, multiple}|{uri, id, label})}}
  */
 const generateFormSchemaField = (attribute) => {
-  const validators = [
-    (data) => {
-      const valid = data['string'] === 'valid'
-      return valid ? {valid: valid, message: null} : {valid: false, message: 'Invalid value!'}
-    }
-  ]
-
   // options is a function that always returns an array of option objects
   const options = getFieldOptions(attribute)
   const fieldProperties = {
@@ -210,7 +216,7 @@ const generateFormSchemaField = (attribute) => {
     disabled: attribute.readOnly,
     readOnly: attribute.readOnly,
     visible: isVisible(attribute),
-    validators: validators
+    validate: isValid(attribute)
   }
 
   return options ? {...fieldProperties, options} : fieldProperties
