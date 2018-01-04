@@ -64,8 +64,13 @@ describe('RadioFieldComponent unit tests', () => {
   it('should render an input for every option', () => {
     const inputs = wrapper.findAll('input')
 
-    expect(inputs.at(0).element.id).to.equal('id1')
-    expect(inputs.at(1).element.id).to.equal('id2')
-    expect(inputs.at(2).element.id).to.equal('id3')
+    expect(inputs.at(0).element.id).to.equal('radio-field-0')
+    expect(inputs.at(1).element.id).to.equal('radio-field-1')
+    expect(inputs.at(2).element.id).to.equal('radio-field-2')
+  })
+
+  it('should emit an updated value on change', () => {
+    wrapper.setData({localValue: '1'})
+    expect(wrapper.emitted().input[0]).to.deep.equal(['1'])
   })
 })

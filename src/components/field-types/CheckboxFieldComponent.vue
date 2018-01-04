@@ -3,11 +3,11 @@
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
-      <div v-for="option in options" class="form-check" :aria-describedby="field.id + '-description'">
-        <label :for="option.id" class="form-check-label">
+      <div v-for="(option, index) in options" class="form-check" :aria-describedby="field.id + '-description'">
+        <label :for="field.id + '-' + index" class="form-check-label">
           <!-- Hardcode input type to prevent compile time errors with dynamic value + v-model on same input  -->
           <input
-            :id="option.id"
+            :id="field.id + '-' + index"
             v-model="localValue"
             :value="option.value"
             type="checkbox"
