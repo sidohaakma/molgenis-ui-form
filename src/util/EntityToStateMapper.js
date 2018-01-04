@@ -1,7 +1,9 @@
 // @flow
-import type { EntityFieldType, FormField, HtmlFieldType } from '../flow.types'
+import type { EntityFieldType, FieldOption, FormField, HtmlFieldType, RefEntityType } from '../flow.types'
 
 import evaluator from './helpers/evaluator'
+// $FlowFixMe
+import api from '@molgenis/molgenis-api-client'
 
 // Create an object type UserException
 function MappingException (message: string) {
@@ -15,6 +17,105 @@ function MappingException (message: string) {
 // $FlowFixMe
 MappingException.prototype.toString = function () {
   return this.name + ': "' + this.message + '"'
+}
+
+/**
+ * Uses the idAttribute, labelAttribute, and hrefCollection parameters of the refEntity
+ * to query a data table. Returns a list of {id, value, label} items as a Promise
+ *
+ * @param refEntity The refEntity of the attribute.
+ * @return Promise<Array<FieldOption>> a promise containing an array with objects of type FieldOption
+ */
+const fetchFieldOptions = (refEntity: RefEntityType): Promise<Array<FieldOption>> => {
+  const idAttribute = refEntity.idAttribute
+  const labelAttribute = refEntity.labelAttribute ? refEntity.labelAttribute : refEntity.idAttribute
+  const uri = refEntity.hrefCollection
+
+  return api.get(uri).then(response => {
+    return response.items.map(item => {
+      return {
+        id: item[idAttribute],
+        value: item[idAttribute],
+        label: item[labelAttribute]
+      }
+    })
+  })
+}
+
+/**
+ * Build a function that returns a Promise of an array containing objects of type FieldOption
+ *
+ * Simple types like STRING or TEXT do not have input properties, in this case 'null' is returned
+ * The returned function returns a Promise of an array consisting of type FieldOption
+ *
+ * @example Example schema for generating field options
+ * const schema = {
+ *  fields: [
+ *    {
+ *      id: 'example',
+ *      label: 'Example field',
+ *      options: () => {
+ *        return [
+ *          {
+ *            id: '1',
+ *            value: '1',
+ *            label: 'Example option 1'
+ *          },
+ *          {
+ *            id: '2',
+ *            value: '2',
+ *            label: 'Example option 2'
+ *          }
+ *        ]
+ *      }
+ *    }
+ *  ]
+ * }
+ *
+ * @param attribute
+ * @returns (Function => Promise<Array<FieldOptions>>) | null
+ */
+const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
+  switch (attribute.fieldType) {
+    case 'CATEGORICAL':
+      return () => {
+        return fetchFieldOptions(attribute.refEntity).then(response => {
+          return response
+        })
+      }
+    case 'CATEGORICAL_MREF':
+      return () => {
+        return fetchFieldOptions(attribute.refEntity).then(response => {
+          return response
+        })
+      }
+    case 'ENUM':
+      const enumOptions = attribute.enumOptions.map(option => {
+        return {
+          id: option,
+          value: option,
+          label: option
+        }
+      })
+
+      if (attribute.nillable) {
+        enumOptions.push({id: 'null', value: 'null', label: 'N/A'})
+      }
+
+      return () => Promise.resolve(enumOptions)
+    case 'BOOL':
+      const boolOptions = attribute.nillable ? [
+        {id: 'true', value: true, label: 'True'},
+        {id: 'false', value: false, label: 'False'},
+        {id: 'null', value: 'null', label: 'N/A'}
+      ] : [
+        {id: 'true', value: true, label: 'True'},
+        {id: 'false', value: false, label: 'False'}
+      ]
+      return () => Promise.resolve(boolOptions)
+    default:
+      return null
+  }
 }
 
 /**
@@ -47,7 +148,7 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
     case 'DATE_TIME':
       return 'date-time'
     case 'CATEGORICAL_MREF':
-      return 'checkboxes'
+      return 'checkbox'
     case 'STRING':
       return 'text'
     case 'HYPERLINK':
@@ -58,70 +159,6 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
       return 'file'
     default:
       throw new MappingException(`unknown fieldType (${fieldType})`)
-  }
-}
-
-/**
- * Build a function that returns an array containing options needed to render the input, input-group or select.
- *
- * Simple types like STRING or TEXT do not have input properties, in this case 'null' is returned
- * The returned function returns an array consisting of objects containing id, value, and label
- *
- * @example Example schema for generating field options
- * const schema = {
- *  fields: [
- *    {
- *      id: 'example',
- *      label: 'Example field',
- *      options: () => {
- *        return [
- *          {
- *            id: '1',
- *            value: '1',
- *            label: 'Example option 1'
- *          },
- *          {
- *            id: '2',
- *            value: '2',
- *            label: 'Example option 2'
- *          }
- *        ]
- *      }
- *    }
- *  ]
- * }
- *
- * @param attribute
- * @returns Function|null
- */
-const getFieldOptions = (attribute) => {
-  switch (attribute.fieldType) {
-    case 'ENUM':
-      const enumOptions = attribute.enumOptions.map(option => {
-        return {
-          id: option,
-          value: option,
-          label: option
-        }
-      })
-
-      if (attribute.nillable) {
-        enumOptions.push({id: 'null', value: 'null', label: 'N/A'})
-      }
-
-      return () => enumOptions
-    case 'BOOL':
-      const boolOptions = attribute.nillable ? [
-        {id: 'true', value: true, label: 'True'},
-        {id: 'false', value: false, label: 'False'},
-        {id: 'null', value: 'null', label: 'N/A'}
-      ] : [
-        {id: 'true', value: true, label: 'True'},
-        {id: 'false', value: false, label: 'False'}
-      ]
-      return () => boolOptions
-    default:
-      return null
   }
 }
 

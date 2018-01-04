@@ -12,13 +12,15 @@ describe('CheckboxFieldComponent unit tests', () => {
     disabled: false,
     validators: [],
     options: () => {
-      return [
-        {
-          id: '1',
-          label: 'Option 1',
-          value: '1'
-        }
-      ]
+      return new Promise((resolve, reject) => {
+        resolve([
+          {
+            id: '1',
+            label: 'Option 1',
+            value: '1'
+          }
+        ])
+      })
     }
   }
 
@@ -41,22 +43,22 @@ describe('CheckboxFieldComponent unit tests', () => {
     validate: mockValidateFunction
   }
 
-  it('should set empty array as localValue when value is undefined', () => {
-    const wrapper = mount(CheckboxFieldComponent, {
-      propsData: propsData,
-      stubs: {'fieldMessages': '<div>This field is required</div>'}
-    })
+  const wrapper = mount(CheckboxFieldComponent, {
+    propsData: propsData,
+    stubs: {'fieldMessages': '<div>This field is required</div>'}
+  })
 
+  it('should set empty array as localValue when value is undefined', () => {
     expect(wrapper.vm.localValue).to.deep.equal([])
   })
 
-  it('should set localValue if value is defined', () => {
-    propsData.value = ['1']
-    const wrapper = mount(CheckboxFieldComponent, {
-      propsData: propsData,
-      stubs: {'fieldMessages': '<div>This field is required</div>'}
-    })
+  it('should render an input for every option', () => {
+    const inputs = wrapper.findAll('input')
+    expect(inputs.at(0).element.id).to.equal('checkbox-field-0')
+  })
 
-    expect(wrapper.vm.localValue).to.deep.equal(['1'])
+  it('should emit an updated value on change', () => {
+    wrapper.setData({localValue: ['1']})
+    expect(wrapper.emitted().input[0]).to.deep.equal([['1']])
   })
 })

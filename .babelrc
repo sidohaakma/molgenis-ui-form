@@ -13,8 +13,8 @@
     "test": {
       "presets": ["env", "stage-2"],
       "plugins": ["transform-vue-jsx", ["istanbul", {
-        "include": ["**/*.vue", "**/util"],
-        "exclude": ["**/*.spec.js", "**/FormDemo.vue"]
+        "include": ["src/**"],
+        "exclude": ["test/**", "src/FormDemo.vue", "src/main.js", "src/molgenisUiForm.js", "src/flow.types.js"]
       }]]
     }
   }
