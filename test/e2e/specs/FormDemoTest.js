@@ -8,13 +8,13 @@ module.exports = {
       .url(browser.globals.devServerURL)
       .waitForElementVisible('#form-demo', 5000)
       .assert.elementPresent('form')
-      .assert.elementCount('input', 7)
+      .assert.elementCount('input', 32)
       .end()
   },
   'on-submit-hook test': function (browser) {
-    testSave(browser, 'input[id=text-field]', 'test sido', '{ "text-field": "test sido" }')
-    testSave(browser, 'input[id=radio-field-0]', '1', '{ "radio-field": "1" }')
-    testSave(browser, 'input[id=checkbox-field-0]', '1', '{ "checkbox-field": [ "1" ] }')
+    testSave(browser, 'input[id=string]', 'test sido', '{ "string": "test sido" }')
+    testSave(browser, 'input[id=categorical-0]', 'na', '{ "categorical": "ref1" }')
+    testSave(browser, 'input[id=categorical_mref-0]', 'na', '{ "categorical_mref": [ "ref1" ] }')
   },
   'on-cancel-hook test': function (browser) {
     browser
@@ -25,9 +25,9 @@ module.exports = {
       .assert.containsText('#message-span', "Cancel is clicked")
   },
   'on-value-changed-hook test': function (browser) {
-    testValueChanged(browser, 'input[id=text-field]', 'test sido', 'This value is changed: [{"text-field":"test sido"}]')
-    testValueChanged(browser, 'input[id=radio-field-0]', '1', 'This value is changed: [{"radio-field":"1"}')
-    testValueChanged(browser, 'input[id=checkbox-field-0]', '1', '{"checkbox-field":["1"]}')
+    testValueChanged(browser, 'input[id=string]', 'test sido', 'This value is changed: [{"string":"test sido"}]')
+    testValueChanged(browser, 'input[id=categorical-0]', 'na', 'This value is changed: [{"categorical":"ref1"}')
+    testValueChanged(browser, 'input[id=categorical_mref-0]', 'na', '{"categorical_mref":["ref1"]}')
   }
 }
 

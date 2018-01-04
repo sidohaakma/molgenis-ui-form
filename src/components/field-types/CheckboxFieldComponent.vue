@@ -1,10 +1,10 @@
 <template>
-  <validate :state="state" :custom="{'validate': validate(field)}">
+  <validate :state="state" :custom="{'validate': validate(field)}" v-if="options.length > 0">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
-      <div v-for="(option, index) in field.options()" class="form-check" :aria-describedby="field.id + '-description'">
-        <label :for="option.id" class="form-check-label">
+      <div v-for="(option, index) in options" class="form-check" :aria-describedby="field.id + '-description'">
+        <label :for="field.id + '-' + index" class="form-check-label">
           <!-- Hardcode input type to prevent compile time errors with dynamic value + v-model on same input  -->
           <input
             :id="field.id + '-' + index"
@@ -61,7 +61,8 @@
     data () {
       return {
         // Store a local value to prevent changing the parent state
-        localValue: this.value
+        localValue: this.value,
+        options: []
       }
     },
     watch: {
@@ -72,6 +73,11 @@
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
       }
+    },
+    created () {
+      this.field.options().then(response => {
+        this.options = response
+      })
     }
   }
 </script>

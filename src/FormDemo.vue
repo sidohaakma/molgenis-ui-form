@@ -33,91 +33,8 @@
 </template>
 
 <script>
-  import { FormComponent } from './molgenisUiForm'
-
-  const schema = {
-    fields: [
-      {
-        type: 'text',
-        id: 'text-field',
-        label: 'Text field',
-        description: 'This is a cool text field',
-        visible: true,
-        required: true,
-        disabled: false,
-        validators: [
-          (data) => {
-            const value = data['text-field']
-            return value ? value.indexOf('test') !== -1 : true
-          }
-        ]
-      },
-      {
-        type: 'radio',
-        id: 'radio-field',
-        label: 'Radio field',
-        description: 'This is a nice radio button selection',
-        visible: true,
-        required: true,
-        disabled: false,
-        validators: [],
-        options: () => {
-          return [
-            {
-              id: '1',
-              label: 'Option 1',
-              value: '1'
-            },
-            {
-              id: '2',
-              label: 'Option 2',
-              value: '2'
-            },
-            {
-              id: '3',
-              label: 'Option 3',
-              value: '3'
-            }
-          ]
-        }
-      },
-      {
-        type: 'checkbox',
-        id: 'checkbox-field',
-        label: 'Checkbox field',
-        description: 'This is a nice Checkbox selection',
-        visible: true,
-        required: true,
-        disabled: false,
-        validators: [],
-        options: () => {
-          return [
-            {
-              id: '1',
-              label: 'Option 1',
-              value: '1'
-            },
-            {
-              id: '2',
-              label: 'Option 2',
-              value: '2'
-            },
-            {
-              id: '3',
-              label: 'Option 3',
-              value: '3'
-            }
-          ]
-        }
-      }
-    ]
-  }
-
-  const data = {
-    'text-field': 'text value',
-    'radio-field': '1',
-    'checkbox-field': ['1', '3']
-  }
+  import { EntityToStateMapper, FormComponent } from './molgenisUiForm'
+  import EntityTypeV2Response from './util/data'
 
   export default {
     name: 'form-demo',
@@ -126,8 +43,6 @@
     },
     data () {
       return {
-        schema: schema,
-        data: data,
         hooks: {
           onSubmit: (formData) => {
             this.message = formData
@@ -139,7 +54,15 @@
             this.message = 'This value is changed: [' + JSON.stringify(formData) + ']'
           }
         },
-        message: null
+        message: null,
+        schema: {
+          fields: EntityToStateMapper.generateFormFields(EntityTypeV2Response.metadata)
+        }
+      }
+    },
+    computed: {
+      data () {
+        return EntityToStateMapper.generateFormData(this.schema.fields, EntityTypeV2Response.items)
       }
     }
   }
