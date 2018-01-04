@@ -16,3 +16,27 @@ export type FormField = {
   inputProperties?: mixed,
   validators: Array<mixed>
 }
+
+/**
+ *
+ * You can define hooks in the VUE-app that uses molgenis-form (client). You can view examples below.
+ *
+ * @example
+ *
+ * hooks: {
+ *   onSubmit(formData) {
+ *     // press the save-button for instance of the client
+ *   },
+ *   onCancel() {
+ *     // press the cancel-button in the client
+ *   },
+ *   onValueChanged(formData) {
+ *     // trigger onValueChanged hook in the client
+ *   }
+ * }
+ */
+export type FormHook = {
+  onSubmit:? (formData: Object) => {},
+  onCancel?: () => {},
+  onValueChanged?: (formData: Object) => {}
+}

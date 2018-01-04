@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import VueForm from 'vue-form'
 import FormComponent from '@/components/FormComponent'
+import { shallow } from 'vue-test-utils'
+import type { FormHook } from '../../../src/flow.types'
 
 describe('FormComponent unit tests', () => {
   it('should load the component with "FormComponent" as a name', () => {
@@ -25,6 +27,35 @@ describe('FormComponent unit tests', () => {
     const propsData = {id: 'test-form', schema: {}}
     const vm = new Constructor({ propsData: propsData, mixins: [VueForm] }).$mount()
     expect(vm.$el.id).to.equal('test-form')
+  })
+
+  it('renders correctly with onSubmit hook', () => {
+    var hookReturnValue = null
+    const hooks : FormHook = {
+      onSubmit: (formData) => {
+        hookReturnValue = 'Hello world submit'
+      }
+    }
+    const propsData = {id: 'test-form', schema: {}, hooks}
+    const wrapper = shallow(FormComponent, { propsData: propsData, mixins: [VueForm] })
+
+    wrapper.find('#test-form').trigger('submit')
+    expect(hookReturnValue).to.equal('Hello world submit')
+  })
+
+  it('renders correctly with onCancel hook', () => {
+    var hookReturnValue = null
+    const hooks : FormHook = {
+      onCancel: () => {
+        hookReturnValue = 'Hello world cancel'
+      }
+    }
+
+    const propsData = {id: 'test-form', schema: {}, hooks}
+    const wrapper = shallow(FormComponent, { propsData: propsData, mixins: [VueForm] })
+
+    wrapper.find('#test-form').trigger('reset')
+    expect(hookReturnValue).to.equal('Hello world cancel')
   })
 
   it('renders correctly with real props', () => {
