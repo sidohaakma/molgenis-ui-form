@@ -59,7 +59,8 @@
     data () {
       return {
         // Store a local value to prevent changing the parent state
-        localValue: this.value
+        localValue: this.value,
+        options: []
       }
     },
     watch: {
@@ -67,6 +68,10 @@
         // Emit value changes to the parent (form)
         this.$emit('input', value)
       }
+    },
+    created () {
+      this.field.options().then(response => {
+        this.options = response
+      })
     }
-  }
 </script>
