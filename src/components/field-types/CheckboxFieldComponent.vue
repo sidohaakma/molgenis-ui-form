@@ -74,4 +74,5 @@
         this.options = response
       })
     }
+  }
 </script>

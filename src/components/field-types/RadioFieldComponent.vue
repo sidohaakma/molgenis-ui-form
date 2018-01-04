@@ -50,6 +50,11 @@
         // Emit value changes to the parent (form)
         this.$emit('input', value)
       }
+    },
+    created () {
+      this.field.options().then(response => {
+        this.options = response
+      })
     }
   }
 </script>
