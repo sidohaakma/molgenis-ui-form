@@ -53,7 +53,19 @@
       },
       schema: {
         type: Object,
-        required: true
+        required: true,
+        validator: (schema) => {
+          const fieldIds = new Set()
+          const notUnique = schema.fields.some(field => {
+            return fieldIds.size === fieldIds.add(field.id).size
+          })
+
+          if (notUnique) {
+            console.log('Identifiers for fields inside your schema must be unique!')
+            return false
+          }
+          return true
+        }
       },
       data: {
         type: Object,
