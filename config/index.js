@@ -3,6 +3,7 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 
 const path = require('path')
+const mockResponse = require('./mock-response.js')
 
 module.exports = {
   dev: {
@@ -46,6 +47,11 @@ module.exports = {
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
     cssSourceMap: false,
+    before (app) {
+      app.get('/api/v1/it_emx_datatypes_TypeTestRef', function (req, res) {
+        res.json(mockResponse)
+      })
+    }
   },
 
   build: {
