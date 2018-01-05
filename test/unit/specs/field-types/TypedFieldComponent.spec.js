@@ -88,6 +88,8 @@ describe('TypedFieldComponent unit tests', () => {
 
       wrapper.setData({localValue: 'test another'})
       expect(wrapper.emitted().input[1]).to.deep.equal(['test another'])
+
+      expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
     })
 
     it('should receive the "is-invalid" class if not valid', () => {

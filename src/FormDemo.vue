@@ -14,9 +14,16 @@
           <div class="card-header">
             <h5>Example form</h5>
           </div>
-
+          <div id="alert-message" v-if="message" class="alert alert-info" role="alert">
+            <button @click="message=null" type="button" class="close"><span aria-hidden="true">&times;</span></button>
+            <span id="message-span">{{message}}</span>
+          </div>
           <div class="card-body">
-            <form-component id="example-form" :schema="schema" :data="data"></form-component>
+            <form-component id="example-form" :schema="schema" :formData="data" :hooks="hooks"></form-component>
+          </div>
+          <div class="card-footer">
+            <button id="save-btn" class="btn btn-primary" type="submit" form="example-form">Save</button>
+            <button id="cancel-btn" class="btn btn-secondary" type="reset" form="example-form">Cancel</button>
           </div>
         </div>
       </div>
@@ -27,7 +34,7 @@
 
 <script>
   import { EntityToStateMapper, FormComponent } from './molgenisUiForm'
-  import EntityTypeV2Response from './util/data'
+  import EntityTypeV2Response from './formDemoMockResponse'
 
   export default {
     name: 'form-demo',
@@ -36,6 +43,18 @@
     },
     data () {
       return {
+        hooks: {
+          onSubmit: (formData) => {
+            this.message = formData
+          },
+          onCancel: () => {
+            this.message = 'Cancel is clicked'
+          },
+          onValueChanged: (formData) => {
+            this.message = 'This value is changed: [' + JSON.stringify(formData) + ']'
+          }
+        },
+        message: null,
         schema: {
           fields: EntityToStateMapper.generateFormFields(EntityTypeV2Response.metadata)
         }

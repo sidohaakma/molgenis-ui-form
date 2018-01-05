@@ -4,20 +4,18 @@
       <label :for="field.id">{{ field.label }}</label>
 
       <div v-for="(option, index) in options" class="form-check" :aria-describedby="field.id + '-description'">
-        <label :for="field.id + '-' + index" class="form-check-label">
-          <!-- Hardcode input type to prevent compile time errors with dynamic value + v-model on same input  -->
-          <input
-            :id="field.id + '-' + index"
-            v-model="localValue"
-            :value="option.value"
-            type="checkbox"
-            :name="field.id"
-            class="form-check-input"
-            :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
-            :required="field.required"
-            :disabled="field.disabled">
-          {{ option.label }}
-        </label>
+        <!-- Hardcode input type to prevent compile time errors with dynamic value + v-model on same input  -->
+        <input
+          :id="field.id + '-' + index"
+          v-model="localValue"
+          :value="option.value"
+          type="checkbox"
+          :name="field.id"
+          class="form-check-input"
+          :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
+          :required="field.required"
+          :disabled="field.disabled">
+        <label :for="field.id + '-' + index" class="form-check-label">{{ option.label }}</label>
       </div>
 
       <small :id="field.id + '-description'" class="form-text text-muted">
@@ -69,6 +67,9 @@
       localValue (value) {
         // Emit value changes to the parent (form)
         this.$emit('input', value)
+        // Emit value changes to trigger the hooks.onValueChange
+        // Do not use input event for this to prevent unwanted behavior
+        this.$emit('dataChange')
       }
     },
     created () {
