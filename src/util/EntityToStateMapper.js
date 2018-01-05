@@ -169,7 +169,7 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
  * @param attribute
  * @returns {Function|boolean}
  */
-const isVisible = (attribute) => {
+const isVisible = (attribute): (() => boolean) => {
   const expression = attribute.visibleExpression
   return expression ? (data) => evaluator(expression, data) : () => attribute.visible
 }
@@ -181,7 +181,7 @@ const isVisible = (attribute) => {
  * @param attribute
  * @returns {Function|boolean}
  */
-const isNillable = (attribute) => {
+const isNillable = (attribute): (() => boolean) => {
   const expression = attribute.nullableExpression
   return expression ? (data) => evaluator(expression, data) : () => !attribute.nillable
 }
@@ -193,7 +193,7 @@ const isNillable = (attribute) => {
  * @param attribute
  * @return {*}
  */
-const isValid = (attribute) => {
+const isValid = (attribute): (() => boolean) => {
   const expression = attribute.validationExpression
   return expression ? (data) => evaluator(expression, data) : () => true
 }
@@ -204,7 +204,7 @@ const isValid = (attribute) => {
  * @param attribute Attribute metadata from an EntityType V2 response
  * @returns {{type: String, id, label, description, required: boolean, disabled, visible, options: ({uri, id, label, multiple}|{uri, id, label})}}
  */
-const generateFormSchemaField = (attribute) => {
+const generateFormSchemaField = (attribute): FormField => {
   // options is a function that always returns an array of option objects
   const options = getFieldOptions(attribute)
   const fieldProperties = {
