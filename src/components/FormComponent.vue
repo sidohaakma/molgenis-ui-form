@@ -30,7 +30,8 @@
           v-model="data[field.id]"
           :field="field"
           :state="state[field.id]"
-          :validate="validate">
+          :validate="validate"
+          @dataChange="hooks.onValueChanged(data)">
         </text-area-field-component>
       </template>
 

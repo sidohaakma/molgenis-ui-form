@@ -49,5 +49,6 @@ describe('CheckboxFieldComponent unit tests', () => {
   it('should emit an updated value on change', () => {
     wrapper.setData({localValue: 'test text area MESSAGE!!'})
     expect(wrapper.emitted().input[0]).to.deep.equal(['test text area MESSAGE!!'])
+    expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
   })
 })
