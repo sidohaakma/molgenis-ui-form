@@ -24,6 +24,17 @@
         </radio-field-component>
       </template>
 
+      <!-- Render text area field -->
+      <template v-else-if="field.type === 'text-area'">
+        <text-area-field-component
+          v-model="data[field.id]"
+          :field="field"
+          :state="state[field.id]"
+          :validate="validate"
+          @dataChange="hooks.onValueChanged(data)">
+        </text-area-field-component>
+      </template>
+
       <!-- Render email, url, password, number, and text fields -->
       <template v-else>
         <typed-field-component
@@ -44,6 +55,7 @@
 
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
+  import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
   import TypedFieldComponent from './field-types/TypedFieldComponent'
   import { FormHook } from '../flow.types'
 
@@ -101,6 +113,7 @@
     components: {
       CheckboxFieldComponent,
       RadioFieldComponent,
+      TextAreaFieldComponent,
       TypedFieldComponent
     }
   }

@@ -3,17 +3,17 @@
 
 module.exports = {
 
-  'input-fields test': function(browser) {
+  'input-fields test': function (browser) {
     browser
       .url(browser.globals.devServerURL)
       .waitForElementVisible('#form-demo', 5000)
       .assert.elementPresent('form')
-      .assert.elementCount('input', 32)
+      .assert.elementCount('input', 30)
       .end()
   },
   'on-submit-hook test': function (browser) {
     testSubmit(browser, 'input[id=string]', 'test string', '{ "string": "test string" }')
-    testSubmit(browser, 'input[id=text]', 'test text', '{ "text": "test text" }')
+    testSubmit(browser, 'textarea[id=text]', 'test text', '{ "text": "test text" }')
     testSubmit(browser, 'input[id=integer]', '1', '{ "integer": "1" }')
     testSubmit(browser, 'input[id=decimal]', '1.1', '{ "decimal": "1.1" }')
     testSubmit(browser, 'input[id=long]', '1000', '{ "long": "1000" }')
@@ -27,11 +27,11 @@ module.exports = {
       .waitForElementVisible('button[type=reset]', 1000)
       .click('button[type=reset]')
       .waitForElementVisible('#message-span', 1000)
-      .assert.containsText('#message-span', "Cancel is clicked")
+      .assert.containsText('#message-span', 'Cancel is clicked')
   },
   'on-value-changed-hook test': function (browser) {
     testValueChanged(browser, 'input[id=string]', 'test string', 'This value is changed: [{"string":"test string"}]')
-    testValueChanged(browser, 'input[id=text]', 'test text', 'This value is changed: [{"text":"test text"}]')
+    testValueChanged(browser, 'textarea[id=text]', 'test text', 'This value is changed: [{"text":"test text"}]')
     testValueChanged(browser, 'input[id=integer]', '1', 'This value is changed: [{"integer":"1"}')
     testValueChanged(browser, 'input[id=decimal]', '1.1', '[{"decimal":"1.1"}]')
     testValueChanged(browser, 'input[id=boolean-0]', 'true', '[{"boolean":true}]')
