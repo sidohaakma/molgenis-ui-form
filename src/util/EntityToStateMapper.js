@@ -157,6 +157,8 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
       return 'email'
     case 'FILE':
       return 'file'
+    case 'COMPOUND':
+      return 'field-group'
     default:
       throw new MappingException(`unknown fieldType (${fieldType})`)
   }
@@ -201,7 +203,7 @@ const generateFormSchemaField = (attribute) => {
 
   // options is a function that always returns an array of option objects
   const options = getFieldOptions(attribute)
-  const fieldProperties = {
+  let fieldProperties = {
     type: getHtmlFieldType(attribute.fieldType),
     id: attribute.name,
     label: attribute.label,
@@ -211,6 +213,11 @@ const generateFormSchemaField = (attribute) => {
     readOnly: attribute.readOnly,
     visible: isVisible(attribute),
     validators: validators
+  }
+
+  if (fieldProperties.type === 'field-group') {
+    const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute))
+    fieldProperties = {...fieldProperties, children}
   }
 
   return options ? {...fieldProperties, options} : fieldProperties

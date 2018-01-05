@@ -1,6 +1,6 @@
 <template>
   <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(data)" @reset.prevent="hooks.onCancel">
-    <fieldset v-for="field in schema.fields">
+    <template v-for="field in schema.fields">
       <form-field-component
         :data="data"
         :field="field"
@@ -8,7 +8,7 @@
         :validate="validate"
         @dataChange="hooks.onValueChanged(data)">
       </form-field-component>
-    </fieldset>
+    </template>
   </vue-form>
 </template>
 
