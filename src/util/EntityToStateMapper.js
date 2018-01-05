@@ -24,7 +24,7 @@ MappingException.prototype.toString = function () {
  * to query a data table. Returns a list of {id, value, label} items as a Promise
  *
  * @param refEntity The refEntity of the attribute.
- * @return Promise<Array<FieldOption>> a promise containing an array with objects of type FieldOption
+ * @return {Promise} Promise object representing an Array of FieldOption
  */
 const fetchFieldOptions = (refEntity: RefEntityType): Promise<Array<FieldOption>> => {
   const idAttribute = refEntity.idAttribute
@@ -73,7 +73,7 @@ const fetchFieldOptions = (refEntity: RefEntityType): Promise<Array<FieldOption>
  * }
  *
  * @param attribute
- * @returns (Function => Promise<Array<FieldOptions>>) | null
+ * @returns {Function|null} Function which returns a Promise representing an Array of FieldOptions
  */
 const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
   switch (attribute.fieldType) {
@@ -123,7 +123,7 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
  *
  * @private
  * @param fieldType Attribute type e.g. STRING, XREF etc...
- * @returns String HTML type e.g. text, number, select etc...
+ * @returns {String} HTML type e.g. text, number, select etc...
  */
 const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
   switch (fieldType) {
@@ -167,7 +167,7 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
  * If there is no expression present, return a function which evaluates to the value of attribute.visible
  *
  * @param attribute
- * @returns {Function|boolean}
+ * @returns {Function} Function which evaluates to a boolean
  */
 const isVisible = (attribute): (() => boolean) => {
   const expression = attribute.visibleExpression
@@ -179,7 +179,7 @@ const isVisible = (attribute): (() => boolean) => {
  * If there is no expression present, return a function which evaluates to the !value of attribute.nillable
  *
  * @param attribute
- * @returns {Function|boolean}
+ * @returns {Function} Function which evaluates to a boolean
  */
 const isNillable = (attribute): (() => boolean) => {
   const expression = attribute.nullableExpression
@@ -191,7 +191,7 @@ const isNillable = (attribute): (() => boolean) => {
  * If there is no expression present, return a function which always evaluates to true
  *
  * @param attribute
- * @return {*}
+ * @returns {Function} Function which evaluates to a boolean
  */
 const isValid = (attribute): (() => boolean) => {
   const expression = attribute.validationExpression
