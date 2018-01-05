@@ -1,6 +1,6 @@
 {
   "name": "@molgenis/molgenis-ui-form",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Library for generating HTML web forms",
   "author": "Mark-de-Haan <markdehaan90@gmail.com>",
   "main": "dist/static/molgenis-ui-form.js",
@@ -22,6 +22,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@molgenis/molgenis-api-client": "^2.1.0",
     "vue-form": "^4.7.0"
   },
   "peerDependencies": {
@@ -91,6 +92,7 @@
     "shelljs": "^0.7.6",
     "sinon": "^4.0.0",
     "sinon-chai": "^2.8.0",
+    "testdouble": "^3.3.0",
     "uglifyjs-webpack-plugin": "^1.1.1",
     "url-loader": "^0.5.8",
     "vue": "^2.5.13",
