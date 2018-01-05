@@ -1,5 +1,5 @@
 <template>
-  <vue-form :id="id" :state="state">
+  <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(data)" @reset.prevent="hooks.onCancel">
     <fieldset v-for="field in schema.fields">
 
       <!-- Render checkbox field -->
@@ -8,7 +8,8 @@
           v-model="data[field.id]"
           :field="field"
           :state="state[field.id]"
-          :validate="validate">
+          :validate="validate"
+          @dataChange="hooks.onValueChanged(data)">
         </checkbox-field-component>
       </template>
 
@@ -18,7 +19,8 @@
           v-model="data[field.id]"
           :field="field"
           :state="state[field.id]"
-          :validate="validate">
+          :validate="validate"
+          @dataChange="hooks.onValueChanged(data)">
         </radio-field-component>
       </template>
 
@@ -28,7 +30,8 @@
           v-model="data[field.id]"
           :field="field"
           :state="state[field.id]"
-          :validate="validate">
+          :validate="validate"
+          @dataChange="hooks.onValueChanged(data)">
         </typed-field-component>
       </template>
 
@@ -42,6 +45,7 @@
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
   import TypedFieldComponent from './field-types/TypedFieldComponent'
+  import { FormHook } from '../flow.types'
 
   export default {
     name: 'FormComponent',
@@ -72,6 +76,10 @@
         type: Object,
         required: false,
         default: () => ({})
+      },
+      hooks: {
+        type: FormHook,
+        required: true
       }
     },
     data () {
