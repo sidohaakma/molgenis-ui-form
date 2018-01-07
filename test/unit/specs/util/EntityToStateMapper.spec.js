@@ -33,6 +33,14 @@ describe('Entity to state mapper', () => {
     })
   })
 
+  describe('generate form fields and data for a [COMPOUND] attribute', () => {
+    it('should map a [COMPOUND] attribute to a form field object', () => {
+      const fields = EntityToStateMapper.generateFormFields(schemas.compoundSchema)
+
+      console.log(fields)
+    })
+  })
+
   describe('Generate form fields and data for a [STRING] attribute', () => {
     it('should map a [STRING] attribute to a form field object', () => {
       const fields = EntityToStateMapper.generateFormFields(schemas.stringSchema)
