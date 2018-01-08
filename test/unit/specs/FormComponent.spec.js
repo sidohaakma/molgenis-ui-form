@@ -27,42 +27,6 @@ describe('FormComponent unit tests', () => {
     expect(vm.$el.id).to.equal('test-form')
   })
 
-  it('should throw a warning when field IDs are not unique', () => {
-    const Constructor = Vue.extend(FormComponent)
-    const schema = {
-      fields: [
-        {
-          type: 'text',
-          id: 'text-field',
-          label: 'Text field',
-          description: 'This is a cool text field',
-          visible: true,
-          required: true,
-          disabled: false,
-          validators: []
-        },
-        {
-          type: 'text',
-          id: 'text-field',
-          label: 'Text field',
-          description: 'This is a cool text field',
-          visible: true,
-          required: true,
-          disabled: false,
-          validators: []
-        }
-      ]
-    }
-
-    const spy = sinon.spy(console, 'log')
-
-    const propsData = {id: 'test-form', schema}
-    new Constructor({propsData: propsData, mixins: [VueForm]}).$mount()
-
-    expect(spy.args[0][0]).to.equal('Identifiers for fields inside your schema must be unique!')
-    console.log.restore()
-  })
-
   it('renders correctly with real props', () => {
     const Constructor = Vue.extend(FormComponent)
     const schema = {
