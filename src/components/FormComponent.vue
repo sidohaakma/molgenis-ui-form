@@ -59,13 +59,7 @@
     },
     methods: {
       validate (field) {
-        let valid = true
-        const formData = this.data
-        field.validators.forEach(validator => {
-          // validate with all the data in the form
-          valid = validator(formData)
-        })
-        return valid
+        return field.validate(this.data)
       }
     },
     components: {

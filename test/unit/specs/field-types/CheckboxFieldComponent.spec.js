@@ -10,7 +10,7 @@ describe('CheckboxFieldComponent unit tests', () => {
     visible: true,
     required: true,
     disabled: false,
-    validators: [],
+    validate: () => true,
     options: () => {
       return new Promise((resolve, reject) => {
         resolve([
