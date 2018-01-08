@@ -45,12 +45,14 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('STRING description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
       expect(field.inputProperties).to.equal(undefined)
       expect(field.required({'text': 'not test'})).to.equal(true)
       expect(field.required({'text': 'test'})).to.equal(false)
-      expect(field.validators[0]({'string': 'valid'})).to.deep.equal({valid: true, message: null})
-      expect(field.validators[0]({'string': 'not valid'})).to.deep.equal({valid: false, message: 'Invalid value!'})
+
+      expect(typeof field.validate).to.equal('function')
+      expect(field.validate({'string': 'valid'})).to.equal(true)
+      expect(field.validate({'string': 'not-valid'})).to.equal(false)
     })
 
     it('should map a [STRING] attribute with a visible expression to a form field object ', () => {
@@ -89,7 +91,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Email description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
     })
 
     it('should map a [EMAIL] entity to a form data object', () => {
@@ -111,7 +113,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('TEXT description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
       expect(field.inputProperties).to.equal(undefined)
     })
 
@@ -133,13 +135,13 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Boolean description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
       expect(typeof field.options).to.equal('function')
 
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'true', value: true, label: 'True'},
-          {id: 'false', value: false, label: 'False'}
+          {id: 'true', value: 'true', label: 'True'},
+          {id: 'false', value: 'false', label: 'False'}
         ])
         done()
       })
@@ -156,13 +158,13 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Boolean description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
       expect(typeof field.options).to.equal('function')
 
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'true', value: true, label: 'True'},
-          {id: 'false', value: false, label: 'False'},
+          {id: 'true', value: 'true', label: 'True'},
+          {id: 'false', value: 'false', label: 'False'},
           {id: 'null', value: 'null', label: 'N/A'}
         ])
         done()
@@ -191,7 +193,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Integer description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
     })
 
     it('should map a [INT] entity to a form data object', () => {
@@ -213,7 +215,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Long description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
     })
 
     it('should map a [LONG] entity to a form data object', () => {
@@ -235,7 +237,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Decimal description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
     })
 
     it('should map a [DECIMAL] entity to a form data object', () => {
@@ -267,7 +269,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('File description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
     })
 
     it('should map a [FILE] entity to a form data object', () => {
@@ -299,7 +301,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Html description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
     })
 
     it('should map a [HTML] entity to a form data object', () => {
@@ -321,7 +323,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Hyperlink description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
     })
 
     it('should map a [HYPERLINK] entity to a form data object', () => {
@@ -342,7 +344,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Enum description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
       expect(typeof field.options).to.equal('function')
 
       field.options().then(response => {
@@ -367,7 +369,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Enum description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
       expect(typeof field.options).to.equal('function')
 
       field.options().then(response => {
@@ -402,7 +404,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Date description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
     })
 
     it('should map a [DATE] entity to a form data object', () => {
@@ -424,7 +426,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Date and time description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
     })
 
     it('should map a [DATE_TIME] entity to a form data object', () => {
@@ -446,7 +448,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Categorical description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
       expect(typeof field.options).to.equal('function')
 
       field.options().then(response => {
@@ -478,7 +480,7 @@ describe('Entity to state mapper', () => {
       expect(field.description).to.equal('Categorical MREF description')
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
-      expect(field.visible).to.equal(true)
+      expect(field.visible()).to.equal(true)
       expect(typeof field.options).to.equal('function')
 
       field.options().then(response => {

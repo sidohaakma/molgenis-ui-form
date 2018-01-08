@@ -17,16 +17,8 @@ describe('TypedFieldComponent unit tests', () => {
       visible: true,
       required: true,
       disabled: false,
-      validators: [
-        (value) => {
-          const valid = value.indexOf('test') !== -1
-          const message = valid ? '' : 'not valid value. Please include the word test'
-          return {
-            valid: valid,
-            message: message
-          }
-        }
-      ]
+      validate: (inputValue) => inputValue.indexOf('test') !== -1
+
     }
 
     const state = {
@@ -135,7 +127,7 @@ describe('TypedFieldComponent unit tests', () => {
       visible: true,
       required: true,
       disabled: false,
-      validators: []
+      validate: () => true
     }
 
     const state = {
@@ -174,7 +166,7 @@ describe('TypedFieldComponent unit tests', () => {
       visible: true,
       required: true,
       disabled: false,
-      validators: []
+      validate: () => true
     }
 
     const state = {
@@ -213,7 +205,7 @@ describe('TypedFieldComponent unit tests', () => {
       visible: true,
       required: true,
       disabled: false,
-      validators: []
+      validate: () => true
     }
 
     const state = {
@@ -252,7 +244,7 @@ describe('TypedFieldComponent unit tests', () => {
       visible: true,
       required: true,
       disabled: false,
-      validators: []
+      validate: () => true
     }
 
     const state = {

@@ -75,12 +75,10 @@ describe('FormComponent unit tests', () => {
           visible: true,
           required: true,
           disabled: false,
-          validators: [
-            (data) => {
-              const value = data['text-field']
-              return value ? value.indexOf('test') !== -1 : true
-            }
-          ]
+          validate: (data) => {
+            const value = data['text-field']
+            return value ? value.indexOf('test') !== -1 : true
+          }
         }
       ]
     }

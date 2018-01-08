@@ -24,7 +24,7 @@ MappingException.prototype.toString = function () {
  * to query a data table. Returns a list of {id, value, label} items as a Promise
  *
  * @param refEntity The refEntity of the attribute.
- * @return Promise<Array<FieldOption>> a promise containing an array with objects of type FieldOption
+ * @return {Promise} Promise object representing an Array of FieldOption
  */
 const fetchFieldOptions = (refEntity: RefEntityType): Promise<Array<FieldOption>> => {
   const idAttribute = refEntity.idAttribute
@@ -73,7 +73,7 @@ const fetchFieldOptions = (refEntity: RefEntityType): Promise<Array<FieldOption>
  * }
  *
  * @param attribute
- * @returns (Function => Promise<Array<FieldOptions>>) | null
+ * @returns {Function|null} Function which returns a Promise representing an Array of FieldOptions
  */
 const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
   switch (attribute.fieldType) {
@@ -105,12 +105,12 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
       return () => Promise.resolve(enumOptions)
     case 'BOOL':
       const boolOptions = attribute.nillable ? [
-        {id: 'true', value: true, label: 'True'},
-        {id: 'false', value: false, label: 'False'},
+        {id: 'true', value: 'true', label: 'True'},
+        {id: 'false', value: 'false', label: 'False'},
         {id: 'null', value: 'null', label: 'N/A'}
       ] : [
-        {id: 'true', value: true, label: 'True'},
-        {id: 'false', value: false, label: 'False'}
+        {id: 'true', value: 'true', label: 'True'},
+        {id: 'false', value: 'false', label: 'False'}
       ]
       return () => Promise.resolve(boolOptions)
     default:
@@ -123,7 +123,7 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
  *
  * @private
  * @param fieldType Attribute type e.g. STRING, XREF etc...
- * @returns String HTML type e.g. text, number, select etc...
+ * @returns {String} HTML type e.g. text, number, select etc...
  */
 const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
   switch (fieldType) {
@@ -164,25 +164,38 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
 
 /**
  * If there is a visible expression present, return a function which evaluates the expression.
- * Else return the visible value from the attribute
+ * If there is no expression present, return a function which evaluates to the value of attribute.visible
  *
  * @param attribute
- * @returns {Function|boolean}
+ * @returns {Function} Function which evaluates to a boolean
  */
-const isVisible = (attribute) => {
+const isVisible = (attribute): (() => boolean) => {
   const expression = attribute.visibleExpression
-  return expression ? (data) => evaluator(expression, data) : attribute.visible
+  return expression ? (data) => evaluator(expression, data) : () => attribute.visible
 }
 
 /**
  * If there is a nullable expression present, return a function which evaluates said expression.
- * Else return the !nillable value from the attribute
+ * If there is no expression present, return a function which evaluates to the !value of attribute.nillable
+ *
  * @param attribute
- * @returns {Function|boolean}
+ * @returns {Function} Function which evaluates to a boolean
  */
-const isNillable = (attribute) => {
+const isNillable = (attribute): (() => boolean) => {
   const expression = attribute.nullableExpression
-  return expression ? (data) => evaluator(expression, data) : !attribute.nillable
+  return expression ? (data) => evaluator(expression, data) : () => !attribute.nillable
+}
+
+/**
+ * If there is a validation expression present, return a function which evaluates said expression.
+ * If there is no expression present, return a function which always evaluates to true
+ *
+ * @param attribute
+ * @returns {Function} Function which evaluates to a boolean
+ */
+const isValid = (attribute): (() => boolean) => {
+  const expression = attribute.validationExpression
+  return expression ? (data) => evaluator(expression, data) : () => true
 }
 
 /**
@@ -191,14 +204,7 @@ const isNillable = (attribute) => {
  * @param attribute Attribute metadata from an EntityType V2 response
  * @returns {{type: String, id, label, description, required: boolean, disabled, visible, options: ({uri, id, label, multiple}|{uri, id, label})}}
  */
-const generateFormSchemaField = (attribute) => {
-  const validators = [
-    (data) => {
-      const valid = data['string'] === 'valid'
-      return valid ? {valid: valid, message: null} : {valid: false, message: 'Invalid value!'}
-    }
-  ]
-
+const generateFormSchemaField = (attribute): FormField => {
   // options is a function that always returns an array of option objects
   const options = getFieldOptions(attribute)
   const fieldProperties = {
@@ -210,7 +216,7 @@ const generateFormSchemaField = (attribute) => {
     disabled: attribute.readOnly,
     readOnly: attribute.readOnly,
     visible: isVisible(attribute),
-    validators: validators
+    validate: isValid(attribute)
   }
 
   return options ? {...fieldProperties, options} : fieldProperties
