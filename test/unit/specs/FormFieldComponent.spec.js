@@ -1,20 +1,10 @@
 import FormFieldComponent from '@/components/FormFieldComponent'
-import { mount } from 'vue-test-utils'
+import { shallow } from 'vue-test-utils'
 
 describe('FormFieldComponent unit tests', () => {
   const field = {
     id: 'string',
-    label: 'String',
-    description: 'This is a String field',
-    type: 'text',
-    visible: true,
-    required: true,
-    disabled: false,
-    validators: []
-  }
-
-  const mockParentFunction = () => {
-    return null
+    type: 'text'
   }
 
   const state = {
@@ -22,29 +12,23 @@ describe('FormFieldComponent unit tests', () => {
       $touched: false,
       $submitted: false,
       $invalid: false,
-      _addControl: mockParentFunction,
-      $name: 'string'
+      _addControl: () => {}
     }
   }
-
-  const mockValidateFunction = () => {}
 
   const propsData = {
     data: {'string': 'data'},
     field: field,
     state: state,
-    validate: mockValidateFunction
+    validate: () => {}
   }
 
-  const wrapper = mount(FormFieldComponent, {
-    propsData: propsData,
-    stubs: {'fieldMessages': '<div>This field is required</div>'}
+  const wrapper = shallow(FormFieldComponent, {
+    propsData: propsData
   })
 
-  it('should emit a a dataChange event on dataChange', () => {
-    const textArea = wrapper.find('input')
-    textArea.trigger('dataChange')
-
+  it('should emit a dataChange event on dataChange', () => {
+    wrapper.vm.onDataChange()
     expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
   })
 })
