@@ -35,7 +35,7 @@ describe('FormFieldComponents', () => {
   })
   describe('isShown', () => {
     it('should return true if schema-field visibility is set to true', () => {
-      expect(wrapper.vm.isShown()).to.equal(true)
+      expect(wrapper.vm.isShown(field)).to.equal(true)
     })
   })
 })

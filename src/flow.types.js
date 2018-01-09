@@ -1,10 +1,29 @@
 // @flow
 
-export type EntityFieldType = 'BOOL' | 'CATEGORICAL' | 'ENUM' | 'XREF' |'MREF' |'ONETOMANY' |'INT' | 'DECIMAL' | 'LONG' |
-  'TEXT' | 'SCRIPT'| 'HTML' | 'DATE'| 'DATE_TIME'| 'CATEGORICAL_MREF'| 'STRING'| 'HYPERLINK'| 'EMAIL' | 'FILE'
+export type EntityFieldType =
+  'BOOL'
+  | 'CATEGORICAL'
+  | 'ENUM'
+  | 'XREF'
+  | 'MREF'
+  | 'ONETOMANY'
+  | 'INT'
+  | 'DECIMAL'
+  | 'LONG'
+  |
+  'TEXT'
+  | 'SCRIPT'
+  | 'HTML'
+  | 'DATE'
+  | 'DATE_TIME'
+  | 'CATEGORICAL_MREF'
+  | 'STRING'
+  | 'HYPERLINK'
+  | 'EMAIL'
+  | 'FILE'
 
 export type HtmlFieldType = 'radio' | 'select' | 'number' | 'text-area' | 'date' | 'date-time' | 'checkbox' |
-  'text' | 'url' | 'email' | 'file'
+  'text' | 'url' | 'email' | 'file' | 'field-group'
 
 export type FieldOption = {
   id: string,
@@ -20,6 +39,7 @@ export type FormField = {
   disabled: boolean,
   visible: (() => boolean),
   options?: (() => Promise<Array<FieldOption>>),
+  children?: Array<FormField>,
   validate: (() => boolean)
 }
 
