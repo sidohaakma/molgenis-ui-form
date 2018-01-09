@@ -59,8 +59,7 @@
         this.$emit('dataChange')
       },
       isShown () {
-        const visible = this.field.visible
-        return typeof visible === 'function' ? visible(this.data) : visible
+        return this.field.visible(this.data)
       }
     },
     components: {

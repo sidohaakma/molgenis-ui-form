@@ -5,7 +5,7 @@ describe('FormFieldComponents', () => {
   const field = {
     id: 'string',
     type: 'text',
-    visible: true
+    visible: () => true
   }
 
   const state = {
@@ -27,14 +27,14 @@ describe('FormFieldComponents', () => {
   const wrapper = shallow(FormFieldComponent, {
     propsData: propsData
   })
-  describe('onDataChange', () =>  {
+  describe('onDataChange', () => {
     it('should emit a dataChange event on dataChange', () => {
       wrapper.vm.onDataChange()
       expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
     })
   })
   describe('isShown', () => {
-    it('should return true is schema-field visiblity is set to true', () => {
+    it('should return true if schema-field visibility is set to true', () => {
       expect(wrapper.vm.isShown()).to.equal(true)
     })
   })
