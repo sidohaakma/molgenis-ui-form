@@ -14,12 +14,12 @@
 
     <!-- Render field groups + child fields, nesting subsequent groups with padding -->
     <template v-else-if="field.type === 'field-group'">
+      <legend>{{ field.label }}</legend>
+      <small>{{field.description}} </small>
+
+      <hr>
+
       <div :class="'pl-' + ((level + 1) * 2)">
-        <legend>{{ field.label }}</legend>
-        <small>{{field.description}} </small>
-
-        <hr>
-
         <form-field-component
           v-for="child in field.children"
           :data="data"
