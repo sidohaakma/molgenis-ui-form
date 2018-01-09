@@ -3,7 +3,7 @@ export const compoundSchema = {
     {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound',
       'fieldType': 'COMPOUND',
-      'name': 'compound1',
+      'name': 'compound-field',
       'label': 'Compound field',
       'description': 'Compound description',
       'attributes': [
@@ -27,7 +27,7 @@ export const compoundSchema = {
         {
           'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound',
           'fieldType': 'COMPOUND',
-          'name': 'compound2',
+          'name': 'nested-compound',
           'label': 'Nested Compound field',
           'description': 'Nested Compound description',
           'attributes': [

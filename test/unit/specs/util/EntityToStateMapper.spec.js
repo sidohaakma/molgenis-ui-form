@@ -37,7 +37,31 @@ describe('Entity to state mapper', () => {
     it('should map a [COMPOUND] attribute to a form field object', () => {
       const fields = EntityToStateMapper.generateFormFields(schemas.compoundSchema)
 
-      console.log(fields)
+      expect(fields.length).to.equal(1)
+      const field = fields[0]
+      expect(field.children.length).to.equal(3)
+      expect(field.type).to.equal('field-group')
+      expect(field.id).to.equal('compound-field')
+      expect(field.label).to.equal('Compound field')
+      expect(field.description).to.equal('Compound description')
+      expect(field.disabled).to.equal(false)
+      expect(field.readOnly).to.equal(false)
+      expect(field.visible()).to.equal(true)
+    })
+
+    it('should map a [COMPOUND] entity to a form data object', () => {
+      const fields = EntityToStateMapper.generateFormFields(schemas.compoundSchema)
+      const data = {'compound-string': 'string value', 'compound-int': 1}
+
+      const formData = EntityToStateMapper.generateFormData(fields, data)
+      const expectedData = {
+        'compound-int': 1,
+        'nested-compound-enum': undefined,
+        'nested-compound-string': undefined,
+        'compound-string': 'string value'
+      }
+
+      expect(formData).to.deep.equal(expectedData)
     })
   })
 
@@ -54,7 +78,6 @@ describe('Entity to state mapper', () => {
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
       expect(field.visible()).to.equal(true)
-      expect(field.inputProperties).to.equal(undefined)
       expect(field.required({'text': 'not test'})).to.equal(true)
       expect(field.required({'text': 'test'})).to.equal(false)
 
@@ -122,7 +145,6 @@ describe('Entity to state mapper', () => {
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
       expect(field.visible()).to.equal(true)
-      expect(field.inputProperties).to.equal(undefined)
     })
 
     it('should map a [TEXT] entity to a form data object', () => {

@@ -231,15 +231,22 @@ const generateFormSchemaField = (attribute): FormField => {
 
 /**
  * Generates a data object suitable for the forms
+ * Recursively calls itself when a field of type "field-group" is present
+ * "field-group" fields do not have data, only their children do
  *
  * @param fields an array of field objects
  * @param data a data object containing everything a EntityType V2 response has in its item list
  * @returns a {fieldId: value} object
  */
-const generateFormData = (fields: any, data: any) => fields.reduce((accumulator, field) => {
-  accumulator[field.id] = data[field.id]
-  return accumulator
-}, {})
+const generateFormData = (fields: any, data: any) => {
+  return fields.reduce((accumulator, field) => {
+    if (field.type === 'field-group') {
+      return {...accumulator, ...generateFormData(field.children, data)}
+    }
+    accumulator[field.id] = data[field.id]
+    return accumulator
+  }, {})
+}
 
 /**
  * Generates an array for form fields
