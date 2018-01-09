@@ -48,9 +48,9 @@ describe('FormComponent unit tests', () => {
     }
     const propsData = {id: 'test-form', schema}
     const vm = new Constructor({propsData: propsData, mixins: [VueForm]}).$mount()
-    const expectedHTML = `<form novalidate="novalidate" class="vf-form-pristine vf-form-valid vf-form-untouched" id="test-form"><fieldset><div class="vf-field-pristine vf-field-valid vf-field-untouched"><div class="form-group"><label for="text-field">Text field</label> <input id="text-field" name="text-field" aria-describedby="text-field-description" required="required" type="text" vue-form-validator="" class="form-control form-control-lg vf-pristine vf-invalid vf-untouched vf-invalid-required"> <small id="text-field-description" class="form-text text-muted">
+    const expectedHTML = `<form novalidate="novalidate" class="vf-form-pristine vf-form-valid vf-form-untouched" id="test-form"><fieldset><div><div class="vf-field-pristine vf-field-valid vf-field-untouched"><div class="form-group"><label for="text-field">Text field</label> <input id="text-field" name="text-field" aria-describedby="text-field-description" required="required" type="text" vue-form-validator="" class="form-control form-control-lg vf-pristine vf-invalid vf-untouched vf-invalid-required"> <small id="text-field-description" class="form-text text-muted">
       This is a cool text field
-    </small> <div class="form-control-feedback"></div></div></div></fieldset></form>`
+    </small> <div class="form-control-feedback"></div></div></div></div></fieldset></form>`
     expect(vm.$el.outerHTML).to.equal(expectedHTML)
   })
 })

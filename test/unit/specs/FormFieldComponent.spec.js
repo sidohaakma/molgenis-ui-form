@@ -1,10 +1,11 @@
 import FormFieldComponent from '@/components/FormFieldComponent'
 import { shallow } from 'vue-test-utils'
 
-describe('FormFieldComponent unit tests', () => {
+describe('FormFieldComponents', () => {
   const field = {
     id: 'string',
-    type: 'text'
+    type: 'text',
+    visible: true
   }
 
   const state = {
@@ -26,9 +27,15 @@ describe('FormFieldComponent unit tests', () => {
   const wrapper = shallow(FormFieldComponent, {
     propsData: propsData
   })
-
-  it('should emit a dataChange event on dataChange', () => {
-    wrapper.vm.onDataChange()
-    expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+  describe('onDataChange', () =>  {
+    it('should emit a dataChange event on dataChange', () => {
+      wrapper.vm.onDataChange()
+      expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+    })
+  })
+  describe('isShown', () => {
+    it('should return true is schema-field visiblity is set to true', () => {
+      expect(wrapper.vm.isShown()).to.equal(true)
+    })
   })
 })

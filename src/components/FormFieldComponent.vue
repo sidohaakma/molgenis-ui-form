@@ -1,46 +1,51 @@
 <template>
-  <!-- Render checkbox field -->
-  <checkbox-field-component
-    v-if="field.type === 'checkbox'"
-    v-model="data[field.id]"
-    :field="field"
-    :state="state[field.id]"
-    :validate="validate"
-    @dataChange="onDataChange">
-  </checkbox-field-component>
+  <div v-show="isShown()">
 
-  <!-- Render radio field -->
-  <radio-field-component
-    v-else-if="field.type === 'radio'"
-    v-model="data[field.id]"
-    :field="field"
-    :state="state[field.id]"
-    :validate="validate"
-    @dataChange="onDataChange">
-  </radio-field-component>
+    <!-- Render checkbox field -->
+    <checkbox-field-component
+      v-if="field.type === 'checkbox'"
+      v-model="data[field.id]"
+      :field="field"
+      :state="state[field.id]"
+      :validate="validate"
+      @dataChange="onDataChange">
+    </checkbox-field-component>
 
-  <!-- Render text area field -->
-  <text-area-field-component
-    v-else-if="field.type === 'text-area'"
-    v-model="data[field.id]"
-    :field="field"
-    :state="state[field.id]"
-    :validate="validate"
-    @dataChange="onDataChange">
-  </text-area-field-component>
+    <!-- Render radio field -->
+    <radio-field-component
+      v-else-if="field.type === 'radio'"
+      v-model="data[field.id]"
+      :field="field"
+      :state="state[field.id]"
+      :validate="validate"
+      @dataChange="onDataChange">
+    </radio-field-component>
 
-  <!-- Render email, url, password, number, and text fields -->
-  <typed-field-component
-    v-else
-    v-model="data[field.id]"
-    :field="field"
-    :state="state[field.id]"
-    :validate="validate"
-    @dataChange="onDataChange">
-  </typed-field-component>
+    <!-- Render text area field -->
+    <text-area-field-component
+      v-else-if="field.type === 'text-area'"
+      v-model="data[field.id]"
+      :field="field"
+      :state="state[field.id]"
+      :validate="validate"
+      @dataChange="onDataChange">
+    </text-area-field-component>
+
+    <!-- Render email, url, password, number, and text fields -->
+    <typed-field-component
+      v-else
+      v-model="data[field.id]"
+      :field="field"
+      :state="state[field.id]"
+      :validate="validate"
+      @dataChange="onDataChange">
+    </typed-field-component>
+
+  </div>
 </template>
 
 <script>
+  // @flow
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
   import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
@@ -52,6 +57,10 @@
     methods: {
       onDataChange () {
         this.$emit('dataChange')
+      },
+      isShown () {
+        const visible = this.field.visible
+        return typeof visible === 'function' ? visible(this.data) : visible
       }
     },
     components: {
