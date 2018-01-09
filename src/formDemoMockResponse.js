@@ -19,9 +19,7 @@ const metadata = {
       'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
-      'description': 'STRING description',
-      'nullableExpression': '$("text").value() !== "test"',
-      'validationExpression': '$("string").value() === "valid"'
+      'description': 'STRING description'
     },
     {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/text',
@@ -322,16 +320,132 @@ const metadata = {
       'lookupAttribute': true,
       'isAggregatable': false,
       'description': 'FILE description'
+    },
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound',
+      'fieldType': 'COMPOUND',
+      'name': 'compound-field',
+      'label': 'Compound field',
+      'description': 'Compound description',
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_int',
+          'fieldType': 'INT',
+          'name': 'compound-int',
+          'label': 'Compound integer field',
+          'attributes': [],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'defaultValue': '1',
+          'labelAttribute': false,
+          'unique': false,
+          'visible': true,
+          'lookupAttribute': false,
+          'isAggregatable': true,
+          'description': 'Cool Integer child description'
+        },
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound',
+          'fieldType': 'COMPOUND',
+          'name': 'nested-compound-field',
+          'label': 'Nested Compound field',
+          'description': 'Nested Compound description',
+          'attributes': [
+            {
+              'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_int',
+              'fieldType': 'ENUM',
+              'name': 'nested-compound-enum',
+              'label': 'An enum, inside a compound, inside a compound',
+              'attributes': [],
+              'enumOptions': ['enum1', 'enum2', 'enum3'],
+              'auto': false,
+              'nillable': true,
+              'readOnly': false,
+              'defaultValue': '1',
+              'labelAttribute': false,
+              'unique': false,
+              'visible': true,
+              'lookupAttribute': false,
+              'isAggregatable': true,
+              'description': 'Cool Nested enumceptions'
+            },
+            {
+              'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_string',
+              'fieldType': 'STRING',
+              'name': 'nested-compound-string',
+              'label': 'Nested Compound string field',
+              'description': 'TypeTest compound string attribute',
+              'attributes': [],
+              'maxLength': 255,
+              'auto': false,
+              'nillable': false,
+              'readOnly': false,
+              'defaultValue': 'xcompound_string',
+              'labelAttribute': false,
+              'unique': false,
+              'visible': true,
+              'lookupAttribute': false,
+              'isAggregatable': true
+            },
+            {
+              'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_string',
+              'fieldType': 'LONG',
+              'name': 'nested-compound-long',
+              'label': 'Nested Compound Long field',
+              'description': 'TypeTest compound long attribute',
+              'attributes': [],
+              'maxLength': 255,
+              'auto': false,
+              'nillable': false,
+              'readOnly': false,
+              'labelAttribute': false,
+              'unique': false,
+              'visible': false,
+              'lookupAttribute': false,
+              'isAggregatable': true
+            }
+          ],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'labelAttribute': false,
+          'unique': false,
+          'visible': true,
+          'lookupAttribute': false,
+          'isAggregatable': false
+        },
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_string',
+          'fieldType': 'STRING',
+          'name': 'compound-string',
+          'label': 'Compound string field',
+          'description': 'TypeTest compound string attribute',
+          'attributes': [],
+          'maxLength': 255,
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'defaultValue': 'xcompound_string',
+          'labelAttribute': false,
+          'unique': false,
+          'visible': true,
+          'lookupAttribute': false,
+          'isAggregatable': true,
+          'visibleExpression': '$("nested-compound-string").value() === "show"',
+          'nullableExpression': '$("compound-int").value() === 1',
+          'validationExpression': '$("compound-string").value() === "valid"'
+        }],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': false,
+      'unique': false,
+      'visible': true,
+      'lookupAttribute': false,
+      'isAggregatable': false
     }
-  ],
-  'labelAttribute': 'id',
-  'idAttribute': 'id',
-  'lookupAttributes': [
-    'id'
-  ],
-  'isAbstract': false,
-  'writable': true,
-  'languageCode': 'en'
+  ]
 }
 
 const items = {

@@ -1,43 +1,70 @@
 <template>
-  <!-- Render checkbox field -->
-  <checkbox-field-component
-    v-if="field.type === 'checkbox'"
-    v-model="data[field.id]"
-    :field="field"
-    :state="state[field.id]"
-    :validate="validate"
-    @dataChange="onDataChange">
-  </checkbox-field-component>
+  <fieldset :id="field.id + '-fs'">
 
-  <!-- Render radio field -->
-  <radio-field-component
-    v-else-if="field.type === 'radio'"
-    v-model="data[field.id]"
-    :field="field"
-    :state="state[field.id]"
-    :validate="validate"
-    @dataChange="onDataChange">
-  </radio-field-component>
+    <!-- Render checkbox field -->
+    <template v-if="field.type === 'checkbox'">
+      <checkbox-field-component
+        v-model="data[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :validate="validate"
+        @dataChange="onDataChange">
+      </checkbox-field-component>
+    </template>
 
-  <!-- Render text area field -->
-  <text-area-field-component
-    v-else-if="field.type === 'text-area'"
-    v-model="data[field.id]"
-    :field="field"
-    :state="state[field.id]"
-    :validate="validate"
-    @dataChange="onDataChange">
-  </text-area-field-component>
+    <!-- Render field groups + child fields, nesting subsequent groups with padding -->
+    <template v-else-if="field.type === 'field-group'">
+      <legend>{{ field.label }}</legend>
+      <small>{{field.description}} </small>
 
-  <!-- Render email, url, password, number, and text fields -->
-  <typed-field-component
-    v-else
-    v-model="data[field.id]"
-    :field="field"
-    :state="state[field.id]"
-    :validate="validate"
-    @dataChange="onDataChange">
-  </typed-field-component>
+      <hr>
+
+      <div :class="'pl-' + ((level + 1) * 2)">
+        <form-field-component
+          v-for="child in field.children"
+          :data="data"
+          :field="child"
+          :state="state"
+          :validate="validate"
+          :level="level + 1"
+          :key="child.id">
+        </form-field-component>
+      </div>
+    </template>
+
+    <!-- Render radio field -->
+    <template v-else-if="field.type === 'radio'">
+      <radio-field-component
+        v-model="data[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :validate="validate"
+        @dataChange="onDataChange">
+      </radio-field-component>
+    </template>
+
+    <!-- Render text area field -->
+    <template v-else-if="field.type === 'text-area'">
+      <text-area-field-component
+        v-model="data[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :validate="validate"
+        @dataChange="onDataChange">
+      </text-area-field-component>
+    </template>
+
+    <!-- Render email, url, password, number, and text fields -->
+    <template v-else>
+      <typed-field-component
+        v-model="data[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :validate="validate"
+        @dataChange="onDataChange">
+      </typed-field-component>
+    </template>
+  </fieldset>
 </template>
 
 <script>
@@ -46,9 +73,33 @@
   import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
   import TypedFieldComponent from './field-types/TypedFieldComponent'
 
+  import { FormField } from '../flow.types'
+
   export default {
     name: 'FormFieldComponent',
-    props: ['data', 'field', 'state', 'validate'],
+    props: {
+      data: {
+        type: Object,
+        required: true
+      },
+      field: {
+        type: FormField,
+        required: true
+      },
+      state: {
+        type: Object,
+        required: true
+      },
+      validate: {
+        type: Function,
+        required: true
+      },
+      level: {
+        type: Number,
+        required: false,
+        default: 0
+      }
+    },
     methods: {
       onDataChange () {
         this.$emit('dataChange')

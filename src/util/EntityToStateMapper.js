@@ -157,6 +157,8 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
       return 'email'
     case 'FILE':
       return 'file'
+    case 'COMPOUND':
+      return 'field-group'
     default:
       throw new MappingException(`unknown fieldType (${fieldType})`)
   }
@@ -207,7 +209,7 @@ const isValid = (attribute): (() => boolean) => {
 const generateFormSchemaField = (attribute): FormField => {
   // options is a function that always returns an array of option objects
   const options = getFieldOptions(attribute)
-  const fieldProperties = {
+  let fieldProperties = {
     type: getHtmlFieldType(attribute.fieldType),
     id: attribute.name,
     label: attribute.label,
@@ -219,20 +221,32 @@ const generateFormSchemaField = (attribute): FormField => {
     validate: isValid(attribute)
   }
 
+  if (fieldProperties.type === 'field-group') {
+    const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute))
+    fieldProperties = {...fieldProperties, children}
+  }
+
   return options ? {...fieldProperties, options} : fieldProperties
 }
 
 /**
  * Generates a data object suitable for the forms
+ * Recursively calls itself when a field of type "field-group" is present
+ * "field-group" fields do not have data, only their children do
  *
  * @param fields an array of field objects
  * @param data a data object containing everything a EntityType V2 response has in its item list
  * @returns a {fieldId: value} object
  */
-const generateFormData = (fields: any, data: any) => fields.reduce((accumulator, field) => {
-  accumulator[field.id] = data[field.id]
-  return accumulator
-}, {})
+const generateFormData = (fields: any, data: any) => {
+  return fields.reduce((accumulator, field) => {
+    if (field.type === 'field-group') {
+      return {...accumulator, ...generateFormData(field.children, data)}
+    }
+    accumulator[field.id] = data[field.id]
+    return accumulator
+  }, {})
+}
 
 /**
  * Generates an array for form fields
