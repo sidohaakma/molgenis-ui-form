@@ -23,7 +23,7 @@ export type EntityFieldType =
   | 'FILE'
 
 export type HtmlFieldType = 'radio' | 'select' | 'number' | 'text-area' | 'date' | 'date-time' | 'checkbox' |
-  'text' | 'url' | 'email' | 'file' | 'field-group'
+  'text' | 'url' | 'email' | 'file' | 'field-group'| 'multi-select'
 
 export type FieldOption = {
   id: string,

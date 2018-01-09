@@ -524,3 +524,34 @@ export const categoricalMrefSchema = {
     }
   ]
 }
+
+export const mrefSchema = {
+  'attributes': [
+    {
+      'href': '/api/v1/it_emx_datatypes_TypeTest/meta/mref',
+      'fieldType': 'MREF',
+      'name': 'mref-field',
+      'label': 'MREF Field',
+      'description': 'MREF description',
+      'attributes': [],
+      'enumOptions': [],
+      'refEntity': {
+        'href': '/api/v1/it_emx_datatypes_TypeTestRef/meta',
+        'hrefCollection': '/api/v1/it_emx_datatypes_TypeTestRef',
+        'idAttribute': 'value',
+        'labelAttribute': 'label',
+        'languageCode': 'en',
+        'writable': true
+      },
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'defaultValue': 'ref1',
+      'labelAttribute': false,
+      'unique': false,
+      'visible': true,
+      'lookupAttribute': false,
+      'isAggregatable': false
+    }
+  ]
+}

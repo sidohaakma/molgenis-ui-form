@@ -47,5 +47,17 @@ module.exports = {
     browser.expect.element('#compound-string-fs').to.be.a('fieldset')
     browser.expect.element('#compound-string-fs input').to.have.attribute('id').which.contains('compound-string')
     browser.expect.element('#compound-string-fs input').to.have.attribute('type').which.contains('text')
+  },
+
+  'Correctly render a multi select field with a list of options': function (browser) {
+    // Wait for form to be loaded
+    browser.url(browser.globals.devServerURL)
+    browser.expect.element('#mref-field-fs').to.be.visible
+    browser.expect.element('#mref-field-fs').to.be.a('fieldset')
+
+    browser.expect.element('#mref-field-fs select').to.be.visible
+    browser.expect.element('#mref-field-fs select > option').to.be.present
+
+    browser.expect.element('#mref-field').to.have.attribute('multiple').which.contains(true)
   }
 }

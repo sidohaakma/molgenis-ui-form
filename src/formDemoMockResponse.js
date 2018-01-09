@@ -282,7 +282,7 @@ const metadata = {
     {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/mref',
       'fieldType': 'MREF',
-      'name': 'mref',
+      'name': 'mref-field',
       'label': 'MREF Field',
       'description': 'MREF description',
       'attributes': [],
@@ -290,7 +290,7 @@ const metadata = {
       'refEntity': {
         'href': '/api/v1/it_emx_datatypes_TypeTestRef/meta',
         'hrefCollection': '/api/v1/it_emx_datatypes_TypeTestRef',
-        'idAttribute': 'id',
+        'idAttribute': 'value',
         'labelAttribute': 'label',
         'languageCode': 'en',
         'writable': true
