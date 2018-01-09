@@ -65,8 +65,7 @@ export const compoundSchema = {
               'unique': false,
               'visible': true,
               'lookupAttribute': false,
-              'isAggregatable': true,
-              'validationExpression': '$("compound-string").value() === "string"'
+              'isAggregatable': true
             },
             {
               'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_string',
@@ -112,7 +111,9 @@ export const compoundSchema = {
           'visible': true,
           'lookupAttribute': false,
           'isAggregatable': true,
-          'validationExpression': '$("compound-string").value() === "string"'
+          'visibleExpression': '$("nested-compound-string").value() === "show"',
+          'nullableExpression': '$("compound-int").value() === 1',
+          'validationExpression': '$("compound-string").value() === "valid"'
         }],
       'auto': false,
       'nillable': false,
