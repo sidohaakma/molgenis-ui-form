@@ -43,6 +43,17 @@
       </radio-field-component>
     </template>
 
+    <!-- Render single select field -->
+    <template v-else-if="field.type === 'single-select'">
+      <single-select-field-component
+        v-model="data[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :validate="validate"
+        @dataChange="onDataChange">
+      </single-select-field-component>
+    </template>
+
     <!-- Render text area field -->
     <template v-else-if="field.type === 'text-area'">
       <text-area-field-component
@@ -70,6 +81,7 @@
 <script>
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
+  import SingleSelectFieldComponent from './field-types/SingleSelectFieldComponent'
   import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
   import TypedFieldComponent from './field-types/TypedFieldComponent'
 
@@ -108,6 +120,7 @@
     components: {
       CheckboxFieldComponent,
       RadioFieldComponent,
+      SingleSelectFieldComponent,
       TextAreaFieldComponent,
       TypedFieldComponent
     }
