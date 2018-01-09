@@ -10,7 +10,7 @@ module.exports = {
       .url(browser.globals.devServerURL)
       .waitForElementVisible('#form-demo', 5000)
       .assert.elementPresent('form')
-      .assert.elementCount('input', 37)
+      .assert.elementCount('input', 38)
   },
 
   'on-submit-hook test': function (browser) {

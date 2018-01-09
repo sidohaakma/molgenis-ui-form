@@ -73,6 +73,8 @@
   import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
   import TypedFieldComponent from './field-types/TypedFieldComponent'
 
+  import { FormField } from '../flow.types'
+
   export default {
     name: 'FormFieldComponent',
     props: {
@@ -81,7 +83,7 @@
         required: true
       },
       field: {
-        type: Object,
+        type: FormField,
         required: true
       },
       state: {

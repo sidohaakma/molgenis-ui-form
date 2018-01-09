@@ -58,6 +58,7 @@ describe('Entity to state mapper', () => {
         'compound-int': 1,
         'nested-compound-enum': undefined,
         'nested-compound-string': undefined,
+        'nested-compound-long': undefined,
         'compound-string': 'string value'
       }
 

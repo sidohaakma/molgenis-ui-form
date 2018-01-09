@@ -8,7 +8,7 @@ module.exports = {
 
   // Use BDD-style interface for assertions
   // http://nightwatchjs.org/api#expect-api
-  'field-group test': function (browser) {
+  'Correctly render a field-group and its child fields': function (browser) {
     // Wait for form to be loaded
     browser.url(browser.globals.devServerURL)
     browser.expect.element('#form-demo').to.be.present

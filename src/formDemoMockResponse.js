@@ -390,6 +390,23 @@ const metadata = {
               'lookupAttribute': false,
               'isAggregatable': true,
               'validationExpression': '$("compound-string").value() === "string"'
+            },
+            {
+              'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_string',
+              'fieldType': 'LONG',
+              'name': 'nested-compound-long',
+              'label': 'Nested Compound Long field',
+              'description': 'TypeTest compound long attribute',
+              'attributes': [],
+              'maxLength': 255,
+              'auto': false,
+              'nillable': false,
+              'readOnly': false,
+              'labelAttribute': false,
+              'unique': false,
+              'visible': false,
+              'lookupAttribute': false,
+              'isAggregatable': true
             }
           ],
           'auto': false,
