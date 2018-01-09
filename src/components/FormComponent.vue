@@ -5,7 +5,6 @@
         :data="data"
         :field="field"
         :state="state"
-        :validate="validate"
         @dataChange="hooks.onValueChanged(data)">
       </form-field-component>
     </template>
@@ -44,11 +43,6 @@
     data () {
       return {
         state: {}
-      }
-    },
-    methods: {
-      validate (field) {
-        return field.validate(this.data)
       }
     },
     components: {
