@@ -13,7 +13,7 @@ export type FieldOption = {
 }
 
 export type FormField = {
-  type: string,
+  type: HtmlFieldType,
   id: string,
   label: string,
   required: (() => boolean),
@@ -21,6 +21,10 @@ export type FormField = {
   visible: (() => boolean),
   options?: (() => Promise<Array<FieldOption>>),
   validate: (() => boolean)
+}
+
+export type Schema = {
+  fields: Array<FormField>
 }
 
 export type RefEntityType = {
