@@ -34,11 +34,11 @@ describe('Entity to state mapper', () => {
   })
 
   describe('generate form fields and data for a [COMPOUND] attribute', () => {
-    it('should map a [COMPOUND] attribute to a form field object', () => {
-      const fields = EntityToStateMapper.generateFormFields(schemas.compoundSchema)
+    const fields = EntityToStateMapper.generateFormFields(schemas.compoundSchema)
+    const field = fields[0]
 
+    it('should map a [COMPOUND] attribute to a form field object', () => {
       expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.children.length).to.equal(3)
       expect(field.type).to.equal('field-group')
       expect(field.id).to.equal('compound-field')
@@ -47,6 +47,25 @@ describe('Entity to state mapper', () => {
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
       expect(field.visible()).to.equal(true)
+    })
+
+    it('should have working expressions', () => {
+      const compoundString = field.children[2]
+      expect(compoundString.validate({'compound-string': 'valid'})).to.equal(true)
+      expect(compoundString.validate({'compound-string': 'not valid'})).to.equal(false)
+
+      expect(compoundString.required({'compound-int': 1})).to.equal(true)
+      expect(compoundString.required({'compound-int': 2})).to.equal(false)
+
+      expect(compoundString.visible({'nested-compound-string': 'show'})).to.equal(true)
+      expect(compoundString.visible({'nested-compound-string': 'don not show'})).to.equal(false)
+    })
+
+    it('should create boolean functions when no expressions are present', () => {
+      const compoundInt = field.children[0]
+      expect(compoundInt.validate({})).to.equal(true)
+      expect(compoundInt.visible({})).to.equal(true)
+      expect(compoundInt.required({})).to.equal(true)
     })
 
     it('should map a [COMPOUND] entity to a form data object', () => {
@@ -484,9 +503,9 @@ describe('Entity to state mapper', () => {
 
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'ref1', value: 'ref1', label: 'label1'},
-          {id: 'ref2', value: 'ref2', label: 'label2'},
-          {id: 'ref3', value: 'ref3', label: 'label3'}
+          {id: 'ref1', value: 'ref1', label: 'ref1'},
+          {id: 'ref2', value: 'ref2', label: 'ref2'},
+          {id: 'ref3', value: 'ref3', label: 'ref3'}
         ])
         done()
       })
