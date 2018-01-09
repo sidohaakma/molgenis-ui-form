@@ -1,7 +1,9 @@
 // For authoring Nightwatch tests, see
 // http://nightwatchjs.org/guide#usage
-
 module.exports = {
+  after: function (browser) {
+    browser.end()
+  },
 
   'input-fields test': function (browser) {
     browser
@@ -9,8 +11,8 @@ module.exports = {
       .waitForElementVisible('#form-demo', 5000)
       .assert.elementPresent('form')
       .assert.elementCount('input', 37)
-      .end()
   },
+
   'on-submit-hook test': function (browser) {
     testSubmit(browser, 'input[id=string]', 'test string', '{ "string": "test string" }')
     testSubmit(browser, 'textarea[id=text]', 'test text', '{ "text": "test text" }')
@@ -21,6 +23,7 @@ module.exports = {
     testSubmit(browser, 'input[id=categorical-0]', 'na', '{ "categorical": "ref1" }')
     testSubmit(browser, 'input[id=categorical_mref-0]', 'na', '{ "categorical_mref": [ "ref1" ] }')
   },
+
   'on-cancel-hook test': function (browser) {
     browser
       .url(browser.globals.devServerURL)
@@ -29,6 +32,7 @@ module.exports = {
       .waitForElementVisible('#message-span', 1000)
       .assert.containsText('#message-span', 'Cancel is clicked')
   },
+
   'on-value-changed-hook test': function (browser) {
     testValueChanged(browser, 'input[id=string]', 'test string', 'This value is changed: [{"string":"test string"}]')
     testValueChanged(browser, 'textarea[id=text]', 'test text', 'This value is changed: [{"text":"test text"}]')

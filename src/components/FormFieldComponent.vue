@@ -1,5 +1,5 @@
 <template>
-  <fieldset>
+  <fieldset :id="field.id + '-fs'">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
