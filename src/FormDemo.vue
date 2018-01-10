@@ -45,13 +45,13 @@
       return {
         hooks: {
           onSubmit: (formData) => {
-            this.message = formData
+            this.message = 'onSubmit: ' + JSON.stringify(formData)
           },
           onCancel: () => {
-            this.message = 'Cancel is clicked'
+            this.message = 'onCancel'
           },
           onValueChanged: (formData) => {
-            this.message = 'This value is changed: [' + JSON.stringify(formData) + ']'
+            this.message = 'onValueChanged: ' + JSON.stringify(formData)
           }
         },
         message: null,

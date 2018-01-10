@@ -429,7 +429,6 @@ const metadata = {
           'defaultValue': 'xcompound_string',
           'labelAttribute': false,
           'unique': false,
-          'visible': true,
           'lookupAttribute': false,
           'isAggregatable': true,
           'visibleExpression': '$("nested-compound-string").value() === "show"',
