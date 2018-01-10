@@ -6,22 +6,6 @@ const metadata = {
   'description': 'MOLGENIS Data types test entity',
   'attributes': [
     {
-      'href': '/api/v1/it_emx_datatypes_TypeTest/meta/id',
-      'fieldType': 'INT',
-      'name': 'id',
-      'label': 'id label',
-      'attributes': [],
-      'enumOptions': [],
-      'auto': false,
-      'nillable': false,
-      'readOnly': true,
-      'labelAttribute': true,
-      'unique': true,
-      'visible': false,
-      'lookupAttribute': true,
-      'isAggregatable': false
-    },
-    {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/string',
       'fieldType': 'STRING',
       'name': 'string',

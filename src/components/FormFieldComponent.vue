@@ -1,5 +1,5 @@
 <template>
-  <fieldset :id="field.id + '-fs'" v-show="isShown(field)">
+  <fieldset :id="field.id + '-fs'" v-show="isVisible(field)">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
@@ -68,7 +68,6 @@
 </template>
 
 <script>
-  // @flow
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
   import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
@@ -105,7 +104,7 @@
       onDataChange () {
         this.$emit('dataChange')
       },
-      isShown (field) {
+      isVisible (field) {
         return field.visible(this.data)
       }
     },

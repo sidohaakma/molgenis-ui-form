@@ -1,7 +1,7 @@
 import FormFieldComponent from '@/components/FormFieldComponent'
 import { shallow } from 'vue-test-utils'
 
-describe('FormFieldComponents', () => {
+describe('FormFieldComponents unit tests', () => {
   const field = {
     id: 'string',
     type: 'text',
@@ -33,9 +33,9 @@ describe('FormFieldComponents', () => {
       expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
     })
   })
-  describe('isShown', () => {
+  describe('isVisible', () => {
     it('should return true if schema-field visibility is set to true', () => {
-      expect(wrapper.vm.isShown(field)).to.equal(true)
+      expect(wrapper.vm.isVisible(field)).to.equal(true)
     })
   })
 })
