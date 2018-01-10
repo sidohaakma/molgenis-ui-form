@@ -1,6 +1,12 @@
 /* eslint-disable no-unused-expressions */
 module.exports = {
-  tags: ['form-fields', 'form', 'fields'], // run this suite with 'yarn e2e --tag <tag>'
+  tags: ['fields'], // run this suite with 'yarn e2e --tag <tag>'
+
+  before: function (browser) {
+    // Wait for form to be loaded
+    browser.url(browser.globals.devServerURL)
+  },
+
   after: function (browser) {
     // Close the browser after the suite is done
     browser.end()
@@ -9,10 +15,6 @@ module.exports = {
   // Use BDD-style interface for assertions
   // http://nightwatchjs.org/api#expect-api
   'Correctly render a field-group and its child fields': function (browser) {
-    // Wait for form to be loaded
-    browser.url(browser.globals.devServerURL)
-    browser.expect.element('#form-demo').to.be.present
-
     // Assert field groups and child elements are rendered correctly
     browser.expect.element('#compound-field-fs').to.be.visible
     browser.expect.element('#compound-field-fs').to.be.a('fieldset')
@@ -43,9 +45,17 @@ module.exports = {
     browser.expect.element('#nested-compound-string-fs input').to.have.attribute('id').which.contains('nested-compound-string')
     browser.expect.element('#nested-compound-string-fs input').to.have.attribute('type').which.contains('text')
 
-    browser.expect.element('#compound-string-fs').to.be.visible
+    browser.expect.element('#compound-string-fs').to.be.not.visible
     browser.expect.element('#compound-string-fs').to.be.a('fieldset')
     browser.expect.element('#compound-string-fs input').to.have.attribute('id').which.contains('compound-string')
     browser.expect.element('#compound-string-fs input').to.have.attribute('type').which.contains('text')
+  },
+  'Toggle visibility of string field': function (browser) {
+    browser.expect.element('#nested-compound-string-fs').to.be.present
+    browser.expect.element('#nested-compound-string-fs').to.be.visible
+    browser.expect.element('#nested-compound-string-fs').to.be.a('fieldset')
+    browser.setValue('#nested-compound-string', 'show')
+    browser.expect.element('#compound-string-fs').to.be.visible
   }
+
 }
