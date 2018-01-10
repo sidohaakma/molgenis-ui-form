@@ -8,6 +8,7 @@
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </checkbox-field-component>
     </template>
@@ -26,6 +27,7 @@
           :field="child"
           :state="state"
           :level="level + 1"
+          :showOptionalFields="showOptionalFields"
           :key="child.id">
         </form-field-component>
       </div>
@@ -38,6 +40,7 @@
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </radio-field-component>
     </template>
@@ -49,6 +52,7 @@
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </text-area-field-component>
     </template>
@@ -60,6 +64,7 @@
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </typed-field-component>
     </template>
@@ -93,17 +98,25 @@
         type: Number,
         required: false,
         default: 0
+      },
+      showOptionalFields: {
+        type: Boolean,
+        required: true
       }
     },
     methods: {
       onDataChange () {
         this.$emit('dataChange')
       },
+      // Can return more than only a boolean because of internationalized messages
       validate (field) {
         return field.validate(this.data)
       },
       isVisible (field) {
-        return field.visible(this.data)
+        return (this.showOptionalFields || this.isRequired(field)) && field.visible(this.data)
+      },
+      isRequired (field) {
+        return field.required(this.data)
       }
     },
     components: {

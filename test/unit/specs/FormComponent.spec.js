@@ -14,10 +14,11 @@ describe('FormComponent unit tests', () => {
     expect(typeof props.data).to.equal('object')
   })
 
-  it('should have the correct default data', () => {
+  it('should have the correct state of the FormComponent', () => {
     expect(typeof FormComponent.data).to.equal('function')
     const data = FormComponent.data()
     expect(data.state).to.deep.equal({})
+    expect(data.showOptionalFields).to.equal(true)
   })
 
   it('renders correctly with minimal props', () => {

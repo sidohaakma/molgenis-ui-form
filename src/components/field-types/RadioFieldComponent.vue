@@ -13,7 +13,7 @@
           :name="field.id"
           class="form-check-input"
           :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
-          :required="field.required"
+          :required="isRequired(field)"
           :disabled="field.disabled">
         <label :for="field.id + '-' + index" class="form-check-label">{{ option.label }}</label>
       </div>
@@ -36,7 +36,7 @@
 
   export default {
     name: 'RadioFieldComponent',
-    props: ['value', 'field', 'state', 'validate'],
+    props: ['value', 'field', 'state', 'validate', 'isRequired'],
     mixins: [VueForm],
     data () {
       return {

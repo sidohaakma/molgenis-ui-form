@@ -6,7 +6,8 @@ describe('FormFieldComponents unit tests', () => {
     id: 'string',
     type: 'text',
     validate: (data) => data['string'] === 'data',
-    visible: () => true
+    visible: () => true,
+    required: () => true
   }
 
   const state = {
@@ -52,6 +53,11 @@ describe('FormFieldComponents unit tests', () => {
   describe('isVisible', () => {
     it('should return true if schema-field visibility is set to true', () => {
       expect(wrapper.vm.isVisible(field)).to.equal(true)
+    })
+  })
+  describe('isRequired', () => {
+    it('should return true if schema-field required is set to true', () => {
+      expect(wrapper.vm.isRequired(field)).to.equal(true)
     })
   })
 })

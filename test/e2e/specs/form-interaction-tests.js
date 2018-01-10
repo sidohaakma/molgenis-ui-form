@@ -37,5 +37,12 @@ module.exports = {
     browser.expect.element('#message-span').to.be.visible
     browser.expect.element('#message-span').text.to.contain('onValueChanged: {"string":"test string","integer":"1000","boolean":"true","categorical":"ref1"}')
     browser.end()
+  },
+  'toggle show optional fields': function (browser) {
+    browser.click('#toggle-btn')
+    browser.expect.element('#string').to.be.not.visible
+    browser.click('#toggle-btn')
+    browser.expect.element('#string').to.be.visible
+    browser.end()
   }
 }
