@@ -1,11 +1,12 @@
 import FormFieldComponent from '@/components/FormFieldComponent'
 import { shallow } from 'vue-test-utils'
 
-describe('FormFieldComponent unit tests', () => {
+describe('FormFieldComponents unit tests', () => {
   const field = {
     id: 'string',
     type: 'text',
-    validate: (data) => data['string'] === 'data'
+    validate: (data) => data['string'] === 'data',
+    visible: () => true
   }
 
   const state = {
@@ -27,21 +28,30 @@ describe('FormFieldComponent unit tests', () => {
     propsData: propsData
   })
 
-  it('should succeed in validating a field', () => {
-    expect(wrapper.vm.validate(field)).to.equal(true)
-  })
-
-  it('should fail in validating a field', () => {
-    wrapper.setData({
-      data: {
-        'string': 'not valid'
-      }
+  describe('validate', () => {
+    it('should succeed in validating a field', () => {
+      expect(wrapper.vm.validate(field)).to.equal(true)
     })
-    expect(wrapper.vm.validate(field)).to.equal(false)
+
+    it('should fail in validating a field', () => {
+      wrapper.setData({
+        data: {
+          'string': 'not valid'
+        }
+      })
+      expect(wrapper.vm.validate(field)).to.equal(false)
+    })
   })
 
-  it('should emit a dataChange event on dataChange', () => {
-    wrapper.vm.onDataChange()
-    expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+  describe('onDataChange', () => {
+    it('should emit a dataChange event on dataChange', () => {
+      wrapper.vm.onDataChange()
+      expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+    })
+  })
+  describe('isVisible', () => {
+    it('should return true if schema-field visibility is set to true', () => {
+      expect(wrapper.vm.isVisible(field)).to.equal(true)
+    })
   })
 })

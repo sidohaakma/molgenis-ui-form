@@ -49,14 +49,18 @@ describe('Entity to state mapper', () => {
       expect(field.visible()).to.equal(true)
     })
 
-    it('should have working expressions', () => {
-      const compoundString = field.children[2]
+    const compoundString = field.children[2]
+    it('should have working validation expressions', () => {
       expect(compoundString.validate({'compound-string': 'valid'})).to.equal(true)
       expect(compoundString.validate({'compound-string': 'not valid'})).to.equal(false)
+    })
 
+    it('should have working required expressions', () => {
       expect(compoundString.required({'compound-int': 1})).to.equal(true)
       expect(compoundString.required({'compound-int': 2})).to.equal(false)
+    })
 
+    it('should have working visible expressions', () => {
       expect(compoundString.visible({'nested-compound-string': 'show'})).to.equal(true)
       expect(compoundString.visible({'nested-compound-string': 'don not show'})).to.equal(false)
     })
