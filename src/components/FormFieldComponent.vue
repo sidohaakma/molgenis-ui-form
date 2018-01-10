@@ -26,7 +26,8 @@
           :field="child"
           :state="state"
           :level="level + 1"
-          :key="child.id">
+          :key="child.id"
+          @dataChange="onDataChange">
         </form-field-component>
       </div>
     </template>
