@@ -5,6 +5,7 @@ describe('FormFieldComponents unit tests', () => {
   const field = {
     id: 'string',
     type: 'text',
+    validate: (data) => data['string'] === 'data',
     visible: () => true
   }
 
@@ -20,13 +21,28 @@ describe('FormFieldComponents unit tests', () => {
   const propsData = {
     data: {'string': 'data'},
     field: field,
-    state: state,
-    validate: () => {}
+    state: state
   }
 
   const wrapper = shallow(FormFieldComponent, {
     propsData: propsData
   })
+
+  describe('validate', () => {
+    it('should succeed in validating a field', () => {
+      expect(wrapper.vm.validate(field)).to.equal(true)
+    })
+
+    it('should fail in validating a field', () => {
+      wrapper.setData({
+        data: {
+          'string': 'not valid'
+        }
+      })
+      expect(wrapper.vm.validate(field)).to.equal(false)
+    })
+  })
+
   describe('onDataChange', () => {
     it('should emit a dataChange event on dataChange', () => {
       wrapper.vm.onDataChange()

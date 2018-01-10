@@ -25,7 +25,6 @@
           :data="data"
           :field="child"
           :state="state"
-          :validate="validate"
           :level="level + 1"
           :key="child.id">
         </form-field-component>
@@ -90,10 +89,6 @@
         type: Object,
         required: true
       },
-      validate: {
-        type: Function,
-        required: true
-      },
       level: {
         type: Number,
         required: false,
@@ -103,6 +98,9 @@
     methods: {
       onDataChange () {
         this.$emit('dataChange')
+      },
+      validate (field) {
+        return field.validate(this.data)
       },
       isVisible (field) {
         return field.visible(this.data)
