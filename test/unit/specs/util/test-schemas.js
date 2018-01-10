@@ -554,3 +554,32 @@ export const mrefSchema = {
     }
   ]
 }
+
+export const xrefSchema = {
+  'attributes': [
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xref',
+      'fieldType': 'XREF',
+      'name': 'xref',
+      'label': 'XREF Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': true,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'XREF description',
+      'refEntity': {
+        href: '/api/v1/it_emx_datatypes_TypeTestRef/meta',
+        hrefCollection: '/api/v1/it_emx_datatypes_TypeTestRef',
+        idAttribute: 'value',
+        labelAttribute: 'label',
+        languageCode: 'en',
+        writable: true
+      }
+    }
+  ]
+}

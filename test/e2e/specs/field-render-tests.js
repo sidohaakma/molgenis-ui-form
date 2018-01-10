@@ -61,6 +61,14 @@ module.exports = {
     browser.expect.element('#mref-field').to.have.attribute('multiple').which.contains(true)
   },
 
+  'Correctly render a single select field with a list of options': function (browser) {
+    browser.expect.element('#xref-field-fs').to.be.visible
+    browser.expect.element('#xref-field-fs').to.be.a('fieldset')
+
+    browser.expect.element('#xref-field-fs select').to.be.visible
+    browser.expect.element('#xref-field-fs select > option').to.be.present
+  },
+
   'Toggle visibility of string field': function (browser) {
     browser.expect.element('#nested-compound-string-fs').to.be.present
     browser.expect.element('#nested-compound-string-fs').to.be.visible
