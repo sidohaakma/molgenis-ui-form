@@ -50,6 +50,15 @@ module.exports = {
     browser.expect.element('#compound-string-fs input').to.have.attribute('id').which.contains('compound-string')
     browser.expect.element('#compound-string-fs input').to.have.attribute('type').which.contains('text')
   },
+
+  'Correctly render a single select field with a list of options': function (browser) {
+    browser.expect.element('#xref-field-fs').to.be.visible
+    browser.expect.element('#xref-field-fs').to.be.a('fieldset')
+
+    browser.expect.element('#xref-field-fs select').to.be.visible
+    browser.expect.element('#xref-field-fs select > option').to.be.present
+  },
+
   'Toggle visibility of string field': function (browser) {
     browser.expect.element('#nested-compound-string-fs').to.be.present
     browser.expect.element('#nested-compound-string-fs').to.be.visible
@@ -57,5 +66,4 @@ module.exports = {
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
   }
-
 }
