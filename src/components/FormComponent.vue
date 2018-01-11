@@ -1,4 +1,5 @@
 <template>
+<<<<<<< HEAD
   <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(data)" @reset.prevent="hooks.onCancel">
     <div class="text-right hide-option-fields-btn-container">
       <button id="toggle-btn" type="button" class="btn btn-sm btn-outline-secondary"
@@ -6,13 +7,14 @@
         <i class="fa fa-eye"></i>
       </button>
     </div>
+  <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
     <template v-for="field in schema.fields">
       <form-field-component
-        :data="data"
+        :formData="formData"
         :field="field"
         :state="state"
         :showOptionalFields="showOptionalFields"
-        @dataChange="hooks.onValueChanged(data)">
+        @dataChange="hooks.onValueChanged(formData)">
       </form-field-component>
     </template>
   </vue-form>
@@ -37,7 +39,7 @@
         required: true,
         validator: isValidSchema
       },
-      data: {
+      formData: {
         type: Object,
         required: false,
         default: () => ({})
@@ -50,7 +52,8 @@
     data () {
       return {
         showOptionalFields: true,
-        state: {}
+        state: {},
+        formData: this.formData
       }
     },
     methods: {

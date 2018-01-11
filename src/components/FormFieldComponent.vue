@@ -1,10 +1,10 @@
 <template>
-  <fieldset :id="field.id + '-fs'" v-show="isVisible(field)">
+  <fieldset :id="field.id + '-fs'" v-show="isVisible()">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
       <checkbox-field-component
-        v-model="data[field.id]"
+        v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :validate="validate"
@@ -23,7 +23,7 @@
       <div :class="'pl-' + ((level + 1) * 2)">
         <form-field-component
           v-for="child in field.children"
-          :data="data"
+          :formData="formData"
           :field="child"
           :state="state"
           :level="level + 1"
@@ -37,7 +37,7 @@
     <!-- Render radio field -->
     <template v-else-if="field.type === 'radio'">
       <radio-field-component
-        v-model="data[field.id]"
+        v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :validate="validate"
@@ -49,7 +49,7 @@
     <!-- Render single select field -->
     <template v-else-if="field.type === 'single-select'">
       <single-select-field-component
-        v-model="data[field.id]"
+        v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :validate="validate"
@@ -60,7 +60,7 @@
     <!-- Render text area field -->
     <template v-else-if="field.type === 'text-area'">
       <text-area-field-component
-        v-model="data[field.id]"
+        v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :validate="validate"
@@ -72,7 +72,7 @@
     <!-- Render email, url, password, number, and text fields -->
     <template v-else>
       <typed-field-component
-        v-model="data[field.id]"
+        v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :validate="validate"
@@ -95,7 +95,7 @@
   export default {
     name: 'FormFieldComponent',
     props: {
-      data: {
+      formData: {
         type: Object,
         required: true
       },
@@ -123,13 +123,13 @@
       },
       // Can return more than only a boolean because of internationalized messages
       validate (field) {
-        return field.validate(this.data)
+        return field.validate(this.formData)
       },
       isVisible (field) {
-        return (this.showOptionalFields || this.isRequired(field)) && field.visible(this.data)
+        return (this.showOptionalFields || this.isRequired(field)) && field.visible(this.formData)
       },
       isRequired (field) {
-        return field.required(this.data)
+        return field.required(this.formData)
       }
     },
     components: {
