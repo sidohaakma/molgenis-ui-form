@@ -26,10 +26,10 @@ MappingException.prototype.toString = function () {
  * @param refEntity The refEntity of the attribute.
  * @return {Promise} Promise object representing an Array of FieldOption
  */
-const fetchFieldOptions = (refEntity: RefEntityType): Promise<Array<FieldOption>> => {
+const fetchFieldOptions = (refEntity: RefEntityType, search: ?string): Promise<Array<FieldOption>> => {
   const idAttribute = refEntity.idAttribute
   const labelAttribute = refEntity.labelAttribute ? refEntity.labelAttribute : refEntity.idAttribute
-  const uri = refEntity.hrefCollection
+  const uri = search ? refEntity.hrefCollection + '?q=' + idAttribute + '=like=' + search + ',' + labelAttribute + '=like=' + search : refEntity.hrefCollection
 
   return api.get(uri).then(response => {
     return response.items.map(item => {
@@ -80,8 +80,8 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
     case 'CATEGORICAL':
     case 'CATEGORICAL_MREF':
     case 'XREF':
-      return () => {
-        return fetchFieldOptions(attribute.refEntity).then(response => {
+      return (search: ?string): Promise<Array<FieldOption>> => {
+        return fetchFieldOptions(attribute.refEntity, search).then(response => {
           return response
         })
       }
@@ -98,7 +98,7 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
         enumOptions.push({id: 'null', value: 'null', label: 'N/A'})
       }
 
-      return () => Promise.resolve(enumOptions)
+      return (): Promise<Array<FieldOption>> => Promise.resolve(enumOptions)
     case 'BOOL':
       const boolOptions = attribute.nillable ? [
         {id: 'true', value: 'true', label: 'True'},
@@ -108,7 +108,7 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
         {id: 'true', value: 'true', label: 'True'},
         {id: 'false', value: 'false', label: 'False'}
       ]
-      return () => Promise.resolve(boolOptions)
+      return (): Promise<Array<FieldOption>> => Promise.resolve(boolOptions)
     default:
       return null
   }
