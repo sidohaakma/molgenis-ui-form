@@ -1,13 +1,11 @@
 <template>
-<<<<<<< HEAD
-  <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(data)" @reset.prevent="hooks.onCancel">
+  <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
     <div class="text-right hide-option-fields-btn-container">
       <button id="toggle-btn" type="button" class="btn btn-sm btn-outline-secondary"
               @click="toggleOptionalFields">
         <i class="fa fa-eye"></i>
       </button>
     </div>
-  <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
     <template v-for="field in schema.fields">
       <form-field-component
         :formData="formData"
