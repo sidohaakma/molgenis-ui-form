@@ -1,5 +1,5 @@
 <template>
-  <fieldset :id="field.id + '-fs'" v-show="isVisible(field)">
+  <fieldset :id="field.id + '-fs'" v-show="isVisible()">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
@@ -112,11 +112,11 @@
       onDataChange () {
         this.$emit('dataChange')
       },
-      validate (field) {
-        return field.validate(this.formData)
+      validate () {
+        return this.field.validate(this.formData)
       },
-      isVisible (field) {
-        return field.visible(this.formData)
+      isVisible () {
+        return this.field.visible(this.formData)
       }
     },
     components: {

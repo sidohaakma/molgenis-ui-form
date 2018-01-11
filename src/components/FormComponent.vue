@@ -42,7 +42,8 @@
     },
     data () {
       return {
-        state: {}
+        state: {},
+        formData: this.formData
       }
     },
     components: {

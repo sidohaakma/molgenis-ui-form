@@ -16,9 +16,9 @@ const metadata = {
       'readOnly': false,
       'labelAttribute': true,
       'unique': true,
-      'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
+      'visible': true,
       'description': 'STRING description'
     },
     {
@@ -32,9 +32,9 @@ const metadata = {
       'readOnly': false,
       'labelAttribute': true,
       'unique': true,
-      'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
+      'visibleExpression': '$("string").value() === "show"',
       'description': 'TEXT description'
     },
     {
