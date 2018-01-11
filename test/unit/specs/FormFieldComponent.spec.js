@@ -19,7 +19,7 @@ describe('FormFieldComponents unit tests', () => {
   }
 
   const propsData = {
-    data: {'string': 'data'},
+    formData: {'string': 'data'},
     field: field,
     state: state
   }
@@ -35,7 +35,7 @@ describe('FormFieldComponents unit tests', () => {
 
     it('should fail in validating a field', () => {
       wrapper.setData({
-        data: {
+        formData: {
           'string': 'not valid'
         }
       })
