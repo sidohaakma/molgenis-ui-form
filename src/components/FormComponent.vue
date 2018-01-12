@@ -1,10 +1,17 @@
 <template>
   <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
+    <div class="text-right hide-option-fields-btn-container">
+      <button id="toggle-btn" type="button" class="btn btn-sm btn-outline-secondary" :title="eyeMessage"
+              @click="toggleOptionalFields">
+        <i id="show-fields-icon" class="fa" :class="{'fa-eye-slash': showOptionalFields, 'fa-eye': !showOptionalFields}"></i>
+      </button>
+    </div>
     <template v-for="field in schema.fields">
       <form-field-component
         :formData="formData"
         :field="field"
         :state="state"
+        :showOptionalFields="showOptionalFields"
         @dataChange="hooks.onValueChanged(formData)">
       </form-field-component>
     </template>
@@ -41,13 +48,24 @@
     },
     data () {
       return {
+        showOptionalFields: true,
         state: {},
         // clone initialFormData to formData as formDate needs to be Observable
         formData: Object.assign({}, this.initialFormData)
       }
     },
+    methods: {
+      toggleOptionalFields () {
+        this.showOptionalFields = !this.showOptionalFields
+      }
+    },
     components: {
       FormFieldComponent
+    },
+    computed: {
+      eyeMessage () {
+        return this.showOptionalFields ? 'Hide optional fields' : 'Show all fields'
+      }
     }
   }
 </script>

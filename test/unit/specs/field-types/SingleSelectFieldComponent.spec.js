@@ -7,10 +7,8 @@ describe('SingleSelectFieldComponent unit tests', () => {
     label: 'Xref Field',
     description: 'This is an xref field',
     type: 'single-select',
-    visible: true,
-    required: true,
+    visible: () => true,
     disabled: false,
-    validate: () => true,
     options: () => {
       return new Promise((resolve, reject) => {
         resolve([
@@ -45,7 +43,8 @@ describe('SingleSelectFieldComponent unit tests', () => {
   const propsData = {
     field: field,
     state: state,
-    validate: mockValidateFunction
+    validate: mockValidateFunction,
+    isRequired: () => true
   }
 
   const wrapper = mount(SingleSelectFieldComponent, {

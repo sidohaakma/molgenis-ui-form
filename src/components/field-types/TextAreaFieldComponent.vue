@@ -10,7 +10,7 @@
         class="form-control form-control-lg"
         :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
         :aria-describedby="field.id + '-description'"
-        :required="field.required"
+        :required="isRequired(field)"
         :disabled="field.disabled">
       </textarea>
 
@@ -31,7 +31,7 @@
 
   export default {
     name: 'TextAreaFieldComponent',
-    props: ['value', 'field', 'state', 'validate'],
+    props: ['value', 'field', 'state', 'validate', 'isRequired'],
     mixins: [VueForm],
     data () {
       return {

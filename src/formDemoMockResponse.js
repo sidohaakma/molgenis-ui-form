@@ -12,7 +12,7 @@ const metadata = {
       'label': 'String Field',
       'attributes': [],
       'auto': false,
-      'nillable': false,
+      'nillable': true,
       'readOnly': false,
       'labelAttribute': true,
       'unique': true,

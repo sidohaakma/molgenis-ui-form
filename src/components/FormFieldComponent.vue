@@ -1,5 +1,5 @@
 <template>
-  <fieldset :id="field.id + '-fs'" v-show="isVisible()">
+  <fieldset :id="field.id + '-fs'" v-show="isVisible(field)">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
@@ -8,6 +8,7 @@
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </checkbox-field-component>
     </template>
@@ -26,7 +27,9 @@
           :field="child"
           :state="state"
           :level="level + 1"
+          :showOptionalFields="showOptionalFields"
           :key="child.id"
+          :isRequired="isRequired"
           @dataChange="onDataChange">
         </form-field-component>
       </div>
@@ -39,6 +42,7 @@
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </radio-field-component>
     </template>
@@ -49,6 +53,7 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
+        :isRequired="isRequired"
         :validate="validate"
         @dataChange="onDataChange">
       </single-select-field-component>
@@ -61,6 +66,7 @@
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </text-area-field-component>
     </template>
@@ -72,6 +78,7 @@
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </typed-field-component>
     </template>
@@ -106,17 +113,25 @@
         type: Number,
         required: false,
         default: 0
+      },
+      showOptionalFields: {
+        type: Boolean,
+        required: true
       }
     },
     methods: {
       onDataChange () {
         this.$emit('dataChange')
       },
+      // Can return more than only a boolean because of internationalized messages
       validate () {
         return this.field.validate(this.formData)
       },
       isVisible () {
-        return this.field.visible(this.formData)
+        return (this.showOptionalFields || this.isRequired(this.field)) && this.field.visible(this.formData)
+      },
+      isRequired () {
+        return this.field.required(this.formData)
       }
     },
     components: {

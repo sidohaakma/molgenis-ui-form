@@ -49,5 +49,15 @@ module.exports = {
     browser.expect.element('#message-span').text.to.contain('onValueChanged: {"string":"string value","text":"text value","hyperlink":"www.nu.nl","enum":"enum2","categorical_mref":["ref1","ref2"],"nested-compound-string":"test string"}')
 
     browser.end()
+  },
+  'Toggle show optional fields': function (browser) {
+    browser.click('#toggle-btn')
+    browser.expect.element('#string').to.be.not.visible
+    browser.expect.element('#show-fields-icon').to.be.visible
+    browser.assert.cssClassPresent('#show-fields-icon', 'fa-eye')
+    browser.click('#toggle-btn')
+    browser.expect.element('#string').to.be.visible
+    browser.assert.cssClassPresent('#show-fields-icon', 'fa-eye-slash')
+    browser.end()
   }
 }
