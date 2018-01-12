@@ -1,5 +1,5 @@
 <template>
-  <fieldset :id="field.id + '-fs'" v-show="isVisible()">
+  <fieldset :id="field.id + '-fs'" v-show="isVisible(field)">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
@@ -29,6 +29,7 @@
           :level="level + 1"
           :showOptionalFields="showOptionalFields"
           :key="child.id"
+          :isRequired="isRequired"
           @dataChange="onDataChange">
         </form-field-component>
       </div>
@@ -52,6 +53,7 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
+        :isRequired="isRequired"
         :validate="validate"
         @dataChange="onDataChange">
       </single-select-field-component>

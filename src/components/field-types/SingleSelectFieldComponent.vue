@@ -3,7 +3,12 @@
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
-      <select v-model="localValue" :name="field.id" class="form-control" :id="field.id">
+      <select
+        v-model="localValue"
+        :name="field.id"
+        class="form-control"
+        :id="field.id"
+        :required="isRequired(field)">
         <!-- Add a dummy option to make it work on iOS -->
         <!-- https://vuejs.org/v2/guide/forms.html#Select -->
         <option disabled value="">Select an option...</option>
@@ -30,7 +35,7 @@
   export default {
     name: 'SingleSelectFieldComponent',
     mixins: [VueForm],
-    props: ['value', 'field', 'state', 'validate'],
+    props: ['value', 'field', 'state', 'validate', 'isRequired'],
     data () {
       return {
         // Store a local value to prevent changing the parent state

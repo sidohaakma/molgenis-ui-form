@@ -50,7 +50,7 @@ module.exports = {
 
     browser.end()
   },
-  'toggle show optional fields': function (browser) {
+  'Toggle show optional fields': function (browser) {
     browser.click('#toggle-btn')
     browser.expect.element('#string').to.be.not.visible
     browser.click('#toggle-btn')
