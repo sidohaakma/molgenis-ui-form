@@ -1,9 +1,9 @@
 <template>
   <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
     <div class="text-right hide-option-fields-btn-container">
-      <button id="toggle-btn" type="button" class="btn btn-sm btn-outline-secondary"
+      <button id="toggle-btn" type="button" class="btn btn-sm btn-outline-secondary" :title="eyeMessage"
               @click="toggleOptionalFields">
-        <i class="fa fa-eye"></i>
+        <i id="show-fields-icon" class="fa" :class="{'fa-eye-slash': showOptionalFields, 'fa-eye': !showOptionalFields}"></i>
       </button>
     </div>
     <template v-for="field in schema.fields">
@@ -61,6 +61,11 @@
     },
     components: {
       FormFieldComponent
+    },
+    computed: {
+      eyeMessage () {
+        return this.showOptionalFields ? 'Hide optional fields' : 'Show all fields'
+      }
     }
   }
 </script>

@@ -53,8 +53,11 @@ module.exports = {
   'Toggle show optional fields': function (browser) {
     browser.click('#toggle-btn')
     browser.expect.element('#string').to.be.not.visible
+    browser.expect.element('#show-fields-icon').to.be.visible
+    browser.assert.cssClassPresent('#show-fields-icon', 'fa-eye')
     browser.click('#toggle-btn')
     browser.expect.element('#string').to.be.visible
+    browser.assert.cssClassPresent('#show-fields-icon', 'fa-eye-slash')
     browser.end()
   }
 }

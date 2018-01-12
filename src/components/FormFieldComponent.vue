@@ -124,14 +124,14 @@
         this.$emit('dataChange')
       },
       // Can return more than only a boolean because of internationalized messages
-      validate (field) {
-        return field.validate(this.formData)
+      validate () {
+        return this.field.validate(this.formData)
       },
-      isVisible (field) {
-        return (this.showOptionalFields || this.isRequired(field)) && field.visible(this.formData)
+      isVisible () {
+        return (this.showOptionalFields || this.isRequired(this.field)) && this.field.visible(this.formData)
       },
-      isRequired (field) {
-        return field.required(this.formData)
+      isRequired () {
+        return this.field.required(this.formData)
       }
     },
     components: {
