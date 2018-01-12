@@ -14,8 +14,8 @@
 <script>
   import VueForm from 'vue-form'
   import FormFieldComponent from './FormFieldComponent'
-  import { isValidSchema } from '../util/SchemaService'
-  import { FormHook } from '../flow.types'
+  import {isValidSchema} from '../util/SchemaService'
+  import {FormHook} from '../flow.types'
 
   export default {
     name: 'FormComponent',
@@ -30,10 +30,9 @@
         required: true,
         validator: isValidSchema
       },
-      formData: {
+      initialFormData: {
         type: Object,
-        required: false,
-        default: () => ({})
+        required: false
       },
       hooks: {
         type: FormHook,
@@ -43,7 +42,8 @@
     data () {
       return {
         state: {},
-        formData: this.formData
+        // clone initialFormData to formData as formDate needs to be Observable
+        formData: Object.assign({}, this.initialFormData)
       }
     },
     components: {
