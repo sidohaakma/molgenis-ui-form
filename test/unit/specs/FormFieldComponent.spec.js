@@ -1,7 +1,7 @@
 import FormFieldComponent from '@/components/FormFieldComponent'
 import { shallow, mount } from 'vue-test-utils'
 
-describe.only('FormFieldComponents unit tests', () => {
+describe('FormFieldComponents unit tests', () => {
   const field = {
     id: 'string',
     type: 'text',
