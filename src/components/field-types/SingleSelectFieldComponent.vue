@@ -2,7 +2,7 @@
   <validate :state="state" :custom="{'validate': validate(field)}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
-
+      
       <!--
 
       /**
@@ -25,7 +25,8 @@
         :filterable="false"
         :placeholder="'Search ' + field.label + '...'"
         :inputId="field.id"
-        :name="field.id">
+        :name="field.id"
+        :required="isRequired(field)">
 
         <div slot="no-options">
           <small v-if="localValue">Option '{{ localValue }}' not found.</small>
@@ -51,7 +52,7 @@
   export default {
     name: 'SingleSelectFieldComponent',
     mixins: [VueForm],
-    props: ['value', 'field', 'state', 'validate'],
+    props: ['value', 'field', 'state', 'validate', 'isRequired'],
     data () {
       return {
         // Store a local value to prevent changing the parent state

@@ -1,13 +1,14 @@
 <template>
-  <fieldset :id="field.id + '-fs'" v-show="isVisible(field)">
+  <fieldset :id="field.id + '-fs'" v-show="isVisible(field)" :class="{ 'required-field': isRequired(field) }">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
       <checkbox-field-component
-        v-model="data[field.id]"
+        v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </checkbox-field-component>
     </template>
@@ -22,11 +23,13 @@
       <div :class="'pl-' + ((level + 1) * 2)">
         <form-field-component
           v-for="child in field.children"
-          :data="data"
+          :formData="formData"
           :field="child"
           :state="state"
           :level="level + 1"
+          :showOptionalFields="showOptionalFields"
           :key="child.id"
+          :isRequired="isRequired"
           @dataChange="onDataChange">
         </form-field-component>
       </div>
@@ -35,10 +38,11 @@
     <!-- Render radio field -->
     <template v-else-if="field.type === 'radio'">
       <radio-field-component
-        v-model="data[field.id]"
+        v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </radio-field-component>
     </template>
@@ -46,9 +50,10 @@
     <!-- Render single select field -->
     <template v-else-if="field.type === 'single-select'">
       <single-select-field-component
-        v-model="data[field.id]"
+        v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
+        :isRequired="isRequired"
         :validate="validate"
         @dataChange="onDataChange">
       </single-select-field-component>
@@ -57,10 +62,11 @@
     <!-- Render text area field -->
     <template v-else-if="field.type === 'text-area'">
       <text-area-field-component
-        v-model="data[field.id]"
+        v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </text-area-field-component>
     </template>
@@ -68,15 +74,22 @@
     <!-- Render email, url, password, number, and text fields -->
     <template v-else>
       <typed-field-component
-        v-model="data[field.id]"
+        v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </typed-field-component>
     </template>
   </fieldset>
 </template>
+
+<style>
+  .required-field label::after {
+    content: ' *';
+  }
+</style>
 
 <script>
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
@@ -90,7 +103,7 @@
   export default {
     name: 'FormFieldComponent',
     props: {
-      data: {
+      formData: {
         type: Object,
         required: true
       },
@@ -106,17 +119,25 @@
         type: Number,
         required: false,
         default: 0
+      },
+      showOptionalFields: {
+        type: Boolean,
+        required: true
       }
     },
     methods: {
       onDataChange () {
         this.$emit('dataChange')
       },
-      validate (field) {
-        return field.validate(this.data)
+      // Can return more than only a boolean because of internationalized messages
+      validate () {
+        return this.field.validate(this.formData)
       },
-      isVisible (field) {
-        return field.visible(this.data)
+      isVisible () {
+        return (this.showOptionalFields || this.isRequired(this.field)) && this.field.visible(this.formData)
+      },
+      isRequired () {
+        return this.field.required(this.formData)
       }
     },
     components: {

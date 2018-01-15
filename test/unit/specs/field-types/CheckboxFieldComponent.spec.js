@@ -7,10 +7,7 @@ describe('CheckboxFieldComponent unit tests', () => {
     label: 'Checkbox Field',
     description: 'This is a checkbox field',
     type: 'checkbox',
-    visible: true,
-    required: true,
     disabled: false,
-    validate: () => true,
     options: () => {
       return new Promise((resolve, reject) => {
         resolve([
@@ -35,12 +32,11 @@ describe('CheckboxFieldComponent unit tests', () => {
     _addControl: mockParentFunction
   }
 
-  const mockValidateFunction = () => {}
-
   const propsData = {
     field: field,
     state: state,
-    validate: mockValidateFunction
+    isRequired: () => true,
+    validate: () => true
   }
 
   const wrapper = mount(CheckboxFieldComponent, {

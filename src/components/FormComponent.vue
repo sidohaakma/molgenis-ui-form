@@ -1,11 +1,18 @@
 <template>
-  <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(data)" @reset.prevent="hooks.onCancel">
+  <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
+    <div class="text-right hide-option-fields-btn-container">
+      <button id="toggle-btn" type="button" class="btn btn-sm btn-outline-secondary" :title="eyeMessage"
+              @click="toggleOptionalFields">
+        <i id="show-fields-icon" class="fa" :class="{'fa-eye-slash': showOptionalFields, 'fa-eye': !showOptionalFields}"></i>
+      </button>
+    </div>
     <template v-for="field in schema.fields">
       <form-field-component
-        :data="data"
+        :formData="formData"
         :field="field"
         :state="state"
-        @dataChange="hooks.onValueChanged(data)">
+        :showOptionalFields="showOptionalFields"
+        @dataChange="hooks.onValueChanged(formData)">
       </form-field-component>
     </template>
   </vue-form>
@@ -14,8 +21,8 @@
 <script>
   import VueForm from 'vue-form'
   import FormFieldComponent from './FormFieldComponent'
-  import { isValidSchema } from '../util/SchemaService'
-  import { FormHook } from '../flow.types'
+  import {isValidSchema} from '../util/SchemaService'
+  import {FormHook} from '../flow.types'
 
   export default {
     name: 'FormComponent',
@@ -30,10 +37,9 @@
         required: true,
         validator: isValidSchema
       },
-      data: {
+      initialFormData: {
         type: Object,
-        required: false,
-        default: () => ({})
+        required: false
       },
       hooks: {
         type: FormHook,
@@ -42,11 +48,24 @@
     },
     data () {
       return {
-        state: {}
+        showOptionalFields: true,
+        state: {},
+        // clone initialFormData to formData as formDate needs to be Observable
+        formData: Object.assign({}, this.initialFormData)
+      }
+    },
+    methods: {
+      toggleOptionalFields () {
+        this.showOptionalFields = !this.showOptionalFields
       }
     },
     components: {
       FormFieldComponent
+    },
+    computed: {
+      eyeMessage () {
+        return this.showOptionalFields ? 'Hide optional fields' : 'Show all fields'
+      }
     }
   }
 </script>

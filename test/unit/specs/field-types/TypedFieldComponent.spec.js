@@ -6,22 +6,17 @@ describe('TypedFieldComponent unit tests', () => {
     return null
   }
 
-  const mockValidateFunction = () => {}
-
   describe('TypedFieldComponent with type text', () => {
     const field = {
       id: 'test-field',
       label: 'Test Field',
       description: 'This is a test field',
       type: 'text',
-      visible: true,
-      required: true,
-      disabled: false,
-      validate: (inputValue) => inputValue.indexOf('test') !== -1
-
+      disabled: false
     }
 
     const state = {
+      showOptionalFields: false,
       $touched: false,
       $submitted: false,
       $invalid: false,
@@ -32,7 +27,8 @@ describe('TypedFieldComponent unit tests', () => {
       value: 'hallo',
       field: field,
       state: state,
-      validate: mockValidateFunction
+      isRequired: () => true,
+      validate: () => false
     }
 
     const wrapper = mount(TypedFieldComponent,
@@ -101,7 +97,7 @@ describe('TypedFieldComponent unit tests', () => {
       })
 
       expect(wrapper.find('input').classes()).to.deep.equal(['form-control', 'form-control-lg', 'is-invalid',
-        'vf-pristine', 'vf-invalid', 'vf-untouched', 'vf-pending', 'vf-invalid-validate'])
+        'vf-pristine', 'vf-invalid', 'vf-untouched', 'vf-invalid-validate'])
     })
 
     it('should show a field message if input is invalid', () => {
@@ -124,10 +120,7 @@ describe('TypedFieldComponent unit tests', () => {
       label: 'Typed Field',
       description: 'This is a field that supports many types',
       type: 'number',
-      visible: true,
-      required: true,
-      disabled: false,
-      validate: () => true
+      disabled: false
     }
 
     const state = {
@@ -141,7 +134,8 @@ describe('TypedFieldComponent unit tests', () => {
       value: 42,
       field: field,
       state: state,
-      validate: mockValidateFunction
+      isRequired: () => true,
+      validate: () => true
     }
 
     const wrapper = mount(TypedFieldComponent,
@@ -163,10 +157,7 @@ describe('TypedFieldComponent unit tests', () => {
       label: 'Typed Field',
       description: 'This is a field that supports many types',
       type: 'email',
-      visible: true,
-      required: true,
-      disabled: false,
-      validate: () => true
+      disabled: false
     }
 
     const state = {
@@ -180,7 +171,8 @@ describe('TypedFieldComponent unit tests', () => {
       value: 'test@mail.org',
       field: field,
       state: state,
-      validate: mockValidateFunction
+      isRequired: () => true,
+      validate: () => true
     }
 
     const wrapper = mount(TypedFieldComponent,
@@ -202,10 +194,7 @@ describe('TypedFieldComponent unit tests', () => {
       label: 'Typed Field',
       description: 'This is a field that supports many types',
       type: 'password',
-      visible: true,
-      required: true,
-      disabled: false,
-      validate: () => true
+      disabled: false
     }
 
     const state = {
@@ -219,7 +208,8 @@ describe('TypedFieldComponent unit tests', () => {
       value: 'super secret password',
       field: field,
       state: state,
-      validate: mockValidateFunction
+      isRequired: () => true,
+      validate: () => true
     }
 
     const wrapper = mount(TypedFieldComponent,
@@ -241,10 +231,7 @@ describe('TypedFieldComponent unit tests', () => {
       label: 'Typed Field',
       description: 'This is a field that supports many types',
       type: 'url',
-      visible: true,
-      required: true,
-      disabled: false,
-      validate: () => true
+      disabled: false
     }
 
     const state = {
@@ -258,7 +245,8 @@ describe('TypedFieldComponent unit tests', () => {
       value: 'https://www.test.org',
       field: field,
       state: state,
-      validate: mockValidateFunction
+      isRequired: () => true,
+      validate: () => true
     }
 
     const wrapper = mount(TypedFieldComponent,

@@ -12,13 +12,13 @@ const metadata = {
       'label': 'String Field',
       'attributes': [],
       'auto': false,
-      'nillable': false,
+      'nillable': true,
       'readOnly': false,
       'labelAttribute': true,
       'unique': true,
-      'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
+      'visible': true,
       'description': 'STRING description'
     },
     {
@@ -30,9 +30,9 @@ const metadata = {
       'auto': false,
       'nillable': true,
       'readOnly': false,
+      'visible': true,
       'labelAttribute': true,
       'unique': true,
-      'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
       'description': 'TEXT description'
