@@ -5,6 +5,7 @@
 
       <div class="input-group">
         <flat-pickr
+          :id="field.id"
           v-model="localValue"
           :config="config"
           placeholder="Select date"

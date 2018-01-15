@@ -65,5 +65,15 @@ module.exports = {
     browser.expect.element('#nested-compound-string-fs').to.be.a('fieldset')
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
+  },
+
+  'Fill out date field using picker': function (browser) {
+    browser.expect.element('#date').to.be.visible
+    browser.click('#date')
+    browser.expect.element('.flatpickr-calendar').to.be.visible
+    browser.click('.today')
+    browser.expect.element('.flatpickr-calendar').to.be.not.visible
+    const today = new Date().toJSON().slice(0, 10)
+    browser.assert.value('#date', today)
   }
 }
