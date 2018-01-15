@@ -2,7 +2,7 @@
   <validate :state="state" :custom="{'validate': validate(field)}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
-      
+
       <!--
 
       /**
@@ -23,7 +23,6 @@
         :onSearch="fetchOptions"
         :onChange="onChange"
         :filterable="false"
-        :placeholder="'Search ' + field.label + '...'"
         :inputId="field.id"
         :name="field.id"
         :required="isRequired(field)">
