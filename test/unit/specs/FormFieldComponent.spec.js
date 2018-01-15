@@ -1,12 +1,13 @@
 import FormFieldComponent from '@/components/FormFieldComponent'
-import { shallow } from 'vue-test-utils'
+import { shallow, mount } from 'vue-test-utils'
 
 describe('FormFieldComponents unit tests', () => {
   const field = {
     id: 'string',
     type: 'text',
     validate: (data) => data['string'] === 'data',
-    visible: () => true
+    visible: () => true,
+    required: () => true
   }
 
   const state = {
@@ -21,7 +22,8 @@ describe('FormFieldComponents unit tests', () => {
   const propsData = {
     formData: {'string': 'data'},
     field: field,
-    state: state
+    state: state,
+    showOptionalFields: true
   }
 
   const wrapper = shallow(FormFieldComponent, {
@@ -49,9 +51,50 @@ describe('FormFieldComponents unit tests', () => {
       expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
     })
   })
+
   describe('isVisible', () => {
     it('should return true if schema-field visibility is set to true', () => {
       expect(wrapper.vm.isVisible(field)).to.equal(true)
+    })
+  })
+
+  describe('isRequired passed as true in component', () => {
+    const wrapper = mount(FormFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+
+    it('should return true if schema-field required is set to true', () => {
+      expect(wrapper.vm.isRequired(field)).to.equal(true)
+    })
+
+    it('should add a the "required-field" class to the fieldset', () => {
+      expect(wrapper.classes()).contain('required-field')
+    })
+  })
+
+  describe('isRequired passed as false in component', () => {
+    const field = {
+      id: 'string',
+      type: 'text',
+      validate: (data) => data['string'] === 'data',
+      required: () => false,
+      visible: () => true
+    }
+
+    const propsData = {
+      formData: {'string': 'data'},
+      field: field,
+      state: state,
+      showOptionalFields: true
+    }
+
+    const wrapper = mount(FormFieldComponent, {
+      propsData: propsData
+    })
+
+    it('should return false if schema-field required is set to false', () => {
+      expect(wrapper.vm.isRequired(field)).to.equal(false)
     })
   })
 })

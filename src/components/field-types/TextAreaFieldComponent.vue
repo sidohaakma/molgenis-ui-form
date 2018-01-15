@@ -10,7 +10,7 @@
         class="form-control form-control-lg"
         :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
         :aria-describedby="field.id + '-description'"
-        :required="field.required"
+        :required="isRequired(field)"
         :disabled="field.disabled">
       </textarea>
 
@@ -28,10 +28,32 @@
 
 <script>
   import VueForm from 'vue-form'
+  import { FormField } from '../../flow.types'
 
   export default {
     name: 'TextAreaFieldComponent',
-    props: ['value', 'field', 'state', 'validate'],
+    props: {
+      value: {
+        type: String,
+        required: false
+      },
+      field: {
+        type: FormField,
+        required: true
+      },
+      state: {
+        type: Object,
+        required: false
+      },
+      validate: {
+        type: Function,
+        required: true
+      },
+      isRequired: {
+        type: Function,
+        required: true
+      }
+    },
     mixins: [VueForm],
     data () {
       return {

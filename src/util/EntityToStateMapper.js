@@ -180,7 +180,7 @@ const isVisible = (attribute): (() => boolean) => {
  * @param attribute
  * @returns {Function} Function which evaluates to a boolean
  */
-const isNillable = (attribute): (() => boolean) => {
+const isRequired = (attribute): (() => boolean) => {
   const expression = attribute.nullableExpression
   return expression ? (data) => evaluator(expression, data) : () => !attribute.nillable
 }
@@ -211,7 +211,7 @@ const generateFormSchemaField = (attribute): FormField => {
     id: attribute.name,
     label: attribute.label,
     description: attribute.description,
-    required: isNillable(attribute),
+    required: isRequired(attribute),
     disabled: attribute.readOnly,
     readOnly: attribute.readOnly,
     visible: isVisible(attribute),

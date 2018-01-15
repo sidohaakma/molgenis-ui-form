@@ -12,7 +12,7 @@
           :name="field.id"
           class="form-check-input"
           :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
-          :required="field.required"
+          :required="isRequired(field)"
           :disabled="field.disabled">
         <label :for="field.id + '-' + index" class="form-check-label">{{ option.label }}</label>
       </div>
@@ -36,6 +36,7 @@
 
 <script>
   import VueForm from 'vue-form'
+  import { FormField } from '../../flow.types'
 
   export default {
     name: 'CheckboxFieldComponent',
@@ -47,7 +48,7 @@
         default: () => []
       },
       field: {
-        type: Object,
+        type: FormField,
         required: true
       },
       state: {
@@ -55,6 +56,10 @@
         required: false
       },
       validate: {
+        type: Function,
+        required: true
+      },
+      isRequired: {
         type: Function,
         required: true
       }

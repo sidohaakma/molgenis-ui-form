@@ -11,14 +11,14 @@
         class="form-control form-control-lg"
         :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
         :aria-describedby="field.id + '-description'"
-        :required="field.required"
+        :required="isRequired(field)"
         :disabled="field.disabled">
 
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" show="$touched || $submitted" class="form-control-feedback">
+      <field-messages :name="field.id" :state="state" show="$touched || $submitted" class="form-control-feedback">
         <div class="invalid-message" slot="required">This field is required</div>
         <div class="invalid-message" slot="number">Not a valid number</div>
         <div class="invalid-message" slot="url">Not a valid URL</div>
@@ -31,10 +31,33 @@
 
 <script>
   import VueForm from 'vue-form'
+  import { FormField } from '../../flow.types'
 
   export default {
     name: 'TypedFieldComponent',
-    props: ['value', 'field', 'state', 'validate'],
+    props: {
+      value: {
+        // The value representing a Number or String
+        type: [String, Number],
+        required: false
+      },
+      field: {
+        type: FormField,
+        required: true
+      },
+      state: {
+        type: Object,
+        required: false
+      },
+      validate: {
+        type: Function,
+        required: true
+      },
+      isRequired: {
+        type: Function,
+        required: true
+      }
+    },
     mixins: [VueForm],
     data () {
       return {

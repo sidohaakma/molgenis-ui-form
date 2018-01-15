@@ -13,7 +13,7 @@
           :name="field.id"
           class="form-check-input"
           :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
-          :required="field.required"
+          :required="isRequired(field)"
           :disabled="field.disabled">
         <label :for="field.id + '-' + index" class="form-check-label">{{ option.label }}</label>
       </div>
@@ -33,10 +33,33 @@
 
 <script>
   import VueForm from 'vue-form'
+  import { FormField } from '../../flow.types'
 
   export default {
     name: 'RadioFieldComponent',
-    props: ['value', 'field', 'state', 'validate'],
+    props: {
+      value: {
+        // ID of select field can be of type: Integer, Long, String etc.
+        type: [String, Number],
+        required: false
+      },
+      field: {
+        type: FormField,
+        required: true
+      },
+      state: {
+        type: Object,
+        required: false
+      },
+      validate: {
+        type: Function,
+        required: true
+      },
+      isRequired: {
+        type: Function,
+        required: true
+      }
+    },
     mixins: [VueForm],
     data () {
       return {
