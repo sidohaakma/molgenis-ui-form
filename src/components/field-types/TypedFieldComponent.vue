@@ -38,7 +38,7 @@
     props: {
       value: {
         // The value representing a Number or String
-        type: Object,
+        type: [String, Number],
         required: false
       },
       field: {
