@@ -100,5 +100,9 @@ describe('SingleSelectFieldComponent unit tests', () => {
     wrapper.setData({localValue: {id: 'ref1'}})
     expect(wrapper.emitted().input[0]).to.deep.equal(['ref1'])
     expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+
+    wrapper.setData({localValue: null})
+    expect(wrapper.emitted().input[1]).to.deep.equal([null])
+    expect(wrapper.emitted().dataChange[1]).to.deep.equal([])
   })
 })
