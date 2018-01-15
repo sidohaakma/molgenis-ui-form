@@ -30,11 +30,11 @@ const metadata = {
       'auto': false,
       'nillable': true,
       'readOnly': false,
+      'visible': true,
       'labelAttribute': true,
       'unique': true,
       'lookupAttribute': true,
       'isAggregatable': false,
-      'visibleExpression': '$("string").value() === "show"',
       'description': 'TEXT description'
     },
     {

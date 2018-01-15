@@ -1,5 +1,5 @@
 import FormFieldComponent from '@/components/FormFieldComponent'
-import { shallow } from 'vue-test-utils'
+import { shallow, mount } from 'vue-test-utils'
 
 describe('FormFieldComponents unit tests', () => {
   const field = {
@@ -22,7 +22,8 @@ describe('FormFieldComponents unit tests', () => {
   const propsData = {
     formData: {'string': 'data'},
     field: field,
-    state: state
+    state: state,
+    showOptionalFields: true
   }
 
   const wrapper = shallow(FormFieldComponent, {
@@ -50,14 +51,25 @@ describe('FormFieldComponents unit tests', () => {
       expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
     })
   })
+
   describe('isVisible', () => {
     it('should return true if schema-field visibility is set to true', () => {
       expect(wrapper.vm.isVisible(field)).to.equal(true)
     })
   })
+
   describe('isRequired', () => {
+    const wrapper = mount(FormFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+
     it('should return true if schema-field required is set to true', () => {
       expect(wrapper.vm.isRequired(field)).to.equal(true)
+    })
+
+    it('should add a the "required-field" class to the fieldset', () => {
+      expect(wrapper.classes()).contain('required-field')
     })
   })
 })
