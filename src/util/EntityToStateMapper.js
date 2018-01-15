@@ -29,7 +29,10 @@ MappingException.prototype.toString = function () {
 const fetchFieldOptions = (refEntity: RefEntityType, search: ?string): Promise<Array<FieldOption>> => {
   const idAttribute = refEntity.idAttribute
   const labelAttribute = refEntity.labelAttribute ? refEntity.labelAttribute : refEntity.idAttribute
-  const uri = search ? refEntity.hrefCollection + '?q=' + idAttribute + '=like=' + search + ',' + labelAttribute + '=like=' + search : refEntity.hrefCollection
+
+  // map refEntity.hrefCollection v1 URLs to v2 to enable the use of RSQL queries
+  const v2RefUri = refEntity.hrefCollection.replace('/v1/', '/v2/')
+  const uri = search ? v2RefUri + '?q=' + idAttribute + '=like=' + search + ',' + labelAttribute + '=like=' + search : refEntity.hrefCollection
 
   return api.get(uri).then(response => {
     return response.items.map(item => {
