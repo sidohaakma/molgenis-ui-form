@@ -38,10 +38,11 @@
     <!-- Render multi select field -->
     <template v-else-if="field.type === 'multi-select'">
       <multi-select-field-component
-        v-model="data[field.id]"
+        v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :validate="validate"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </multi-select-field-component>
     </template>

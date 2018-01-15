@@ -5,14 +5,10 @@ describe('MultiSelectFieldComponent unit tests', () => {
   const field = {
     id: 'mref-field',
     label: 'MREF Field',
-    description: 'This is an mref field',
     type: 'multi-select',
-    visible: true,
-    required: true,
     disabled: false,
-    validate: () => true,
     options: () => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         resolve([
           {
             id: '1',
@@ -40,12 +36,11 @@ describe('MultiSelectFieldComponent unit tests', () => {
     _addControl: mockParentFunction
   }
 
-  const mockValidateFunction = () => {}
-
   const propsData = {
     field: field,
     state: state,
-    validate: mockValidateFunction
+    isRequired: () => true,
+    validate: () => false
   }
 
   const wrapper = mount(MultiSelectFieldComponent, {
@@ -53,7 +48,8 @@ describe('MultiSelectFieldComponent unit tests', () => {
     stubs: {'fieldMessages': '<div>This field is required</div>'}
   })
 
-  it('should render an input for every option', () => {
+  it('should render an option for every option', () => {
+    console.log(wrapper.html())
     const options = wrapper.findAll('option')
     expect(options.length).to.equal(2)
 

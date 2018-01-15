@@ -3,8 +3,14 @@
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
-      <select v-model="localValue" :name="field.id" class="form-control" :id="field.id" multiple>
-        <option v-for="(option, index) in options" :value="option.value">
+      <select
+        :id="field.id"
+        v-model="localValue"
+        :name="field.id"
+        :required="isRequired(field)"
+        multiple
+        class="form-control">
+      <option v-for="option in options" :value="option.value">
           {{ option.value }}
         </option>
       </select>
@@ -42,6 +48,10 @@
         required: false
       },
       validate: {
+        type: Function,
+        required: true
+      },
+      isRequired: {
         type: Function,
         required: true
       }
