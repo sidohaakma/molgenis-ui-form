@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@molgenis/molgenis-api-client": "^2.1.0",
+    "moment": "^2.20.1",
     "vue-flatpickr-component": "^6.1.0",
     "vue-form": "^4.7.0"
   },

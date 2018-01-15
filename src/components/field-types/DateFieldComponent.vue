@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': validate(field)}">
+  <validate :state="state" :custom="{'validate': isValidDate() && validate(field)}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -49,6 +49,7 @@
   import VueForm from 'vue-form'
   import flatPickr from 'vue-flatpickr-component'
   import 'flatpickr/dist/flatpickr.css'
+  import moment from 'moment'
 
   export default {
     name: 'DateFieldComponent',
@@ -83,6 +84,12 @@
           wrap: true,
           allowInput: true
         }
+      }
+    },
+    methods: {
+      isValidDate () {
+        const d = moment(this.localValue, 'YYYY-MM-DD', true)
+        return d != null && d.isValid()
       }
     },
     watch: {
