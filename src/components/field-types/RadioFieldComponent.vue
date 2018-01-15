@@ -36,7 +36,29 @@
 
   export default {
     name: 'RadioFieldComponent',
-    props: ['value', 'field', 'state', 'validate', 'isRequired'],
+    props: {
+      value: {
+        // ID of select field can be of type: Integer, Long, String etc.
+        type: Object,
+        required: false
+      },
+      field: {
+        type: Object,
+        required: true
+      },
+      state: {
+        type: Object,
+        required: false
+      },
+      validate: {
+        type: Function,
+        required: true
+      },
+      isRequired: {
+        type: Function,
+        required: true
+      }
+    },
     mixins: [VueForm],
     data () {
       return {

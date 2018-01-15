@@ -58,7 +58,7 @@ describe('FormFieldComponents unit tests', () => {
     })
   })
 
-  describe('isRequired', () => {
+  describe('isRequired passed as true in component', () => {
     const wrapper = mount(FormFieldComponent, {
       propsData: propsData,
       stubs: {'fieldMessages': '<div>This field is required</div>'}
@@ -70,6 +70,31 @@ describe('FormFieldComponents unit tests', () => {
 
     it('should add a the "required-field" class to the fieldset', () => {
       expect(wrapper.classes()).contain('required-field')
+    })
+  })
+
+  describe('isRequired passed as false in component', () => {
+    const field = {
+      id: 'string',
+      type: 'text',
+      validate: (data) => data['string'] === 'data',
+      required: () => false,
+      visible: () => true
+    }
+
+    const propsData = {
+      formData: {'string': 'data'},
+      field: field,
+      state: state,
+      showOptionalFields: true
+    }
+
+    const wrapper = mount(FormFieldComponent, {
+      propsData: propsData
+    })
+
+    it('should return false if schema-field required is set to false', () => {
+      expect(wrapper.vm.isRequired(field)).to.equal(false)
     })
   })
 })
