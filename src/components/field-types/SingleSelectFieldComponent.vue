@@ -31,6 +31,7 @@
 
 <script>
   import VueForm from 'vue-form'
+  import { FormField } from '../../flow.types'
 
   export default {
     name: 'SingleSelectFieldComponent',
@@ -42,7 +43,7 @@
         required: false
       },
       field: {
-        type: Object,
+        type: FormField,
         required: true
       },
       state: {
