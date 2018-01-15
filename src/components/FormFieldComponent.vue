@@ -71,6 +71,18 @@
       </text-area-field-component>
     </template>
 
+    <!-- Render text date field -->
+    <template v-else-if="field.type === 'date'">
+      <date-field-component
+        v-model="formData[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :validate="validate"
+        :isRequired="isRequired"
+        @dataChange="onDataChange">
+      </date-field-component>
+    </template>
+
     <!-- Render email, url, password, number, and text fields -->
     <template v-else>
       <typed-field-component
@@ -97,6 +109,7 @@
   import SingleSelectFieldComponent from './field-types/SingleSelectFieldComponent'
   import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
   import TypedFieldComponent from './field-types/TypedFieldComponent'
+  import DateFieldComponent from './field-types/DateFieldComponent'
 
   import { FormField } from '../flow.types'
 
@@ -145,7 +158,8 @@
       RadioFieldComponent,
       SingleSelectFieldComponent,
       TextAreaFieldComponent,
-      TypedFieldComponent
+      TypedFieldComponent,
+      DateFieldComponent
     }
   }
 </script>
