@@ -59,5 +59,9 @@ module.exports = {
     browser.expect.element('#string').to.be.visible
     browser.assert.cssClassPresent('#show-fields-icon', 'fa-eye-slash')
     browser.end()
+  },
+  'Check if asterix class is present on integer element': function (browser) {
+    browser.assert.cssClassPresent('#integer-fs', 'required-field')
+    browser.end()
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <fieldset :id="field.id + '-fs'" v-show="isVisible(field)">
+  <fieldset :id="field.id + '-fs'" v-show="isVisible(field)" :class="{ 'required-field': isRequired(field) }">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
@@ -84,6 +84,12 @@
     </template>
   </fieldset>
 </template>
+
+<style>
+  .required-field label::after {
+    content: ' *';
+  }
+</style>
 
 <script>
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
