@@ -91,19 +91,13 @@ describe('SingleSelectFieldComponent unit tests', () => {
     })
   })
 
-  it('should emit an onchange event', () => {
+  it('should emit an updated value on change', () => {
     const wrapper = mount(SingleSelectFieldComponent, {
       propsData: propsData,
       stubs: {'fieldMessages': '<div>This field is required</div>'}
     })
 
-    const option = {
-      id: 'ref1',
-      label: 'label1',
-      value: 'ref1'
-    }
-
-    wrapper.vm.onChange(option)
+    wrapper.setData({localValue: {id: 'ref1'}})
     expect(wrapper.emitted().input[0]).to.deep.equal(['ref1'])
     expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
   })

@@ -4,7 +4,6 @@
       <label :for="field.id">{{ field.label }}</label>
 
       <!--
-
       /**
         For creating options that do not exist:
           - taggable = true
@@ -17,16 +16,13 @@
           we want filtering on multiple parameters
       */
       -->
-      <v-select
-        v-model="localValue"
-        :options="options"
-        :onSearch="fetchOptions"
-        :onChange="onChange"
-        :filterable="false"
-        :inputId="field.id"
-        :name="field.id"
-        :required="isRequired(field)"
-        :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}">
+      <v-select v-model="localValue"
+                :options="options"
+                :onSearch="fetchOptions"
+                :filterable="false"
+                :inputId="field.id"
+                :name="field.id"
+                :required="isRequired">
 
         <div slot="no-options">
           <small v-if="localValue">Option '{{ localValue }}' not found.</small>
@@ -41,6 +37,7 @@
         <div slot="required">This field is required</div>
         <div slot="validate">Validation failed</div>
       </field-messages>
+
     </div>
   </validate>
 </template>
@@ -85,19 +82,25 @@
       }
     },
     methods: {
-      onChange (selectedOption) {
-        // Emit the id value of the selected option to the parent (form)
-        this.$emit('input', selectedOption.id)
-        // Emit value changes to trigger the hooks.onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
-      },
       fetchOptions (search, loading) {
         loading(true)
         this.field.options(search).then(response => {
           this.options = response
           loading(false)
         })
+      }
+    },
+    watch: {
+      localValue (value) {
+        if (value) {
+          // Emit value changes to the parent (form)
+          this.$emit('input', value.id)
+          // Emit value changes to trigger the hooks.onValueChange
+          // Do not use input event for this to prevent unwanted behavior
+        } else {
+          this.$emit('input', null)
+        }
+        this.$emit('dataChange')
       }
     },
     created () {
