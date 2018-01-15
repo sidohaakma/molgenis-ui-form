@@ -79,6 +79,7 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
   switch (attribute.fieldType) {
     case 'CATEGORICAL':
     case 'CATEGORICAL_MREF':
+    case 'MREF':
     case 'XREF':
       return () => {
         return fetchFieldOptions(attribute.refEntity).then(response => {
@@ -130,8 +131,8 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
     case 'XREF':
       return 'single-select'
     case 'MREF':
+      return 'multi-select'
     case 'ONETOMANY':
-      return 'select'
     case 'INT':
     case 'DECIMAL':
     case 'LONG':

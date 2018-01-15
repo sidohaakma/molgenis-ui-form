@@ -553,6 +553,37 @@ describe('Entity to state mapper', () => {
     })
   })
 
+  describe('Generate form fields and data for a [MREF] attribute', () => {
+    const fields = EntityToStateMapper.generateFormFields(schemas.mrefSchema)
+    const data = {'mref-field': ['ref1']}
+
+    it('should map a [MREF] attribute to a form field object', done => {
+      expect(fields.length).to.equal(1)
+      const field = fields[0]
+      expect(field.type).to.equal('multi-select')
+      expect(field.id).to.equal('mref-field')
+      expect(field.label).to.equal('MREF Field')
+      expect(field.description).to.equal('MREF description')
+      expect(field.disabled).to.equal(false)
+      expect(field.readOnly).to.equal(false)
+      expect(field.visible()).to.equal(true)
+      expect(typeof field.options).to.equal('function')
+      field.options().then(response => {
+        expect(response).to.deep.equal([
+          {id: 'ref1', value: 'ref1', label: 'label1'},
+          {id: 'ref2', value: 'ref2', label: 'label2'},
+          {id: 'ref3', value: 'ref3', label: 'label3'}
+        ])
+        done()
+      })
+    })
+
+    it('should map a [MREF] entity to a form data object', () => {
+      const formData = EntityToStateMapper.generateFormData(fields, data)
+      expect(formData).to.deep.equal({'mref-field': ['ref1']})
+    })
+  })
+
   describe('Generate form fields and data for a [XREF] attribute', () => {
     const fields = EntityToStateMapper.generateFormFields(schemas.xrefSchema)
     const data = {xref: 'ref1'}
@@ -568,7 +599,6 @@ describe('Entity to state mapper', () => {
       expect(field.readOnly).to.equal(false)
       expect(field.visible()).to.equal(true)
       expect(typeof field.options).to.equal('function')
-
       field.options().then(response => {
         expect(response).to.deep.equal([
           {id: 'ref1', value: 'ref1', label: 'label1'},
