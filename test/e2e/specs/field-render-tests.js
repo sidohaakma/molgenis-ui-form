@@ -75,5 +75,15 @@ module.exports = {
     browser.expect.element('.flatpickr-calendar').to.be.not.visible
     const today = new Date().toJSON().slice(0, 10)
     browser.assert.value('#date', today)
+  },
+
+  'Clear out a nillable datefield using the clear btn': function (browser) {
+    const clearBtnSelector = '#nillable_date-fs > div > div > div.input-group > div > button.date-field-clear-btn.btn.btn-outline-secondary'
+    browser.clearValue('#nillable_date')
+    const today = new Date().toJSON().slice(0, 10)
+    browser.setValue('#nillable_date', today)
+    browser.assert.visible(clearBtnSelector)
+    browser.click(clearBtnSelector)
+    browser.assert.value('#nillable_date', '')
   }
 }

@@ -24,7 +24,7 @@
               <span aria-hidden="true" class="sr-only">Toggle</span>
             </i>
           </button>
-          <button class="btn btn-outline-secondary" type="button" title="Clear" data-clear>
+          <button v-if="!isRequired(field)" class="date-field-clear-btn btn btn-outline-secondary" type="button" title="Clear" data-clear>
             <i class="fa fa-times">
               <span aria-hidden="true" class="sr-only">Clear</span>
             </i>
