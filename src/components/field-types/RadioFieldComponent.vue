@@ -40,7 +40,7 @@
     props: {
       value: {
         // ID of select field can be of type: Integer, Long, String etc.
-        type: String || Number,
+        type: [String, Number],
         required: false
       },
       field: {
