@@ -29,6 +29,8 @@
 <script>
   import VueForm from 'vue-form'
 
+  import { FormField } from '../../flow.types'
+
   export default {
     name: 'MultiSelectFieldComponent',
     mixins: [VueForm],
@@ -39,7 +41,7 @@
         default: () => []
       },
       field: {
-        type: Object,
+        type: FormField,
         required: true
       },
       state: {
