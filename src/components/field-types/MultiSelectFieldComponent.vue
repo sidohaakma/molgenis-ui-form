@@ -2,7 +2,6 @@
   <validate :state="state" :custom="{'validate': validate(field)}" v-if="options.length > 0">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
-
       <select
         :id="field.id"
         v-model="localValue"

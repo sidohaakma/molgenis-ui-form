@@ -49,7 +49,6 @@ describe('MultiSelectFieldComponent unit tests', () => {
   })
 
   it('should render an option for every option', () => {
-    console.log(wrapper.html())
     const options = wrapper.findAll('option')
     expect(options.length).to.equal(2)
 
