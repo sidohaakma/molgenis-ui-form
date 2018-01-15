@@ -25,7 +25,8 @@
         :filterable="false"
         :inputId="field.id"
         :name="field.id"
-        :required="isRequired(field)">
+        :required="isRequired(field)"
+        :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}">
 
         <div slot="no-options">
           <small v-if="localValue">Option '{{ localValue }}' not found.</small>
