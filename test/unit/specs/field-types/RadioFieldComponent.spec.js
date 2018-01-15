@@ -7,10 +7,7 @@ describe('RadioFieldComponent unit tests', () => {
     id: 'radio-field',
     label: 'Radio field',
     description: 'This is a nice radio button selection',
-    visible: true,
-    required: true,
     disabled: false,
-    validate: () => true,
     options: () => {
       return new Promise((resolve, reject) => {
         resolve([
@@ -45,13 +42,12 @@ describe('RadioFieldComponent unit tests', () => {
     _addControl: mockParentFunction
   }
 
-  const mockValidateFunction = () => {}
-
   const propsData = {
     value: '',
     field: field,
     state: state,
-    validate: mockValidateFunction
+    isRequired: () => true,
+    validate: () => true
   }
 
   const wrapper = mount(RadioFieldComponent,

@@ -7,10 +7,7 @@ describe('CheckboxFieldComponent unit tests', () => {
     label: 'Text Area Field',
     description: 'This is a text area field',
     type: 'text-area',
-    visible: true,
-    required: true,
-    disabled: false,
-    validators: []
+    disabled: false
   }
 
   const mockParentFunction = () => {
@@ -24,13 +21,12 @@ describe('CheckboxFieldComponent unit tests', () => {
     _addControl: mockParentFunction
   }
 
-  const mockValidateFunction = () => {}
-
   const propsData = {
     value: 'This is data',
     field: field,
     state: state,
-    validate: mockValidateFunction
+    isRequired: () => true,
+    validate: () => true
   }
 
   const wrapper = mount(TextAreaFieldComponent, {

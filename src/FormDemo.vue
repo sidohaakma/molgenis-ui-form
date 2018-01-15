@@ -19,7 +19,7 @@
             <span id="message-span">{{message}}</span>
           </div>
           <div class="card-body">
-            <form-component id="example-form" :schema="schema" :formData="data" :hooks="hooks"></form-component>
+            <form-component id="example-form" :schema="schema" :initialFormData="initialFormData" :hooks="hooks"></form-component>
           </div>
           <div class="card-footer">
             <button id="save-btn" class="btn btn-primary" type="submit" form="example-form">Save</button>
@@ -61,7 +61,7 @@
       }
     },
     computed: {
-      data () {
+      initialFormData () {
         return EntityToStateMapper.generateFormData(this.schema.fields, EntityTypeV2Response.items)
       }
     }
