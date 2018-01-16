@@ -452,9 +452,7 @@ const items = {
   text: 'text value',
   hyperlink: 'www.nu.nl',
   categorical_mref: ['ref1', 'ref2'],
-  enum: 'enum2',
-  xref: 'ref1',
-  mref: ['ref1', 'ref2']
+  enum: 'enum2'
 }
 
 export default {
