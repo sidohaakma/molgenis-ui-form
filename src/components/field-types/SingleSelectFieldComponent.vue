@@ -110,7 +110,7 @@
           this.options = response
 
           // Replace localValue with the entire object so vue-select can use the label property
-          this.localValue = response.find(option => option.id === this.value)
+          this.localValue = this.options.find(option => option.id === this.value)
         })
       }
     },

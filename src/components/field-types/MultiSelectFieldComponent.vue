@@ -110,7 +110,7 @@
           // Replace localValue with the entire object so vue-select can use the label property
           // Filter the list of the options based on the actual selected IDs
           // a like query can return more then just your IDs
-          this.localValue = response.filter(option => this.value.includes(option.id))
+          this.localValue = this.options.filter(option => this.value.includes(option.id))
         })
       }
     },

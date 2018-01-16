@@ -20,6 +20,11 @@ describe('MultiSelectFieldComponent unit tests', () => {
               id: 'ref2',
               label: 'label2',
               value: 'ref2'
+            },
+            {
+              id: 'ref3',
+              label: 'label3',
+              value: 'ref3'
             }
           ])
         })
@@ -81,7 +86,8 @@ describe('MultiSelectFieldComponent unit tests', () => {
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.options).to.deep.equal([
         {id: 'ref1', label: 'label1', value: 'ref1'},
-        {id: 'ref2', label: 'label2', value: 'ref2'}
+        {id: 'ref2', label: 'label2', value: 'ref2'},
+        {id: 'ref3', label: 'label3', value: 'ref3'}
       ])
 
       expect(wrapper.vm.localValue).to.deep.equal([
