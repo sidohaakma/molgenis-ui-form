@@ -71,7 +71,6 @@
       </text-area-field-component>
     </template>
 
-    <!-- Render text date field -->
     <template v-else-if="field.type === 'date'">
       <date-field-component
         v-model="formData[field.id]"
