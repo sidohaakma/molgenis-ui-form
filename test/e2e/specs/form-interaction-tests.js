@@ -38,7 +38,7 @@ module.exports = {
 
     browser.click('#categorical-0')
     browser.expect.element('#message-span').to.be.visible
-    browser.expect.element('#message-span').text.to.contain('{"string":"string valuetest string","text":"text value","boolean":"true","integer":"1000","hyperlink":"www.nu.nl","enum":"enum2","categorical":"ref1","categorical_mref":["ref1","ref2"]}')
+    browser.expect.element('#message-span').text.to.contain('onValueChanged: {"string":"string valuetest string","text":"text value","boolean":"true","integer":"1000","hyperlink":"www.nu.nl","enum":"enum2","categorical":"ref1","categorical_mref":["ref1","ref2"]}')
 
     browser.end()
   },
