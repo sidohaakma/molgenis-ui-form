@@ -104,12 +104,11 @@
 
 <script>
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
+  import DateFieldComponent from './field-types/DateFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
   import SingleSelectFieldComponent from './field-types/SingleSelectFieldComponent'
   import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
   import TypedFieldComponent from './field-types/TypedFieldComponent'
-  import DateFieldComponent from './field-types/DateFieldComponent'
-
   import { FormField } from '../flow.types'
 
   export default {
