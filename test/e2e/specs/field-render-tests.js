@@ -51,12 +51,25 @@ module.exports = {
     browser.expect.element('#compound-string-fs input').to.have.attribute('type').which.contains('text')
   },
 
+  'Correctly render a multi select field with a list of options': function (browser) {
+    browser.expect.element('#mref-field-fs').to.be.visible
+    browser.expect.element('#mref-field-fs').to.be.a('fieldset')
+
+    browser.expect.element('#mref-field-fs select').to.be.visible
+    browser.expect.element('#mref-field-fs select > option').to.be.present
+
+    browser.expect.element('#mref-field').to.have.attribute('multiple').which.contains(true)
+  },
+
   'Correctly render a single select field with a list of options': function (browser) {
     browser.expect.element('#xref-field-fs').to.be.visible
     browser.expect.element('#xref-field-fs').to.be.a('fieldset')
 
-    browser.expect.element('#xref-field-fs select').to.be.visible
-    browser.expect.element('#xref-field-fs select > option').to.be.present
+    browser.expect.element('#xref-field-fs input').to.be.visible
+
+    browser.click('input#xref-field')
+    browser.expect.element('#xref-field-fs ul').to.be.present
+    browser.expect.element('#xref-field-fs li').to.be.present
   },
 
   'Toggle visibility of string field': function (browser) {

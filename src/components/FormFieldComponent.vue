@@ -35,6 +35,18 @@
       </div>
     </template>
 
+    <!-- Render multi select field -->
+    <template v-else-if="field.type === 'multi-select'">
+      <multi-select-field-component
+        v-model="formData[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :validate="validate"
+        :isRequired="isRequired"
+        @dataChange="onDataChange">
+      </multi-select-field-component>
+    </template>
+
     <!-- Render radio field -->
     <template v-else-if="field.type === 'radio'">
       <radio-field-component
@@ -104,6 +116,7 @@
 
 <script>
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
+  import MultiSelectFieldComponent from './field-types/MultiSelectFieldComponent'
   import DateFieldComponent from './field-types/DateFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
   import SingleSelectFieldComponent from './field-types/SingleSelectFieldComponent'
@@ -153,6 +166,7 @@
     },
     components: {
       CheckboxFieldComponent,
+      MultiSelectFieldComponent,
       RadioFieldComponent,
       SingleSelectFieldComponent,
       TextAreaFieldComponent,
