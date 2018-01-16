@@ -31,11 +31,34 @@
 
 <script>
   import VueForm from 'vue-form'
+  import { FormField } from '../../flow.types'
 
   export default {
     name: 'SingleSelectFieldComponent',
     mixins: [VueForm],
-    props: ['value', 'field', 'state', 'validate', 'isRequired'],
+    props: {
+      value: {
+        // ID of select field can be of type: Integer, Long, String etc.
+        type: [String, Number],
+        required: false
+      },
+      field: {
+        type: FormField,
+        required: true
+      },
+      state: {
+        type: Object,
+        required: false
+      },
+      validate: {
+        type: Function,
+        required: true
+      },
+      isRequired: {
+        type: Function,
+        required: true
+      }
+    },
     data () {
       return {
         // Store a local value to prevent changing the parent state

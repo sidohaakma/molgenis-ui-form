@@ -28,10 +28,32 @@
 
 <script>
   import VueForm from 'vue-form'
+  import { FormField } from '../../flow.types'
 
   export default {
     name: 'TextAreaFieldComponent',
-    props: ['value', 'field', 'state', 'validate', 'isRequired'],
+    props: {
+      value: {
+        type: String,
+        required: false
+      },
+      field: {
+        type: FormField,
+        required: true
+      },
+      state: {
+        type: Object,
+        required: false
+      },
+      validate: {
+        type: Function,
+        required: true
+      },
+      isRequired: {
+        type: Function,
+        required: true
+      }
+    },
     mixins: [VueForm],
     data () {
       return {
