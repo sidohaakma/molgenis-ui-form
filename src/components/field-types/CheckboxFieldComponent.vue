@@ -1,7 +1,8 @@
 <template>
-  <validate :state="state" :custom="{'validate': validate(field)}" v-if="options.length > 0">
+  <validate :state="state" :custom="{'validate': valid}" v-if="options.length > 0">
     <div class="form-group">
       <label class="field-label" :for="field.id">{{ field.label }}</label>
+
       <div v-for="(option, index) in options" class="form-check" :aria-describedby="field.id + '-description'">
         <!-- Hardcode input type to prevent compile time errors with dynamic value + v-model on same input  -->
         <input
@@ -12,7 +13,7 @@
           :name="field.id"
           class="form-check-input"
           :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
-          :required="isRequired(field)"
+          :required="required"
           :disabled="field.disabled">
         <label :for="field.id + '-' + index" class="form-check-label">{{ option.label }}</label>
       </div>
@@ -53,13 +54,13 @@
         type: Object,
         required: false
       },
-      validate: {
-        type: Function,
-        required: true
+      valid: {
+        type: Boolean,
+        default: true
       },
-      isRequired: {
-        type: Function,
-        required: true
+      required: {
+        type: Boolean,
+        default: false
       }
     },
     data () {

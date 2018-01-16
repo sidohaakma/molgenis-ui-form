@@ -1,12 +1,12 @@
 <template>
-  <validate :state="state" :custom="{'validate': validate(field)}" v-if="options.length > 0">
+  <validate :state="state" :custom="{'validate': valid}" v-if="options.length > 0">
     <div class="form-group">
       <label class="field-label" :for="field.id">{{ field.label }}</label>
       <select
         :id="field.id"
         v-model="localValue"
         :name="field.id"
-        :required="isRequired(field)"
+        :required="required"
         multiple
         class="form-control">
       <option v-for="option in options" :value="option.value">
@@ -48,13 +48,13 @@
         type: Object,
         required: false
       },
-      validate: {
-        type: Function,
-        required: true
+      valid: {
+        type: Boolean,
+        default: true
       },
-      isRequired: {
-        type: Function,
-        required: true
+      required: {
+        type: Boolean,
+        default: false
       }
     },
     data () {

@@ -48,9 +48,8 @@ describe('SingleSelectFieldComponent unit tests', () => {
   const propsData = {
     field: field,
     state: state,
-    validate: () => true,
-    isRequired: () => true,
-    visible: () => true
+    required: true,
+    valid: true
   }
 
   it('should have an empty option list when no initial value is present', done => {

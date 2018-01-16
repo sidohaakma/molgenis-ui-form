@@ -432,7 +432,7 @@ const metadata = {
           'lookupAttribute': false,
           'isAggregatable': true,
           'visibleExpression': '$("nested-compound-string").value() === "show"',
-          'nullableExpression': '$("compound-int").value() === 1',
+          'nullableExpression': '$("compound-int").value() === "1"',
           'validationExpression': '$("compound-string").value() === "valid"'
         }],
       'auto': false,

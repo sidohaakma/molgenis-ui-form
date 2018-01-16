@@ -27,8 +27,8 @@ describe('TypedFieldComponent unit tests', () => {
       value: 'hallo',
       field: field,
       state: state,
-      isRequired: () => true,
-      validate: () => false
+      required: true,
+      valid: false
     }
 
     const wrapper = mount(TypedFieldComponent,
@@ -134,8 +134,8 @@ describe('TypedFieldComponent unit tests', () => {
       value: 42,
       field: field,
       state: state,
-      isRequired: () => true,
-      validate: () => true
+      required: true,
+      valid: true
     }
 
     const wrapper = mount(TypedFieldComponent,
@@ -171,8 +171,8 @@ describe('TypedFieldComponent unit tests', () => {
       value: 'test@mail.org',
       field: field,
       state: state,
-      isRequired: () => true,
-      validate: () => true
+      required: true,
+      valid: true
     }
 
     const wrapper = mount(TypedFieldComponent,
@@ -208,8 +208,8 @@ describe('TypedFieldComponent unit tests', () => {
       value: 'super secret password',
       field: field,
       state: state,
-      isRequired: () => true,
-      validate: () => true
+      required: true,
+      valid: true
     }
 
     const wrapper = mount(TypedFieldComponent,
@@ -245,8 +245,8 @@ describe('TypedFieldComponent unit tests', () => {
       value: 'https://www.test.org',
       field: field,
       state: state,
-      isRequired: () => true,
-      validate: () => true
+      required: true,
+      valid: true
     }
 
     const wrapper = mount(TypedFieldComponent,

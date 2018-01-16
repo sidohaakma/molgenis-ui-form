@@ -39,8 +39,8 @@ describe('MultiSelectFieldComponent unit tests', () => {
   const propsData = {
     field: field,
     state: state,
-    isRequired: () => true,
-    validate: () => false
+    required: true,
+    valid: true
   }
 
   const wrapper = mount(MultiSelectFieldComponent, {

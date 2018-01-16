@@ -1,5 +1,5 @@
 <template>
-  <fieldset :id="field.id + '-fs'" v-show="isVisible(field)" :class="{ 'required-field': isRequired(field) }">
+  <fieldset :id="field.id + '-fs'" :class="{ 'required-field': required, 'not-required': !required }" v-show="visible">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
@@ -7,8 +7,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :validate="validate"
-        :isRequired="isRequired"
+        :valid="valid"
+        :required="required"
         @dataChange="onDataChange">
       </checkbox-field-component>
     </template>
@@ -29,7 +29,6 @@
           :level="level + 1"
           :showOptionalFields="showOptionalFields"
           :key="child.id"
-          :isRequired="isRequired"
           @dataChange="onDataChange">
         </form-field-component>
       </div>
@@ -41,8 +40,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :validate="validate"
-        :isRequired="isRequired"
+        :valid="valid"
+        :required="required"
         @dataChange="onDataChange">
       </multi-select-field-component>
     </template>
@@ -53,8 +52,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :validate="validate"
-        :isRequired="isRequired"
+        :valid="valid"
+        :required="required"
         @dataChange="onDataChange">
       </radio-field-component>
     </template>
@@ -65,8 +64,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :isRequired="isRequired"
-        :validate="validate"
+        :required="required"
+        :valid="valid"
         @dataChange="onDataChange">
       </single-select-field-component>
     </template>
@@ -77,8 +76,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :validate="validate"
-        :isRequired="isRequired"
+        :valid="valid"
+        :required="required"
         @dataChange="onDataChange">
       </text-area-field-component>
     </template>
@@ -89,8 +88,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :validate="validate"
-        :isRequired="isRequired"
+        :valid="valid"
+        :required="required"
         @dataChange="onDataChange">
       </typed-field-component>
     </template>
@@ -100,6 +99,14 @@
 <style>
   fieldset.required-field label.field-label::after {
     content: ' *';
+  }
+
+  /*
+   * use a second class to remove an asterisk if a
+   * another field controls the required state
+   */
+  .not-required label::after {
+    content: ''
   }
 </style>
 
@@ -141,16 +148,34 @@
     methods: {
       onDataChange () {
         this.$emit('dataChange')
-      },
-      // Can return more than only a boolean because of internationalized messages
-      validate () {
+      }
+    },
+    computed: {
+      /*
+       * Compute visibility to:
+       * 1) prevent the visible function to be called many times
+       * 2) only re-run the function when the data involved changes
+       */
+      valid: function () {
         return this.field.validate(this.formData)
       },
-      isVisible () {
-        return (this.showOptionalFields || this.isRequired(this.field)) && this.field.visible(this.formData)
-      },
-      isRequired () {
+      /*
+       * Compute required value to:
+       * 1) prevent the required function to be called many times
+       * 2) work if the required state is dependant on another field
+       * 3) properly show / hide asterisk for required fields
+       * 4) only re-run the function when the data involved changes
+       */
+      required: function () {
         return this.field.required(this.formData)
+      },
+      /*
+       * Compute visibility to:
+       * 1) prevent the visible function to be called many times
+       * 2) only re-run the function when the data involved changes
+       */
+      visible: function () {
+        return (this.showOptionalFields || this.required) && this.field.visible(this.formData)
       }
     },
     components: {

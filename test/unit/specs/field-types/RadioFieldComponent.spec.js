@@ -46,8 +46,8 @@ describe('RadioFieldComponent unit tests', () => {
     value: '',
     field: field,
     state: state,
-    isRequired: () => true,
-    validate: () => true
+    required: true,
+    valid: true
   }
 
   const wrapper = mount(RadioFieldComponent,
