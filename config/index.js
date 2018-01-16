@@ -51,6 +51,10 @@ module.exports = {
       app.get('/api/v1/it_emx_datatypes_TypeTestRef', function (req, res) {
         res.json(mockResponse)
       })
+
+      app.get('/api/v2/it_emx_datatypes_TypeTestRef', function (req, res) {
+        res.json(mockResponse)
+      })
     }
   },
 

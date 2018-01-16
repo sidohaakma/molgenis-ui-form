@@ -1,21 +1,33 @@
 <template>
-  <validate :state="state" :custom="{'validate': validate(field)}" v-if="options.length > 0">
+  <validate :state="state" :custom="{'validate': validate(field)}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
-      <select
-        v-model="localValue"
-        :name="field.id"
-        class="form-control"
-        :id="field.id"
-        :required="isRequired(field)">
-        <!-- Add a dummy option to make it work on iOS -->
-        <!-- https://vuejs.org/v2/guide/forms.html#Select -->
-        <option disabled value="">Select an option...</option>
-        <option v-for="(option, index) in options" :value="option.value">
-          {{ option.value }}
-        </option>
-      </select>
+      <!--
+      /**
+        For creating options that do not exist:
+          - taggable = true
+          - pushTags = true
+          - createOption = Function
+      */
+
+      /**
+        Filterable set to false because objects are only filtered on the label parameter
+          we want filtering on multiple parameters
+      */
+      -->
+      <v-select v-model="localValue"
+                :options="options"
+                :onSearch="fetchOptions"
+                :filterable="false"
+                :inputId="field.id"
+                :name="field.id"
+                :required="isRequired">
+
+        <div slot="no-options">
+          <small v-if="localValue">Option '{{ localValue }}' not found.</small>
+        </div>
+      </v-select>
 
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
@@ -25,12 +37,15 @@
         <div slot="required">This field is required</div>
         <div slot="validate">Validation failed</div>
       </field-messages>
+
     </div>
   </validate>
 </template>
 
 <script>
   import VueForm from 'vue-form'
+  import vSelect from 'vue-select'
+
   import { FormField } from '../../flow.types'
 
   export default {
@@ -66,19 +81,38 @@
         options: []
       }
     },
+    methods: {
+      fetchOptions (search, loading) {
+        loading(true)
+        this.field.options(search).then(response => {
+          this.options = response
+          loading(false)
+        })
+      }
+    },
     watch: {
       localValue (value) {
-        // Emit value changes to the parent (form)
-        this.$emit('input', value)
-        // Emit value changes to trigger the hooks.onValueChange
-        // Do not use input event for this to prevent unwanted behavior
+        if (value) {
+          // Emit value changes to the parent (form)
+          this.$emit('input', value.id)
+          // Emit value changes to trigger the hooks.onValueChange
+          // Do not use input event for this to prevent unwanted behavior
+        } else {
+          this.$emit('input', null)
+        }
         this.$emit('dataChange')
       }
     },
     created () {
-      this.field.options().then(response => {
-        this.options = response
-      })
+      // If there is a value set, fetch an initial list of options
+      if (this.value) {
+        this.field.options(this.value).then(response => {
+          this.options = response
+        })
+      }
+    },
+    components: {
+      vSelect
     }
   }
 </script>

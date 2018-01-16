@@ -7,20 +7,27 @@ describe('SingleSelectFieldComponent unit tests', () => {
     label: 'Xref Field',
     description: 'This is an xref field',
     type: 'single-select',
-    visible: () => true,
     disabled: false,
-    options: () => {
-      return new Promise((resolve, reject) => {
+    options: (search) => {
+      return search ? new Promise((resolve) => {
         resolve([
           {
-            id: '1',
-            label: 'Option 1',
-            value: '1'
+            id: 'ref1',
+            label: 'label1',
+            value: 'ref1'
+          }
+        ])
+      }) : new Promise((resolve) => {
+        resolve([
+          {
+            id: 'ref1',
+            label: 'ref1',
+            value: 'ref1'
           },
           {
-            id: '2',
-            label: 'Option 2',
-            value: '3'
+            id: 'ref2',
+            label: 'ref2',
+            value: 'ref2'
           }
         ])
       })
@@ -38,33 +45,64 @@ describe('SingleSelectFieldComponent unit tests', () => {
     _addControl: mockParentFunction
   }
 
-  const mockValidateFunction = () => {}
-
   const propsData = {
     field: field,
     state: state,
-    validate: mockValidateFunction,
-    isRequired: () => true
+    validate: () => true,
+    isRequired: () => true,
+    visible: () => true
   }
 
-  const wrapper = mount(SingleSelectFieldComponent, {
-    propsData: propsData,
-    stubs: {'fieldMessages': '<div>This field is required</div>'}
+  it('should have an empty option list when no initial value is present', done => {
+    const wrapper = mount(SingleSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.vm.options).to.deep.equal([])
+      done()
+    })
   })
 
-  it('should render an input for every option', () => {
-    const options = wrapper.findAll('option')
-    expect(options.length).to.equal(3)
+  it('should fetch options on create with a search query when initial value is set', done => {
+    propsData.value = 'ref1'
+    const wrapper = mount(SingleSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
 
-    const disabledOption = options.at(0).element
-    expect(disabledOption.disabled).to.equal(true)
-    expect(disabledOption.value).to.equal('')
-    expect(disabledOption.text).to.equal('Select an option...')
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.vm.options).to.deep.equal([{id: 'ref1', label: 'label1', value: 'ref1'}])
+      done()
+    })
+  })
+
+  it('should set the list of options when searched', done => {
+    const wrapper = mount(SingleSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+
+    wrapper.vm.fetchOptions('ref1', (loading) => true)
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.vm.options).to.deep.equal([{id: 'ref1', label: 'label1', value: 'ref1'}])
+      done()
+    })
   })
 
   it('should emit an updated value on change', () => {
-    wrapper.setData({localValue: 'ref1'})
+    const wrapper = mount(SingleSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+
+    wrapper.setData({localValue: {id: 'ref1'}})
     expect(wrapper.emitted().input[0]).to.deep.equal(['ref1'])
     expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+
+    wrapper.setData({localValue: null})
+    expect(wrapper.emitted().input[1]).to.deep.equal([null])
+    expect(wrapper.emitted().dataChange[1]).to.deep.equal([])
   })
 })
