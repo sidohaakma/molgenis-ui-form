@@ -290,7 +290,7 @@ const metadata = {
       'refEntity': {
         'href': '/api/v1/it_emx_datatypes_TypeTestRef/meta',
         'hrefCollection': '/api/v1/it_emx_datatypes_TypeTestRef',
-        'idAttribute': 'id',
+        'idAttribute': 'value',
         'labelAttribute': 'label',
         'languageCode': 'en',
         'writable': true
