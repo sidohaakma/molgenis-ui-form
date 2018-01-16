@@ -256,7 +256,7 @@ const metadata = {
     {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/xref',
       'fieldType': 'XREF',
-      'name': 'xref-field',
+      'name': 'xref',
       'label': 'XREF Field',
       'description': 'XREF description',
       'attributes': [],
@@ -282,7 +282,7 @@ const metadata = {
     {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/mref',
       'fieldType': 'MREF',
-      'name': 'mref-field',
+      'name': 'mref',
       'label': 'MREF Field',
       'description': 'MREF description',
       'attributes': [],
@@ -452,7 +452,9 @@ const items = {
   text: 'text value',
   hyperlink: 'www.nu.nl',
   categorical_mref: ['ref1', 'ref2'],
-  enum: 'enum2'
+  enum: 'enum2',
+  xref: 'ref1',
+  mref: ['ref1', 'ref2']
 }
 
 export default {
