@@ -3,8 +3,8 @@ import { mount } from 'vue-test-utils'
 
 describe('DataFieldComponent', () => {
   const field = {
-    id: 'checkbox-field',
-    label: 'Checkbox Field',
+    id: 'date-field',
+    label: 'Date Field',
     type: 'date',
     disabled: false
   }
@@ -17,33 +17,47 @@ describe('DataFieldComponent', () => {
   }
 
   const propsData = {
+    value: '2018-01-01',
     field: field,
     state: state,
     isRequired: () => true,
     validate: () => true
   }
 
-  const wrapper = mount(DataFieldComponent, {
-    propsData: propsData,
-    stubs: ['fieldMessages']
+  describe('component', () => {
+    it('should load the component with "DateFieldComponent" as a name', () => {
+      expect(DataFieldComponent.name).to.equal('DateFieldComponent')
+    })
+
+    it('should have the correct props listed', () => {
+      const props = DataFieldComponent.props
+      expect(typeof props.value).to.equal('object')
+      expect(typeof props.field).to.equal('object')
+      expect(typeof props.state).to.equal('object')
+      expect(typeof props.validate).to.equal('object')
+      expect(typeof props.isRequired).to.equal('object')
+    })
   })
 
-  it('should load the component with "DateFieldComponent" as a name', () => {
-    expect(DataFieldComponent.name).to.equal('DateFieldComponent')
+  describe('on value change', () => {
+    const wrapper = mount(DataFieldComponent, { propsData: propsData })
+
+    it('should emit an updated value on change', () => {
+      wrapper.setData({localValue: '2018-01-02'})
+      expect(wrapper.emitted().input[0]).to.deep.equal(['2018-01-02'])
+      expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+    })
   })
 
-  it('should have the correct props listed', () => {
-    const props = DataFieldComponent.props
-    expect(typeof props.value).to.equal('object')
-    expect(typeof props.field).to.equal('object')
-    expect(typeof props.state).to.equal('object')
-    expect(typeof props.validate).to.equal('object')
-    expect(typeof props.isRequired).to.equal('object')
-  })
+  describe('isValidDate', () => {
+    const wrapper = mount(DataFieldComponent, {propsData: propsData})
 
-  it('should emit an updated value on change', () => {
-    wrapper.setData({localValue: '2018-01-01'})
-    expect(wrapper.emitted().input[1]).to.deep.equal(['2018-01-01'])
-    expect(wrapper.emitted().dataChange[1]).to.deep.equal([])
+    it('should return true if the localValue is set to a valid date', () => {
+      expect(wrapper.vm.isValidDate('2018-01-02')).to.equal(true)
+    })
+
+    it('should return false if the localValue is set to a invalid date', () => {
+      expect(wrapper.vm.isValidDate('2018-bla-bla')).to.equal(false)
+    })
   })
 })

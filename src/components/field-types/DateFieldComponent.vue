@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': isValidDate() && validate(field)}">
+  <validate :state="state" :custom="{'validate': isValidDate(localValue) && validate(field)}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -36,7 +36,7 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" show="$touched || $submitted" class="form-control-feedback">
+      <field-messages :name="field.id" :state="state" show="$touched || $submitted" class="form-control-feedback">
         <div slot="required">This field is required</div>
         <div slot="validate">Validation failed</div>
       </field-messages>
@@ -87,9 +87,9 @@
       }
     },
     methods: {
-      isValidDate () {
-        const d = moment(this.localValue, 'YYYY-MM-DD', true)
-        return d != null && d.isValid()
+      isValidDate (dateString) {
+        const date = moment(dateString, 'YYYY-MM-DD', true)
+        return date != null && date.isValid()
       }
     },
     watch: {
