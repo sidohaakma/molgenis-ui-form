@@ -15,6 +15,11 @@ describe('CheckboxFieldComponent unit tests', () => {
             id: '1',
             label: 'Option 1',
             value: '1'
+          },
+          {
+            id: '2',
+            label: 'Option 2',
+            value: '2'
           }
         ])
       })
@@ -58,5 +63,15 @@ describe('CheckboxFieldComponent unit tests', () => {
     expect(wrapper.emitted().input[0]).to.deep.equal([['1']])
 
     expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+  })
+
+  it('should put all options in the localValue', () => {
+    wrapper.vm.selectAll()
+    expect(wrapper.vm.localValue).to.deep.equal(['1', '2'])
+  })
+
+  it('should make the localValue empty', () => {
+    wrapper.vm.deSelectAll()
+    expect(wrapper.vm.localValue).to.deep.equal([])
   })
 })

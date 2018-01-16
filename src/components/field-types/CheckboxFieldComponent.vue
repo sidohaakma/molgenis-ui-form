@@ -17,8 +17,8 @@
         <label :for="field.id + '-' + index" class="form-check-label">{{ option.label }}</label>
       </div>
       <p>
-        <button class="btn btn-link btn-sm" @click.prevent="selectAll"><i>Select all</i></button>
-        <button class="btn btn-link btn-sm" @click.prevent="deSelectAll"><i>Deselect all</i></button>
+        <button class="select-all btn btn-link btn-sm" @click.prevent="selectAll"><i>Select all</i></button>
+        <button class="deselect-all btn btn-link btn-sm" @click.prevent="deSelectAll"><i>Deselect all</i></button>
       </p>
 
       <small :id="field.id + '-description'" class="form-text text-muted">
