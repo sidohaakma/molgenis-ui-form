@@ -34,6 +34,7 @@ const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<st
 
   // map refEntity.hrefCollection v1 URLs to v2 to enable the use of RSQL queries
   let uri = refEntity.hrefCollection.replace('/v1/', '/v2/')
+
   if (search) {
     if (Array.isArray(search)) {
       // Join array into a string
@@ -95,11 +96,6 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
     case 'CATEGORICAL':
     case 'CATEGORICAL_MREF':
     case 'XREF':
-      return (search: ?string): Promise<Array<FieldOption>> => {
-        return fetchFieldOptions(attribute.refEntity, search).then(response => {
-          return response
-        })
-      }
     case 'MREF':
       return (search: ?string | Array<string>): Promise<Array<FieldOption>> => {
         return fetchFieldOptions(attribute.refEntity, search).then(response => {
