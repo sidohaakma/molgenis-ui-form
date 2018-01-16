@@ -98,7 +98,7 @@
 </template>
 
 <style>
-  .required-field label::after {
+  fieldset.required-field label.field-label::after {
     content: ' *';
   }
 </style>

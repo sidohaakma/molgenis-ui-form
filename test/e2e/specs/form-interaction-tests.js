@@ -50,18 +50,21 @@ module.exports = {
 
     browser.end()
   },
+
   'Toggle show optional fields': function (browser) {
     browser.click('#toggle-btn')
     browser.expect.element('#string').to.be.not.visible
     browser.expect.element('#show-fields-icon').to.be.visible
-    browser.assert.cssClassPresent('#show-fields-icon', 'fa-eye')
+    browser.expect.element('#show-fields-icon').to.have.attribute('class').which.contains('fa-eye')
     browser.click('#toggle-btn')
     browser.expect.element('#string').to.be.visible
-    browser.assert.cssClassPresent('#show-fields-icon', 'fa-eye-slash')
+    browser.expect.element('#show-fields-icon').to.have.attribute('class').which.contains('fa-eye-slash')
     browser.end()
   },
-  'Check if asterix class is present on integer element': function (browser) {
-    browser.assert.cssClassPresent('#integer-fs', 'required-field')
+
+  'Check if asterisk class is present on integer element': function (browser) {
+    browser.expect.element('#integer-fs').to.have.attribute('class').which.contains('required-field')
+    browser.expect.element('#integer-fs label').to.have.attribute('class').which.contains('field-label')
     browser.end()
   }
 }
