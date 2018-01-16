@@ -95,11 +95,11 @@
         if (value) {
           // Emit value changes to the parent (form)
           this.$emit('input', value.id)
-          // Emit value changes to trigger the hooks.onValueChange
-          // Do not use input event for this to prevent unwanted behavior
         } else {
           this.$emit('input', null)
         }
+        // Emit value changes to trigger the hooks.onValueChange
+        // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
       }
     },
@@ -108,6 +108,9 @@
       if (this.value) {
         this.field.options(this.value).then(response => {
           this.options = response
+
+          // Replace localValue with the entire object so vue-select can use the label property
+          this.localValue = response[0]
         })
       }
     },
