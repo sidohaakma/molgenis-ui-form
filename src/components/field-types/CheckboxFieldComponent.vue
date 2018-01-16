@@ -2,7 +2,6 @@
   <validate :state="state" :custom="{'validate': validate(field)}" v-if="options.length > 0">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
-
       <div v-for="(option, index) in options" class="form-check" :aria-describedby="field.id + '-description'">
         <!-- Hardcode input type to prevent compile time errors with dynamic value + v-model on same input  -->
         <input
@@ -17,6 +16,8 @@
           :disabled="field.disabled">
         <label :for="field.id + '-' + index" class="form-check-label">{{ option.label }}</label>
       </div>
+      <button class="select-all btn btn-link btn-sm" @click="selectAll" type="button"><i>Select all</i></button>
+      <button class="deselect-all btn btn-link btn-sm" @click="deSelectAll" type="button"><i>Deselect all</i></button>
 
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
@@ -75,6 +76,16 @@
         // Emit value changes to trigger the hooks.onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
+      }
+    },
+    methods: {
+      selectAll () {
+        this.localValue = this.options.map(option => option.id)
+        this.state.$touched = true
+      },
+      deSelectAll () {
+        this.localValue = []
+        this.state.$touched = true
       }
     },
     created () {
