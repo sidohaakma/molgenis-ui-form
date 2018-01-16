@@ -8,7 +8,6 @@
           :id="field.id"
           v-model="localValue"
           :config="config"
-          placeholder="Select date"
           :name="field.id"
           class="form-control form-control-lg"
           :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
