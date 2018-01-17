@@ -60,8 +60,8 @@ describe('MultiSelectFieldComponent unit tests', () => {
   const propsData = {
     field: field,
     state: state,
-    isRequired: () => true,
-    validate: () => false
+    isRequired: true,
+    isValid: true
   }
 
   it('should have an empty option list when no initial value is present', done => {

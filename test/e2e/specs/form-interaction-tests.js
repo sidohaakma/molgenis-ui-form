@@ -52,18 +52,59 @@ module.exports = {
   },
 
   'Toggle show optional fields': function (browser) {
-    browser.click('#toggle-btn')
+    browser.click('button.toggle-btn')
     browser.expect.element('#string').to.be.not.visible
-    browser.expect.element('#show-fields-icon').to.be.visible
-    browser.expect.element('#show-fields-icon').to.have.attribute('class').which.contains('fa-eye')
-    browser.click('#toggle-btn')
+    browser.expect.element('i.show-fields-icon').to.be.visible
+    browser.expect.element('i.show-fields-icon').to.have.attribute('class').which.contains('fa-eye')
+    browser.click('button.toggle-btn')
     browser.expect.element('#string').to.be.visible
-    browser.expect.element('#show-fields-icon').to.have.attribute('class').which.contains('fa-eye-slash')
+    browser.expect.element('i.show-fields-icon').to.have.attribute('class').which.contains('fa-eye-slash')
     browser.end()
   },
 
   'Check if asterisk class is present on integer element': function (browser) {
     browser.expect.element('#integer-fs').to.have.attribute('class').which.contains('required-field')
+    browser.end()
+  },
+
+  'Check if asterisk class is not present on non required element': function (browser) {
+    browser.expect.element('#string-fs').to.not.have.attribute('class').which.contains('required-field')
+    browser.end()
+  },
+
+  'Check if required state works when dependant on another field': function (browser) {
+    browser.setValue('#nested-compound-string', 'show')
+    browser.expect.element('#compound-string-fs').to.be.visible
+    browser.expect.element('#compound-string-fs').to.not.have.attribute('class').which.contains('required-field')
+
+    browser.setValue('#compound-int', 1)
+    browser.expect.element('#compound-string-fs').to.have.attribute('class').which.contains('required-field')
+    browser.end()
+  },
+
+  'Check if visible state works when dependant on another field': function (browser) {
+    browser.setValue('#nested-compound-string', 'show')
+    browser.expect.element('#compound-string-fs').to.be.visible
+    browser.end()
+  },
+
+  'Check if in-validation works when dependant on input data': function (browser) {
+    browser.setValue('#nested-compound-string', 'show')
+    browser.expect.element('#compound-string-fs').to.be.visible
+
+    browser.setValue('input#compound-string', 'not valid')
+    browser.click('#compound-int') // trigger validation via onBlur()
+    browser.expect.element('#compound-string').to.have.attribute('class').which.contains('is-invalid')
+    browser.end()
+  },
+
+  'Check if validation works when dependant on input data': function (browser) {
+    browser.setValue('#nested-compound-string', 'show')
+    browser.expect.element('#compound-string-fs').to.be.visible
+
+    browser.setValue('input#compound-string', 'valid')
+    browser.click('#compound-int') // trigger validation via onBlur()
+    browser.expect.element('#compound-string').to.not.have.attribute('class').which.contains('is-invalid')
     browser.end()
   }
 }

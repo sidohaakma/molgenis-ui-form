@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': validate(field)}">
+  <validate :state="state" :custom="{'validate': isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -11,7 +11,7 @@
         class="form-control form-control-lg"
         :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
         :aria-describedby="field.id + '-description'"
-        :required="isRequired(field)"
+        :required="isRequired"
         :disabled="field.disabled">
 
       <small :id="field.id + '-description'" class="form-text text-muted">
@@ -49,13 +49,13 @@
         type: Object,
         required: false
       },
-      validate: {
-        type: Function,
-        required: true
+      isValid: {
+        type: Boolean,
+        default: true
       },
       isRequired: {
-        type: Function,
-        required: true
+        type: Boolean,
+        default: false
       }
     },
     mixins: [VueForm],

@@ -20,8 +20,8 @@ describe('DateFieldComponent', () => {
     value: '2018-01-01',
     field: field,
     state: state,
-    isRequired: () => true,
-    validate: () => true
+    isRequired: true,
+    isValid: true
   }
 
   describe('component', () => {
@@ -34,7 +34,7 @@ describe('DateFieldComponent', () => {
       expect(typeof props.value).to.equal('object')
       expect(typeof props.field).to.equal('object')
       expect(typeof props.state).to.equal('object')
-      expect(typeof props.validate).to.equal('object')
+      expect(typeof props.isValid).to.equal('object')
       expect(typeof props.isRequired).to.equal('object')
     })
   })
