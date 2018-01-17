@@ -41,6 +41,11 @@ module.exports = {
         build: 'build-${TRAVIS_JOB_NUMBER}',
         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
       },
+      capabilities: [
+        { browserName: 'chrome' },
+        { browserName: 'firefox' },
+        { browserName: 'safari' }
+      ],
       globals: {
         waitForConditionTimeout: 10000
       }
