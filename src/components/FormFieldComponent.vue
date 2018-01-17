@@ -109,7 +109,7 @@
 </template>
 
 <style>
-  .required-field .form-group > label::after {
+  fieldset.required-field > div > div.form-group > label::after {
     content: ' *';
   }
 
@@ -117,7 +117,7 @@
    * use a second class to remove an asterisk if a
    * another field controls the required state
    */
-  .not-required label::after {
+  fieldset.not-required > div > div.form-group > label::after {
     content: ''
   }
 </style>
