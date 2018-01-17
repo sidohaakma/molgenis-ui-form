@@ -50,6 +50,7 @@ module.exports = {
 
     browser.end()
   },
+
   'Toggle show optional fields': function (browser) {
     browser.click('#toggle-btn')
     browser.expect.element('#string').to.be.not.visible
@@ -60,6 +61,7 @@ module.exports = {
     browser.assert.cssClassPresent('#show-fields-icon', 'fa-eye-slash')
     browser.end()
   },
+
   'Check if asterix class is present on integer element': function (browser) {
     browser.assert.cssClassPresent('#integer-fs', 'required-field')
     browser.end()

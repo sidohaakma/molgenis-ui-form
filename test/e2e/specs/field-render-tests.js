@@ -52,24 +52,25 @@ module.exports = {
   },
 
   'Correctly render a multi select field with a list of options': function (browser) {
-    browser.expect.element('#mref-field-fs').to.be.visible
-    browser.expect.element('#mref-field-fs').to.be.a('fieldset')
+    browser.expect.element('#mref-fs').to.be.visible
+    browser.expect.element('#mref-fs').to.be.a('fieldset')
 
-    browser.expect.element('#mref-field-fs select').to.be.visible
-    browser.expect.element('#mref-field-fs select > option').to.be.present
+    browser.expect.element('#mref-fs input').to.be.visible
 
-    browser.expect.element('#mref-field').to.have.attribute('multiple').which.contains(true)
+    browser.click('input#mref')
+    browser.expect.element('#mref-fs ul').to.be.present
+    browser.expect.element('#mref-fs li').to.be.present
   },
 
   'Correctly render a single select field with a list of options': function (browser) {
-    browser.expect.element('#xref-field-fs').to.be.visible
-    browser.expect.element('#xref-field-fs').to.be.a('fieldset')
+    browser.expect.element('#xref-fs').to.be.visible
+    browser.expect.element('#xref-fs').to.be.a('fieldset')
 
-    browser.expect.element('#xref-field-fs input').to.be.visible
+    browser.expect.element('#xref-fs input').to.be.visible
 
-    browser.click('input#xref-field')
-    browser.expect.element('#xref-field-fs ul').to.be.present
-    browser.expect.element('#xref-field-fs li').to.be.present
+    browser.click('input#xref')
+    browser.expect.element('#xref-fs ul').to.be.present
+    browser.expect.element('#xref-fs li').to.be.present
   },
 
   'Toggle visibility of string field': function (browser) {
