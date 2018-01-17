@@ -29,7 +29,7 @@ module.exports = {
       }
     },
 
-    ci_chrome: {
+    ci: {
       launch_url: "http://ondemand.saucelabs.com:80",
       selenium_port: 80,
       selenium_host: 'ondemand.saucelabs.com',
@@ -40,82 +40,52 @@ module.exports = {
         name: packageJson.name,
         build: 'build-${TRAVIS_JOB_NUMBER}',
         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
-        browserName: 'chrome'
       },
       globals: {
         waitForConditionTimeout: 10000
-      }
-    },
+      },
 
-    ci_chrome: {
-      launch_url: "http://ondemand.saucelabs.com:80",
-      selenium_port: 80,
-      selenium_host: 'ondemand.saucelabs.com',
-      silent: true,
-      username: process.env.SAUCE_USERNAME,
-      access_key: process.env.SAUCE_ACCESS_KEY,
-      desiredCapabilities: {
-        name: packageJson.name,
-        build: 'build-${TRAVIS_JOB_NUMBER}',
-        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-        browserName: 'chrome'
+      chrome56: {
+        desiredCapabilities: {
+          browserName: 'chrome',
+          platform: 'Windows 10',
+          version: '56.0',
+          javascriptEnabled: true,
+          acceptSslCerts: true
+        }
       },
-      globals: {
-        waitForConditionTimeout: 10000
-      }
-    },
 
-    ci_firefox: {
-      launch_url: "http://ondemand.saucelabs.com:80",
-      selenium_port: 80,
-      selenium_host: 'ondemand.saucelabs.com',
-      silent: true,
-      username: process.env.SAUCE_USERNAME,
-      access_key: process.env.SAUCE_ACCESS_KEY,
-      desiredCapabilities: {
-        name: packageJson.name,
-        build: 'build-${TRAVIS_JOB_NUMBER}',
-        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-        browserName: 'firefox'
+      ie11: {
+        integration: true,
+        desiredCapabilities: {
+          browserName: 'internet explorer',
+          platform: 'Windows 10',
+          version: '11.103',
+          javascriptEnabled: true,
+          acceptSslCerts: true
+        }
       },
-      globals: {
-        waitForConditionTimeout: 10000
-      }
-    },
 
-    ci_safari: {
-      launch_url: "http://ondemand.saucelabs.com:80",
-      selenium_port: 80,
-      selenium_host: 'ondemand.saucelabs.com',
-      silent: true,
-      username: process.env.SAUCE_USERNAME,
-      access_key: process.env.SAUCE_ACCESS_KEY,
-      desiredCapabilities: {
-        name: packageJson.name,
-        build: 'build-${TRAVIS_JOB_NUMBER}',
-        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-        browserName: 'safari'
+      firefox51: {
+        integration: true,
+        desiredCapabilities: {
+          browserName: 'firefox',
+          platform: 'Windows 10',
+          version: '51.0',
+          javascriptEnabled: true,
+          acceptSslCerts: true
+        }
       },
-      globals: {
-        waitForConditionTimeout: 10000
-      }
-    },
 
-    ci_edge: {
-      launch_url: "http://ondemand.saucelabs.com:80",
-      selenium_port: 80,
-      selenium_host: 'ondemand.saucelabs.com',
-      silent: true,
-      username: process.env.SAUCE_USERNAME,
-      access_key: process.env.SAUCE_ACCESS_KEY,
-      desiredCapabilities: {
-        name: packageJson.name,
-        build: 'build-${TRAVIS_JOB_NUMBER}',
-        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-        browserName: 'edge'
-      },
-      globals: {
-        waitForConditionTimeout: 10000
+      safari10: {
+        integration: true,
+        desiredCapabilities: {
+          browserName: 'safari',
+          platform: 'OS X 10.11',
+          version: '10.0',
+          javascriptEnabled: true,
+          acceptSslCerts: true
+        }
       }
     },
 
