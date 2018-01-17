@@ -79,5 +79,25 @@ module.exports = {
     browser.expect.element('#nested-compound-string-fs').to.be.a('fieldset')
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
+  },
+
+  'Fill out date field using picker': function (browser) {
+    browser.expect.element('#date').to.be.visible
+    browser.click('#date')
+    browser.expect.element('.flatpickr-calendar').to.be.visible
+    browser.click('.today')
+    browser.expect.element('.flatpickr-calendar').to.be.not.visible
+    const today = new Date().toJSON().slice(0, 10)
+    browser.assert.value('#date', today)
+  },
+
+  'Clear out a nillable datefield using the clear btn': function (browser) {
+    const clearBtnSelector = '#nillable_date-fs > div > div > div.input-group > div > button.date-field-clear-btn.btn.btn-outline-secondary'
+    browser.clearValue('#nillable_date')
+    const today = new Date().toJSON().slice(0, 10)
+    browser.setValue('#nillable_date', today)
+    browser.assert.visible(clearBtnSelector)
+    browser.click(clearBtnSelector)
+    browser.assert.value('#nillable_date', '')
   }
 }

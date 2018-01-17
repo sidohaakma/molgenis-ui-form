@@ -83,6 +83,17 @@
       </text-area-field-component>
     </template>
 
+    <template v-else-if="field.type === 'date'">
+      <date-field-component
+        v-model="formData[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :validate="validate"
+        :isRequired="isRequired"
+        @dataChange="onDataChange">
+      </date-field-component>
+    </template>
+
     <!-- Render email, url, password, number, and text fields -->
     <template v-else>
       <typed-field-component
@@ -106,11 +117,11 @@
 <script>
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
   import MultiSelectFieldComponent from './field-types/MultiSelectFieldComponent'
+  import DateFieldComponent from './field-types/DateFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
   import SingleSelectFieldComponent from './field-types/SingleSelectFieldComponent'
   import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
   import TypedFieldComponent from './field-types/TypedFieldComponent'
-
   import { FormField } from '../flow.types'
 
   export default {
@@ -159,7 +170,8 @@
       RadioFieldComponent,
       SingleSelectFieldComponent,
       TextAreaFieldComponent,
-      TypedFieldComponent
+      TypedFieldComponent,
+      DateFieldComponent
     }
   }
 </script>
