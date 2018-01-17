@@ -25,8 +25,8 @@ describe('CheckboxFieldComponent unit tests', () => {
     value: 'This is data',
     field: field,
     state: state,
-    isRequired: () => true,
-    validate: () => true
+    isRequired: true,
+    isValid: true
   }
 
   const wrapper = mount(TextAreaFieldComponent, {

@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': isValidDateTime(localValue) && validate(field)}">
+  <validate :state="state" :custom="{'validate': isValidDateTime(localValue) && isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -12,7 +12,7 @@
           class="form-control form-control-lg"
           :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
           :aria-describedby="field.id + '-description'"
-          :required="isRequired(field)"
+          :required="isRequired"
           :disabled="field.disabled"
         >
         </flat-pickr>
@@ -23,7 +23,7 @@
               <span aria-hidden="true" class="sr-only">Toggle</span>
             </i>
           </button>
-          <button v-if="!isRequired(field)" class="date-field-clear-btn btn btn-outline-secondary btn-lg" type="button" title="Clear" data-clear>
+          <button v-if="!isRequired" class="date-field-clear-btn btn btn-outline-secondary btn-lg" type="button" title="Clear" data-clear>
             <i class="fa fa-times">
               <span aria-hidden="true" class="sr-only">Clear</span>
             </i>
@@ -66,13 +66,13 @@
         type: Object,
         required: false
       },
-      validate: {
-        type: Function,
-        required: true
+      isValid: {
+        type: Boolean,
+        default: true
       },
       isRequired: {
-        type: Function,
-        required: true
+        type: Boolean,
+        default: false
       },
       isTimeIncluded: {
         type: Boolean,
