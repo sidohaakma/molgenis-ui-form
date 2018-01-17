@@ -1,5 +1,5 @@
 <template>
-  <fieldset :id="field.id + '-fs'" :class="{ 'required-field': isRequired, 'not-required': !isRequired }" v-show="isVisible">
+  <fieldset :id="field.id + '-fs'" :class="{ 'required-field': isRequired }" v-show="isVisible">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
@@ -111,14 +111,6 @@
 <style>
   fieldset.required-field > div > div.form-group > label::after {
     content: ' *';
-  }
-
-  /*
-   * use a second class to remove an asterisk if a
-   * another field controls the required state
-   */
-  fieldset.not-required > div > div.form-group > label::after {
-    content: ''
   }
 </style>
 

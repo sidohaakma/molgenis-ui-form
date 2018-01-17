@@ -96,10 +96,6 @@ describe('FormFieldComponents unit tests', () => {
     it('should return false if schema-field required is set to false', () => {
       expect(wrapper.vm.isRequired).to.equal(false)
     })
-
-    it('should add the "not-required" class to the fieldset', () => {
-      expect(wrapper.classes()).contain('not-required')
-    })
   })
 
   describe('Hide optional fields', () => {

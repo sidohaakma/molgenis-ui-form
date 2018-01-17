@@ -68,14 +68,14 @@ module.exports = {
   },
 
   'Check if asterisk class is not present on non required element': function (browser) {
-    browser.expect.element('#string-fs').to.have.attribute('class').which.contains('not-required')
+    browser.expect.element('#string-fs').to.not.have.attribute('class').which.contains('required-field')
     browser.end()
   },
 
   'Check if required state works when dependant on another field': function (browser) {
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
-    browser.expect.element('#compound-string-fs').to.have.attribute('class').which.contains('not-required')
+    browser.expect.element('#compound-string-fs').to.not.have.attribute('class').which.contains('required-field')
 
     browser.setValue('#compound-int', 1)
     browser.expect.element('#compound-string-fs').to.have.attribute('class').which.contains('required-field')
@@ -85,7 +85,6 @@ module.exports = {
   'Check if visible state works when dependant on another field': function (browser) {
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
-    browser.expect.element('#compound-string-fs').to.have.attribute('class').which.contains('not-required')
     browser.end()
   },
 
