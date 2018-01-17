@@ -83,14 +83,15 @@
       </text-area-field-component>
     </template>
 
-    <template v-else-if="field.type === 'date'">
+    <template v-else-if="field.type === 'date' || field.type === 'date-time'">
       <date-field-component
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :validate="validate"
         :isRequired="isRequired"
-        @dataChange="onDataChange">
+        @dataChange="onDataChange"
+        :isTimeIncluded="field.type === 'date-time'">
       </date-field-component>
     </template>
 
