@@ -256,8 +256,14 @@ const generateFormData = (fields: any, data: any) => {
   return fields.reduce((accumulator, field) => {
     if (field.type === 'field-group') {
       return {...accumulator, ...generateFormData(field.children, data)}
+    } else if (field.type === 'file') {
+      // Map MOLGENIS File entity to our form file object
+      // which only contains a name
+      const fileData = data[field.id]
+      accumulator[field.id] = fileData.filename
+    } else {
+      accumulator[field.id] = data[field.id]
     }
-    accumulator[field.id] = data[field.id]
     return accumulator
   }, {})
 }
