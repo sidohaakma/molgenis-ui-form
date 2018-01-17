@@ -64,7 +64,6 @@ module.exports = {
 
   'Check if asterisk class is present on integer element': function (browser) {
     browser.expect.element('#integer-fs').to.have.attribute('class').which.contains('required-field')
-    browser.expect.element('#integer-fs label').to.have.attribute('class').which.contains('field-label')
     browser.end()
   }
 }
