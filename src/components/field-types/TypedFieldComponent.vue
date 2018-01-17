@@ -1,7 +1,7 @@
 <template>
   <validate :state="state" :custom="{'validate': isValid}">
     <div class="form-group">
-      <label class="field-label" :for="field.id">{{ field.label }}</label>
+      <label :for="field.id">{{ field.label }}</label>
 
       <input
         :id="field.id"

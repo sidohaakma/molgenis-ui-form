@@ -1,5 +1,5 @@
 <template>
-  <fieldset :id="field.id + '-fs'" :class="{ 'required-field': isRequired, 'not-required': !required }" v-show="isVisible">
+  <fieldset :id="field.id + '-fs'" :class="{ 'required-field': isRequired, 'not-required': !isRequired }" v-show="isVisible">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
@@ -82,6 +82,18 @@
       </text-area-field-component>
     </template>
 
+    <!-- Render date field -->
+    <template v-else-if="field.type === 'date'">
+      <date-field-component
+        v-model="formData[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :isValid="isValid"
+        :isRequired="isRequired"
+        @dataChange="onDataChange">
+      </date-field-component>
+    </template>
+
     <!-- Render email, url, password, number, and text fields -->
     <template v-else>
       <typed-field-component
@@ -97,7 +109,7 @@
 </template>
 
 <style>
-  fieldset.required-field label.field-label::after {
+  .required-field .form-group > label::after {
     content: ' *';
   }
 
@@ -112,6 +124,7 @@
 
 <script>
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
+  import DateFieldComponent from './field-types/DateFieldComponent'
   import MultiSelectFieldComponent from './field-types/MultiSelectFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
   import SingleSelectFieldComponent from './field-types/SingleSelectFieldComponent'
@@ -180,6 +193,7 @@
     },
     components: {
       CheckboxFieldComponent,
+      DateFieldComponent,
       MultiSelectFieldComponent,
       RadioFieldComponent,
       SingleSelectFieldComponent,
