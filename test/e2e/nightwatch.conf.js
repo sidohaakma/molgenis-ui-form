@@ -65,7 +65,7 @@ module.exports = {
       }
     },
 
-    ci_ie: {
+    ci_edge: {
       launch_url: "http://ondemand.saucelabs.com:80",
       selenium_port: 80,
       selenium_host: 'ondemand.saucelabs.com',
