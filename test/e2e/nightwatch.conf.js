@@ -57,7 +57,7 @@ module.exports = {
       desiredCapabilities: {
         name: packageJson.name,
         build: 'build-${TRAVIS_JOB_NUMBER}',
-        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
+        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
         browserName: 'chrome'
       },
       globals: {
@@ -75,7 +75,7 @@ module.exports = {
       desiredCapabilities: {
         name: packageJson.name,
         build: 'build-${TRAVIS_JOB_NUMBER}',
-        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
+        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
         browserName: 'firefox'
       },
       globals: {
@@ -93,7 +93,7 @@ module.exports = {
       desiredCapabilities: {
         name: packageJson.name,
         build: 'build-${TRAVIS_JOB_NUMBER}',
-        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
+        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
         browserName: 'safari'
       },
       globals: {
@@ -111,7 +111,7 @@ module.exports = {
       desiredCapabilities: {
         name: packageJson.name,
         build: 'build-${TRAVIS_JOB_NUMBER}',
-        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER
+        'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
         browserName: 'edge'
       },
       globals: {
