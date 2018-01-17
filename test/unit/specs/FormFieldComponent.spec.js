@@ -101,4 +101,29 @@ describe('FormFieldComponents unit tests', () => {
       expect(wrapper.classes()).contain('not-required')
     })
   })
+
+  describe('Hide optional fields', () => {
+    const field = {
+      id: 'string',
+      type: 'text',
+      validate: (data) => true,
+      required: () => true,
+      visible: () => true
+    }
+
+    const propsData = {
+      formData: {'string': 'data'},
+      field: field,
+      state: state,
+      showOptionalFields: false
+    }
+
+    const wrapper = mount(FormFieldComponent, {
+      propsData: propsData
+    })
+
+    it('should be visible because field is required', () => {
+      expect(wrapper.vm.isVisible).to.equal(true)
+    })
+  })
 })

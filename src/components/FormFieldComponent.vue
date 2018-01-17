@@ -188,7 +188,7 @@
        * 2) only re-run the function when the data involved changes
        */
       isVisible: function () {
-        return (this.showOptionalFields || this.required) && this.field.visible(this.formData)
+        return (this.showOptionalFields || this.isRequired) && this.field.visible(this.formData)
       }
     },
     components: {
