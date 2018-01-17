@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': valid}" v-if="options.length > 0">
+  <validate :state="state" :custom="{'validate': isValid}" v-if="options.length > 0">
     <div class="form-group">
       <label class="field-label" :for="field.id">{{ field.label }}</label>
 
@@ -13,7 +13,7 @@
           :name="field.id"
           class="form-check-input"
           :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
-          :required="required"
+          :required="isRequired"
           :disabled="field.disabled">
         <label :for="field.id + '-' + index" class="form-check-label">{{ option.label }}</label>
       </div>
@@ -51,11 +51,11 @@
         type: Object,
         required: false
       },
-      valid: {
+      isValid: {
         type: Boolean,
         default: true
       },
-      required: {
+      isRequired: {
         type: Boolean,
         default: false
       }

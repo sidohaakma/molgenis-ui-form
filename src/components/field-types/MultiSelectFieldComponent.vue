@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': valid}">
+  <validate :state="state" :custom="{'validate': isValid}">
     <div class="form-group">
       <label class="field-label" :for="field.id">{{ field.label }}</label>
 
@@ -22,7 +22,7 @@
                 :filterable="false"
                 :inputId="field.id"
                 :name="field.id"
-                :required="required"
+                :required="isRequired"
                 :multiple="true">
 
         <div slot="no-options">
@@ -66,11 +66,11 @@
         type: Object,
         required: false
       },
-      valid: {
+      isValid: {
         type: Boolean,
         default: true
       },
-      required: {
+      isRequired: {
         type: Boolean,
         default: false
       }

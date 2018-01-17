@@ -1,5 +1,5 @@
 <template>
-  <fieldset :id="field.id + '-fs'" :class="{ 'required-field': required, 'not-required': !required }" v-show="visible">
+  <fieldset :id="field.id + '-fs'" :class="{ 'required-field': isRequired, 'not-required': !required }" v-show="isVisible">
 
     <!-- Render checkbox field -->
     <template v-if="field.type === 'checkbox'">
@@ -7,8 +7,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :valid="valid"
-        :required="required"
+        :isValid="isValid"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </checkbox-field-component>
     </template>
@@ -40,8 +40,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :valid="valid"
-        :required="required"
+        :isValid="isValid"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </multi-select-field-component>
     </template>
@@ -52,8 +52,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :valid="valid"
-        :required="required"
+        :isValid="isValid"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </radio-field-component>
     </template>
@@ -64,8 +64,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :required="required"
-        :valid="valid"
+        :isRequired="isRequired"
+        :isValid="isValid"
         @dataChange="onDataChange">
       </single-select-field-component>
     </template>
@@ -76,8 +76,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :valid="valid"
-        :required="required"
+        :isValid="isValid"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </text-area-field-component>
     </template>
@@ -88,8 +88,8 @@
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :valid="valid"
-        :required="required"
+        :isValid="isValid"
+        :isRequired="isRequired"
         @dataChange="onDataChange">
       </typed-field-component>
     </template>
@@ -156,7 +156,7 @@
        * 1) prevent the visible function to be called many times
        * 2) only re-run the function when the data involved changes
        */
-      valid: function () {
+      isValid: function () {
         return this.field.validate(this.formData)
       },
       /*
@@ -166,7 +166,7 @@
        * 3) properly show / hide asterisk for required fields
        * 4) only re-run the function when the data involved changes
        */
-      required: function () {
+      isRequired: function () {
         return this.field.required(this.formData)
       },
       /*
@@ -174,7 +174,7 @@
        * 1) prevent the visible function to be called many times
        * 2) only re-run the function when the data involved changes
        */
-      visible: function () {
+      isVisible: function () {
         return (this.showOptionalFields || this.required) && this.field.visible(this.formData)
       }
     },

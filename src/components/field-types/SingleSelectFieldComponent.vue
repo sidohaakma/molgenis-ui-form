@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': valid}">
+  <validate :state="state" :custom="{'validate': isValid}">
     <div class="form-group">
       <label class="field-label" :for="field.id">{{ field.label }}</label>
 
@@ -22,7 +22,7 @@
                 :filterable="false"
                 :inputId="field.id"
                 :name="field.id"
-                :required="required">
+                :required="isRequired">
 
         <div slot="no-options">
           <small v-if="localValue">Option '{{ localValue }}' not found.</small>
@@ -65,11 +65,11 @@
         type: Object,
         required: false
       },
-      valid: {
+      isValid: {
         type: Boolean,
         default: true
       },
-      required: {
+      isRequired: {
         type: Boolean,
         default: false
       }

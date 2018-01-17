@@ -32,7 +32,7 @@ describe('FormFieldComponents unit tests', () => {
 
   describe('validate', () => {
     it('should succeed in validating a field', () => {
-      expect(wrapper.vm.valid).to.equal(true)
+      expect(wrapper.vm.isValid).to.equal(true)
     })
 
     it('should fail in validating a field', () => {
@@ -41,7 +41,7 @@ describe('FormFieldComponents unit tests', () => {
           'string': 'not valid'
         }
       })
-      expect(wrapper.vm.valid).to.equal(false)
+      expect(wrapper.vm.isValid).to.equal(false)
     })
   })
 
@@ -54,7 +54,7 @@ describe('FormFieldComponents unit tests', () => {
 
   describe('isVisible', () => {
     it('should return true if schema-field visibility is set to true', () => {
-      expect(wrapper.vm.visible).to.equal(true)
+      expect(wrapper.vm.isVisible).to.equal(true)
     })
   })
 
@@ -65,7 +65,7 @@ describe('FormFieldComponents unit tests', () => {
     })
 
     it('should return true if schema-field required is set to true', () => {
-      expect(wrapper.vm.required).to.equal(true)
+      expect(wrapper.vm.isRequired).to.equal(true)
     })
 
     it('should add the "required-field" class to the fieldset', () => {
@@ -94,7 +94,7 @@ describe('FormFieldComponents unit tests', () => {
     })
 
     it('should return false if schema-field required is set to false', () => {
-      expect(wrapper.vm.required).to.equal(false)
+      expect(wrapper.vm.isRequired).to.equal(false)
     })
 
     it('should add the "not-required" class to the fieldset', () => {
