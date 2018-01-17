@@ -65,7 +65,7 @@ module.exports = {
       }
     },
 
-    ci_edge: {
+    ci_ie11: {
       launch_url: "http://ondemand.saucelabs.com:80",
       selenium_port: 80,
       selenium_host: 'ondemand.saucelabs.com',
@@ -76,7 +76,7 @@ module.exports = {
         name: packageJson.name,
         build: 'build-${TRAVIS_JOB_NUMBER}',
         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-        browserName: 'edge'
+        browserName: 'ie11'
       },
       globals: {
         waitForConditionTimeout: 10000
