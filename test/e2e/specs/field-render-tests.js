@@ -99,5 +99,19 @@ module.exports = {
     browser.assert.visible(clearBtnSelector)
     browser.click(clearBtnSelector)
     browser.assert.value('#nillable_date', '')
+  },
+
+  'Fill out date time field using picker': function (browser) {
+    browser.expect.element('#date_time').to.be.visible
+    browser.click('#date_time')
+    browser.assert.visible('body > div.flatpickr-calendar.hasTime.animate.open')
+    browser.click('body > div.flatpickr-calendar.hasTime.animate.open > div.flatpickr-innerContainer > div > div.flatpickr-days > div > span.flatpickr-day.today')
+    browser.expect.element('.flatpickr-hour').to.be.visible
+    browser.expect.element('.flatpickr-minute').to.be.visible
+    browser.expect.element('.flatpickr-am-pm').to.be.visible
+    browser.click('#form-demo') // click outside calender
+    browser.expect.element('.flatpickr-calendar').to.be.not.visible
+    const today = new Date().toJSON().slice(0, 10)
+    browser.assert.valueContains('#date_time', today)
   }
 }
