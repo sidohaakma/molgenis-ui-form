@@ -1,7 +1,8 @@
 <template>
   <validate :state="state" :custom="{'validate': validate(field)}" v-if="options.length > 0">
     <div class="form-group">
-      <label class="field-label" :for="field.id">{{ field.label }}</label>
+      <label :for="field.id">{{ field.label }}</label>
+
       <div v-for="(option, index) in options" class="form-check" :aria-describedby="field.id + '-description'">
         <!-- Hardcode input type to prevent compile time errors with dynamic value + v-model on same input  -->
         <input
@@ -16,6 +17,7 @@
           :disabled="field.disabled">
         <label :for="field.id + '-' + index" class="form-check-label">{{ option.label }}</label>
       </div>
+
       <button class="select-all btn btn-link btn-sm" @click="selectAll" type="button"><i>Select all</i></button>
       <button class="deselect-all btn btn-link btn-sm" @click="deSelectAll" type="button"><i>Deselect all</i></button>
 
