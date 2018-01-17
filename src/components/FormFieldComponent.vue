@@ -156,29 +156,12 @@
       }
     },
     computed: {
-      /*
-       * Compute visibility to:
-       * 1) prevent the visible function to be called many times
-       * 2) only re-run the function when the data involved changes
-       */
       isValid: function () {
         return this.field.validate(this.formData)
       },
-      /*
-       * Compute required value to:
-       * 1) prevent the required function to be called many times
-       * 2) work if the required state is dependant on another field
-       * 3) properly show / hide asterisk for required fields
-       * 4) only re-run the function when the data involved changes
-       */
       isRequired: function () {
         return this.field.required(this.formData)
       },
-      /*
-       * Compute visibility to:
-       * 1) prevent the visible function to be called many times
-       * 2) only re-run the function when the data involved changes
-       */
       isVisible: function () {
         return (this.showOptionalFields || this.isRequired) && this.field.visible(this.formData)
       }
