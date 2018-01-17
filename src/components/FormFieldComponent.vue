@@ -109,7 +109,7 @@
 </template>
 
 <style>
-  .required-field label::after {
+  .required-field .form-group > label::after {
     content: ' *';
   }
 </style>
