@@ -1,11 +1,12 @@
 <template>
   <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
     <div class="text-right hide-option-fields-btn-container">
-      <button id="toggle-btn" type="button" class="btn btn-sm btn-outline-secondary" :title="eyeMessage"
+      <button type="button" class="btn btn-sm btn-outline-secondary toggle-btn" :title="eyeMessage"
               @click="toggleOptionalFields">
-        <i id="show-fields-icon" class="fa" :class="{'fa-eye-slash': showOptionalFields, 'fa-eye': !showOptionalFields}"></i>
+        <i class="fa show-fields-icon" :class="{'fa-eye-slash': showOptionalFields, 'fa-eye': !showOptionalFields}"></i>
       </button>
     </div>
+
     <template v-for="field in schema.fields">
       <form-field-component
         :formData="formData"
@@ -21,8 +22,8 @@
 <script>
   import VueForm from 'vue-form'
   import FormFieldComponent from './FormFieldComponent'
-  import {isValidSchema} from '../util/SchemaService'
-  import {FormHook} from '../flow.types'
+  import { isValidSchema } from '../util/SchemaService'
+  import { FormHook } from '../flow.types'
 
   export default {
     name: 'FormComponent',

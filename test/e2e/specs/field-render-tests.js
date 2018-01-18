@@ -52,24 +52,25 @@ module.exports = {
   },
 
   'Correctly render a multi select field with a list of options': function (browser) {
-    browser.expect.element('#mref-field-fs').to.be.visible
-    browser.expect.element('#mref-field-fs').to.be.a('fieldset')
+    browser.expect.element('#mref-fs').to.be.visible
+    browser.expect.element('#mref-fs').to.be.a('fieldset')
 
-    browser.expect.element('#mref-field-fs select').to.be.visible
-    browser.expect.element('#mref-field-fs select > option').to.be.present
+    browser.expect.element('#mref-fs input').to.be.visible
 
-    browser.expect.element('#mref-field').to.have.attribute('multiple').which.contains(true)
+    browser.click('input#mref')
+    browser.expect.element('#mref-fs ul').to.be.present
+    browser.expect.element('#mref-fs li').to.be.present
   },
 
   'Correctly render a single select field with a list of options': function (browser) {
-    browser.expect.element('#xref-field-fs').to.be.visible
-    browser.expect.element('#xref-field-fs').to.be.a('fieldset')
+    browser.expect.element('#xref-fs').to.be.visible
+    browser.expect.element('#xref-fs').to.be.a('fieldset')
 
-    browser.expect.element('#xref-field-fs input').to.be.visible
+    browser.expect.element('#xref-fs input').to.be.visible
 
-    browser.click('input#xref-field')
-    browser.expect.element('#xref-field-fs ul').to.be.present
-    browser.expect.element('#xref-field-fs li').to.be.present
+    browser.click('input#xref')
+    browser.expect.element('#xref-fs ul').to.be.present
+    browser.expect.element('#xref-fs li').to.be.present
   },
 
   'Toggle visibility of string field': function (browser) {
@@ -78,5 +79,39 @@ module.exports = {
     browser.expect.element('#nested-compound-string-fs').to.be.a('fieldset')
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
+  },
+
+  'Fill out date field using picker': function (browser) {
+    browser.expect.element('#date').to.be.visible
+    browser.click('#date')
+    browser.expect.element('.flatpickr-calendar').to.be.visible
+    browser.click('.today')
+    browser.expect.element('.flatpickr-calendar').to.be.not.visible
+    const today = new Date().toJSON().slice(0, 10)
+    browser.assert.value('#date', today)
+  },
+
+  'Clear out a nillable datefield using the clear btn': function (browser) {
+    const clearBtnSelector = '#nillable_date-fs > div > div > div.input-group > div > button.date-field-clear-btn.btn.btn-outline-secondary'
+    browser.clearValue('#nillable_date')
+    const today = new Date().toJSON().slice(0, 10)
+    browser.setValue('#nillable_date', today)
+    browser.assert.visible(clearBtnSelector)
+    browser.click(clearBtnSelector)
+    browser.assert.value('#nillable_date', '')
+  },
+
+  'Fill out date time field using picker': function (browser) {
+    browser.expect.element('#date_time').to.be.visible
+    browser.click('#date_time')
+    browser.assert.visible('body > div.flatpickr-calendar.hasTime.animate.open')
+    browser.click('body > div.flatpickr-calendar.hasTime.animate.open > div.flatpickr-innerContainer > div > div.flatpickr-days > div > span.flatpickr-day.today')
+    browser.expect.element('.flatpickr-hour').to.be.visible
+    browser.expect.element('.flatpickr-minute').to.be.visible
+    browser.expect.element('.flatpickr-am-pm').to.be.visible
+    browser.click('#form-demo') // click outside calender
+    browser.expect.element('.flatpickr-calendar').to.be.not.visible
+    const today = new Date().toJSON().slice(0, 10)
+    browser.assert.valueContains('#date_time', today)
   }
 }

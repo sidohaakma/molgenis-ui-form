@@ -3,34 +3,27 @@ import { mount } from 'vue-test-utils'
 
 describe('SingleSelectFieldComponent unit tests', () => {
   const field = {
-    id: 'xref-field',
+    id: 'xref',
     label: 'Xref Field',
     description: 'This is an xref field',
     type: 'single-select',
     disabled: false,
     options: (search) => {
-      return search ? new Promise((resolve) => {
-        resolve([
-          {
-            id: 'ref1',
-            label: 'label1',
-            value: 'ref1'
-          }
-        ])
-      }) : new Promise((resolve) => {
-        resolve([
-          {
-            id: 'ref1',
-            label: 'ref1',
-            value: 'ref1'
-          },
-          {
-            id: 'ref2',
-            label: 'ref2',
-            value: 'ref2'
-          }
-        ])
-      })
+      if (search === 'ref1') {
+        return new Promise((resolve) => {
+          resolve([
+            {
+              id: 'ref1',
+              label: 'label1',
+              value: 'ref1'
+            }
+          ])
+        })
+      } else if (search === 'non existing option') {
+        return new Promise((resolve) => {
+          resolve([])
+        })
+      }
     }
   }
 
@@ -48,9 +41,8 @@ describe('SingleSelectFieldComponent unit tests', () => {
   const propsData = {
     field: field,
     state: state,
-    validate: () => true,
-    isRequired: () => true,
-    visible: () => true
+    isRequired: true,
+    isValid: true
   }
 
   it('should have an empty option list when no initial value is present', done => {
@@ -74,6 +66,7 @@ describe('SingleSelectFieldComponent unit tests', () => {
 
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.options).to.deep.equal([{id: 'ref1', label: 'label1', value: 'ref1'}])
+      expect(wrapper.vm.localValue).to.deep.equal({id: 'ref1', label: 'label1', value: 'ref1'})
       done()
     })
   })
@@ -87,6 +80,19 @@ describe('SingleSelectFieldComponent unit tests', () => {
     wrapper.vm.fetchOptions('ref1', (loading) => true)
     wrapper.vm.$nextTick(() => {
       expect(wrapper.vm.options).to.deep.equal([{id: 'ref1', label: 'label1', value: 'ref1'}])
+      done()
+    })
+  })
+
+  it('should set an empty option list when search returns nothing', done => {
+    const wrapper = mount(SingleSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+
+    wrapper.vm.fetchOptions('non existing option', (loading) => true)
+    wrapper.vm.$nextTick(() => {
+      expect(wrapper.vm.options).to.deep.equal([])
       done()
     })
   })
