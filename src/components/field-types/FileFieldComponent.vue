@@ -80,7 +80,7 @@
       label: function () {
         if (typeof this.value === 'string') {
           return this.value
-        } else if (this.value && this.value instanceof File) {
+        } else if (this.value && (this.value instanceof File || this.value instanceof Blob)) {
           return this.value.name
         } else {
           return 'Choose a file...'

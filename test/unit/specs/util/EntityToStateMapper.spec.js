@@ -337,15 +337,7 @@ describe('Entity to state mapper', () => {
     it('should map a [FILE] entity to a form data object', () => {
       const formData = EntityToStateMapper.generateFormData(fields, data)
       expect(formData).to.deep.equal({
-        file: {
-          'href': '/api/v1/sys_FileMeta/aaa123bbb',
-          'id': 'aaa123bbb',
-          'filename': 'foo.txt',
-          'contentType': 'text/plain',
-          'size': 5,
-          'url': 'https://someserver/files/api',
-          'ownerUsername': 'admin'
-        }
+        file: 'foo.txt'
       })
     })
   })

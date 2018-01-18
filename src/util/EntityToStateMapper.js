@@ -70,8 +70,7 @@ const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<st
  *    {
  *      id: 'example',
  *      label: 'Example field',
- *      options: () => {
- *        return [
+ *      options: () => Promise.resolve([
  *          {
  *            id: '1',
  *            value: '1',
@@ -83,7 +82,6 @@ const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<st
  *            label: 'Example option 2'
  *          }
  *        ]
- *      }
  *    }
  *  ]
  * }
@@ -257,7 +255,7 @@ const generateFormData = (fields: any, data: any) => {
     if (field.type === 'field-group') {
       return {...accumulator, ...generateFormData(field.children, data)}
     } else if (field.type === 'file') {
-      // Map MOLGENIS File entity to our form file object
+      // Map MOLGENIS FileMeta entity to our form file object
       // which only contains a name
       const fileData = data[field.id]
       accumulator[field.id] = fileData ? fileData.filename : data[field.id]
