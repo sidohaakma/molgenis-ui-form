@@ -93,6 +93,7 @@
           return 'htmlmixed'
         } else {
           const lang = this.detectLanguage()
+          console.log(this.localValue, lang)
           if (lang === 'Python') {
             return lang.toString().toLowerCase()
           } else {
