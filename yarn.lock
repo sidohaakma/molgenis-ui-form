@@ -3983,10 +3983,6 @@ karma-phantomjs-launcher@^1.0.2:
     lodash "^4.0.1"
     phantomjs-prebuilt "^2.1.7"
 
-karma-phantomjs-shim@^1.4.0:
-  version "1.5.0"
-  resolved "https://registry.yarnpkg.com/karma-phantomjs-shim/-/karma-phantomjs-shim-1.5.0.tgz#e8db65883480f0dbd184cc961d39c64511742200"
-
 karma-promise@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/karma-promise/-/karma-promise-0.1.0.tgz#433e930ebf514b69a19761f0b63f3532811b86c4"
