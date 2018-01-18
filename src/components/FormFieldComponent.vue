@@ -12,7 +12,25 @@
         @dataChange="onDataChange">
       </checkbox-field-component>
     </template>
-
+    <template v-else-if="field.type === 'html'">
+      <code-editor-field-component
+        v-model="formData[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :validate="validate"
+        :isRequired="isRequired"
+        @dataChange="onDataChange"></code-editor-field-component>
+    </template>
+    <template v-else-if="field.type === 'script'">
+      <code-editor-field-component
+        v-model="formData[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :validate="validate"
+        :isRequired="isRequired"
+        language="javascript"
+        @dataChange="onDataChange"></code-editor-field-component>
+    </template>
     <!-- Render field groups + child fields, nesting subsequent groups with padding -->
     <template v-else-if="field.type === 'field-group'">
       <legend>{{ field.label }}</legend>
@@ -105,6 +123,7 @@
 
 <script>
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
+  import CodeEditorFieldComponent from './field-types/CodeEditorFieldComponent'
   import MultiSelectFieldComponent from './field-types/MultiSelectFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
   import SingleSelectFieldComponent from './field-types/SingleSelectFieldComponent'
@@ -155,6 +174,7 @@
     },
     components: {
       CheckboxFieldComponent,
+      CodeEditorFieldComponent,
       MultiSelectFieldComponent,
       RadioFieldComponent,
       SingleSelectFieldComponent,

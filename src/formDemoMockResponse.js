@@ -109,13 +109,29 @@ const metadata = {
       'attributes': [],
       'auto': false,
       'nillable': true,
-      'readOnly': false,
+      'readOnly': true,
       'labelAttribute': true,
       'unique': true,
       'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
       'description': 'HTML description'
+    },
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/script',
+      'fieldType': 'SCRIPT',
+      'name': 'script',
+      'label': 'Script Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': true,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Script description'
     },
     {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/hyperlink',
@@ -452,7 +468,9 @@ const items = {
   text: 'text value',
   hyperlink: 'www.nu.nl',
   categorical_mref: ['ref1', 'ref2'],
-  enum: 'enum2'
+  enum: 'enum2',
+  html: '<h1>test</h1>',
+  script: 'alert("hello")'
 }
 
 export default {
