@@ -42,7 +42,9 @@
   import 'codemirror/addon/dialog/dialog.css'
   import 'codemirror/addon/dialog/dialog.js'
 
-  import {FormField} from '../../flow.types'
+  import detectLang from 'lang-detector'
+
+  import { FormField } from '../../flow.types'
 
   export default {
     name: 'CodeEditorFieldComponent',
@@ -73,9 +75,13 @@
     data () {
       return {
         // Store a local value to prevent changing the parent state
-        localValue: this.value,
-        options: {
-          mode: this.getLanguage(),
+        localValue: this.value
+      }
+    },
+    computed: {
+      options: function () {
+        return {
+          mode: this.language,
           indentUnit: 2,
           smartIndent: true,
           tabSize: 2,
@@ -85,26 +91,13 @@
           extraKeys: {'Ctrl-Space': 'autocomplete'},
           readOnly: this.field.disabled
         }
-      }
-    },
-    methods: {
-      getLanguage () {
-        if (this.field.type === 'html') {
-          return 'htmlmixed'
-        } else {
-          const lang = this.detectLanguage()
-          console.log(this.localValue, lang)
-          if (lang === 'Python') {
-            return lang.toString().toLowerCase()
-          } else {
-            return 'javascript'
-          }
-        }
       },
-      detectLanguage () {
-        var detectLang = require('lang-detector')
-        const lang = detectLang(this.value)
-        return lang
+      language: function () {
+        const lang = this.inputLanguage
+        return this.field.type === 'html' ? 'htmlmixed' : lang === 'python' ? lang : 'javascript'
+      },
+      inputLanguage: function () {
+        return detectLang(this.localValue).toString().toLowerCase()
       }
     },
     watch: {
