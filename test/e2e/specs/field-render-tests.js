@@ -15,6 +15,7 @@ module.exports = {
   // Use BDD-style interface for assertions
   // http://nightwatchjs.org/api#expect-api
   'Correctly render a field-group and its child fields': function (browser) {
+    browser.options.desiredCapabilities.name = 'Correctly render a field-group and its child fields'
     // Assert field groups and child elements are rendered correctly
     browser.expect.element('#compound-field-fs').to.be.visible
     browser.expect.element('#compound-field-fs').to.be.a('fieldset')
@@ -52,6 +53,7 @@ module.exports = {
   },
 
   'Correctly render a multi select field with a list of options': function (browser) {
+    browser.options.desiredCapabilities.name = 'Correctly render a multi select field with a list of options'
     browser.expect.element('#mref-fs').to.be.visible
     browser.expect.element('#mref-fs').to.be.a('fieldset')
 
@@ -63,6 +65,7 @@ module.exports = {
   },
 
   'Correctly render a single select field with a list of options': function (browser) {
+    browser.options.desiredCapabilities.name = 'Correctly render a single select field with a list of options'
     browser.expect.element('#xref-fs').to.be.visible
     browser.expect.element('#xref-fs').to.be.a('fieldset')
 
@@ -74,6 +77,7 @@ module.exports = {
   },
 
   'Toggle visibility of string field': function (browser) {
+    browser.options.desiredCapabilities.name = 'Toggle visibility of string field'
     browser.expect.element('#nested-compound-string-fs').to.be.present
     browser.expect.element('#nested-compound-string-fs').to.be.visible
     browser.expect.element('#nested-compound-string-fs').to.be.a('fieldset')
