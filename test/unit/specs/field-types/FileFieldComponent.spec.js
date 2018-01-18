@@ -33,8 +33,8 @@ describe('FileFieldComponent unit tests', () => {
     stubs: {'fieldMessages': '<div>This field is required</div>'}
   })
 
-  it('should render a "Choose a file..." string when no initial value is set', () => {
-    expect(wrapper.vm.label).to.equal('Choose a file...')
+  it('should render a an empty label when no initial value is set', () => {
+    expect(wrapper.vm.label).to.equal('')
   })
 
   it('should render a string when initial value is a file name', () => {

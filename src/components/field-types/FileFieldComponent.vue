@@ -38,7 +38,6 @@
     name: 'FileFieldComponent',
     props: {
       value: {
-        // The value representing a Number or String
         type: [File, String],
         required: false
       },
@@ -78,13 +77,8 @@
     },
     computed: {
       label: function () {
-        if (typeof this.value === 'string') {
-          return this.value
-        } else if (this.value && (this.value instanceof File || this.value instanceof Blob)) {
-          return this.value.name
-        } else {
-          return 'Choose a file...'
-        }
+        return typeof this.value === 'string' ? this.value
+          : this.value instanceof Blob ? this.value.name : ''
       }
     }
   }
