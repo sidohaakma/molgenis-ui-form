@@ -260,7 +260,7 @@ const generateFormData = (fields: any, data: any) => {
       // Map MOLGENIS File entity to our form file object
       // which only contains a name
       const fileData = data[field.id]
-      accumulator[field.id] = fileData.filename
+      accumulator[field.id] = fileData ? fileData.filename : data[field.id]
     } else {
       accumulator[field.id] = data[field.id]
     }
