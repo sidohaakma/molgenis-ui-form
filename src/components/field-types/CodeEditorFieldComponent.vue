@@ -1,31 +1,21 @@
 <template>
-  <validate :state="state" :custom="{'validate': validate(field), 'isRequired': check}">
+  <validate :state="state" :custom="{'validate': isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
-      <!--<textarea-->
-      <!--:id="field.id"-->
-      <!--v-model="localValue"-->
-      <!--:name="field.id"-->
-      <!--class="form-control form-control-lg"-->
-      <!--:class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"-->
-      <!--:aria-describedby="field.id + '-description'"-->
-      <!--:required="isRequired(field)"-->
-      <!--:disabled="field.disabled">-->
-      <!--</textarea>-->
       <vue-code :id="field.id"
                 :name="field.id"
                 v-model="localValue"
                 :options="options"
-      >
+                :required="isRequired">
       </vue-code>
 
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" show="$touched || $submitted || $dirty" class="form-control-feedback">
-        <div class="invalid-message" slot="isRequired">This field is required</div>
+      <field-messages :name="field.id" show="$touched || $submitted" class="form-control-feedback">
+        <div class="invalid-message" slot="required">This field is required</div>
         <div class="invalid-message" slot="validate">Validation failed</div>
       </field-messages>
     </div>
@@ -39,6 +29,8 @@
   import 'codemirror/lib/codemirror.css'
   import 'codemirror/mode/htmlmixed/htmlmixed'
   import 'codemirror/mode/javascript/javascript'
+  import 'codemirror/mode/python/python'
+  import 'codemirror/mode/r/r'
   import 'codemirror/addon/hint/show-hint.js'
   import 'codemirror/addon/hint/show-hint.css'
   import 'codemirror/addon/hint/javascript-hint.js'
@@ -56,11 +48,6 @@
     name: 'CodeEditorFieldComponent',
     mixins: [VueForm],
     props: {
-      language: {
-        type: String,
-        default: 'htmlmixed',
-        required: false
-      },
       value: {
         type: String,
         default: '',
@@ -74,13 +61,13 @@
         type: Object,
         required: false
       },
-      validate: {
-        type: Function,
-        required: true
+      isValid: {
+        type: Boolean,
+        default: true
       },
       isRequired: {
-        type: Function,
-        required: true
+        type: Boolean,
+        default: false
       }
     },
     data () {
@@ -88,7 +75,7 @@
         // Store a local value to prevent changing the parent state
         localValue: this.value,
         options: {
-          mode: this.language,
+          mode: this.getLanguage(),
           indentUnit: 2,
           smartIndent: true,
           tabSize: 2,
@@ -101,10 +88,22 @@
       }
     },
     methods: {
-      check () {
-        if (this.isRequired) {
-          return this.localValue !== ''
+      getLanguage () {
+        if (this.field.type === 'html') {
+          return 'htmlmixed'
+        } else {
+          const lang = this.detectLanguage()
+          if (lang === 'Python') {
+            return lang.toString().toLowerCase()
+          } else {
+            return 'javascript'
+          }
         }
+      },
+      detectLanguage () {
+        var detectLang = require('lang-detector')
+        const lang = detectLang(this.value)
+        return lang
       }
     },
     watch: {
@@ -114,6 +113,8 @@
         // Emit value changes to trigger the hooks.onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
+        this.options.mode = this.getLanguage()
+        this.state.$touched = true
       }
     },
     components: {

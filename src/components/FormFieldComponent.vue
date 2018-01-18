@@ -12,25 +12,18 @@
         @dataChange="onDataChange">
       </checkbox-field-component>
     </template>
-    <template v-else-if="field.type === 'html'">
+
+    <!-- Render code editor field-->
+    <template v-else-if="field.type === 'html' || field.type === 'script'">
       <code-editor-field-component
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
-        :validate="validate"
+        :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange"></code-editor-field-component>
     </template>
-    <template v-else-if="field.type === 'script'">
-      <code-editor-field-component
-        v-model="formData[field.id]"
-        :field="field"
-        :state="state[field.id]"
-        :validate="validate"
-        :isRequired="isRequired"
-        language="javascript"
-        @dataChange="onDataChange"></code-editor-field-component>
-    </template>
+
     <!-- Render field groups + child fields, nesting subsequent groups with padding -->
     <template v-else-if="field.type === 'field-group'">
       <legend>{{ field.label }}</legend>

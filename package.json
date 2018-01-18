@@ -23,11 +23,12 @@
   },
   "dependencies": {
     "@molgenis/molgenis-api-client": "^2.1.0",
-    "vue-code": "^1.2.3",
-    "vue-form": "^4.7.0",
-    "vue-select": "^2.4.0",
+    "lang-detector": "^1.0.6",
     "moment": "^2.20.1",
-    "vue-flatpickr-component": "^6.1.0"
+    "vue-code": "^1.2.3",
+    "vue-flatpickr-component": "^6.1.0",
+    "vue-form": "^4.7.0",
+    "vue-select": "^2.4.0"
   },
   "peerDependencies": {
     "vue": "2.5.13"

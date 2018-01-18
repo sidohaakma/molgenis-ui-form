@@ -118,13 +118,29 @@ const metadata = {
       'description': 'HTML description'
     },
     {
-      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/script',
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/python_script',
       'fieldType': 'SCRIPT',
-      'name': 'script',
-      'label': 'Script Field',
+      'name': 'python_script',
+      'label': 'Python script Field',
       'attributes': [],
       'auto': false,
-      'nillable': true,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Script description'
+    },
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/javascript_script',
+      'fieldType': 'SCRIPT',
+      'name': 'javascript_script',
+      'label': 'Javascript script Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': false,
       'readOnly': false,
       'labelAttribute': true,
       'unique': true,
@@ -502,7 +518,8 @@ const items = {
   categorical_mref: ['ref1', 'ref2'],
   enum: 'enum2',
   html: '<h1>test</h1>',
-  script: 'alert("hello")'
+  python_script: 'def greet(name):\n\tprint "Hello", name\ngreet("Jack")\ngreet("Jill")\ngreet("Bob")',
+  javascript_script: 'var price1 = 5;\nvar price2 = 6;\nvar total = price1 + price2;\ndocument.getElementById("demo").innerHTML ="The total is: " + total;'
 }
 
 export default {
