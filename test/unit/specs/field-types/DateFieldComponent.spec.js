@@ -2,28 +2,6 @@ import DateFieldComponent from '@/components/field-types/DateFieldComponent'
 import { mount } from 'vue-test-utils'
 
 describe('DateFieldComponent', () => {
-  const field = {
-    id: 'date-field',
-    label: 'Date Field',
-    type: 'date',
-    disabled: false
-  }
-
-  const state = {
-    $touched: false,
-    $submitted: false,
-    $invalid: false,
-    _addControl: () => null
-  }
-
-  const propsData = {
-    value: '2018-01-01',
-    field: field,
-    state: state,
-    isRequired: true,
-    isValid: true
-  }
-
   describe('component', () => {
     it('should load the component with "DateFieldComponent" as a name', () => {
       expect(DateFieldComponent.name).to.equal('DateFieldComponent')
@@ -36,28 +14,87 @@ describe('DateFieldComponent', () => {
       expect(typeof props.state).to.equal('object')
       expect(typeof props.isValid).to.equal('object')
       expect(typeof props.isRequired).to.equal('object')
+      expect(typeof props.isTimeIncluded).to.equal('object')
     })
   })
 
-  describe('on value change', () => {
-    const wrapper = mount(DateFieldComponent, { propsData: propsData })
+  describe('Date only', () => {
+    const field = {
+      id: 'date-field',
+      label: 'Date Field',
+      type: 'date',
+      disabled: false
+    }
 
-    it('should emit an updated value on change', () => {
-      wrapper.setData({localValue: '2018-01-02'})
-      expect(wrapper.emitted().input[0]).to.deep.equal(['2018-01-02'])
-      expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+    const state = {
+      $touched: false,
+      $submitted: false,
+      $invalid: false,
+      _addControl: () => null
+    }
+
+    const propsData = {
+      value: '2018-01-01',
+      field: field,
+      state: state,
+      isRequired: true,
+      isValid: true
+    }
+    describe('on value change', () => {
+      const wrapper = mount(DateFieldComponent, { propsData: propsData })
+
+      it('should emit an updated value on change', () => {
+        wrapper.setData({localValue: '2018-01-02'})
+        expect(wrapper.emitted().input[0]).to.deep.equal(['2018-01-02'])
+        expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+      })
+    })
+
+    describe('isValidDateTime', () => {
+      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+
+      it('should return true if the localValue is set to a valid date', () => {
+        expect(wrapper.vm.isValidDateTime('2018-01-02')).to.equal(true)
+      })
+
+      it('should return false if the localValue is set to a invalid date', () => {
+        expect(wrapper.vm.isValidDateTime('2018-bla-bla')).to.equal(false)
+      })
     })
   })
 
-  describe('isValidDate', () => {
-    const wrapper = mount(DateFieldComponent, {propsData: propsData})
+  describe('Date and time', () => {
+    const field = {
+      id: 'date--time-field',
+      disabled: false
+    }
 
-    it('should return true if the localValue is set to a valid date', () => {
-      expect(wrapper.vm.isValidDate('2018-01-02')).to.equal(true)
-    })
+    const state = {
+      $touched: false,
+      $submitted: false,
+      $invalid: false,
+      _addControl: () => null
+    }
 
-    it('should return false if the localValue is set to a invalid date', () => {
-      expect(wrapper.vm.isValidDate('2018-bla-bla')).to.equal(false)
+    const propsData = {
+      value: '2018-01-01 13:23',
+      field: field,
+      state: state,
+      isRequired: () => true,
+      validate: () => true,
+      isTimeIncluded: true
+    }
+
+    describe('isValidDateTime', () => {
+      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+
+      it('should return true if the localValue is set to a valid date', () => {
+        expect(wrapper.vm.isValidDateTime('2018-01-02 13:23')).to.equal(true)
+      })
+
+      it('should return false if the localValue is set to a invalid date', () => {
+        expect(wrapper.vm.isValidDateTime('2018-01-02 13:23 PM')).to.equal(false)
+      })
     })
   })
 })

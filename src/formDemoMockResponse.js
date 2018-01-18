@@ -219,6 +219,22 @@ const metadata = {
       'description': 'DATE_TIME description'
     },
     {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/date_time',
+      'fieldType': 'DATE_TIME',
+      'name': 'date_time_nillable',
+      'label': 'DATE_TIME Field nillable',
+      'attributes': [],
+      'auto': false,
+      'nillable': true,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Nillable DATE_TIME description'
+    },
+    {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/categorical',
       'fieldType': 'CATEGORICAL',
       'name': 'categorical',
