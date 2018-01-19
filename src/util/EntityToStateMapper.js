@@ -153,9 +153,11 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
     case 'LONG':
       return 'number'
     case 'TEXT':
-    case 'SCRIPT':
-    case 'HTML':
       return 'text-area'
+    case 'SCRIPT':
+      return 'script'
+    case 'HTML':
+      return 'html'
     case 'DATE':
       return 'date'
     case 'DATE_TIME':
