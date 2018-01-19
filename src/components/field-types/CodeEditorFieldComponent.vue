@@ -94,10 +94,16 @@
       },
       language: function () {
         const lang = this.inputLanguage
-        return this.field.type === 'html' ? 'htmlmixed' : lang === 'python' ? lang : 'javascript'
+        return this.field.type === 'html' || lang === 'html' ? 'htmlmixed' : lang === 'python' || lang === 'r' ? lang : 'javascript'
       },
       inputLanguage: function () {
-        return detectLang(this.localValue).toString().toLowerCase()
+        const lang = detectLang(this.localValue).toString().toLowerCase()
+        return lang === 'unknown' ? this.isR(this.localValue) ? 'r' : 'unknown' : lang
+      }
+    },
+    methods: {
+      isR (code) {
+        return /\w* ?<- ?[\w(). "']*/.test(code)
       }
     },
     watch: {
@@ -107,7 +113,6 @@
         // Emit value changes to trigger the hooks.onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
-        this.options.mode = this.getLanguage()
         this.state.$touched = true
       }
     },
