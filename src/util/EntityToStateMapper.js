@@ -93,6 +93,7 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
   switch (attribute.fieldType) {
     case 'CATEGORICAL':
     case 'CATEGORICAL_MREF':
+    case 'ONE_TO_MANY':
     case 'XREF':
     case 'MREF':
       return (search: ?string | Array<string>): Promise<Array<FieldOption>> => {
@@ -144,9 +145,9 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
       return 'radio'
     case 'XREF':
       return 'single-select'
+    case 'ONE_TO_MANY':
     case 'MREF':
       return 'multi-select'
-    case 'ONETOMANY':
     case 'INT':
     case 'DECIMAL':
     case 'LONG':
@@ -227,8 +228,8 @@ const generateFormSchemaField = (attribute): FormField => {
     label: attribute.label,
     description: attribute.description,
     required: isRequired(attribute),
-    disabled: attribute.readOnly,
-    readOnly: attribute.readOnly,
+    disabled: attribute.readOnly || attribute.fieldType === 'ONE_TO_MANY',
+    readOnly: attribute.readOnly || attribute.fieldType === 'ONE_TO_MANY',
     visible: isVisible(attribute),
     validate: isValid(attribute)
   }
