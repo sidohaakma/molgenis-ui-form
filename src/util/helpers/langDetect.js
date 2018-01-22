@@ -1,4 +1,5 @@
 /**
+ *  Source: https://github.com/ts95/lang-detector
  *  The MIT License (MIT)
  *
  *  Copyright (c) 2015 Toni Sučić
@@ -61,7 +62,7 @@ let languages = {
     {pattern: /!==/g, points: 1},
     // Function definition
     // eslint-disable-next-line
-    {pattern: /function\*?(( )+[\$\w]+( )*\(.*\)|( )*\(.*\))/g, points: 1},
+    {pattern: /function\*?(( )+[\$\w]+( )*\(.*\)|( )*\(.*\))\n?[\t ]*{/g, points: 1},
     // null keyword
     {pattern: /null/g, points: 1},
     // lambda expression
@@ -124,6 +125,31 @@ let languages = {
     {pattern: /[a-z\-]+:(?!:).+;/, points: 2},
     // <style> tag from HTML
     {pattern: /<(\/)?style>/, points: -50}
+  ],
+
+  'R': [
+    // undefined keyword for numbers
+    {pattern: /NaN/g, points: 5},
+    // undefined keyword for strings
+    {pattern: /NA/g, points: 5},
+    // print statement
+    {pattern: /print\(.*\)/, points: 1},
+    // Variable declaration
+    {pattern: /\w+ ?<-/, points: 10},
+    // Vector declaration
+    {pattern: /c\(.*\)/, points: 5},
+    // == operator
+    {pattern: /==/g, points: 1},
+    // != operator
+    {pattern: /!=/g, points: 1},
+    // Function definition
+    {pattern: /function ?\((.*\n)*?\n?[\t ]*{/g, points: 1},
+    // null keyword
+    {pattern: /NULL/g, points: 2},
+    // (else )if statement
+    {pattern: /((else )|([\n \t]+))if ?\(!?.+\)\n?[\t ]*{?/, points: 2},
+    // while loop
+    {pattern: /while\(.+\).*\n?[\t ]*{/, points: 1}
   ],
 
   'Unknown': []
@@ -210,6 +236,5 @@ export default function (snippet, options) {
 
     return {detected: bestResult.language, statistics: statistics}
   }
-
   return bestResult.language
 }
