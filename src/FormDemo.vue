@@ -42,18 +42,13 @@
     background-color: #f8f8f8;
   }
 
-
   .v-select > .dropdown-toggle {
     border: none;
   }
 
-  /* fix to hide input[type=search] as webkit forces browser style*/
+  /* fix to hide input[type=search] as webkit forces browser style */
   .v-select .dropdown-toggle input[type=search] {
-    width: 0;
-    padding: 0;
-    margin: 0;
     -webkit-appearance: textfield;
-    z-index: -1;
   }
 </style>
 
