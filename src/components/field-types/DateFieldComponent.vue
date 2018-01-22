@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': isValidDate(localValue) && isValid}">
+  <validate :state="state" :custom="{'validate': isValidDateTime(localValue) && isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -73,6 +73,11 @@
       isRequired: {
         type: Boolean,
         default: false
+      },
+      isTimeIncluded: {
+        type: Boolean,
+        required: false,
+        default: false
       }
     },
     data () {
@@ -81,13 +86,15 @@
         localValue: this.value,
         config: {
           wrap: true,
-          allowInput: true
+          allowInput: true,
+          enableTime: this.isTimeIncluded
         }
       }
     },
     methods: {
-      isValidDate (dateString) {
-        const date = moment(dateString, 'YYYY-MM-DD', true)
+      isValidDateTime (dateString) {
+        const format = this.isTimeIncluded ? 'YYYY-MM-DD HH:mm' : 'YYYY-MM-DD'
+        const date = moment(dateString, format, true)
         return date != null && date.isValid()
       }
     },

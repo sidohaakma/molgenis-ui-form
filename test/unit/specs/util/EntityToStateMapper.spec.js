@@ -337,15 +337,7 @@ describe('Entity to state mapper', () => {
     it('should map a [FILE] entity to a form data object', () => {
       const formData = EntityToStateMapper.generateFormData(fields, data)
       expect(formData).to.deep.equal({
-        file: {
-          'href': '/api/v1/sys_FileMeta/aaa123bbb',
-          'id': 'aaa123bbb',
-          'filename': 'foo.txt',
-          'contentType': 'text/plain',
-          'size': 5,
-          'url': 'https://someserver/files/api',
-          'ownerUsername': 'admin'
-        }
+        file: 'foo.txt'
       })
     })
   })
@@ -640,6 +632,37 @@ describe('Entity to state mapper', () => {
     it('should map a [XREF] entity to a form data object', () => {
       const formData = EntityToStateMapper.generateFormData(fields, data)
       expect(formData).to.deep.equal({xref: 'ref1'})
+    })
+  })
+
+  describe('Generate form fields and data for a [ONE_TO_MANY] attribute', () => {
+    const fields = EntityToStateMapper.generateFormFields(schemas.oneToManySchema)
+    const field = fields[0]
+    const data = {one_to_many: ['ref1', 'ref2', 'ref3']}
+
+    it('should map a [ONE_TO_MANY] attribute to a form field object', done => {
+      expect(fields.length).to.equal(1)
+      expect(field.type).to.equal('multi-select')
+      expect(field.id).to.equal('one_to_many')
+      expect(field.label).to.equal('One to many Field')
+      expect(field.description).to.equal('This is a one to many. It is a readonly multi select')
+      expect(field.disabled).to.equal(true)
+      expect(field.readOnly).to.equal(true)
+      expect(field.visible()).to.equal(true)
+      expect(typeof field.options).to.equal('function')
+      field.options().then(response => {
+        expect(response).to.deep.equal([
+          {id: 'ref1', value: 'ref1', label: 'label1'},
+          {id: 'ref2', value: 'ref2', label: 'label2'},
+          {id: 'ref3', value: 'ref3', label: 'label3'}
+        ])
+        done()
+      })
+    })
+
+    it('should map a [ONE_TO_MANY] entity to a form data object', () => {
+      const formData = EntityToStateMapper.generateFormData(fields, data)
+      expect(formData).to.deep.equal({one_to_many: ['ref1', 'ref2', 'ref3']})
     })
   })
 })

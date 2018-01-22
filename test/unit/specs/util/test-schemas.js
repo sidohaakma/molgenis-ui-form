@@ -583,3 +583,75 @@ export const xrefSchema = {
     }
   ]
 }
+
+export const oneToManySchema = {
+  'attributes': [
+    {
+      'href': '/api/v2/sys_md_EntityType/meta/attributes',
+      'fieldType': 'ONE_TO_MANY',
+      'name': 'one_to_many',
+      'label': 'One to many Field',
+      'attributes': [],
+      'refEntity': {
+        'href': '/api/v1/it_emx_datatypes_TypeTestRef/meta',
+        'hrefCollection': '/api/v1/it_emx_datatypes_TypeTestRef',
+        'name': 'sys_md_Attribute',
+        'label': 'Attribute',
+        'description': 'Meta data for attributes',
+        'attributes': [
+          {
+            'href': '/api/v1/sys_md_Attribute/meta/id',
+            'fieldType': 'STRING',
+            'name': 'id',
+            'label': 'Identifier',
+            'attributes': [],
+            'maxLength': 255,
+            'auto': true,
+            'nillable': false,
+            'readOnly': true,
+            'labelAttribute': false,
+            'unique': true,
+            'visible': false,
+            'lookupAttribute': false,
+            'isAggregatable': false
+          },
+          {
+            'href': '/api/v2/sys_md_Attribute/meta/name',
+            'fieldType': 'STRING',
+            'name': 'name',
+            'label': 'Name',
+            'attributes': [],
+            'maxLength': 255,
+            'auto': false,
+            'nillable': false,
+            'readOnly': true,
+            'labelAttribute': true,
+            'unique': false,
+            'visible': true,
+            'lookupAttribute': true,
+            'isAggregatable': false
+          }
+        ],
+        'labelAttribute': 'label',
+        'idAttribute': 'value',
+        'lookupAttributes': [
+          'name',
+          'label'
+        ],
+        'isAbstract': false,
+        'writable': true,
+        'languageCode': 'en'
+      },
+      'mappedBy': 'entity',
+      'auto': false,
+      'nillable': true,
+      'readOnly': false,
+      'labelAttribute': false,
+      'unique': false,
+      'visible': true,
+      'lookupAttribute': false,
+      'isAggregatable': false,
+      'description': 'This is a one to many. It is a readonly multi select'
+    }
+  ]
+}

@@ -23,6 +23,7 @@
                 :inputId="field.id"
                 :name="field.id"
                 :required="isRequired"
+                :disabled="field.disabled"
                 :multiple="true">
 
         <div slot="no-options">

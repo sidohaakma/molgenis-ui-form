@@ -13,6 +13,18 @@
       </checkbox-field-component>
     </template>
 
+    <!-- Render file field -->
+    <template v-else-if="field.type === 'file'">
+      <file-field-component
+        v-model="formData[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :isValid="isValid"
+        :isRequired="isRequired"
+        @dataChange="onDataChange">
+      </file-field-component>
+    </template>
+
     <!-- Render field groups + child fields, nesting subsequent groups with padding -->
     <template v-else-if="field.type === 'field-group'">
       <legend>{{ field.label }}</legend>
@@ -83,14 +95,15 @@
     </template>
 
     <!-- Render date field -->
-    <template v-else-if="field.type === 'date'">
+    <template v-else-if="field.type === 'date' || field.type === 'date-time'">
       <date-field-component
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
-        @dataChange="onDataChange">
+        @dataChange="onDataChange"
+        :isTimeIncluded="field.type === 'date-time'">
       </date-field-component>
     </template>
 
@@ -117,6 +130,7 @@
 <script>
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
   import DateFieldComponent from './field-types/DateFieldComponent'
+  import FileFieldComponent from './field-types/FileFieldComponent'
   import MultiSelectFieldComponent from './field-types/MultiSelectFieldComponent'
   import RadioFieldComponent from './field-types/RadioFieldComponent'
   import SingleSelectFieldComponent from './field-types/SingleSelectFieldComponent'
@@ -169,6 +183,7 @@
     components: {
       CheckboxFieldComponent,
       DateFieldComponent,
+      FileFieldComponent,
       MultiSelectFieldComponent,
       RadioFieldComponent,
       SingleSelectFieldComponent,

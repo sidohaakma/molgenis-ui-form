@@ -219,6 +219,22 @@ const metadata = {
       'description': 'DATE_TIME description'
     },
     {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/date_time',
+      'fieldType': 'DATE_TIME',
+      'name': 'date_time_nillable',
+      'label': 'DATE_TIME Field nillable',
+      'attributes': [],
+      'auto': false,
+      'nillable': true,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Nillable DATE_TIME description'
+    },
+    {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/categorical',
       'fieldType': 'CATEGORICAL',
       'name': 'categorical',
@@ -450,7 +466,75 @@ const metadata = {
           'visibleExpression': '$("nested-compound-string").value() === "show"',
           'nullableExpression': '$("compound-int").value() === "1"',
           'validationExpression': '$("compound-string").value() === "valid"'
-        }],
+        },
+        {
+          'href': '/api/v2/sys_md_EntityType/meta/attributes',
+          'fieldType': 'ONE_TO_MANY',
+          'name': 'one_to_many',
+          'label': 'One to many Field',
+          'attributes': [],
+          'refEntity': {
+            'href': '/api/v1/it_emx_datatypes_TypeTestRef/meta',
+            'hrefCollection': '/api/v1/it_emx_datatypes_TypeTestRef',
+            'name': 'sys_md_Attribute',
+            'label': 'Attribute',
+            'description': 'Meta data for attributes',
+            'attributes': [
+              {
+                'href': '/api/v2/sys_md_Attribute/meta/id',
+                'fieldType': 'STRING',
+                'name': 'id',
+                'label': 'Identifier',
+                'attributes': [],
+                'maxLength': 255,
+                'auto': true,
+                'nillable': false,
+                'readOnly': true,
+                'labelAttribute': false,
+                'unique': true,
+                'visible': false,
+                'lookupAttribute': false,
+                'isAggregatable': false
+              },
+              {
+                'href': '/api/v2/sys_md_Attribute/meta/name',
+                'fieldType': 'STRING',
+                'name': 'name',
+                'label': 'Name',
+                'attributes': [],
+                'maxLength': 255,
+                'auto': false,
+                'nillable': false,
+                'readOnly': true,
+                'labelAttribute': true,
+                'unique': false,
+                'visible': true,
+                'lookupAttribute': true,
+                'isAggregatable': false
+              }
+            ],
+            'labelAttribute': 'label',
+            'idAttribute': 'value',
+            'lookupAttributes': [
+              'name',
+              'label'
+            ],
+            'isAbstract': false,
+            'writable': true,
+            'languageCode': 'en'
+          },
+          'mappedBy': 'entity',
+          'auto': false,
+          'nillable': true,
+          'readOnly': false,
+          'labelAttribute': false,
+          'unique': false,
+          'visible': true,
+          'lookupAttribute': false,
+          'isAggregatable': false,
+          'description': 'This is a one to many. It is a readonly multi select'
+        }
+      ],
       'auto': false,
       'nillable': false,
       'readOnly': false,
@@ -468,6 +552,7 @@ const items = {
   text: 'text value',
   hyperlink: 'www.nu.nl',
   categorical_mref: ['ref1', 'ref2'],
+  one_to_many: ['ref1', 'ref2'],
   enum: 'enum2'
 }
 

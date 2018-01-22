@@ -70,8 +70,7 @@ const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<st
  *    {
  *      id: 'example',
  *      label: 'Example field',
- *      options: () => {
- *        return [
+ *      options: () => Promise.resolve([
  *          {
  *            id: '1',
  *            value: '1',
@@ -83,7 +82,6 @@ const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<st
  *            label: 'Example option 2'
  *          }
  *        ]
- *      }
  *    }
  *  ]
  * }
@@ -95,6 +93,7 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
   switch (attribute.fieldType) {
     case 'CATEGORICAL':
     case 'CATEGORICAL_MREF':
+    case 'ONE_TO_MANY':
     case 'XREF':
     case 'MREF':
       return (search: ?string | Array<string>): Promise<Array<FieldOption>> => {
@@ -146,9 +145,9 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
       return 'radio'
     case 'XREF':
       return 'single-select'
+    case 'ONE_TO_MANY':
     case 'MREF':
       return 'multi-select'
-    case 'ONETOMANY':
     case 'INT':
     case 'DECIMAL':
     case 'LONG':
@@ -229,8 +228,8 @@ const generateFormSchemaField = (attribute): FormField => {
     label: attribute.label,
     description: attribute.description,
     required: isRequired(attribute),
-    disabled: attribute.readOnly,
-    readOnly: attribute.readOnly,
+    disabled: attribute.readOnly || attribute.fieldType === 'ONE_TO_MANY',
+    readOnly: attribute.readOnly || attribute.fieldType === 'ONE_TO_MANY',
     visible: isVisible(attribute),
     validate: isValid(attribute)
   }
@@ -256,8 +255,14 @@ const generateFormData = (fields: any, data: any) => {
   return fields.reduce((accumulator, field) => {
     if (field.type === 'field-group') {
       return {...accumulator, ...generateFormData(field.children, data)}
+    } else if (field.type === 'file') {
+      // Map MOLGENIS FileMeta entity to our form file object
+      // which only contains a name
+      const fileData = data[field.id]
+      accumulator[field.id] = fileData ? fileData.filename : data[field.id]
+    } else {
+      accumulator[field.id] = data[field.id]
     }
-    accumulator[field.id] = data[field.id]
     return accumulator
   }, {})
 }
