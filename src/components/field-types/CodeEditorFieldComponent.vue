@@ -42,7 +42,7 @@
   import 'codemirror/addon/dialog/dialog.css'
   import 'codemirror/addon/dialog/dialog.js'
 
-  import detectLang from 'lang-detector'
+  import detectLang from '../../util/helpers/langDetect'
 
   import { FormField } from '../../flow.types'
 

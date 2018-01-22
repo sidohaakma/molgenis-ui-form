@@ -1,26 +1,8 @@
 // @flow
 
-export type EntityFieldType =
-  'BOOL'
-  | 'CATEGORICAL'
-  | 'ENUM'
-  | 'XREF'
-  | 'MREF'
-  | 'ONETOMANY'
-  | 'INT'
-  | 'DECIMAL'
-  | 'LONG'
-  |
-  'TEXT'
-  | 'SCRIPT'
-  | 'HTML'
-  | 'DATE'
-  | 'DATE_TIME'
-  | 'CATEGORICAL_MREF'
-  | 'STRING'
-  | 'HYPERLINK'
-  | 'EMAIL'
-  | 'FILE'
+export type EntityFieldType = 'BOOL' | 'CATEGORICAL' | 'ENUM' | 'XREF' | 'MREF' | 'ONETOMANY' |
+  'INT' | 'DECIMAL' | 'LONG' | 'TEXT' | 'SCRIPT' | 'HTML' | 'DATE' | 'DATE_TIME' | 'CATEGORICAL_MREF' |
+  'STRING' | 'HYPERLINK' | 'EMAIL' | 'FILE' | 'ONE_TO_MANY' | 'COMPOUND'
 
 export type HtmlFieldType = 'radio' | 'select' | 'number' | 'text-area' | 'date' | 'date-time' | 'checkbox' |
   'text' | 'url' | 'email' | 'file' | 'field-group' | 'multi-select' | 'single-select' | 'script' | 'html'
