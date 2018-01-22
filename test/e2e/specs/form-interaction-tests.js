@@ -67,17 +67,19 @@ module.exports = {
   },
 
   'Check if asterisk class is present on integer element': function (browser) {
+    browser.options.desiredCapabilities.name = 'Check if asterisk class is present on integer element'
     browser.expect.element('#integer-fs').to.have.attribute('class').which.contains('required-field')
     browser.end()
   },
 
   'Check if asterisk class is not present on non required element': function (browser) {
-    browser.options.desiredCapabilities.name = 'Check if asterix class is present on integer element'
+    browser.options.desiredCapabilities.name = 'Check if asterisk class is not present on integer element'
     browser.expect.element('#string-fs').to.not.have.attribute('class').which.contains('required-field')
     browser.end()
   },
 
   'Check if required state works when dependant on another field': function (browser) {
+    browser.options.desiredCapabilities.name = 'Check if required state works when dependant on another field'
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
     browser.expect.element('#compound-string-fs').to.not.have.attribute('class').which.contains('required-field')
@@ -88,12 +90,14 @@ module.exports = {
   },
 
   'Check if visible state works when dependant on another field': function (browser) {
+    browser.options.desiredCapabilities.name = 'Check if visible state works when dependant on another field'
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
     browser.end()
   },
 
   'Check if in-validation works when dependant on input data': function (browser) {
+    browser.options.desiredCapabilities.name = 'Check if in-validation works when dependant on input data'
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
 
@@ -104,6 +108,7 @@ module.exports = {
   },
 
   'Check if validation works when dependant on input data': function (browser) {
+    browser.options.desiredCapabilities.name = 'Check if validation works when dependant on input data'
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
 

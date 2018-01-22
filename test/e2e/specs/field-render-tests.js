@@ -86,6 +86,7 @@ module.exports = {
   },
 
   'Fill out date field using picker': function (browser) {
+    browser.options.desiredCapabilities.name = 'Fill out date field using picker'
     browser.expect.element('#date').to.be.visible
     browser.click('#date')
     browser.expect.element('.flatpickr-calendar').to.be.visible
@@ -96,6 +97,7 @@ module.exports = {
   },
 
   'Clear out a nillable datefield using the clear btn': function (browser) {
+    browser.options.desiredCapabilities.name = 'Clear out a nillable datefield using the clear btn'
     const clearBtnSelector = '#nillable_date-fs > div > div > div.input-group > div > button.date-field-clear-btn.btn.btn-outline-secondary'
     browser.clearValue('#nillable_date')
     const today = new Date().toJSON().slice(0, 10)
@@ -106,6 +108,7 @@ module.exports = {
   },
 
   'Fill out date time field using picker': function (browser) {
+    browser.options.desiredCapabilities.name = 'Fill out date time field using picker'
     browser.expect.element('#date_time').to.be.visible
     browser.click('#date_time')
     browser.assert.visible('body > div.flatpickr-calendar.hasTime.animate.open')
