@@ -40,8 +40,8 @@ describe('CheckboxFieldComponent unit tests', () => {
   const propsData = {
     field: field,
     state: state,
-    isRequired: () => true,
-    validate: () => true
+    isRequired: true,
+    isValid: true
   }
 
   const wrapper = mount(CheckboxFieldComponent, {

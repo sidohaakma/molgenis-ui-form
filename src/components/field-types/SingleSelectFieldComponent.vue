@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': validate(field)}">
+  <validate :state="state" :custom="{'validate': isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -65,13 +65,13 @@
         type: Object,
         required: false
       },
-      validate: {
-        type: Function,
-        required: true
+      isValid: {
+        type: Boolean,
+        default: true
       },
       isRequired: {
-        type: Function,
-        required: true
+        type: Boolean,
+        default: false
       }
     },
     data () {
@@ -95,11 +95,11 @@
         if (value) {
           // Emit value changes to the parent (form)
           this.$emit('input', value.id)
-          // Emit value changes to trigger the hooks.onValueChange
-          // Do not use input event for this to prevent unwanted behavior
         } else {
           this.$emit('input', null)
         }
+        // Emit value changes to trigger the hooks.onValueChange
+        // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
       }
     },
@@ -108,6 +108,9 @@
       if (this.value) {
         this.field.options(this.value).then(response => {
           this.options = response
+
+          // Replace localValue with the entire object so vue-select can use the label property
+          this.localValue = this.options.find(option => option.id === this.value)
         })
       }
     },

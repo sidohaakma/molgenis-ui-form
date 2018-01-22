@@ -24,15 +24,28 @@ MappingException.prototype.toString = function () {
  * to query a data table. Returns a list of {id, value, label} items as a Promise
  *
  * @param refEntity The refEntity of the attribute.
+ * @param search An optional search query used to filter the items of the response
+ * @param multiple An optional boolean specifying that the search value is an array of values
  * @return {Promise} Promise object representing an Array of FieldOption
  */
-const fetchFieldOptions = (refEntity: RefEntityType, search: ?string): Promise<Array<FieldOption>> => {
+const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<string>): Promise<Array<FieldOption>> => {
   const idAttribute = refEntity.idAttribute
   const labelAttribute = refEntity.labelAttribute ? refEntity.labelAttribute : refEntity.idAttribute
 
   // map refEntity.hrefCollection v1 URLs to v2 to enable the use of RSQL queries
-  const v2RefUri = refEntity.hrefCollection.replace('/v1/', '/v2/')
-  const uri = search ? v2RefUri + '?q=' + idAttribute + '=like=' + search + ',' + labelAttribute + '=like=' + search : refEntity.hrefCollection
+  let uri = refEntity.hrefCollection.replace('/v1/', '/v2/')
+
+  if (search) {
+    if (Array.isArray(search)) {
+      // Join array into a string
+      const value = search.join(',')
+      // Use =in= query
+      uri = uri + '?q=' + idAttribute + '=in=(' + value + '),' + labelAttribute + '=in=(' + value + ')'
+    } else if (typeof search === 'string') {
+      const value = search
+      uri = uri + '?q=' + idAttribute + '=like=' + value + ',' + labelAttribute + '=like=' + value
+    }
+  }
 
   return api.get(uri).then(response => {
     return response.items.map(item => {
@@ -82,9 +95,9 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
   switch (attribute.fieldType) {
     case 'CATEGORICAL':
     case 'CATEGORICAL_MREF':
-    case 'MREF':
     case 'XREF':
-      return (search: ?string): Promise<Array<FieldOption>> => {
+    case 'MREF':
+      return (search: ?string | Array<string>): Promise<Array<FieldOption>> => {
         return fetchFieldOptions(attribute.refEntity, search).then(response => {
           return response
         })

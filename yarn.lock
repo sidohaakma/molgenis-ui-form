@@ -2817,6 +2817,10 @@ flat-cache@^1.2.1:
     graceful-fs "^4.1.2"
     write "^0.2.1"
 
+flatpickr@^4.2.3:
+  version "4.2.3"
+  resolved "https://registry.yarnpkg.com/flatpickr/-/flatpickr-4.2.3.tgz#084b95d353b3b64a164ebfe7151df75c8dae14b1"
+
 flatten@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/flatten/-/flatten-1.0.2.tgz#dae46a9d78fbe25292258cc1e780a41d95c03782"
@@ -4581,6 +4585,10 @@ mocha@^3.2.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
+moment@^2.20.1:
+  version "2.20.1"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
+
 move-concurrently@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/move-concurrently/-/move-concurrently-1.0.1.tgz#be2c005fda32e0b29af1f05d7c4b33214c701f92"
@@ -5160,6 +5168,14 @@ performance-now@^0.2.0:
 performance-now@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/performance-now/-/performance-now-2.1.0.tgz#6309f4e0e5fa913ec1c69307ae364b4b377c9e7b"
+
+phantomjs-polyfill-find@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/phantomjs-polyfill-find/-/phantomjs-polyfill-find-0.0.1.tgz#e5ba611361ecb4a969ffd5137638c811c9797be2"
+
+phantomjs-polyfill-includes@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/phantomjs-polyfill-includes/-/phantomjs-polyfill-includes-1.0.2.tgz#24ccdbcc70694b75b86752fb816c0f11f6dc7c06"
 
 phantomjs-prebuilt@^2.1.14, phantomjs-prebuilt@^2.1.7:
   version "2.1.16"
@@ -6980,6 +6996,12 @@ vm-browserify@0.0.4:
 void-elements@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/void-elements/-/void-elements-2.0.1.tgz#c066afb582bb1cb4128d60ea92392e94d5e9dbec"
+
+vue-flatpickr-component@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/vue-flatpickr-component/-/vue-flatpickr-component-6.1.0.tgz#20ab57ccb17331188d3335f8067db876c9a6010a"
+  dependencies:
+    flatpickr "^4.2.3"
 
 vue-form@^4.7.0:
   version "4.7.0"

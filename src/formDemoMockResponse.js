@@ -187,6 +187,22 @@ const metadata = {
       'description': 'DATE description'
     },
     {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/date_nillable',
+      'fieldType': 'DATE',
+      'name': 'nillable_date',
+      'label': 'Nillable DATE Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': true,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Nillable DATE description'
+    },
+    {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/date_time',
       'fieldType': 'DATE_TIME',
       'name': 'date_time',
@@ -256,7 +272,7 @@ const metadata = {
     {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/xref',
       'fieldType': 'XREF',
-      'name': 'xref-field',
+      'name': 'xref',
       'label': 'XREF Field',
       'description': 'XREF description',
       'attributes': [],
@@ -282,7 +298,7 @@ const metadata = {
     {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/mref',
       'fieldType': 'MREF',
-      'name': 'mref-field',
+      'name': 'mref',
       'label': 'MREF Field',
       'description': 'MREF description',
       'attributes': [],
@@ -432,7 +448,7 @@ const metadata = {
           'lookupAttribute': false,
           'isAggregatable': true,
           'visibleExpression': '$("nested-compound-string").value() === "show"',
-          'nullableExpression': '$("compound-int").value() === 1',
+          'nullableExpression': '$("compound-int").value() === "1"',
           'validationExpression': '$("compound-string").value() === "valid"'
         }],
       'auto': false,
