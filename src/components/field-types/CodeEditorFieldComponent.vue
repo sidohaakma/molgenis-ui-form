@@ -94,16 +94,11 @@
       },
       language: function () {
         const lang = this.inputLanguage
-        return this.field.type === 'html' || lang === 'html' ? 'htmlmixed' : lang === 'python' || lang === 'r' ? lang : 'javascript'
+        return this.field.type === 'html' || lang === 'html' ? 'htmlmixed' : lang === 'python' || lang === 'javascript' ? lang : 'r'
       },
       inputLanguage: function () {
         const lang = detectLang(this.localValue).toString().toLowerCase()
-        return lang === 'unknown' ? this.isR(this.localValue) ? 'r' : 'unknown' : lang
-      }
-    },
-    methods: {
-      isR (code) {
-        return /\w* ?<- ?[\w(). "']*/.test(code)
+        return lang
       }
     },
     watch: {
