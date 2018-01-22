@@ -102,4 +102,26 @@ describe('CodeEditorFieldComponent unit tests', () => {
     })
     expect(altWrapper.vm.options.readOnly).to.equal(true)
   })
+
+  it('should make code editor read only if disable is true', () => {
+    const htmlField = {
+      id: 'html-field',
+      label: 'Html field',
+      description: 'This is a html field',
+      type: 'html',
+      disabled: true
+    }
+    const htmlPropsData = {
+      field: htmlField,
+      state: state,
+      isRequired: false,
+      isValid: true
+    }
+
+    const htmlWrapper = mount(CodeEditorFieldComponent, {
+      propsData: htmlPropsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    expect(htmlWrapper.vm.options.mode).to.equal('htmlmixed')
+  })
 })
