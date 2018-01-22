@@ -72,17 +72,9 @@ describe('CodeEditorFieldComponent unit tests', () => {
     expect(wrapper.vm.options.mode).to.equal('r')
   })
 
-  it('should set language mode to javascript if code programmed in unrecognized language', () => {
+  it('should set language mode to r if code programmed in unrecognized language', () => {
     wrapper.setData({localValue: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'})
-    expect(wrapper.vm.options.mode).to.equal('javascript')
-  })
-
-  it('should return true if provided code programmed in r', () => {
-    expect(wrapper.vm.isR('test <- "hello world"')).to.equal(true)
-  })
-
-  it('should return false if provided code not programmed in r', () => {
-    expect(wrapper.vm.isR('test = str(9)')).to.equal(false)
+    expect(wrapper.vm.options.mode).to.equal('r')
   })
 
   it('should make code editor not read only if disable is false', () => {
