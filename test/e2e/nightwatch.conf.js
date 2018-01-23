@@ -76,7 +76,9 @@ module.exports = {
         name: packageJson.name,
         build: 'build-${TRAVIS_JOB_NUMBER}',
         'tunnel-identifier': process.env.TRAVIS_JOB_NUMBER,
-        browserName: 'ie11'
+        browserName: 'internet explorer',
+        platform: 'Windows 10',
+        version: '11.103',
       },
       globals: {
         waitForConditionTimeout: 10000
