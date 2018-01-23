@@ -2,7 +2,7 @@
   <validate :state="state" :custom="{'validate': isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
-      <div id="styling" :style="style">
+      <div :class="{'border border-danger': isInvalid}">
         <vue-code :id="field.id"
                   :name="field.id"
                   v-model="localValue"
@@ -75,8 +75,7 @@
     data () {
       return {
         // Store a local value to prevent changing the parent state
-        localValue: this.value,
-        invalidStyle: 'border: 1px solid red;'
+        localValue: this.value
       }
     },
     computed: {
@@ -93,16 +92,12 @@
           readOnly: this.field.disabled
         }
       },
-      style: function () {
-        return this.isValid && !(this.isRequired && this.localValue === '') ? '' : this.invalidStyle
-      },
       language: function () {
-        const lang = this.inputLanguage
+        const lang = detectLang(this.localValue).toString().toLowerCase()
         return this.field.type === 'html' || lang === 'html' ? 'htmlmixed' : lang === 'python' || lang === 'javascript' ? lang : 'r'
       },
-      inputLanguage: function () {
-        const lang = detectLang(this.localValue).toString().toLowerCase()
-        return lang
+      isInvalid () {
+        return this.state && ((this.state.$touched || this.state.$submitted) && (!this.isValid || (this.isRequired && this.localValue === '')))
       }
     },
     watch: {
