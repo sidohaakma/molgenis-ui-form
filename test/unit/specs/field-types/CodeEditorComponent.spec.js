@@ -103,7 +103,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
     expect(altWrapper.vm.options.readOnly).to.equal(true)
   })
 
-  it.only('should show htmlmixed highlighting when type is html', () => {
+  it('should show htmlmixed highlighting when type is html', () => {
     const htmlField = {
       id: 'html-field',
       label: 'Html field',
@@ -125,7 +125,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
     expect(htmlWrapper.vm.options.mode).to.equal('htmlmixed')
   })
 
-  it.only('should set styling when field is invalid', () => {
+  it('should set styling when field is invalid', () => {
     const altField = {
       id: 'script-field',
       label: 'Script field',
@@ -147,7 +147,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
     expect(altWrapper.vm.style).to.equal(altWrapper.vm.invalidStyle)
   })
 
-  it.only('should not set styling when field is valid', () => {
+  it('should not set styling when field is valid', () => {
     const altField = {
       id: 'script-field',
       label: 'Script field',
