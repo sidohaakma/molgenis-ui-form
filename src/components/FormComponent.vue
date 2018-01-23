@@ -50,9 +50,7 @@
     data () {
       return {
         showOptionalFields: true,
-        state: {},
-        // clone initialFormData to formData as formDate needs to be Observable
-        formData: Object.assign({}, this.initialFormData)
+        state: {}
       }
     },
     methods: {
@@ -66,6 +64,10 @@
     computed: {
       eyeMessage () {
         return this.showOptionalFields ? 'Hide optional fields' : 'Show all fields'
+      },
+      formData () {
+        // clone initialFormData to formData as formDate needs to be Observable
+        return Object.assign({}, this.initialFormData)
       }
     }
   }
