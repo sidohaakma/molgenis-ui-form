@@ -103,7 +103,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
     expect(altWrapper.vm.options.readOnly).to.equal(true)
   })
 
-  it('should make code editor read only if disable is true', () => {
+  it.only('should show htmlmixed highlighting when type is html', () => {
     const htmlField = {
       id: 'html-field',
       label: 'Html field',
@@ -123,5 +123,51 @@ describe('CodeEditorFieldComponent unit tests', () => {
       stubs: {'fieldMessages': '<div>This field is required</div>'}
     })
     expect(htmlWrapper.vm.options.mode).to.equal('htmlmixed')
+  })
+
+  it.only('should set styling when field is invalid', () => {
+    const altField = {
+      id: 'script-field',
+      label: 'Script field',
+      description: 'This is a script field',
+      type: 'script',
+      disabled: true
+    }
+    const altPropsData = {
+      field: altField,
+      state: state,
+      isRequired: true,
+      isValid: true
+    }
+
+    const altWrapper = mount(CodeEditorFieldComponent, {
+      propsData: altPropsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    expect(altWrapper.vm.style).to.equal(altWrapper.vm.invalidStyle)
+  })
+
+  it.only('should not set styling when field is valid', () => {
+    const altField = {
+      id: 'script-field',
+      label: 'Script field',
+      description: 'This is a script field',
+      type: 'script',
+      disabled: true
+    }
+    const altPropsData = {
+      field: altField,
+      state: state,
+      isRequired: true,
+      isValid: true
+    }
+
+    const altWrapper = mount(CodeEditorFieldComponent, {
+      propsData: altPropsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+
+    altWrapper.setData({localValue: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'})
+    expect(altWrapper.vm.style).to.equal('')
   })
 })

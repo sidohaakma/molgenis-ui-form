@@ -2,14 +2,14 @@
   <validate :state="state" :custom="{'validate': isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
-
-      <vue-code :id="field.id"
-                :name="field.id"
-                v-model="localValue"
-                :options="options"
-                :required="isRequired">
-      </vue-code>
-
+      <div id="styling" :style="style">
+        <vue-code :id="field.id"
+                  :name="field.id"
+                  v-model="localValue"
+                  :options="options"
+                  :required="isRequired">
+        </vue-code>
+      </div>
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
       </small>
@@ -75,7 +75,8 @@
     data () {
       return {
         // Store a local value to prevent changing the parent state
-        localValue: this.value
+        localValue: this.value,
+        invalidStyle: 'border: 1px solid red;'
       }
     },
     computed: {
@@ -91,6 +92,9 @@
           extraKeys: {'Ctrl-Space': 'autocomplete'},
           readOnly: this.field.disabled
         }
+      },
+      style: function () {
+        return this.isValid && !(this.isRequired && this.localValue === '') ? '' : this.invalidStyle
       },
       language: function () {
         const lang = this.inputLanguage
