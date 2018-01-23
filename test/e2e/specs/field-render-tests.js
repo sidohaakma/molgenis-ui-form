@@ -16,7 +16,7 @@ module.exports = {
   // http://nightwatchjs.org/api#expect-api
   'Correctly render a field-group and its child fields': function (browser) {
     browser.options.desiredCapabilities.name = 'Correctly render a field-group and its child fields'
-    // Assert field groups and child elements are rendered correctly
+
     browser.expect.element('#compound-field-fs').to.be.visible
     browser.expect.element('#compound-field-fs').to.be.a('fieldset')
     browser.expect.element('#compound-field-fs legend').text.to.contain('Compound field')
@@ -54,6 +54,7 @@ module.exports = {
 
   'Correctly render a multi select field with a list of options': function (browser) {
     browser.options.desiredCapabilities.name = 'Correctly render a multi select field with a list of options'
+
     browser.expect.element('#mref-fs').to.be.visible
     browser.expect.element('#mref-fs').to.be.a('fieldset')
 
@@ -66,6 +67,7 @@ module.exports = {
 
   'Correctly render a single select field with a list of options': function (browser) {
     browser.options.desiredCapabilities.name = 'Correctly render a single select field with a list of options'
+
     browser.expect.element('#xref-fs').to.be.visible
     browser.expect.element('#xref-fs').to.be.a('fieldset')
 
@@ -78,47 +80,61 @@ module.exports = {
 
   'Toggle visibility of string field': function (browser) {
     browser.options.desiredCapabilities.name = 'Toggle visibility of string field'
+
     browser.expect.element('#nested-compound-string-fs').to.be.present
     browser.expect.element('#nested-compound-string-fs').to.be.visible
     browser.expect.element('#nested-compound-string-fs').to.be.a('fieldset')
+
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
   },
 
   'Fill out date field using picker': function (browser) {
     browser.options.desiredCapabilities.name = 'Fill out date field using picker'
+
     browser.expect.element('#date').to.be.visible
+
     browser.click('#date')
     browser.expect.element('.flatpickr-calendar').to.be.visible
+
     browser.click('.today')
     browser.expect.element('.flatpickr-calendar').to.be.not.visible
+
     const today = new Date().toJSON().slice(0, 10)
-    browser.assert.value('#date', today)
+    browser.expect.element('#date').to.have.value.that.equals(today)
   },
 
   'Clear out a nillable datefield using the clear btn': function (browser) {
     browser.options.desiredCapabilities.name = 'Clear out a nillable datefield using the clear btn'
+
     const clearBtnSelector = '#nillable_date-fs > div > div > div.input-group > div > button.date-field-clear-btn.btn.btn-outline-secondary'
     browser.clearValue('#nillable_date')
+
     const today = new Date().toJSON().slice(0, 10)
     browser.setValue('#nillable_date', today)
-    browser.assert.visible(clearBtnSelector)
+    browser.expect.element(clearBtnSelector).to.be.visible
+
     browser.click(clearBtnSelector)
-    browser.assert.value('#nillable_date', '')
+    browser.expect.element('#nillable_date').to.have.value.that.equals('')
   },
 
   'Fill out date time field using picker': function (browser) {
     browser.options.desiredCapabilities.name = 'Fill out date time field using picker'
+
     browser.expect.element('#date_time').to.be.visible
+
     browser.click('#date_time')
-    browser.assert.visible('body > div.flatpickr-calendar.hasTime.animate.open')
+    browser.expect.element('body > div.flatpickr-calendar.hasTime.animate.open').to.be.visible
+
     browser.click('body > div.flatpickr-calendar.hasTime.animate.open > div.flatpickr-innerContainer > div > div.flatpickr-days > div > span.flatpickr-day.today')
-    browser.expect.element('.flatpickr-hour').to.be.visible
+    browser.expect.element('.flatpickr-hour').to.be.visible.before(1000) // sometimes visible, sometimes not...
     browser.expect.element('.flatpickr-minute').to.be.visible
     browser.expect.element('.flatpickr-am-pm').to.be.visible
+
     browser.click('#form-demo') // click outside calender
     browser.expect.element('.flatpickr-calendar').to.be.not.visible
+
     const today = new Date().toJSON().slice(0, 10)
-    browser.assert.valueContains('#date_time', today)
+    browser.expect.element('#date_time').to.have.value.which.contains(today)
   }
 }
