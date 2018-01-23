@@ -7,7 +7,7 @@
         :id="field.id"
         v-model="localValue"
         :name="field.id"
-        class="form-control form-control-lg"
+        class="form-control"
         :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
         :aria-describedby="field.id + '-description'"
         :required="isRequired"

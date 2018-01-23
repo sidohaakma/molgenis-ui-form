@@ -44,7 +44,10 @@ Use in template
 ```
 
 
-## Build Setup
+## Development
+The general guidelines and setup of the development environment are described here.
+
+### Build setup
 
 ``` bash
 # install dependencies
@@ -70,3 +73,15 @@ yarn test
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+### Tests
+To develop tests please acknowledge the following guidelines.
+
+#### End-to-End test
+
+Please make sure you add the name of the specific test in the test. This is needed to see the test-name in [Saucelabs](https://www.saucelabs.com).
+**Example**
+
+```javascript
+browser.options.desiredCapabilities.name = 'Exmample testname'
+```

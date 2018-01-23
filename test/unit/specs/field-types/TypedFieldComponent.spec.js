@@ -75,7 +75,7 @@ describe('TypedFieldComponent unit tests', () => {
       expect(input.type).to.equal('text')
       expect(input.required).to.equal(true)
       expect(input.className).to.equal(
-        'form-control form-control-lg vf-pristine vf-invalid vf-untouched vf-invalid-validate')
+        'form-control vf-pristine vf-invalid vf-untouched vf-invalid-validate')
     })
 
     it('should emit an updated value on change', () => {
@@ -96,7 +96,7 @@ describe('TypedFieldComponent unit tests', () => {
         }
       })
 
-      expect(wrapper.find('input').classes()).to.deep.equal(['form-control', 'form-control-lg', 'is-invalid',
+      expect(wrapper.find('input').classes()).to.deep.equal(['form-control', 'is-invalid',
         'vf-pristine', 'vf-invalid', 'vf-untouched', 'vf-invalid-validate'])
     })
 

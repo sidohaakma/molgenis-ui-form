@@ -9,7 +9,7 @@
           v-model="localValue"
           :config="config"
           :name="field.id"
-          class="form-control form-control-lg"
+          class="form-control"
           :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
           :aria-describedby="field.id + '-description'"
           :required="isRequired"
@@ -18,12 +18,12 @@
         </flat-pickr>
 
         <div class="input-group-append">
-          <button class="btn btn-outline-secondary btn-lg" type="button" title="Toggle" data-toggle>
+          <button class="btn btn-outline-secondary" type="button" title="Toggle" data-toggle>
             <i class="fa fa-calendar">
               <span aria-hidden="true" class="sr-only">Toggle</span>
             </i>
           </button>
-          <button v-if="!isRequired" class="date-field-clear-btn btn btn-outline-secondary btn-lg" type="button" title="Clear" data-clear>
+          <button v-if="!isRequired" class="date-field-clear-btn btn btn-outline-secondary" type="button" title="Clear" data-clear>
             <i class="fa fa-times">
               <span aria-hidden="true" class="sr-only">Clear</span>
             </i>
