@@ -21,8 +21,7 @@
  *  LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
- */
-/**
+
  * A checker is an object with the following form:
  *  { pattern: /something/, points: 1 }
  * or if the pattern only matches code near the top of a given file:
@@ -126,15 +125,15 @@ let languages = {
 
   'R': [
     // undefined keyword for numbers
-    {pattern: /NaN/g, points: 5},
+    {pattern: /NaN/g, points: 2},
     // undefined keyword for strings
-    {pattern: /NA/g, points: 5},
+    {pattern: /NA/g, points: 2},
     // print statement
     {pattern: /print\(.*\)/, points: 1},
     // Variable declaration
     {pattern: /\w+ ?<-/, points: 10},
     // Vector declaration
-    {pattern: /c\(.*\)/, points: 5},
+    {pattern: /c\(.*\)/, points: 2},
     // == operator
     {pattern: /==/g, points: 1},
     // != operator
