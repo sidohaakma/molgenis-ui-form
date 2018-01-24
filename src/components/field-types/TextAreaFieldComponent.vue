@@ -18,7 +18,7 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" show="$touched || $submitted || $dirty" class="form-control-feedback">
+      <field-messages :name="field.id" show="$touched || $submitted" class="form-control-feedback">
         <div class="invalid-message" slot="required">This field is required</div>
         <div class="invalid-message" slot="validate">Validation failed</div>
       </field-messages>

@@ -360,6 +360,27 @@ export const htmlSchema = {
   ]
 }
 
+export const scriptSchema = {
+  'attributes': [
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/script',
+      'fieldType': 'SCRIPT',
+      'name': 'script',
+      'label': 'Script Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Script description'
+    }
+  ]
+}
+
 export const hyperlinkSchema = {
   'attributes': [
     {

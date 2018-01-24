@@ -13,6 +13,17 @@
       </checkbox-field-component>
     </template>
 
+    <!-- Render code editor field-->
+    <template v-else-if="field.type === 'html' || field.type === 'script'">
+      <code-editor-field-component
+        v-model="formData[field.id]"
+        :field="field"
+        :state="state[field.id]"
+        :isValid="isValid"
+        :isRequired="isRequired"
+        @dataChange="onDataChange"></code-editor-field-component>
+    </template>
+
     <!-- Render file field -->
     <template v-else-if="field.type === 'file'">
       <file-field-component
@@ -129,6 +140,7 @@
 
 <script>
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
+  import CodeEditorFieldComponent from './field-types/CodeEditorFieldComponent'
   import DateFieldComponent from './field-types/DateFieldComponent'
   import FileFieldComponent from './field-types/FileFieldComponent'
   import MultiSelectFieldComponent from './field-types/MultiSelectFieldComponent'
@@ -182,6 +194,7 @@
     },
     components: {
       CheckboxFieldComponent,
+      CodeEditorFieldComponent,
       DateFieldComponent,
       FileFieldComponent,
       MultiSelectFieldComponent,
