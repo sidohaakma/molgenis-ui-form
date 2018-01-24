@@ -3,33 +3,29 @@
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
-      <!--
-      /**
-        For creating options that do not exist:
-          - taggable = true
-          - pushTags = true
-          - createOption = Function
-      */
+      <div class="input-group">
 
-      /**
-        Filterable set to false because objects are only filtered on the label parameter
-          we want filtering on multiple parameters
-      */
-      -->
-      <v-select v-model="localValue"
-                class="form-control"
-                :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
-                :options="options"
-                :onSearch="fetchOptions"
-                :filterable="false"
-                :inputId="field.id"
-                :name="field.id"
-                :required="isRequired">
+        <v-select v-model="localValue"
+                  class="form-control"
+                  :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
+                  :options="options"
+                  :onSearch="fetchOptions"
+                  :filterable="false"
+                  :inputId="field.id"
+                  :name="field.id"
+                  :required="isRequired">
 
-        <div slot="no-options">
-          <small v-if="localValue">Option '{{ localValue }}' not found.</small>
+          <div slot="no-options">
+            <small v-if="localValue">Option '{{ localValue }}' not found.</small>
+          </div>
+        </v-select>
+
+        <div class="input-group-append">
+          <button @click="addOptionClicked($event)" class="btn btn-outline-secondary" type="button">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
         </div>
-      </v-select>
+      </div>
 
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
@@ -74,6 +70,10 @@
       isRequired: {
         type: Boolean,
         default: false
+      },
+      eventBus: {
+        type: Object,
+        required: true
       }
     },
     data () {
@@ -90,6 +90,13 @@
           this.options = response
           loading(false)
         })
+      },
+      addOptionClicked (event) {
+        this.eventBus.$emit('addOption', this.afterOptionCreation, event, this.field)
+      },
+      afterOptionCreation (newOption) {
+        this.options.push(newOption)
+        this.localValue = newOption
       }
     },
     watch: {
