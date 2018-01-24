@@ -27,15 +27,11 @@ describe('langDetect', () => {
       expect(detectLang(text)).to.equal('Unknown')
     })
   })
-  describe('Detect programming language for print statements', () => {
-    it('should recognize python2 print statement', () => {
-      const python2Code = 'print "Hello world"'
-      expect(detectLang(python2Code)).to.equal('Python')
-    })
 
-    it('should recognize python3 print statement (although it is equal to the R printstatement)', () => {
+  describe('Detect programming language for print statements', () => {
+    it('should not be able to recognize python3 print statement because it is equal to the R print statement', () => {
       const python3Code = 'print("Hello world")'
-      expect(detectLang(python3Code)).to.equal('Python')
+      expect(detectLang(python3Code)).to.equal('Unknown')
     })
 
     it('should recognize HTML print statement', () => {
@@ -53,6 +49,7 @@ describe('langDetect', () => {
       expect(detectLang(text)).to.equal('Unknown')
     })
   })
+
   describe('Detect programming language for functions', () => {
     it('should recognize python function', () => {
       const pythonCode = 'def myFunction(arg1, arg2):\n\toutput = arg1 + "=" + arg2\n\treturn output'
@@ -79,6 +76,7 @@ describe('langDetect', () => {
       expect(detectLang(text)).to.equal('Unknown')
     })
   })
+
   describe('Use statistics option', () => {
     it('should return object (not string) with two keys: detected and statistics', () => {
       const text = 'Hello world'

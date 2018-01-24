@@ -22,9 +22,6 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
-
-import _ from 'underscore'
-
 /**
  * A checker is an object with the following form:
  *  { pattern: /something/, points: 1 }
@@ -62,7 +59,7 @@ let languages = {
     {pattern: /!==/g, points: 1},
     // Function definition
     // eslint-disable-next-line
-    {pattern: /function\*?(( )+[\$\w]+( )*\(.*\)|( )*\(.*\))\n?[\t ]*{/g, points: 1},
+    {pattern: /function\*?(( )+[\$\w]+( )*\(.*\)|( )*\(.*\))\n?[\t ]*{/g, points: 2},
     // null keyword
     {pattern: /null/g, points: 1},
     // lambda expression
@@ -155,75 +152,60 @@ let languages = {
   'Unknown': []
 }
 
-function getPoints (language, lineOfCode, checkers) {
-  return _.reduce(_.map(checkers, function (checker) {
-    if (checker.pattern.test(lineOfCode)) {
-      return checker.points
-    }
-    return 0
-  }), function (memo, num) {
+const getPoints = (lineOfCode, checkers) => {
+  const mappedCheckers = checkers.map((checker) => {
+    return checker.pattern.test(lineOfCode) ? checker.points : 0
+  })
+  return mappedCheckers.reduce((memo, num) => {
     return memo + num
   }, 0)
 }
 
-export default function (snippet, options) {
-  let opts = _.defaults(options || {}, {
-    heuristic: true,
-    statistics: false
-  })
+const nearTop = (index, linesOfCode) => {
+  return linesOfCode.length <= 10 ? true : index < linesOfCode.length / 10
+}
+
+export default (snippet, {heuristic = true, statistics = false} = {}) => {
+  const opts = {statistics: statistics, heuristic: heuristic}
 
   let linesOfCode = snippet
     .replace(/\r\n?/g, '\n')
     .replace(/\n{2,}/g, '\n')
     .split('\n')
 
-  function nearTop (index) {
-    if (linesOfCode.length <= 10) {
-      return true
-    }
-    return index < linesOfCode.length / 10
-  }
-
   if (opts.heuristic && linesOfCode.length > 500) {
-    linesOfCode = linesOfCode.filter(function (lineOfCode, index) {
-      if (nearTop(index)) {
-        return true
-      }
-      return index % Math.ceil(linesOfCode.length / 500) === 0
+    linesOfCode = linesOfCode.filter((lineOfCode, index) => {
+      return nearTop(index, linesOfCode) ? true : index % Math.ceil(linesOfCode.length / 500) === 0
     })
   }
 
-  let pairs = _.keys(languages).map(function (key) {
+  const pairs = Object.keys(languages).map((key) => {
     return {language: key, checkers: languages[key]}
   })
 
-  let results = _.map(pairs, function (pairs) {
-    let language = pairs.language
-    let checkers = pairs.checkers
+  const results = pairs.map((pairs) => {
+    const language = pairs.language
+    const checkers = pairs.checkers
 
     if (language === 'Unknown') {
       return {language: 'Unknown', points: 1}
+    } else {
+      const pointsList = linesOfCode.map((lineOfCode, index) => {
+        return !nearTop(index, linesOfCode) ? (
+          getPoints(lineOfCode, checkers.filter((checker) => !checker.nearTop))
+        ) : (
+          getPoints(lineOfCode, checkers)
+        )
+      })
+
+      const points = pointsList.reduce((memo, num) => memo + num)
+
+      return {language: language, points: points}
     }
-
-    let pointsList = linesOfCode.map(function (lineOfCode, index) {
-      if (!nearTop(index)) {
-        return getPoints(language, lineOfCode, _.reject(checkers, function (checker) {
-          return checker.nearTop
-        }))
-      } else {
-        return getPoints(language, lineOfCode, checkers)
-      }
-    })
-
-    let points = _.reduce(pointsList, function (memo, num) {
-      return memo + num
-    })
-
-    return {language: language, points: points}
   })
 
-  let bestResult = _.max(results, function (result) {
-    return result.points
+  const bestResult = results.reduce((result1, result2) => {
+    return result1.points > result2.points ? result1 : result2
   })
 
   if (opts.statistics) {
@@ -235,6 +217,7 @@ export default function (snippet, options) {
     }
 
     return {detected: bestResult.language, statistics: statistics}
+  } else {
+    return bestResult.language
   }
-  return bestResult.language
 }
