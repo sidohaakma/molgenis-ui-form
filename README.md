@@ -83,5 +83,5 @@ Please make sure you add the name of the specific test in the test. This is need
 **Example**
 
 ```javascript
-browser.options.desiredCapabilities.name = 'Exmample testname'
+browser.options.desiredCapabilities.name = 'Example testname'
 ```
