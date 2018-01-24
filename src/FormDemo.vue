@@ -32,6 +32,26 @@
   </div>
 </template>
 
+<style>
+  /*  Styling to have v-select look like bootstrap field */
+  .v-select {
+    padding: 0 0 0 10px;
+  }
+
+  .v-select.disabled {
+    background-color: #f8f8f8;
+  }
+
+  .v-select > .dropdown-toggle {
+    border: none;
+  }
+
+  /* fix to hide input[type=search] as webkit forces browser style */
+  .v-select .dropdown-toggle input[type=search] {
+    -webkit-appearance: textfield;
+  }
+</style>
+
 <script>
   import { EntityToStateMapper, FormComponent } from './molgenisUiForm'
   import EntityTypeV2Response from './formDemoMockResponse'

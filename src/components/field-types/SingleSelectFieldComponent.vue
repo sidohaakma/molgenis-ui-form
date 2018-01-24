@@ -17,6 +17,8 @@
       */
       -->
       <v-select v-model="localValue"
+                class="form-control"
+                :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
                 :options="options"
                 :onSearch="fetchOptions"
                 :filterable="false"
