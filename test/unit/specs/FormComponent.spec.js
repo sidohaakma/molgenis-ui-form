@@ -72,4 +72,11 @@ describe('FormComponents shallow tests', () => {
       expect(wrapper.vm.showOptionalFields).to.equal(false)
     })
   })
+
+  describe('handleAddOptionEvent', () => {
+    it('should emit add "addOptionRequest" event passing through the event params', () => {
+      wrapper.vm.handleAddOptionEvent('a', 'b', 'c')
+      expect(wrapper.emitted().addOptionRequest[0]).to.deep.equal(['a', 'b', 'c'])
+    })
+  })
 })

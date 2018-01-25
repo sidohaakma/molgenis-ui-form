@@ -46,6 +46,7 @@
       <div :class="'pl-' + ((level + 1) * 2)">
         <form-field-component
           v-for="child in field.children"
+          :eventBus="eventBus"
           :formData="formData"
           :field="child"
           :state="state"
@@ -60,6 +61,7 @@
     <!-- Render multi select field -->
     <template v-else-if="field.type === 'multi-select'">
       <multi-select-field-component
+        :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
@@ -84,6 +86,7 @@
     <!-- Render single select field -->
     <template v-else-if="field.type === 'single-select'">
       <single-select-field-component
+        :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
         :state="state[field.id]"
@@ -154,6 +157,10 @@
   export default {
     name: 'FormFieldComponent',
     props: {
+      eventBus: {
+        type: Object,
+        required: true
+      },
       formData: {
         type: Object,
         required: true

@@ -9,6 +9,7 @@
 
     <template v-for="field in schema.fields">
       <form-field-component
+        :eventBus="eventBus"
         :formData="formData"
         :field="field"
         :state="state"
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+  import Vue from 'vue'
   import VueForm from 'vue-form'
   import FormFieldComponent from './FormFieldComponent'
   import { isValidSchema } from '../util/SchemaService'
@@ -49,6 +51,7 @@
     },
     data () {
       return {
+        eventBus: new Vue(),
         showOptionalFields: true,
         state: {},
         // clone initialFormData to formData as formDate needs to be Observable
@@ -58,6 +61,9 @@
     methods: {
       toggleOptionalFields () {
         this.showOptionalFields = !this.showOptionalFields
+      },
+      handleAddOptionEvent (completedFunction, event, data) {
+        this.$emit('addOptionRequest', completedFunction, event, data)
       }
     },
     components: {
@@ -67,6 +73,9 @@
       eyeMessage () {
         return this.showOptionalFields ? 'Hide optional fields' : 'Show all fields'
       }
+    },
+    created: function () {
+      this.eventBus.$on('addOption', this.handleAddOptionEvent)
     }
   }
 </script>
