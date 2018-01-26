@@ -6,7 +6,7 @@
       <checkbox-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -18,10 +18,11 @@
       <code-editor-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
-        @dataChange="onDataChange"></code-editor-field-component>
+        @dataChange="onDataChange">
+      </code-editor-field-component>
     </template>
 
     <!-- Render file field -->
@@ -29,7 +30,7 @@
       <file-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -49,7 +50,7 @@
           :eventBus="eventBus"
           :formData="formData"
           :field="child"
-          :state="state"
+          :formState="formState"
           :level="level + 1"
           :showOptionalFields="showOptionalFields"
           :key="child.id"
@@ -64,7 +65,7 @@
         :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -76,7 +77,7 @@
       <radio-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -89,7 +90,7 @@
         :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :formState="formState[field.id]"
         :isRequired="isRequired"
         :isValid="isValid"
         @dataChange="onDataChange">
@@ -101,7 +102,7 @@
       <text-area-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -113,7 +114,7 @@
       <date-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange"
@@ -126,7 +127,7 @@
       <typed-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -169,7 +170,7 @@
         type: FormField,
         required: true
       },
-      state: {
+      formState: {
         type: Object,
         required: true
       },

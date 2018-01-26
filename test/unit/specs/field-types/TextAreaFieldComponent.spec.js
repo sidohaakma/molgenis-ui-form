@@ -14,7 +14,7 @@ describe('CheckboxFieldComponent unit tests', () => {
     return null
   }
 
-  const state = {
+  const fieldState = {
     $touched: false,
     $submitted: false,
     $invalid: false,
@@ -24,7 +24,7 @@ describe('CheckboxFieldComponent unit tests', () => {
   const propsData = {
     value: 'This is data',
     field: field,
-    state: state,
+    fieldState: fieldState,
     isRequired: true,
     isValid: true
   }

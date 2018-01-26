@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': isValidDateTime(localValue) && isValid}">
+  <validate :state="fieldState" :custom="{'validate': isValidDateTime(localValue) && isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -10,7 +10,7 @@
           :config="config"
           :name="field.id"
           class="form-control"
-          :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
+          :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
           :aria-describedby="field.id + '-description'"
           :required="isRequired"
           :disabled="field.disabled"
@@ -35,7 +35,7 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" :state="state" show="$touched || $submitted" class="form-control-feedback">
+      <field-messages :name="field.id" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
         <div slot="required">This field is required</div>
         <div slot="validate">Validation failed</div>
       </field-messages>
@@ -62,7 +62,7 @@
         type: Object,
         required: true
       },
-      state: {
+      fieldState: {
         type: Object,
         required: false
       },

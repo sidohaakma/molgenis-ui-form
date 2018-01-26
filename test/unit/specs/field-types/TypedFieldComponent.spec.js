@@ -15,7 +15,7 @@ describe('TypedFieldComponent unit tests', () => {
       disabled: false
     }
 
-    const state = {
+    const fieldState = {
       showOptionalFields: false,
       $touched: false,
       $submitted: false,
@@ -26,7 +26,7 @@ describe('TypedFieldComponent unit tests', () => {
     const propsData = {
       value: 'hallo',
       field: field,
-      state: state,
+      fieldState: fieldState,
       isRequired: true,
       isValid: false
     }
@@ -90,7 +90,7 @@ describe('TypedFieldComponent unit tests', () => {
 
     it('should receive the "is-invalid" class if not valid', () => {
       wrapper.setData({
-        state: {
+        fieldState: {
           $touched: true,
           $invalid: true
         }
@@ -102,7 +102,7 @@ describe('TypedFieldComponent unit tests', () => {
 
     it('should show a field message if input is invalid', () => {
       wrapper.setData({
-        state: {
+        fieldState: {
           $touched: true,
           $invalid: true
         }
@@ -123,7 +123,7 @@ describe('TypedFieldComponent unit tests', () => {
       disabled: false
     }
 
-    const state = {
+    const fieldState = {
       $touched: false,
       $submitted: false,
       $invalid: false,
@@ -133,7 +133,7 @@ describe('TypedFieldComponent unit tests', () => {
     const propsData = {
       value: 42,
       field: field,
-      state: state,
+      fieldState: fieldState,
       isRequired: true,
       isValid: true
     }
@@ -160,7 +160,7 @@ describe('TypedFieldComponent unit tests', () => {
       disabled: false
     }
 
-    const state = {
+    const fieldState = {
       $touched: false,
       $submitted: false,
       $invalid: false,
@@ -170,7 +170,7 @@ describe('TypedFieldComponent unit tests', () => {
     const propsData = {
       value: 'test@mail.org',
       field: field,
-      state: state,
+      fieldState: fieldState,
       isRequired: true,
       isValid: true
     }
@@ -197,7 +197,7 @@ describe('TypedFieldComponent unit tests', () => {
       disabled: false
     }
 
-    const state = {
+    const fieldState = {
       $touched: false,
       $submitted: false,
       $invalid: false,
@@ -207,7 +207,7 @@ describe('TypedFieldComponent unit tests', () => {
     const propsData = {
       value: 'super secret password',
       field: field,
-      state: state,
+      fieldState: fieldState,
       isRequired: true,
       isValid: true
     }
@@ -234,7 +234,7 @@ describe('TypedFieldComponent unit tests', () => {
       disabled: false
     }
 
-    const state = {
+    const fieldState = {
       $touched: false,
       $submitted: false,
       $invalid: false,
@@ -244,7 +244,7 @@ describe('TypedFieldComponent unit tests', () => {
     const propsData = {
       value: 'https://www.test.org',
       field: field,
-      state: state,
+      fieldState: fieldState,
       isRequired: true,
       isValid: true
     }

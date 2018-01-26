@@ -51,7 +51,7 @@ describe('MultiSelectFieldComponent unit tests', () => {
     return null
   }
 
-  const state = {
+  const fieldState = {
     $touched: false,
     $submitted: false,
     $invalid: false,
@@ -62,7 +62,7 @@ describe('MultiSelectFieldComponent unit tests', () => {
 
   const propsData = {
     field: field,
-    state: state,
+    fieldState: fieldState,
     isRequired: true,
     isValid: true,
     eventBus: {

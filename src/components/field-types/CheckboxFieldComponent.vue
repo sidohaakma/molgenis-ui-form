@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': isValid}" v-if="options.length > 0">
+  <validate :state="fieldState" :custom="{'validate': isValid}" v-if="options.length > 0">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -12,7 +12,7 @@
           type="checkbox"
           :name="field.id"
           class="form-check-input"
-          :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
+          :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
           :required="isRequired"
           :disabled="field.disabled">
         <label :for="field.id + '-' + index" class="form-check-label">{{ option.label }}</label>
@@ -25,7 +25,7 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" show="$touched || $submitted" class="form-control-feedback">
+      <field-messages :name="field.id" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
         <div slot="required">This field is required</div>
         <div slot="validate">Validation failed</div>
       </field-messages>
@@ -51,7 +51,7 @@
         type: FormField,
         required: true
       },
-      state: {
+      fieldState: {
         type: Object,
         required: false
       },
@@ -83,11 +83,11 @@
     methods: {
       selectAll () {
         this.localValue = this.options.map(option => option.id)
-        this.state.$touched = true
+        this.fieldState.$touched = true
       },
       deSelectAll () {
         this.localValue = []
-        this.state.$touched = true
+        this.fieldState.$touched = true
       }
     },
     created () {
