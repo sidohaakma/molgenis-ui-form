@@ -262,6 +262,12 @@ const generateFormData = (fields: any, data: any) => {
       // which only contains a name
       const fileData = data[field.id]
       accumulator[field.id] = fileData ? fileData.filename : data[field.id]
+    } else if (field.type === 'checkbox' || field.type === 'multi-select') {
+      const checkboxData = data[field.id]
+      accumulator[field.id] = checkboxData && checkboxData.map(data => data.id)
+    } else if (field.type === 'radio' || field.type === 'single-select') {
+      const radioData = data[field.id]
+      accumulator[field.id] = radioData && typeof radioData === 'object' ? radioData.id : data[field.id]
     } else {
       accumulator[field.id] = data[field.id]
     }
