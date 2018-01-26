@@ -589,6 +589,12 @@ const items = {
     {href: 'url', id: 'ref1', label: 'label1'},
     {href: 'url', id: 'ref2', label: 'label2'}
   ],
+  xref: {href: 'url', id: 'ref1', label: 'label1'},
+  mref: [
+    {href: 'url', id: 'ref1', label: 'label1'},
+    {href: 'url', id: 'ref2', label: 'label2'},
+    {href: 'url', id: 'ref3', label: 'label3'}
+  ],
   one_to_many: [
     {href: 'url', id: 'ref1', label: 'label1'},
     {href: 'url', id: 'ref2', label: 'label2'}
