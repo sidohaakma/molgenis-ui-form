@@ -10,7 +10,7 @@ describe('FormFieldComponents unit tests', () => {
     required: () => true
   }
 
-  const state = {
+  const formState = {
     'string': {
       $touched: false,
       $submitted: false,
@@ -22,7 +22,7 @@ describe('FormFieldComponents unit tests', () => {
   const propsData = {
     formData: {'string': 'data'},
     field: field,
-    state: state,
+    formState: formState,
     showOptionalFields: true
   }
 
@@ -85,7 +85,7 @@ describe('FormFieldComponents unit tests', () => {
     const propsData = {
       formData: {'string': 'data'},
       field: field,
-      state: state,
+      formState: formState,
       showOptionalFields: true
     }
 
@@ -110,7 +110,7 @@ describe('FormFieldComponents unit tests', () => {
     const propsData = {
       formData: {'string': 'data'},
       field: field,
-      state: state,
+      formState: formState,
       showOptionalFields: false
     }
 

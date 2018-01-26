@@ -14,7 +14,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
     return null
   }
 
-  const state = {
+  const fieldState = {
     $touched: false,
     $submitted: false,
     $invalid: false,
@@ -23,7 +23,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
 
   const propsData = {
     field: field,
-    state: state,
+    fieldState: fieldState,
     isRequired: true,
     isValid: true
   }
@@ -52,7 +52,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
       }
       const altPropsData = {
         field: altField,
-        state: state,
+        fieldState: fieldState,
         isRequired: true,
         isValid: true
       }
@@ -96,7 +96,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
       }
       const htmlPropsData = {
         field: htmlField,
-        state: state,
+        fieldState: fieldState,
         isRequired: false,
         isValid: true
       }
@@ -127,7 +127,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
 
     const altPropsData = {
       field: altField,
-      state: altState,
+      fieldState: altState,
       isRequired: true,
       isValid: true
     }

@@ -11,7 +11,7 @@ describe('DateFieldComponent', () => {
       const props = DateFieldComponent.props
       expect(typeof props.value).to.equal('object')
       expect(typeof props.field).to.equal('object')
-      expect(typeof props.state).to.equal('object')
+      expect(typeof props.fieldState).to.equal('object')
       expect(typeof props.isValid).to.equal('object')
       expect(typeof props.isRequired).to.equal('object')
       expect(typeof props.isTimeIncluded).to.equal('object')
@@ -26,7 +26,7 @@ describe('DateFieldComponent', () => {
       disabled: false
     }
 
-    const state = {
+    const fieldState = {
       $touched: false,
       $submitted: false,
       $invalid: false,
@@ -36,7 +36,7 @@ describe('DateFieldComponent', () => {
     const propsData = {
       value: '2018-01-01',
       field: field,
-      state: state,
+      fieldState: fieldState,
       isRequired: true,
       isValid: true
     }
@@ -69,7 +69,7 @@ describe('DateFieldComponent', () => {
       disabled: false
     }
 
-    const state = {
+    const fieldState = {
       $touched: false,
       $submitted: false,
       $invalid: false,
@@ -79,7 +79,7 @@ describe('DateFieldComponent', () => {
     const propsData = {
       value: '2018-01-01 13:23',
       field: field,
-      state: state,
+      fieldState: fieldState,
       isRequired: () => true,
       validate: () => true,
       isTimeIncluded: true

@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': isValid}">
+  <validate :state="fieldState" :custom="{'validate': isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
       <div :class="{'border border-danger': isInvalid}">
@@ -14,7 +14,7 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" show="$touched || $submitted" class="form-control-feedback">
+      <field-messages :name="field.id" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
         <div class="invalid-message" slot="required">This field is required</div>
         <div class="invalid-message" slot="validate">Validation failed</div>
       </field-messages>
@@ -59,7 +59,7 @@
         type: FormField,
         required: true
       },
-      state: {
+      fieldState: {
         type: Object,
         required: false
       },
@@ -97,7 +97,7 @@
         return this.field.type === 'html' || lang === 'html' ? 'htmlmixed' : lang === 'python' || lang === 'javascript' ? lang : 'r'
       },
       isInvalid () {
-        return this.state && ((this.state.$touched || this.state.$submitted) && (!this.isValid || (this.isRequired && this.localValue === '')))
+        return this.fieldState && ((this.fieldState.$touched || this.fieldState.$submitted) && (!this.isValid || (this.isRequired && this.localValue === '')))
       }
     },
     watch: {
@@ -107,7 +107,7 @@
         // Emit value changes to trigger the hooks.onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
-        this.state.$touched = true
+        this.fieldState.$touched = true
       }
     },
     components: {

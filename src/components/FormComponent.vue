@@ -1,5 +1,5 @@
 <template>
-  <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
+  <vue-form :id="id" :state="formState" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
     <div class="text-right hide-option-fields-btn-container">
       <button type="button" class="btn btn-sm btn-outline-secondary toggle-btn" :title="eyeMessage"
               @click="toggleOptionalFields">
@@ -12,7 +12,7 @@
         :eventBus="eventBus"
         :formData="formData"
         :field="field"
-        :state="state"
+        :formState="formState"
         :showOptionalFields="showOptionalFields"
         @dataChange="hooks.onValueChanged(formData)">
       </form-field-component>
@@ -40,6 +40,10 @@
         required: true,
         validator: isValidSchema
       },
+      formState: {
+        type: Object,
+        required: true
+      },
       initialFormData: {
         type: Object,
         required: false
@@ -53,7 +57,6 @@
       return {
         eventBus: new Vue(),
         showOptionalFields: true,
-        state: {},
         // clone initialFormData to formData as formDate needs to be Observable
         formData: Object.assign({}, this.initialFormData)
       }

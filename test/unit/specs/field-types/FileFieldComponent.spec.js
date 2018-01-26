@@ -14,7 +14,7 @@ describe('FileFieldComponent unit tests', () => {
     return null
   }
 
-  const state = {
+  const fieldState = {
     $touched: false,
     $submitted: false,
     $invalid: false,
@@ -23,7 +23,7 @@ describe('FileFieldComponent unit tests', () => {
 
   const propsData = {
     field: field,
-    state: state,
+    fieldState: fieldState,
     isRequired: true,
     isValid: true
   }

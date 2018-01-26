@@ -35,7 +35,7 @@ describe('RadioFieldComponent unit tests', () => {
     return null
   }
 
-  const state = {
+  const fieldState = {
     $touched: false,
     $submitted: false,
     $invalid: false,
@@ -45,7 +45,7 @@ describe('RadioFieldComponent unit tests', () => {
   const propsData = {
     value: '',
     field: field,
-    state: state,
+    fieldState: fieldState,
     isRequired: true,
     isValid: true
   }

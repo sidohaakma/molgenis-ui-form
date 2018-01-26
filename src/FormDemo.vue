@@ -24,6 +24,7 @@
               :schema="schema"
               :initialFormData="initialFormData"
               :hooks="hooks"
+              :formState="formState"
               @addOptionRequest="handleAddOptionRequest">
             </form-component>
           </div>
@@ -83,7 +84,8 @@
         message: null,
         schema: {
           fields: EntityToStateMapper.generateFormFields(EntityTypeV2Response.metadata)
-        }
+        },
+        formState: {}
       }
     },
     computed: {
