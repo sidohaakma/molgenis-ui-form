@@ -22,7 +22,7 @@
           </div>
         </v-select>
 
-        <div class="input-group-append">
+        <div v-if="!field.disabled" class="input-group-append">
           <button @click="addOptionClicked($event)" class="btn btn-outline-secondary" type="button">
             <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
