@@ -181,4 +181,34 @@ describe('MultiSelectFieldComponent unit tests', () => {
     wrapper.vm.afterOptionCreation(myOption)
     expect(wrapper.vm.localValue.pop()).to.deep.equal(myOption)
   })
+
+  it('should not render the add btn when the field is disabled ', () => {
+    const field = {
+      id: 'mref',
+      label: 'MREF Field',
+      type: 'multi-select',
+      disabled: true,
+      options: () => {
+        return new Promise((resolve) => {
+          resolve([])
+        })
+      }
+    }
+
+    const propsData = {
+      field: field,
+      state: state,
+      isRequired: true,
+      isValid: true,
+      eventBus: {
+        $emit: mockEmit
+      }
+    }
+
+    const wrapper = mount(MultiSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    expect(wrapper.findAll('.input-group-append').exists()).to.equal(false)
+  })
 })
