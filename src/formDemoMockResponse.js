@@ -583,8 +583,16 @@ const items = {
   string: 'string value',
   text: 'text value',
   hyperlink: 'www.nu.nl',
-  categorical_mref: ['ref1', 'ref2'],
-  one_to_many: ['ref1', 'ref2'],
+  boolean: true,
+  categorical: {href: 'url', id: 'ref1', label: 'label1'},
+  categorical_mref: [
+    {href: 'url', id: 'ref1', label: 'label1'},
+    {href: 'url', id: 'ref2', label: 'label2'}
+  ],
+  one_to_many: [
+    {href: 'url', id: 'ref1', label: 'label1'},
+    {href: 'url', id: 'ref2', label: 'label2'}
+  ],
   enum: 'enum2',
   html: '<h1>test</h1>',
   python_script: 'def greet(name):\n\tprint "Hello", name\ngreet("Jack")\ngreet("Jill")\ngreet("Bob")',

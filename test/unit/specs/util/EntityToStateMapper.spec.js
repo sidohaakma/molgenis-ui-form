@@ -513,7 +513,7 @@ describe('Entity to state mapper', () => {
 
   describe('Generate form fields and data for a [CATEGORICAL] attribute', () => {
     const fields = EntityToStateMapper.generateFormFields(schemas.categoricalSchema)
-    const data = {categorical: 'ref1'}
+    const data = {categorical: {id: 'ref1', label: 'ref1'}}
 
     it('should map a [CATEGORICAL] attribute to a form field object', done => {
       expect(fields.length).to.equal(1)
@@ -545,7 +545,7 @@ describe('Entity to state mapper', () => {
 
   describe('Generate form fields and data for a [CATEGORICAL_MREF] attribute', () => {
     const fields = EntityToStateMapper.generateFormFields(schemas.categoricalMrefSchema)
-    const data = {categorical_mref: 'ref1'}
+    const data = {categorical_mref: [{id: 'ref1', label: 'label1'}, {id: 'ref2', label: 'label2'}]}
 
     it('should map a [CATEGORICAL_MREF] attribute to a form field object', done => {
       expect(fields.length).to.equal(1)
@@ -571,7 +571,7 @@ describe('Entity to state mapper', () => {
 
     it('should map a [CATEGORICAL_MREF] entity to a form data object', () => {
       const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({categorical_mref: 'ref1'})
+      expect(formData).to.deep.equal({categorical_mref: ['ref1', 'ref2']})
     })
   })
 
