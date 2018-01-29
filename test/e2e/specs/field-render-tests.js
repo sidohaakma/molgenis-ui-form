@@ -98,7 +98,7 @@ module.exports = {
     browser.expect.element('.flatpickr-calendar').to.be.visible
 
     browser.click('.today')
-    browser.expect.element('.flatpickr-calendar').to.be.not.visible
+    browser.expect.element('.flatpickr-calendar').to.be.not.visible.before(3000)
 
     const today = new Date().toJSON().slice(0, 10)
     browser.expect.element('#date').to.have.value.that.equals(today)
@@ -132,7 +132,7 @@ module.exports = {
     browser.expect.element('.flatpickr-am-pm').to.be.visible
 
     browser.click('#form-demo') // click outside calender
-    browser.expect.element('.flatpickr-calendar').to.be.not.visible
+    browser.expect.element('.flatpickr-calendar').to.be.not.visible.before(3000)
 
     const today = new Date().toJSON().slice(0, 10)
     browser.expect.element('#date_time').to.have.value.which.contains(today)
