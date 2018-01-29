@@ -6,11 +6,23 @@
       <checkbox-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
       </checkbox-field-component>
+    </template>
+
+    <!-- Render code editor field-->
+    <template v-else-if="field.type === 'html' || field.type === 'script'">
+      <code-editor-field-component
+        v-model="formData[field.id]"
+        :field="field"
+        :fieldState="formState[field.id]"
+        :isValid="isValid"
+        :isRequired="isRequired"
+        @dataChange="onDataChange">
+      </code-editor-field-component>
     </template>
 
     <!-- Render file field -->
@@ -18,7 +30,7 @@
       <file-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -35,9 +47,10 @@
       <div :class="'pl-' + ((level + 1) * 2)">
         <form-field-component
           v-for="child in field.children"
+          :eventBus="eventBus"
           :formData="formData"
           :field="child"
-          :state="state"
+          :formState="formState"
           :level="level + 1"
           :showOptionalFields="showOptionalFields"
           :key="child.id"
@@ -49,9 +62,10 @@
     <!-- Render multi select field -->
     <template v-else-if="field.type === 'multi-select'">
       <multi-select-field-component
+        :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -63,7 +77,7 @@
       <radio-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -73,9 +87,10 @@
     <!-- Render single select field -->
     <template v-else-if="field.type === 'single-select'">
       <single-select-field-component
+        :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :formState="formState[field.id]"
         :isRequired="isRequired"
         :isValid="isValid"
         @dataChange="onDataChange">
@@ -87,7 +102,7 @@
       <text-area-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -99,7 +114,7 @@
       <date-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange"
@@ -112,7 +127,7 @@
       <typed-field-component
         v-model="formData[field.id]"
         :field="field"
-        :state="state[field.id]"
+        :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -129,6 +144,7 @@
 
 <script>
   import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
+  import CodeEditorFieldComponent from './field-types/CodeEditorFieldComponent'
   import DateFieldComponent from './field-types/DateFieldComponent'
   import FileFieldComponent from './field-types/FileFieldComponent'
   import MultiSelectFieldComponent from './field-types/MultiSelectFieldComponent'
@@ -142,6 +158,10 @@
   export default {
     name: 'FormFieldComponent',
     props: {
+      eventBus: {
+        type: Object,
+        required: true
+      },
       formData: {
         type: Object,
         required: true
@@ -150,7 +170,7 @@
         type: FormField,
         required: true
       },
-      state: {
+      formState: {
         type: Object,
         required: true
       },
@@ -182,6 +202,7 @@
     },
     components: {
       CheckboxFieldComponent,
+      CodeEditorFieldComponent,
       DateFieldComponent,
       FileFieldComponent,
       MultiSelectFieldComponent,

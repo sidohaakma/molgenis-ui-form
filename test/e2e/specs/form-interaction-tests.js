@@ -36,7 +36,7 @@ module.exports = {
 
     browser.click('#boolean-0')
     browser.expect.element('#message-span').to.be.visible
-    browser.expect.element('#message-span').text.to.contain('"boolean":"true"')
+    browser.expect.element('#message-span').text.to.contain('"boolean":true')
 
     browser.click('#categorical-0')
     browser.expect.element('#message-span').to.be.visible

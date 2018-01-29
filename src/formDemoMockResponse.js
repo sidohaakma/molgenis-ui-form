@@ -109,13 +109,45 @@ const metadata = {
       'attributes': [],
       'auto': false,
       'nillable': true,
-      'readOnly': false,
+      'readOnly': true,
       'labelAttribute': true,
       'unique': true,
       'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
       'description': 'HTML description'
+    },
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/python_script',
+      'fieldType': 'SCRIPT',
+      'name': 'python_script',
+      'label': 'Python script Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Script description'
+    },
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/javascript_script',
+      'fieldType': 'SCRIPT',
+      'name': 'javascript_script',
+      'label': 'Javascript script Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Script description'
     },
     {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/hyperlink',
@@ -551,9 +583,26 @@ const items = {
   string: 'string value',
   text: 'text value',
   hyperlink: 'www.nu.nl',
-  categorical_mref: ['ref1', 'ref2'],
-  one_to_many: ['ref1', 'ref2'],
-  enum: 'enum2'
+  boolean: true,
+  categorical: {href: 'url', id: 'ref1', label: 'label1'},
+  categorical_mref: [
+    {href: 'url', id: 'ref1', label: 'label1'},
+    {href: 'url', id: 'ref2', label: 'label2'}
+  ],
+  xref: {href: 'url', id: 'ref1', label: 'label1'},
+  mref: [
+    {href: 'url', id: 'ref1', label: 'label1'},
+    {href: 'url', id: 'ref2', label: 'label2'},
+    {href: 'url', id: 'ref3', label: 'label3'}
+  ],
+  one_to_many: [
+    {href: 'url', id: 'ref1', label: 'label1'},
+    {href: 'url', id: 'ref2', label: 'label2'}
+  ],
+  enum: 'enum2',
+  html: '<h1>test</h1>',
+  python_script: 'def greet(name):\n\tprint "Hello", name\ngreet("Jack")\ngreet("Jill")\ngreet("Bob")',
+  javascript_script: 'var price1 = 5;\nvar price2 = 6;\nvar total = price1 + price2;\ndocument.getElementById("demo").innerHTML ="The total is: " + total;'
 }
 
 export default {

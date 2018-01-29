@@ -39,9 +39,28 @@ Use in template
 
 ```
 <template>
-    <form-component id="my-form" :schema="schema" :data="data"></form-component>
+    <form-component 
+      id="my-form" 
+      :schema="schema" 
+      :initialFormData="data"
+      :hooks="hooks"
+      @addOptionRequest="handleAddOptionRequest"
+      >
+    </form-component>
 </template>
 ```
+
+### Properties
+#####handleAddOptionRequest (optional)
+To allow the use to add new options to a select list the ```handleAddOptionRequest``` should be a function with the following properties:
+ * ```completedFunction``` a callback function that should be called passing the ```option``` to be added.
+ * ```event``` the original event triggering the request.
+ * ```data``` object with form field state data.
+ 
+ The ```option``` object passed to the ```completedFunction``` should at least have the following fields
+ * ```id``` unique identifier
+ * ```label``` the label shown to the user 
+ * ```value``` the form value
 
 
 ## Development
@@ -83,5 +102,5 @@ Please make sure you add the name of the specific test in the test. This is need
 **Example**
 
 ```javascript
-browser.options.desiredCapabilities.name = 'Exmample testname'
+browser.options.desiredCapabilities.name = 'Example testname'
 ```

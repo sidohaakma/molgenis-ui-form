@@ -1,5 +1,6 @@
 import MultiSelectFieldComponent from '@/components/field-types/MultiSelectFieldComponent'
 import { mount } from 'vue-test-utils'
+import td from 'testdouble'
 
 describe('MultiSelectFieldComponent unit tests', () => {
   const field = {
@@ -50,18 +51,23 @@ describe('MultiSelectFieldComponent unit tests', () => {
     return null
   }
 
-  const state = {
+  const fieldState = {
     $touched: false,
     $submitted: false,
     $invalid: false,
     _addControl: mockParentFunction
   }
 
+  let mockEmit = td.function()
+
   const propsData = {
     field: field,
-    state: state,
+    fieldState: fieldState,
     isRequired: true,
-    isValid: true
+    isValid: true,
+    eventBus: {
+      $emit: mockEmit
+    }
   }
 
   it('should have an empty option list when no initial value is present', done => {
@@ -137,5 +143,72 @@ describe('MultiSelectFieldComponent unit tests', () => {
     wrapper.setData({localValue: []})
     expect(wrapper.emitted().input[1]).to.deep.equal([[]])
     expect(wrapper.emitted().dataChange[1]).to.deep.equal([])
+  })
+
+  it('should emit an "addOption" event when the "addOptionClicked" function is called', () => {
+    const wrapper = mount(MultiSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    wrapper.vm.addOptionClicked('myEvent')
+    td.verify(mockEmit('addOption', td.matchers.isA(Object), 'myEvent', td.matchers.isA(Object)))
+  })
+
+  it('should add the new option to the options list when "afterOptionCreation" is invoked ', () => {
+    const wrapper = mount(MultiSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    const myOption = {
+      id: 'id',
+      label: 'label',
+      value: 'value'
+    }
+    wrapper.vm.afterOptionCreation(myOption)
+    expect(wrapper.vm.options.pop()).to.deep.equal(myOption)
+  })
+
+  it('should set the new option as the selected option when "afterOptionCreation" is invoked ', () => {
+    const wrapper = mount(MultiSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    const myOption = {
+      id: 'id',
+      label: 'label',
+      value: 'value'
+    }
+    wrapper.vm.afterOptionCreation(myOption)
+    expect(wrapper.vm.localValue.pop()).to.deep.equal(myOption)
+  })
+
+  it('should not render the add btn when the field is disabled ', () => {
+    const field = {
+      id: 'mref',
+      label: 'MREF Field',
+      type: 'multi-select',
+      disabled: true,
+      options: () => {
+        return new Promise((resolve) => {
+          resolve([])
+        })
+      }
+    }
+
+    const propsData = {
+      field: field,
+      state: state,
+      isRequired: true,
+      isValid: true,
+      eventBus: {
+        $emit: mockEmit
+      }
+    }
+
+    const wrapper = mount(MultiSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    expect(wrapper.findAll('.input-group-append').exists()).to.equal(false)
   })
 })

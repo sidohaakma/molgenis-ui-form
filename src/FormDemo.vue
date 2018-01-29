@@ -19,7 +19,14 @@
             <span id="message-span">{{message}}</span>
           </div>
           <div class="card-body">
-            <form-component id="example-form" :schema="schema" :initialFormData="initialFormData" :hooks="hooks"></form-component>
+            <form-component
+              id="example-form"
+              :schema="schema"
+              :initialFormData="initialFormData"
+              :hooks="hooks"
+              :formState="formState"
+              @addOptionRequest="handleAddOptionRequest">
+            </form-component>
           </div>
           <div class="card-footer">
             <button id="save-btn" class="btn btn-primary" type="submit" form="example-form">Save</button>
@@ -77,12 +84,23 @@
         message: null,
         schema: {
           fields: EntityToStateMapper.generateFormFields(EntityTypeV2Response.metadata)
-        }
+        },
+        formState: {}
       }
     },
     computed: {
       initialFormData () {
         return EntityToStateMapper.generateFormData(this.schema.fields, EntityTypeV2Response.items)
+      }
+    },
+    methods: {
+      handleAddOptionRequest (completedFunction, event, data) {
+        const newMockOption = {
+          id: Math.floor(Math.random() * 1000),
+          label: 'New Demo item',
+          value: 'Demo value'
+        }
+        completedFunction(newMockOption)
       }
     }
   }

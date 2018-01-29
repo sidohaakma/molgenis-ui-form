@@ -349,7 +349,7 @@ describe('Entity to state mapper', () => {
     it('should map a [HTML] attribute to a form field object', () => {
       expect(fields.length).to.equal(1)
       const field = fields[0]
-      expect(field.type).to.equal('text-area')
+      expect(field.type).to.equal('html')
       expect(field.id).to.equal('html')
       expect(field.label).to.equal('Html Field')
       expect(field.description).to.equal('Html description')
@@ -361,6 +361,28 @@ describe('Entity to state mapper', () => {
     it('should map a [HTML] entity to a form data object', () => {
       const formData = EntityToStateMapper.generateFormData(fields, data)
       expect(formData).to.deep.equal({html: '<p>gloves on</p>'})
+    })
+  })
+
+  describe('Generate form fields and data for a [SCRIPT] attribute', () => {
+    const fields = EntityToStateMapper.generateFormFields(schemas.scriptSchema)
+    const data = {script: 'print("Python is awesome")'}
+
+    it('should map a [SCRIPT] attribute to a form field object', () => {
+      expect(fields.length).to.equal(1)
+      const field = fields[0]
+      expect(field.type).to.equal('script')
+      expect(field.id).to.equal('script')
+      expect(field.label).to.equal('Script Field')
+      expect(field.description).to.equal('Script description')
+      expect(field.disabled).to.equal(false)
+      expect(field.readOnly).to.equal(false)
+      expect(field.visible()).to.equal(true)
+    })
+
+    it('should map a [SCRIPT] entity to a form data object', () => {
+      const formData = EntityToStateMapper.generateFormData(fields, data)
+      expect(formData).to.deep.equal({script: 'print("Python is awesome")'})
     })
   })
 
@@ -491,7 +513,7 @@ describe('Entity to state mapper', () => {
 
   describe('Generate form fields and data for a [CATEGORICAL] attribute', () => {
     const fields = EntityToStateMapper.generateFormFields(schemas.categoricalSchema)
-    const data = {categorical: 'ref1'}
+    const data = {categorical: {id: 'ref1', label: 'ref1'}}
 
     it('should map a [CATEGORICAL] attribute to a form field object', done => {
       expect(fields.length).to.equal(1)
@@ -523,7 +545,7 @@ describe('Entity to state mapper', () => {
 
   describe('Generate form fields and data for a [CATEGORICAL_MREF] attribute', () => {
     const fields = EntityToStateMapper.generateFormFields(schemas.categoricalMrefSchema)
-    const data = {categorical_mref: 'ref1'}
+    const data = {categorical_mref: [{id: 'ref1', label: 'label1'}, {id: 'ref2', label: 'label2'}]}
 
     it('should map a [CATEGORICAL_MREF] attribute to a form field object', done => {
       expect(fields.length).to.equal(1)
@@ -549,14 +571,14 @@ describe('Entity to state mapper', () => {
 
     it('should map a [CATEGORICAL_MREF] entity to a form data object', () => {
       const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({categorical_mref: 'ref1'})
+      expect(formData).to.deep.equal({categorical_mref: ['ref1', 'ref2']})
     })
   })
 
   describe('Generate form fields and data for a [MREF] attribute', () => {
     const fields = EntityToStateMapper.generateFormFields(schemas.mrefSchema)
     const field = fields[0]
-    const data = {'mref-field': ['ref1']}
+    const data = {'mref-field': [{id: 'ref1', label: 'label1'}]}
 
     it('should map a [MREF] attribute to a form field object', done => {
       expect(fields.length).to.equal(1)
@@ -598,7 +620,7 @@ describe('Entity to state mapper', () => {
   describe('Generate form fields and data for a [XREF] attribute', () => {
     const fields = EntityToStateMapper.generateFormFields(schemas.xrefSchema)
     const field = fields[0]
-    const data = {xref: 'ref1'}
+    const data = {xref: {id: 'ref1', label: 'label1'}}
 
     it('should map a [XREF] attribute to a form field object', done => {
       expect(fields.length).to.equal(1)
@@ -638,7 +660,7 @@ describe('Entity to state mapper', () => {
   describe('Generate form fields and data for a [ONE_TO_MANY] attribute', () => {
     const fields = EntityToStateMapper.generateFormFields(schemas.oneToManySchema)
     const field = fields[0]
-    const data = {one_to_many: ['ref1', 'ref2', 'ref3']}
+    const data = {one_to_many: [{id: 'ref1'}, {id: 'ref2'}, {id: 'ref3'}]}
 
     it('should map a [ONE_TO_MANY] attribute to a form field object', done => {
       expect(fields.length).to.equal(1)

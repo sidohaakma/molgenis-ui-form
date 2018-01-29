@@ -1,5 +1,6 @@
 import SingleSelectFieldComponent from '@/components/field-types/SingleSelectFieldComponent'
 import { mount } from 'vue-test-utils'
+import td from 'testdouble'
 
 describe('SingleSelectFieldComponent unit tests', () => {
   const field = {
@@ -31,18 +32,23 @@ describe('SingleSelectFieldComponent unit tests', () => {
     return null
   }
 
-  const state = {
+  const fieldState = {
     $touched: false,
     $submitted: false,
     $invalid: false,
     _addControl: mockParentFunction
   }
 
+  let mockEmit = td.function()
+
   const propsData = {
     field: field,
-    state: state,
+    fieldState: fieldState,
     isRequired: true,
-    isValid: true
+    isValid: true,
+    eventBus: {
+      $emit: mockEmit
+    }
   }
 
   it('should have an empty option list when no initial value is present', done => {
@@ -110,5 +116,42 @@ describe('SingleSelectFieldComponent unit tests', () => {
     wrapper.setData({localValue: null})
     expect(wrapper.emitted().input[1]).to.deep.equal([null])
     expect(wrapper.emitted().dataChange[1]).to.deep.equal([])
+  })
+
+  it('should emit an "addOption" event when the "addOptionClicked" function is called', () => {
+    const wrapper = mount(SingleSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    wrapper.vm.addOptionClicked('myEvent')
+    td.verify(mockEmit('addOption', td.matchers.isA(Object), 'myEvent', td.matchers.isA(Object)))
+  })
+
+  it('should add the new option to the options list when "afterOptionCreation" is invoked ', () => {
+    const wrapper = mount(SingleSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    const myOption = {
+      id: 'id',
+      label: 'label',
+      value: 'value'
+    }
+    wrapper.vm.afterOptionCreation(myOption)
+    expect(wrapper.vm.localValue).to.deep.equal(myOption)
+  })
+
+  it('should set the new option as the selected option when "afterOptionCreation" is invoked ', () => {
+    const wrapper = mount(SingleSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    const myOption = {
+      id: 'id',
+      label: 'label',
+      value: 'value'
+    }
+    wrapper.vm.afterOptionCreation(myOption)
+    expect(wrapper.vm.localValue).to.deep.equal(myOption)
   })
 })

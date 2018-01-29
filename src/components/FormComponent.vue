@@ -1,5 +1,5 @@
 <template>
-  <vue-form :id="id" :state="state" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
+  <vue-form :id="id" :state="formState" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
     <div class="text-right hide-option-fields-btn-container">
       <button type="button" class="btn btn-sm btn-outline-secondary toggle-btn" :title="eyeMessage"
               @click="toggleOptionalFields">
@@ -9,9 +9,10 @@
 
     <template v-for="field in schema.fields">
       <form-field-component
+        :eventBus="eventBus"
         :formData="formData"
         :field="field"
-        :state="state"
+        :formState="formState"
         :showOptionalFields="showOptionalFields"
         @dataChange="hooks.onValueChanged(formData)">
       </form-field-component>
@@ -20,6 +21,7 @@
 </template>
 
 <script>
+  import Vue from 'vue'
   import VueForm from 'vue-form'
   import FormFieldComponent from './FormFieldComponent'
   import { isValidSchema } from '../util/SchemaService'
@@ -38,6 +40,10 @@
         required: true,
         validator: isValidSchema
       },
+      formState: {
+        type: Object,
+        required: true
+      },
       initialFormData: {
         type: Object,
         required: false
@@ -49,8 +55,8 @@
     },
     data () {
       return {
+        eventBus: new Vue(),
         showOptionalFields: true,
-        state: {},
         // clone initialFormData to formData as formDate needs to be Observable
         formData: Object.assign({}, this.initialFormData)
       }
@@ -58,6 +64,9 @@
     methods: {
       toggleOptionalFields () {
         this.showOptionalFields = !this.showOptionalFields
+      },
+      handleAddOptionEvent (completedFunction, event, data) {
+        this.$emit('addOptionRequest', completedFunction, event, data)
       }
     },
     components: {
@@ -67,6 +76,9 @@
       eyeMessage () {
         return this.showOptionalFields ? 'Hide optional fields' : 'Show all fields'
       }
+    },
+    created: function () {
+      this.eventBus.$on('addOption', this.handleAddOptionEvent)
     }
   }
 </script>

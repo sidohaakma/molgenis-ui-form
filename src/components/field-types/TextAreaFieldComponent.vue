@@ -1,5 +1,5 @@
 <template>
-  <validate :state="state" :custom="{'validate': isValid}">
+  <validate :state="fieldState" :custom="{'validate': isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -8,7 +8,7 @@
         v-model="localValue"
         :name="field.id"
         class="form-control"
-        :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
+        :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
         :aria-describedby="field.id + '-description'"
         :required="isRequired"
         :disabled="field.disabled">
@@ -18,7 +18,7 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" show="$touched || $submitted || $dirty" class="form-control-feedback">
+      <field-messages :name="field.id" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
         <div class="invalid-message" slot="required">This field is required</div>
         <div class="invalid-message" slot="validate">Validation failed</div>
       </field-messages>
@@ -41,7 +41,7 @@
         type: FormField,
         required: true
       },
-      state: {
+      fieldState: {
         type: Object,
         required: false
       },

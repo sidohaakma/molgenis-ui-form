@@ -1,5 +1,3 @@
-import Vue from 'vue'
-import VueForm from 'vue-form'
 import FormComponent from '@/components/FormComponent'
 import { shallow } from 'vue-test-utils'
 
@@ -13,20 +11,13 @@ describe('FormComponent unit tests', () => {
     expect(typeof props.id).to.equal('object')
     expect(typeof props.schema).to.equal('object')
     expect(typeof props.initialFormData).to.equal('object')
+    expect(typeof props.formState).to.equal('object')
   })
 
   it('should have the correct state of the FormComponent', () => {
     expect(typeof FormComponent.data).to.equal('function')
     const data = FormComponent.data()
-    expect(data.state).to.deep.equal({})
     expect(data.showOptionalFields).to.equal(true)
-  })
-
-  it('renders correctly with minimal props', () => {
-    const Constructor = Vue.extend(FormComponent)
-    const propsData = {id: 'test-form', schema: {fields: []}}
-    const vm = new Constructor({propsData: propsData, mixins: [VueForm]}).$mount()
-    expect(vm.$el.id).to.equal('test-form')
   })
 })
 
@@ -39,7 +30,7 @@ describe('FormComponents shallow tests', () => {
     required: () => true
   }
 
-  const state = {
+  const formState = {
     'string': {
       $touched: false,
       $submitted: false,
@@ -54,7 +45,7 @@ describe('FormComponents shallow tests', () => {
     schema: {
       fields: [ field ]
     },
-    state: state,
+    formState: formState,
     hooks: {
       onSubmit: () => true,
       onCancel: () => true
@@ -67,9 +58,16 @@ describe('FormComponents shallow tests', () => {
 
   describe('toggle show optional fields', () => {
     it('should toggle to false', () => {
-      wrapper.setData({state: {}, showOptionalFields: true})
+      wrapper.setData({showOptionalFields: true})
       wrapper.vm.toggleOptionalFields()
       expect(wrapper.vm.showOptionalFields).to.equal(false)
+    })
+  })
+
+  describe('handleAddOptionEvent', () => {
+    it('should emit add "addOptionRequest" event passing through the event params', () => {
+      wrapper.vm.handleAddOptionEvent('a', 'b', 'c')
+      expect(wrapper.emitted().addOptionRequest[0]).to.deep.equal(['a', 'b', 'c'])
     })
   })
 })

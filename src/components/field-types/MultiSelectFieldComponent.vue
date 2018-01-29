@@ -1,43 +1,39 @@
 <template>
-  <validate :state="state" :custom="{'validate': isValid}">
+  <validate :state="fieldState" :custom="{'validate': isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
-      <!--
-      /**
-        For creating options that do not exist:
-          - taggable = true
-          - pushTags = true
-          - createOption = Function
-      */
+      <div class="input-group">
 
-      /**
-        Filterable set to false because objects are only filtered on the label parameter
-          we want filtering on multiple parameters
-      */
-      -->
-      <v-select v-model="localValue"
-                class="form-control"
-                :class="{ 'is-invalid' : state && (state.$touched || state.$submitted) && state.$invalid}"
-                :options="options"
-                :onSearch="fetchOptions"
-                :filterable="false"
-                :inputId="field.id"
-                :name="field.id"
-                :required="isRequired"
-                :disabled="field.disabled"
-                :multiple="true">
+        <v-select v-model="localValue"
+                  class="form-control"
+                  :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
+                  :options="options"
+                  :onSearch="fetchOptions"
+                  :filterable="false"
+                  :inputId="field.id"
+                  :name="field.id"
+                  :required="isRequired"
+                  :disabled="field.disabled"
+                  :multiple="true">
 
-        <div slot="no-options">
-          <small v-if="localValue">Option '{{ localValue }}' not found.</small>
+          <div slot="no-options">
+            <small v-if="localValue">Option '{{ localValue }}' not found.</small>
+          </div>
+        </v-select>
+
+        <div v-if="!field.disabled" class="input-group-append">
+          <button @click="addOptionClicked($event)" class="btn btn-outline-secondary" type="button">
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </button>
         </div>
-      </v-select>
 
+      </div>
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" show="$touched || $submitted" class="form-control-feedback">
+      <field-messages :name="field.id" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
         <div slot="required">This field is required</div>
         <div slot="validate">Validation failed</div>
       </field-messages>
@@ -65,7 +61,7 @@
         type: FormField,
         required: true
       },
-      state: {
+      fieldState: {
         type: Object,
         required: false
       },
@@ -76,6 +72,10 @@
       isRequired: {
         type: Boolean,
         default: false
+      },
+      eventBus: {
+        type: Object,
+        required: true
       }
     },
     data () {
@@ -92,6 +92,13 @@
           this.options = response
           loading(false)
         })
+      },
+      addOptionClicked (event) {
+        this.eventBus.$emit('addOption', this.afterOptionCreation, event, this.field)
+      },
+      afterOptionCreation (newOption) {
+        this.options.push(newOption)
+        this.localValue.push(newOption)
       }
     },
     watch: {
