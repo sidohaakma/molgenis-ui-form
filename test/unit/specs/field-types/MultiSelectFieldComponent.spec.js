@@ -197,7 +197,7 @@ describe('MultiSelectFieldComponent unit tests', () => {
 
     const propsData = {
       field: field,
-      state: state,
+      fieldState: fieldState,
       isRequired: true,
       isValid: true,
       eventBus: {
