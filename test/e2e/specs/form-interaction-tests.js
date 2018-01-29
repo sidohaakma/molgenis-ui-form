@@ -11,7 +11,7 @@ module.exports = {
     browser.options.desiredCapabilities.name = 'Click on submit and check if event is fired'
     browser.click('#save-btn')
     browser.expect.element('#message-span').to.be.present
-    browser.expect.element('#message-span').text.to.contain('onSubmit:').before(3000)
+    browser.expect.element('#message-span').text.to.contain('onSubmit:')
     browser.end()
   },
 
