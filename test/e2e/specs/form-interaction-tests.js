@@ -28,7 +28,7 @@ module.exports = {
     browser.options.desiredCapabilities.name = 'Change value in field and check if event is fired'
     browser.setValue('#string', 'test string')
     browser.expect.element('#message-span').to.be.visible
-    browser.expect.element('#message-span').text.to.contain('"string":"string valuetest string"')
+    browser.expect.element('#message-span').text.to.contain('test string')
 
     browser.setValue('#integer', 1000)
     browser.expect.element('#message-span').to.be.visible
