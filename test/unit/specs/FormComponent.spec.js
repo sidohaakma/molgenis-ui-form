@@ -45,11 +45,7 @@ describe('FormComponents shallow tests', () => {
     schema: {
       fields: [ field ]
     },
-    formState: formState,
-    hooks: {
-      onSubmit: () => true,
-      onCancel: () => true
-    }
+    formState: formState
   }
 
   const wrapper = shallow(FormComponent, {
