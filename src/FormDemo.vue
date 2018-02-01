@@ -22,15 +22,15 @@
             <form-component
               id="example-form"
               :schema="schema"
-              :initialFormData="initialFormData"
-              :hooks="hooks"
               :formState="formState"
+              :formData="formData"
+              :onValueChanged="onValueChanged"
               @addOptionRequest="handleAddOptionRequest">
             </form-component>
           </div>
           <div class="card-footer">
-            <button id="save-btn" class="btn btn-primary" type="submit" form="example-form">Save</button>
-            <button id="cancel-btn" class="btn btn-secondary" type="reset" form="example-form">Cancel</button>
+            <button id="save-btn" class="btn btn-primary" type="submit" @click.prevent="onSubmit(formData)">Save</button>
+            <button id="cancel-btn" class="btn btn-secondary" type="reset" @click.prevent="onCancel()">Cancel</button>
           </div>
         </div>
       </div>
@@ -70,30 +70,22 @@
     },
     data () {
       return {
-        hooks: {
-          onSubmit: (formData) => {
-            this.message = 'onSubmit: ' + JSON.stringify(formData)
-          },
-          onCancel: () => {
-            this.message = 'onCancel'
-          },
-          onValueChanged: (formData) => {
-            this.message = 'onValueChanged: ' + JSON.stringify(formData)
-          }
-        },
         message: null,
-        schema: {
-          fields: EntityToStateMapper.generateFormFields(EntityTypeV2Response.metadata)
-        },
-        formState: {}
-      }
-    },
-    computed: {
-      initialFormData () {
-        return EntityToStateMapper.generateFormData(this.schema.fields, EntityTypeV2Response.items)
+        schema: {fields: []},
+        formState: {},
+        formData: {}
       }
     },
     methods: {
+      onSubmit (formData) {
+        this.message = 'onSubmit: ' + JSON.stringify(formData)
+      },
+      onCancel () {
+        this.message = 'onCancel'
+      },
+      onValueChanged (formData) {
+        this.message = 'onValueChanged: ' + JSON.stringify(formData)
+      },
       handleAddOptionRequest (completedFunction, event, data) {
         const newMockOption = {
           id: Math.floor(Math.random() * 1000),
@@ -102,6 +94,10 @@
         }
         completedFunction(newMockOption)
       }
+    },
+    created () {
+      this.schema.fields = EntityToStateMapper.generateFormFields(EntityTypeV2Response.metadata)
+      this.formData = EntityToStateMapper.generateFormData(this.schema.fields, EntityTypeV2Response.items)
     }
   }
 </script>

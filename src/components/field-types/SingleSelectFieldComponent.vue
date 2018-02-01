@@ -107,7 +107,7 @@
         } else {
           this.$emit('input', null)
         }
-        // Emit value changes to trigger the hooks.onValueChange
+        // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
       }

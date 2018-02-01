@@ -1,5 +1,5 @@
 <template>
-  <vue-form :id="id" :state="formState" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
+  <vue-form :id="id" :state="formState">
     <div class="text-right hide-option-fields-btn-container">
       <button type="button" class="btn btn-sm btn-outline-secondary toggle-btn" :title="eyeMessage"
               @click="toggleOptionalFields">
@@ -14,7 +14,7 @@
         :field="field"
         :formState="formState"
         :showOptionalFields="showOptionalFields"
-        @dataChange="hooks.onValueChanged(formData)">
+        @dataChange="onValueChanged(formData)">
       </form-field-component>
     </template>
   </vue-form>
@@ -25,7 +25,6 @@
   import VueForm from 'vue-form'
   import FormFieldComponent from './FormFieldComponent'
   import { isValidSchema } from '../util/SchemaService'
-  import { FormHook } from '../flow.types'
 
   export default {
     name: 'FormComponent',
@@ -44,21 +43,22 @@
         type: Object,
         required: true
       },
-      initialFormData: {
+      formData: {
         type: Object,
-        required: false
-      },
-      hooks: {
-        type: FormHook,
         required: true
+      },
+      onValueChanged: {
+        type: Function,
+        required: false,
+        default: (formData) => {
+          this.$emit('valueChanged', formData)
+        }
       }
     },
     data () {
       return {
         eventBus: new Vue(),
-        showOptionalFields: true,
-        // clone initialFormData to formData as formDate needs to be Observable
-        formData: Object.assign({}, this.initialFormData)
+        showOptionalFields: true
       }
     },
     methods: {

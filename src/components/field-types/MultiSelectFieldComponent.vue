@@ -105,7 +105,7 @@
       localValue (values) {
         // Emit value changes to the parent (form)
         this.$emit('input', values.map(value => value.id))
-        // Emit value changes to trigger the hooks.onValueChange
+        // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
       }

@@ -43,9 +43,10 @@ Use in template
 <template>
     <form-component 
       id="my-form" 
-      :schema="schema" 
-      :initialFormData="data"
-      :hooks="hooks"
+      :schema="schema"
+      :formState="formState"
+      :formData="formData"
+      :onValueChanged="onValueChanged"
       @addOptionRequest="handleAddOptionRequest"
       >
     </form-component>

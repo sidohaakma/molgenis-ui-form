@@ -70,7 +70,7 @@
         // Whenever the file changes, emit the 'input' event with the file data.
         this.$emit('input', e.target.files[0])
 
-        // Emit value changes to trigger the hooks.onValueChange
+        // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
       }
