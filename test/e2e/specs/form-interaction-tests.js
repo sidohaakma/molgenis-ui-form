@@ -38,9 +38,9 @@ module.exports = {
     browser.expect.element('#message-span').to.be.visible
     browser.expect.element('#message-span').text.to.contain('"boolean":true')
 
-    browser.click('input#categorical-1')
+    browser.click('#categorical-0')
     browser.expect.element('#message-span').to.be.visible
-    browser.expect.element('#message-span').text.to.contain('"categorical":"ref2","categorical_mref":["ref1","ref2"]')
+    browser.expect.element('#message-span').text.to.contain('"categorical":"ref1","categorical_mref":["ref1","ref2"]')
 
     browser.end()
   },
