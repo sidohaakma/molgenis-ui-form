@@ -5,7 +5,7 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/molgenis/molgenis-ui-form/badge.svg?targetFile=package.json)](https://snyk.io/test/github/molgenis/molgenis-ui-form?targetFile=package.json)
 
 > Library for generating HTML web forms
-##Usage 
+##Usage
 
 Add library using yarn.
 
@@ -37,12 +37,12 @@ data () {
 ...
 ```
 
-Use in template 
+Use in template
 
 ```
 <template>
-    <form-component 
-      id="my-form" 
+    <form-component
+      id="my-form"
       :schema="schema"
       :formState="formState"
       :formData="formData"
@@ -59,10 +59,10 @@ To allow the use to add new options to a select list the ```handleAddOptionReque
  * ```completedFunction``` a callback function that should be called passing the ```option``` to be added.
  * ```event``` the original event triggering the request.
  * ```data``` object with form field state data.
- 
+
  The ```option``` object passed to the ```completedFunction``` should at least have the following fields
  * ```id``` unique identifier
- * ```label``` the label shown to the user 
+ * ```label``` the label shown to the user
  * ```value``` the form value
 
 
@@ -71,7 +71,7 @@ The general guidelines and setup of the development environment are described he
 
 ### Build setup
 
-``` bash
+```bash
 # install dependencies
 yarn install
 
@@ -92,6 +92,17 @@ yarn run e2e
 
 # run all tests
 yarn test
+```
+
+### How to publish
+```bash
+
+# Login to NPM with your credentials
+npm login
+
+# Run the NPM publish command to the correct scope
+npm publish --scope=@molgenis/molgenis-ui-form --access=public
+
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
