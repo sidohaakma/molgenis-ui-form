@@ -41,7 +41,7 @@ describe('FormComponents shallow tests', () => {
 
   const propsData = {
     id: 'test',
-    data: {'string': 'data'},
+    formData: {'string': 'data'},
     schema: {
       fields: [ field ]
     },
