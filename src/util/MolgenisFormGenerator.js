@@ -251,25 +251,36 @@ const generateFormSchemaField = (attribute): FormField => {
  *
  * @param fields an array of field objects
  * @param data a data object containing everything a EntityType V2 response has in its item list
+ * @param attributes an array of MOLGENIS attribute metadata, used for idAttribute
  * @returns a {fieldId: value} object
  */
-const generateFormData = (fields: any, data: any) => {
+const generateFormData = (fields: any, data: any, attributes: any) => {
   return fields.reduce((accumulator, field) => {
-    if (field.type === 'field-group') {
-      return {...accumulator, ...generateFormData(field.children, data)}
-    } else if (field.type === 'file') {
-      // Map MOLGENIS FileMeta entity to our form file object
-      // which only contains a name
-      const fileData = data[field.id]
-      accumulator[field.id] = fileData ? fileData.filename : data[field.id]
-    } else if (field.type === 'checkbox' || field.type === 'multi-select') {
-      const checkboxData = data[field.id]
-      accumulator[field.id] = checkboxData && checkboxData.map(data => data.id)
-    } else if (field.type === 'radio' || field.type === 'single-select') {
-      const radioData = data[field.id]
-      accumulator[field.id] = radioData && typeof radioData === 'object' ? radioData.id : data[field.id]
-    } else {
-      accumulator[field.id] = data[field.id]
+    const fieldAttribute = attributes.find(attribute => attribute.name === field.id)
+    const idAttribute = fieldAttribute.refEntity && fieldAttribute.refEntity.idAttribute
+
+    switch (field.type) {
+      case 'field-group':
+        // Recursively generate data for compounds
+        return {...accumulator, ...generateFormData(field.children, data, fieldAttribute.attributes)}
+      case 'file':
+        // Map MOLGENIS FileMeta entity to our form file object
+        // which only contains a name
+        const fileData = data[field.id]
+        accumulator[field.id] = fileData ? fileData.filename : data[field.id]
+        break
+      case 'checkbox':
+      case 'multi-select':
+        const checkboxData = data[field.id]
+        accumulator[field.id] = checkboxData && checkboxData.map(data => data[idAttribute])
+        break
+      case 'radio':
+      case 'single-select':
+        const radioData = data[field.id]
+        accumulator[field.id] = radioData && typeof radioData === 'object' ? radioData[idAttribute] : data[field.id]
+        break
+      default:
+        accumulator[field.id] = data[field.id]
     }
     return accumulator
   }, {})
@@ -278,15 +289,26 @@ const generateFormData = (fields: any, data: any) => {
 /**
  * Generates an array for form fields
  *
- * @param schema an object containing the metadata from an EntityType V2 response
+ * @param metadata MOLGENIS entitytype metadata containing a list of attribute metadata
  * @returns a an array of Field objects
  */
-const generateFormFields = (schema: any): Array<FormField> => schema.attributes.reduce((accumulator, attribute) => {
+const generateFormFields = (metadata: any): Array<FormField> => metadata.attributes.reduce((accumulator, attribute) => {
   accumulator.push(generateFormSchemaField(attribute))
   return accumulator
 }, [])
 
+const generateForm = (metadata: any, data: any) => {
+  const formFields = generateFormFields(metadata)
+  const formData = generateFormData(formFields, data, metadata.attributes)
+
+  return {
+    formFields,
+    formData
+  }
+}
+
 export default {
+  generateForm,
   generateFormFields,
   generateFormData
 }

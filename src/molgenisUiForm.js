@@ -1,7 +1,7 @@
 import FormComponent from './components/FormComponent'
-import EntityToStateMapper from './util/EntityToStateMapper'
+import MolgenisFormGenerator from './util/MolgenisFormGenerator'
 
 export {
   FormComponent,
-  EntityToStateMapper
+  MolgenisFormGenerator
 }
