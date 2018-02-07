@@ -60,7 +60,7 @@
 </style>
 
 <script>
-  import { MolgenisFormGenerator, FormComponent } from './molgenisUiForm'
+  import { EntityToFormMapper, FormComponent } from './molgenisUiForm'
   import EntityTypeV2Response from './formDemoMockResponse'
 
   export default {
@@ -96,7 +96,7 @@
       }
     },
     created () {
-      const form = MolgenisFormGenerator.generateForm(EntityTypeV2Response.metadata, EntityTypeV2Response.items)
+      const form = EntityToFormMapper.generateForm(EntityTypeV2Response.metadata, EntityTypeV2Response.items)
       this.schema.fields = form.formFields
       this.formData = form.formData
     }

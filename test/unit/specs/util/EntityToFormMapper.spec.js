@@ -1,4 +1,4 @@
-import MolgenisFormGenerator from '@/util/MolgenisFormGenerator'
+import EntityToFormMapper from '@/util/EntityToFormMapper'
 import td from 'testdouble'
 import api from '@molgenis/molgenis-api-client'
 
@@ -34,7 +34,7 @@ describe('Entity to state mapper', () => {
       }
 
       const result = () => {
-        MolgenisFormGenerator.generateFormFields(invalidSchema)
+        EntityToFormMapper.generateForm(invalidSchema)
       }
 
       expect(result).to.throw('unknown fieldType (NON_EXISTING_TYPE)')
@@ -47,7 +47,7 @@ describe('Entity to state mapper', () => {
       'compound-int': 1
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.compoundSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.compoundSchema, data)
     const field = form.formFields[0]
 
     it('should map a [COMPOUND] attribute to a form field object', () => {
@@ -102,7 +102,7 @@ describe('Entity to state mapper', () => {
       'string': 'string value'
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.stringSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.stringSchema, data)
     const field = form.formFields[0]
 
     it('should map a [STRING] attribute to a form field object', () => {
@@ -135,7 +135,7 @@ describe('Entity to state mapper', () => {
       'email': 'foobar@molgenis.org'
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.emailSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.emailSchema, data)
     const field = form.formFields[0]
 
     it('should map a [EMAIL] attribute to a form field object', () => {
@@ -162,7 +162,7 @@ describe('Entity to state mapper', () => {
       'text': 'text value'
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.textSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.textSchema, data)
     const field = form.formFields[0]
 
     it('should map a [TEXT] attribute to a form field object', () => {
@@ -189,7 +189,7 @@ describe('Entity to state mapper', () => {
       'boolean': false
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.booleanSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.booleanSchema, data)
     const field = form.formFields[0]
 
     it('should map a [BOOLEAN] attribute to a form field object', done => {
@@ -220,7 +220,7 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a nillable [BOOLEAN] attribute to a form field object', done => {
-      const form = MolgenisFormGenerator.generateForm(schemas.booleanSchemaNillable, {})
+      const form = EntityToFormMapper.generateForm(schemas.booleanSchemaNillable, {})
       const field = form.formFields[0]
 
       expect(field.type).to.equal('radio')
@@ -248,7 +248,7 @@ describe('Entity to state mapper', () => {
       'integer': 99
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.intSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.intSchema, data)
     const field = form.formFields[0]
 
     it('should map a [INT] attribute to a form field object', () => {
@@ -275,7 +275,7 @@ describe('Entity to state mapper', () => {
       'long': 2147483648
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.longSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.longSchema, data)
     const field = form.formFields[0]
 
     it('should map a [LONG] attribute to a form field object', () => {
@@ -302,7 +302,7 @@ describe('Entity to state mapper', () => {
       'decimal': 0.205
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.decimalSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.decimalSchema, data)
     const field = form.formFields[0]
 
     it('should map a [DECIMAL] attribute to a form field object', () => {
@@ -337,7 +337,7 @@ describe('Entity to state mapper', () => {
       }
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.fileSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.fileSchema, data)
     const field = form.formFields[0]
 
     it('should map a [FILE] attribute to a form field object', () => {
@@ -364,7 +364,7 @@ describe('Entity to state mapper', () => {
       'html': '<p>gloves on</p>'
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.htmlSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.htmlSchema, data)
     const field = form.formFields[0]
 
     it('should map a [HTML] attribute to a form field object', () => {
@@ -391,7 +391,7 @@ describe('Entity to state mapper', () => {
       'script': 'print("Python is awesome")'
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.scriptSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.scriptSchema, data)
     const field = form.formFields[0]
 
     it('should map a [SCRIPT] attribute to a form field object', () => {
@@ -418,7 +418,7 @@ describe('Entity to state mapper', () => {
       'hyperlink': 'https://google.com'
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.hyperlinkSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.hyperlinkSchema, data)
     const field = form.formFields[0]
 
     it('should map a [HYPERLINK] attribute to a form field object', () => {
@@ -445,7 +445,7 @@ describe('Entity to state mapper', () => {
       'enum': 'enum1'
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.enumSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.enumSchema, data)
     const field = form.formFields[0]
 
     it('should map a [ENUM] attribute to a form field object', done => {
@@ -478,7 +478,7 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a nillable [ENUM] attribute to a form field object', done => {
-      const form = MolgenisFormGenerator.generateForm(schemas.enumSchemaNillable, {})
+      const form = EntityToFormMapper.generateForm(schemas.enumSchemaNillable, {})
       const field = form.formFields[0]
 
       expect(field.type).to.equal('radio')
@@ -506,7 +506,7 @@ describe('Entity to state mapper', () => {
       'date': '1947/04/07'
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.dateSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.dateSchema, data)
     const field = form.formFields[0]
 
     it('should map a [DATE] attribute to a form field object', () => {
@@ -533,7 +533,7 @@ describe('Entity to state mapper', () => {
       'datetime': '1985-08-12T11:12:13+0500'
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.dateTimeSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.dateTimeSchema, data)
     const field = form.formFields[0]
 
     it('should map a [DATE_TIME] attribute to a form field object', () => {
@@ -562,7 +562,7 @@ describe('Entity to state mapper', () => {
       }
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.categoricalSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.categoricalSchema, data)
     const field = form.formFields[0]
 
     it('should map a [CATEGORICAL] attribute to a form field object', done => {
@@ -602,7 +602,7 @@ describe('Entity to state mapper', () => {
       ]
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.categoricalMrefSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.categoricalMrefSchema, data)
     const field = form.formFields[0]
 
     it('should map a [CATEGORICAL_MREF] attribute to a form field object', done => {
@@ -641,7 +641,7 @@ describe('Entity to state mapper', () => {
       ]
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.mrefSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.mrefSchema, data)
     const field = form.formFields[0]
 
     it('should map a [MREF] attribute to a form field object', done => {
@@ -689,7 +689,7 @@ describe('Entity to state mapper', () => {
       }
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.xrefSchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.xrefSchema, data)
     const field = form.formFields[0]
 
     it('should map a [XREF] attribute to a form field object', done => {
@@ -738,7 +738,7 @@ describe('Entity to state mapper', () => {
       ]
     }
 
-    const form = MolgenisFormGenerator.generateForm(schemas.oneToManySchema, data)
+    const form = EntityToFormMapper.generateForm(schemas.oneToManySchema, data)
     const field = form.formFields[0]
 
     it('should map a [ONE_TO_MANY] attribute to a form field object', done => {

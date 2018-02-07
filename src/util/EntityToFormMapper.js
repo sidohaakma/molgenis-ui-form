@@ -289,17 +289,26 @@ const generateFormData = (fields: any, data: any, attributes: any) => {
 /**
  * Generates an array for form fields
  *
- * @param metadata MOLGENIS entitytype metadata containing a list of attribute metadata
+ * @param attributes A list of MOLGENIS attribute metadata
  * @returns a an array of Field objects
  */
-const generateFormFields = (metadata: any): Array<FormField> => metadata.attributes.reduce((accumulator, attribute) => {
+const generateFormFields = (attributes: any): Array<FormField> => attributes.reduce((accumulator, attribute) => {
   accumulator.push(generateFormSchemaField(attribute))
   return accumulator
 }, [])
 
-const generateForm = (metadata: any, data: any) => {
-  const formFields = generateFormFields(metadata)
-  const formData = generateFormData(formFields, data, metadata.attributes)
+/**
+ * Generates both fields and data objects for rendering a form
+ *
+ * @param metadata MOLGENIS metadata, containing attributes
+ * @param data
+ * @returns {{formFields: Array<FormField>, formData: *}}
+ */
+const generateForm = (metadata: any, data: ?any) => {
+  const attributes = metadata.attributes
+
+  const formFields = generateFormFields(attributes)
+  const formData = data ? generateFormData(formFields, data, attributes) : {}
 
   return {
     formFields,
@@ -308,7 +317,5 @@ const generateForm = (metadata: any, data: any) => {
 }
 
 export default {
-  generateForm,
-  generateFormFields,
-  generateFormData
+  generateForm
 }
