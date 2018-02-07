@@ -1,7 +1,7 @@
 import FormComponent from './components/FormComponent'
-import EntityToStateMapper from './util/EntityToStateMapper'
+import EntityToFormMapper from './util/EntityToFormMapper'
 
 export {
   FormComponent,
-  EntityToStateMapper
+  EntityToFormMapper
 }

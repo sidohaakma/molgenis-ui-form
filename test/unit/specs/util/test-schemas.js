@@ -150,27 +150,6 @@ export const stringSchema = {
   ]
 }
 
-export const stringSchemaWithVisibleExpression = {
-  'attributes': [
-    {
-      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/string',
-      'fieldType': 'STRING',
-      'name': 'string',
-      'label': 'String Field',
-      'attributes': [],
-      'auto': false,
-      'nillable': false,
-      'readOnly': false,
-      'labelAttribute': true,
-      'unique': true,
-      'visibleExpression': '$("string").value() === "show me"',
-      'lookupAttribute': true,
-      'isAggregatable': false,
-      'description': 'STRING description'
-    }
-  ]
-}
-
 export const emailSchema = {
   'attributes': [
     {
@@ -550,7 +529,7 @@ export const mrefSchema = {
     {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/mref',
       'fieldType': 'MREF',
-      'name': 'mref-field',
+      'name': 'mref',
       'label': 'MREF Field',
       'description': 'MREF description',
       'attributes': [],
