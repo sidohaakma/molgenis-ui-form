@@ -90,7 +90,7 @@
         :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
-        :formState="formState[field.id]"
+        :fieldState="formState[field.id]"
         :isRequired="isRequired"
         :isValid="isValid"
         @dataChange="onDataChange">
