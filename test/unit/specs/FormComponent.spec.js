@@ -12,6 +12,7 @@ describe('FormComponent unit tests', () => {
     expect(typeof props.schema).to.equal('object')
     expect(typeof props.formData).to.equal('object')
     expect(typeof props.formState).to.equal('object')
+    expect(typeof props.options).to.equal('object')
   })
 
   it('should have the correct state of the FormComponent', () => {
@@ -43,9 +44,12 @@ describe('FormComponents shallow tests', () => {
     id: 'test',
     formData: {'string': 'data'},
     schema: {
-      fields: [ field ]
+      fields: [field]
     },
-    formState: formState
+    formState: formState,
+    options: {
+      showEyeButton: true
+    }
   }
 
   const wrapper = shallow(FormComponent, {
@@ -57,6 +61,28 @@ describe('FormComponents shallow tests', () => {
       wrapper.setData({showOptionalFields: true})
       wrapper.vm.toggleOptionalFields()
       expect(wrapper.vm.showOptionalFields).to.equal(false)
+    })
+  })
+
+  describe('Eye button visibility', () => {
+    it('should show the eye button', () => {
+      expect(wrapper.find('.hide-option-fields-btn-container').exists()).to.equal(true)
+    })
+
+    it('should not show the eye button', () => {
+      wrapper.setProps({
+        id: 'test',
+        formData: {'string': 'data'},
+        schema: {
+          fields: [field]
+        },
+        formState: formState,
+        options: {
+          showEyeButton: false
+        }
+      })
+
+      expect(wrapper.find('.hide-option-fields-btn-container').exists()).to.equal(false)
     })
   })
 
