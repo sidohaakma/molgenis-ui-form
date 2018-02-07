@@ -1,6 +1,6 @@
 <template>
   <vue-form :id="id" :state="formState">
-    <div class="text-right hide-option-fields-btn-container">
+    <div v-if="options.showEyeButton" class="text-right hide-option-fields-btn-container">
       <button type="button" class="btn btn-sm btn-outline-secondary toggle-btn" :title="eyeMessage"
               @click="toggleOptionalFields">
         <i class="fa show-fields-icon" :class="{'fa-eye-slash': showOptionalFields, 'fa-eye': !showOptionalFields}"></i>
@@ -52,6 +52,15 @@
         required: false,
         default: (formData) => {
           this.$emit('valueChanged', formData)
+        }
+      },
+      options: {
+        type: Object,
+        required: false,
+        default: () => {
+          return {
+            showEyeButton: true
+          }
         }
       }
     },

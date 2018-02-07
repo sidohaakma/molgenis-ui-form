@@ -25,6 +25,7 @@
               :formState="formState"
               :formData="formData"
               :onValueChanged="onValueChanged"
+              :options="options"
               @addOptionRequest="handleAddOptionRequest">
             </form-component>
           </div>
@@ -73,7 +74,10 @@
         message: null,
         schema: {fields: []},
         formState: {},
-        formData: {}
+        formData: {},
+        options: {
+          showEyeButton: true
+        }
       }
     },
     methods: {
