@@ -9,7 +9,7 @@ describe('CheckboxFieldComponent unit tests', () => {
     type: 'checkbox',
     disabled: false,
     options: () => {
-      return new Promise((resolve, reject) => {
+      return new Promise((resolve) => {
         resolve([
           {
             id: '1',
@@ -55,7 +55,7 @@ describe('CheckboxFieldComponent unit tests', () => {
 
   it('should render an input for every option', () => {
     const inputs = wrapper.findAll('input')
-    expect(inputs.at(0).element.id).to.equal('checkbox-field-0')
+    expect(inputs.length).to.equal(2)
   })
 
   it('should emit an updated value on change', () => {
