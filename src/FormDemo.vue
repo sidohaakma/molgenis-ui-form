@@ -25,6 +25,7 @@
               :formState="formState"
               :formData="formData"
               :onValueChanged="onValueChanged"
+              :options="options"
               @addOptionRequest="handleAddOptionRequest">
             </form-component>
           </div>
@@ -60,7 +61,7 @@
 </style>
 
 <script>
-  import { EntityToStateMapper, FormComponent } from './molgenisUiForm'
+  import { EntityToFormMapper, FormComponent } from './molgenisUiForm'
   import EntityTypeV2Response from './formDemoMockResponse'
 
   export default {
@@ -73,7 +74,10 @@
         message: null,
         schema: {fields: []},
         formState: {},
-        formData: {}
+        formData: {},
+        options: {
+          showEyeButton: true
+        }
       }
     },
     methods: {
@@ -96,8 +100,9 @@
       }
     },
     created () {
-      this.schema.fields = EntityToStateMapper.generateFormFields(EntityTypeV2Response.metadata)
-      this.formData = EntityToStateMapper.generateFormData(this.schema.fields, EntityTypeV2Response.items)
+      const form = EntityToFormMapper.generateForm(EntityTypeV2Response.metadata, EntityTypeV2Response.items)
+      this.schema.fields = form.formFields
+      this.formData = form.formData
     }
   }
 </script>

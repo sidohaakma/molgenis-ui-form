@@ -1,45 +1,42 @@
 # molgenis-ui-form
 
 [![Build Status](https://travis-ci.org/molgenis/molgenis-ui-form.svg?branch=master)](https://travis-ci.org/molgenis/molgenis-ui-form)
-
 [![Known Vulnerabilities](https://snyk.io/test/github/molgenis/molgenis-ui-form/badge.svg?targetFile=package.json)](https://snyk.io/test/github/molgenis/molgenis-ui-form?targetFile=package.json)
 
 > Library for generating HTML web forms
-##Usage
 
-Add library using yarn.
+## Usage
 
-```yarn add @molgenis/molgenis-ui-form```
+### Install
 
-Import vue component using.
-
-```import { FormComponent } from '@molgenis/molgenis-ui-form'```
-
-Import entity mapper EntityToStateMapper using.
-
-```import { EntityToStateMapper } from '@molgenis/molgenis-ui-form'```
-
-This takes a molgenis entity response and turns it into a molgenis-ui-form data object
-
+```bash
+# Add library using yarn.
+yarn add @molgenis/molgenis-ui-form
 ```
-...
-const formSchema = EntityToStateMapper.generateFormFields(response.meta)
-const formData = EntityToStateMapper.generateFormData(formSchema, response.items[0]
+
+### Use
+
+```javascript
+// Import vue component
+import { FormComponent } from '@molgenis/molgenis-ui-form'
+
+// Import EntityToFormMapper
+import { EntityToFormMapper } from '@molgenis/molgenis-ui-form'
+
+// Generate a form from a molgenis entity response
+const form = EntityToFormMapper(response.meta, response.items[0]
 
 data () {
   return {
     schema: {
-      fields: formSchema
+      fields: form.formFields
     },
-    data: formData
+    data: form.formData
   }
 }
-...
-```
 
-Use in template
+// Use in template
 
-```
 <template>
     <form-component
       id="my-form"
@@ -53,8 +50,11 @@ Use in template
 </template>
 ```
 
+## Configuration
+
 ### Properties
-#####handleAddOptionRequest (optional)
+
+##### handleAddOptionRequest (optional)
 To allow the use to add new options to a select list the ```handleAddOptionRequest``` should be a function with the following properties:
  * ```completedFunction``` a callback function that should be called passing the ```option``` to be added.
  * ```event``` the original event triggering the request.
