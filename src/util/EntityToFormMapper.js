@@ -186,7 +186,7 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
  * @param attribute
  * @returns {Function} Function which evaluates to a boolean
  */
-const isVisible = (attribute): (() => boolean) => {
+const isVisible = (attribute): ((?Object) => boolean) => {
   const expression = attribute.visibleExpression
   return expression ? (data) => evaluator(expression, data) : () => attribute.visible
 }
@@ -198,9 +198,11 @@ const isVisible = (attribute): (() => boolean) => {
  * @param attribute
  * @returns {Function} Function which evaluates to a boolean
  */
-const isRequired = (attribute): (() => boolean) => {
+const isRequired = (attribute): ((?Object) => boolean) => {
   const expression = attribute.nullableExpression
-  return expression ? (data) => evaluator(expression, data) : () => !attribute.nillable
+
+  // If an attribute is nullable, it is NOT required
+  return expression ? (data) => !evaluator(expression, data) : () => !attribute.nillable
 }
 
 /**
@@ -210,7 +212,7 @@ const isRequired = (attribute): (() => boolean) => {
  * @param attribute
  * @returns {Function} Function which evaluates to a boolean
  */
-const isValid = (attribute): (() => boolean) => {
+const isValid = (attribute): ((?Object) => boolean) => {
   const expression = attribute.validationExpression
   return expression ? (data) => evaluator(expression, data) : () => true
 }

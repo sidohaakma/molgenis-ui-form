@@ -68,8 +68,8 @@ describe('Entity to state mapper', () => {
     })
 
     it('should have working required expressions', () => {
-      expect(compoundString.required({'compound-int': 1})).to.equal(true)
-      expect(compoundString.required({'compound-int': 2})).to.equal(false)
+      expect(compoundString.required({'compound-int': 1})).to.equal(false)
+      expect(compoundString.required({'compound-int': 2})).to.equal(true)
     })
 
     it('should have working visible expressions', () => {
@@ -113,8 +113,8 @@ describe('Entity to state mapper', () => {
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
       expect(field.visible()).to.equal(true)
-      expect(field.required({'text': 'not test'})).to.equal(true)
-      expect(field.required({'text': 'test'})).to.equal(false)
+      expect(field.required({'text': 'not test'})).to.equal(false)
+      expect(field.required({'text': 'test'})).to.equal(true)
 
       expect(typeof field.validate).to.equal('function')
       expect(field.validate({'string': 'valid'})).to.equal(true)
