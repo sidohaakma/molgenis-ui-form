@@ -9,7 +9,7 @@ describe('FormComponent unit tests', () => {
   it('should have the correct props listed', () => {
     const props = FormComponent.props
     expect(typeof props.id).to.equal('object')
-    expect(typeof props.schema).to.equal('object')
+    expect(typeof props.formFields).to.equal('object')
     expect(typeof props.formData).to.equal('object')
     expect(typeof props.formState).to.equal('object')
     expect(typeof props.options).to.equal('object')
@@ -43,9 +43,7 @@ describe('FormComponents shallow tests', () => {
   const propsData = {
     id: 'test',
     formData: {'string': 'data'},
-    schema: {
-      fields: [field]
-    },
+    formFields: [field],
     formState: formState,
     options: {
       showEyeButton: true
@@ -73,9 +71,7 @@ describe('FormComponents shallow tests', () => {
       wrapper.setProps({
         id: 'test',
         formData: {'string': 'data'},
-        schema: {
-          fields: [field]
-        },
+        formFields: [field],
         formState: formState,
         options: {
           showEyeButton: false

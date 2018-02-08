@@ -7,7 +7,7 @@
       </button>
     </div>
 
-    <template v-for="field in schema.fields">
+    <template v-for="field in formFields">
       <form-field-component
         :eventBus="eventBus"
         :formData="formData"
@@ -34,8 +34,8 @@
         type: String,
         required: true
       },
-      schema: {
-        type: Object,
+      formFields: {
+        type: Array,
         required: true,
         validator: isValidSchema
       },

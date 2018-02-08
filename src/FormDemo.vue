@@ -21,7 +21,7 @@
           <div class="card-body">
             <form-component
               id="example-form"
-              :schema="schema"
+              :formFields="formFields"
               :formState="formState"
               :formData="formData"
               :onValueChanged="onValueChanged"
@@ -72,7 +72,7 @@
     data () {
       return {
         message: null,
-        schema: {fields: []},
+        formFields: [],
         formState: {},
         formData: {},
         options: {
@@ -101,7 +101,7 @@
     },
     created () {
       const form = EntityToFormMapper.generateForm(EntityTypeV2Response.metadata, EntityTypeV2Response.items)
-      this.schema.fields = form.formFields
+      this.formFields = form.formFields
       this.formData = form.formData
     }
   }
