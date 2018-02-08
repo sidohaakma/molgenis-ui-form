@@ -44,11 +44,19 @@ data () {
       :formState="formState"
       :formData="formData"
       :onValueChanged="onValueChanged"
+      :options="options"
       @addOptionRequest="handleAddOptionRequest"
       >
     </form-component>
 </template>
 ```
+### Options
+
+The FormComponent object can be configured via an options property. If no options object is supplied the defaults are used.
+
+| Option name   | Default | Description |
+|---------------|---------|-------------|
+| showEyeButton | True    | Toggle the visibility of the Eye button
 
 ## Configuration
 
