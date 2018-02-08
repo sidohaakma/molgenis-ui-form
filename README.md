@@ -28,9 +28,7 @@ const form = EntityToFormMapper(response.meta, response.items[0]
 
 data () {
   return {
-    schema: {
-      fields: form.formFields
-    },
+    formFields: form.formFields,
     data: form.formData
   }
 }
@@ -40,7 +38,7 @@ data () {
 <template>
     <form-component
       id="my-form"
-      :schema="schema"
+      :formFields="formFields"
       :formState="formState"
       :formData="formData"
       :onValueChanged="onValueChanged"

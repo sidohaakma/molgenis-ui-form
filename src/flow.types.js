@@ -25,10 +25,6 @@ export type FormField = {
   validate: ((?Object) => boolean)
 }
 
-export type Schema = {
-  fields: Array<FormField>
-}
-
 export type RefEntityType = {
   href: string,
   hrefCollection: string,
