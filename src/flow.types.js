@@ -17,12 +17,12 @@ export type FormField = {
   type: HtmlFieldType,
   id: string,
   label: string,
-  required: (() => boolean),
+  required: ((?Object) => boolean),
   disabled: boolean,
-  visible: (() => boolean),
+  visible: ((?Object) => boolean),
   options?: (() => Promise<Array<FieldOption>>),
   children?: Array<FormField>,
-  validate: (() => boolean)
+  validate: ((?Object) => boolean)
 }
 
 export type Schema = {

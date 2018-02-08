@@ -56,6 +56,36 @@ describe('FormFieldComponents unit tests', () => {
     it('should return true if schema-field visibility is set to true', () => {
       expect(wrapper.vm.isVisible).to.equal(true)
     })
+
+    it('should return true if field is of type field-group', () => {
+      const propsData = {
+        formData: {},
+        field: {
+          id: 'group',
+          type: 'field-group',
+          visible: () => true,
+          required: () => true,
+          validate: () => true,
+          children: [
+            {
+              id: 'string',
+              type: 'text',
+              visible: () => true,
+              required: () => true,
+              validate: () => true
+            }
+          ]
+        },
+        formState: formState,
+        showOptionalFields: true
+      }
+
+      const wrapper = shallow(FormFieldComponent, {
+        propsData: propsData
+      })
+
+      expect(wrapper.vm.isVisible).to.equal(true)
+    })
   })
 
   describe('isRequired passed as true in component', () => {

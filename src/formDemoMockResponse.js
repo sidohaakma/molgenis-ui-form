@@ -575,6 +575,75 @@ const metadata = {
       'visible': true,
       'lookupAttribute': false,
       'isAggregatable': false
+    },
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound',
+      'fieldType': 'COMPOUND',
+      'name': 'hidden-compound',
+      'label': 'Hidden compound field',
+      'description': 'Hidden Compound description',
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_int',
+          'fieldType': 'STRING',
+          'name': 'hidden-compound-child',
+          'label': 'Hidden compound string field',
+          'attributes': [],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'defaultValue': '1',
+          'labelAttribute': false,
+          'unique': false,
+          'visible': false,
+          'lookupAttribute': false,
+          'isAggregatable': true,
+          'description': 'Cool Integer child description'
+        },
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_int',
+          'fieldType': 'COMPOUND',
+          'name': 'nested-hidden-compound',
+          'label': 'Nested Hidden compound',
+          'attributes': [
+            {
+              'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_int',
+              'fieldType': 'STRING',
+              'name': 'nested-hidden-compound-child',
+              'label': 'Hidden compound string field',
+              'attributes': [],
+              'auto': false,
+              'nillable': false,
+              'readOnly': false,
+              'defaultValue': '1',
+              'labelAttribute': false,
+              'unique': false,
+              'visible': false,
+              'lookupAttribute': false,
+              'isAggregatable': true,
+              'description': 'Cool Integer child description'
+            }
+          ],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'defaultValue': '1',
+          'labelAttribute': false,
+          'unique': false,
+          'visible': true,
+          'lookupAttribute': false,
+          'isAggregatable': true,
+          'description': 'Cool Hidden nested compound'
+        }
+      ],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': false,
+      'unique': false,
+      'visible': true,
+      'lookupAttribute': false,
+      'isAggregatable': false
     }
   ]
 }

@@ -40,7 +40,7 @@
     <!-- Render field groups + child fields, nesting subsequent groups with padding -->
     <template v-else-if="field.type === 'field-group'">
       <legend>{{ field.label }}</legend>
-      <small>{{field.description}} </small>
+      <small>{{field.description}}</small>
 
       <hr>
 
@@ -154,6 +154,7 @@
   import TypedFieldComponent from './field-types/TypedFieldComponent'
 
   import { FormField } from '../flow.types'
+  import isCompoundVisible from '../util/helpers/isCompoundVisible'
 
   export default {
     name: 'FormFieldComponent',
@@ -197,6 +198,10 @@
         return this.field.required(this.formData)
       },
       isVisible: function () {
+        if (this.field.type === 'field-group') {
+          return isCompoundVisible(this.field, this.formData)
+        }
+
         return (this.showOptionalFields || this.isRequired) && this.field.visible(this.formData)
       }
     },
