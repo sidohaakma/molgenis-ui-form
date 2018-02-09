@@ -50,7 +50,7 @@
       onValueChanged: {
         type: Function,
         required: false,
-        default: (formData) => {
+        default (formData) {
           this.$emit('valueChanged', formData)
         }
       },
