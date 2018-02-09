@@ -117,12 +117,12 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
       return (): Promise<Array<FieldOption>> => Promise.resolve(enumOptions)
     case 'BOOL':
       const boolOptions = attribute.nillable ? [
-        {id: 'true', value: 'true', label: 'True'},
-        {id: 'false', value: 'false', label: 'False'},
-        {id: 'null', value: 'null', label: 'N/A'}
+        {id: 'true', value: true, label: 'True'},
+        {id: 'false', value: false, label: 'False'},
+        {id: 'null', value: null, label: 'N/A'}
       ] : [
-        {id: 'true', value: 'true', label: 'True'},
-        {id: 'false', value: 'false', label: 'False'}
+        {id: 'true', value: true, label: 'True'},
+        {id: 'false', value: false, label: 'False'}
       ]
       return (): Promise<Array<FieldOption>> => Promise.resolve(boolOptions)
     default:
