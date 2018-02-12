@@ -9,7 +9,7 @@ export type HtmlFieldType = 'radio' | 'select' | 'number' | 'text-area' | 'date'
 
 export type FieldOption = {
   id: string,
-  value: string | boolean | number,
+  value: string | boolean | number | null,
   label: string
 }
 
