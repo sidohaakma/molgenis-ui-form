@@ -15,7 +15,7 @@
           :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
           :required="isRequired"
           :disabled="field.disabled"
-          v-bind:bool="localValue === true || localValue === false">
+          :bool="localValue === true || localValue === false">
         <label :for="field.id + '-' + index" class="form-check-label">{{ option.label }}</label>
       </div>
 
