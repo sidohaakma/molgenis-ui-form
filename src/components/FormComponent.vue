@@ -10,11 +10,11 @@
     <template v-for="field in formFields">
       <form-field-component
         :eventBus="eventBus"
-        :formData="formData"
+        :formData="ownFormData"
         :field="field"
         :formState="formState"
         :showOptionalFields="showOptionalFields"
-        @dataChange="onValueChanged(formData)">
+        @dataChange="onValueChanged(ownFormData)">
       </form-field-component>
     </template>
   </vue-form>
@@ -66,6 +66,7 @@
     },
     data () {
       return {
+        ownFormData: Object.assign({}, this.formData),
         eventBus: new Vue(),
         showOptionalFields: true
       }

@@ -191,17 +191,16 @@
       }
     },
     computed: {
-      isValid: function () {
+      isValid () {
         return this.field.validate(this.formData)
       },
-      isRequired: function () {
+      isRequired () {
         return this.field.required(this.formData)
       },
-      isVisible: function () {
+      isVisible () {
         if (this.field.type === 'field-group') {
           return isCompoundVisible(this.field, this.formData)
         }
-
         return (this.showOptionalFields || this.isRequired) && this.field.visible(this.formData)
       }
     },
