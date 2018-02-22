@@ -14,24 +14,27 @@
           <div class="card-header">
             <h5>Example form</h5>
           </div>
+
           <div id="alert-message" v-if="message" class="alert alert-info" role="alert">
             <button @click="message=null" type="button" class="close"><span aria-hidden="true">&times;</span></button>
             <span id="message-span">{{message}}</span>
           </div>
+
           <div class="card-body">
             <form-component
               id="example-form"
               :formFields="formFields"
+              :initialFormData="formData"
               :formState="formState"
-              :formData="formData"
-              :onValueChanged="onValueChanged"
               :options="options"
+              @valueChange="onValueChanged"
               @addOptionRequest="handleAddOptionRequest">
             </form-component>
           </div>
+
           <div class="card-footer">
-            <button id="save-btn" class="btn btn-primary" type="submit" @click.prevent="onSubmit(formData)">Save</button>
-            <button id="cancel-btn" class="btn btn-secondary" type="reset" @click.prevent="onCancel()">Cancel</button>
+            <button id="save-btn" class="btn btn-primary" type="submit" @click.prevent="onSubmit">Save</button>
+            <button id="cancel-btn" class="btn btn-secondary" type="reset" @click.prevent="onCancel">Cancel</button>
           </div>
         </div>
       </div>
@@ -81,14 +84,15 @@
       }
     },
     methods: {
-      onSubmit (formData) {
-        this.message = 'onSubmit: ' + JSON.stringify(formData)
+      onSubmit () {
+        this.message = 'onSubmit: ' + JSON.stringify(this.formData)
       },
       onCancel () {
         this.message = 'onCancel'
       },
       onValueChanged (formData) {
         this.message = 'onValueChanged: ' + JSON.stringify(formData)
+        this.formData = formData
       },
       handleAddOptionRequest (completedFunction, event, data) {
         const newMockOption = {

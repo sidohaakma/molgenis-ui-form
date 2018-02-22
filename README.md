@@ -39,15 +39,31 @@ data () {
     <form-component
       id="my-form"
       :formFields="formFields"
-      :formState="formState"
-      :formData="formData"
-      :onValueChanged="onValueChanged"
+      :initialFormData="formData"
       :options="options"
       @addOptionRequest="handleAddOptionRequest"
-      >
+      @valueChanged="onValueChanged">
     </form-component>
 </template>
 ```
+### valueChanged event
+
+When data in the form is changed, the form fires a `valueChanged` event.
+This event exposes two arguments, `formData` and `isFormValid`.
+
+`formData` is a key value object, where the field ID is the key, and the data filled in by the user is the value.
+`isFormValid` is a boolean telling you if there are __any__ invalid fields in the form.
+
+An example handler is shown below
+
+```js
+methods: {
+  onValueChanged (formData) {
+    console.log(formData) // all the data currently in the form
+  }
+}
+```
+
 ### Options
 
 The FormComponent object can be configured via an options property. If no options object is supplied the defaults are used.
