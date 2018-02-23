@@ -1,5 +1,6 @@
 import DateFieldComponent from '@/components/field-types/DateFieldComponent'
 import { mount } from 'vue-test-utils'
+import moment from 'moment'
 
 describe('DateFieldComponent', () => {
   describe('component', () => {
@@ -40,12 +41,16 @@ describe('DateFieldComponent', () => {
       isRequired: true,
       isValid: true
     }
-    describe('on value change', () => {
-      const wrapper = mount(DateFieldComponent, { propsData: propsData })
 
-      it('should emit an updated value on change', () => {
+    describe('on value change', () => {
+      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+
+      it('should emit an updated Date object on change', () => {
         wrapper.setData({localValue: '2018-01-02'})
-        expect(wrapper.emitted().input[0]).to.deep.equal(['2018-01-02'])
+
+        const expectedDateValue = moment('2018-01-02', 'YYYY-MM-DD').toDate()
+
+        expect(wrapper.emitted().input[0]).to.deep.equal([expectedDateValue])
         expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
       })
     })
@@ -85,9 +90,19 @@ describe('DateFieldComponent', () => {
       isTimeIncluded: true
     }
 
-    describe('isValidDateTime', () => {
-      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+    const wrapper = mount(DateFieldComponent, {propsData: propsData})
+    describe('on value change', () => {
+      it('should emit an updated Date object including time on change', () => {
+        wrapper.setData({localValue: '2018-01-02 13:37'})
 
+        const expectedDateTimeValue = moment('2018-01-02 13:37', 'YYYY-MM-DD HH:mm').toDate()
+
+        expect(wrapper.emitted().input[0]).to.deep.equal([expectedDateTimeValue])
+        expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+      })
+    })
+
+    describe('isValidDateTime', () => {
       it('should return true if the localValue is set to a valid date', () => {
         expect(wrapper.vm.isValidDateTime('2018-01-02 13:23')).to.equal(true)
       })
