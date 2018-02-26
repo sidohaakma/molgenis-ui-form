@@ -90,17 +90,27 @@ const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<st
  * @returns {Function|null} Function which returns a Promise representing an Array of FieldOptions
  */
 const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
+  const fetchOptionsFunction = (search: ?string | Array<string>): Promise<Array<FieldOption>> => {
+    return fetchFieldOptions(attribute.refEntity, search).then(response => {
+      return response
+    })
+  }
+
   switch (attribute.fieldType) {
     case 'CATEGORICAL':
     case 'CATEGORICAL_MREF':
+      if (attribute.categoricalOptions) {
+        return () => Promise.resolve(attribute.categoricalOptions.map(option => {
+          option.value = option.id
+          return option
+        }))
+      } else {
+        return fetchOptionsFunction
+      }
     case 'ONE_TO_MANY':
     case 'XREF':
     case 'MREF':
-      return (search: ?string | Array<string>): Promise<Array<FieldOption>> => {
-        return fetchFieldOptions(attribute.refEntity, search).then(response => {
-          return response
-        })
-      }
+      return fetchOptionsFunction
     case 'ENUM':
       const enumOptions = attribute.enumOptions.map(option => {
         return {
