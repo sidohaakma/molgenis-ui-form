@@ -61,12 +61,7 @@
     data () {
       return {
         eventBus: new Vue(),
-        showOptionalFields: true,
-
-        /**
-         *  Create local copy for data
-         */
-        formData: Object.assign({}, this.initialFormData)
+        showOptionalFields: true
       }
     },
     methods: {
@@ -84,8 +79,19 @@
       FormFieldComponent
     },
     computed: {
+
+      /**
+       * Compute the on hover text for the eye button
+       */
       eyeMessage () {
         return this.showOptionalFields ? 'Hide optional fields' : 'Show all fields'
+      },
+
+      /**
+       *  Create local copy for data
+       */
+      formData () {
+        return Object.assign({}, this.initialFormData)
       }
     },
     created: function () {

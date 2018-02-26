@@ -13,6 +13,7 @@
         <div class="card">
           <div class="card-header">
             <h5>Example form</h5>
+            <button id="update-data-btn" type="button" @click="changeData">Change form data</button>
           </div>
 
           <div id="alert-message" v-if="message" class="alert alert-info" role="alert">
@@ -87,13 +88,16 @@
       onSubmit () {
         this.message = 'onSubmit: ' + JSON.stringify(this.formData)
       },
+
       onCancel () {
         this.message = 'onCancel'
       },
+
       onValueChanged (formData) {
         this.message = 'onValueChanged: ' + JSON.stringify(formData)
         this.formData = formData
       },
+
       handleAddOptionRequest (completedFunction, event, data) {
         const newMockOption = {
           id: Math.floor(Math.random() * 1000),
@@ -101,6 +105,11 @@
           value: 'Demo value'
         }
         completedFunction(newMockOption)
+      },
+
+      changeData () {
+        this.formData['nested-compound-string'] = 'show'
+        this.formData['comppound-int'] = '1'
       }
     },
     created () {
