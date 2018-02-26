@@ -79,16 +79,13 @@
       FormFieldComponent
     },
     computed: {
-
-      /**
-       * Compute the on hover text for the eye button
-       */
       eyeMessage () {
         return this.showOptionalFields ? 'Hide optional fields' : 'Show all fields'
       },
 
       /**
-       *  Create local copy for data
+       *  Create local copy to break data reactivity with the
+       *  outside world and "enforce" a one way data-flow
        */
       formData () {
         return Object.assign({}, this.initialFormData)

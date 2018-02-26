@@ -88,16 +88,13 @@
       onSubmit () {
         this.message = 'onSubmit: ' + JSON.stringify(this.formData)
       },
-
       onCancel () {
         this.message = 'onCancel'
       },
-
       onValueChanged (formData) {
         this.message = 'onValueChanged: ' + JSON.stringify(formData)
         this.formData = formData
       },
-
       handleAddOptionRequest (completedFunction, event, data) {
         const newMockOption = {
           id: Math.floor(Math.random() * 1000),
@@ -106,7 +103,6 @@
         }
         completedFunction(newMockOption)
       },
-
       changeData () {
         this.formData['nested-compound-string'] = 'show'
         this.formData['comppound-int'] = '1'
