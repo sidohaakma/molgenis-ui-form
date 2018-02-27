@@ -116,5 +116,16 @@ module.exports = {
     browser.click('#compound-int') // trigger validation via onBlur()
     browser.expect.element('#compound-string').to.not.have.attribute('class').which.contains('is-invalid')
     browser.end()
+  },
+
+  'Check if expressions work when changing data outside of the form': function (browser) {
+    browser.options.desiredCapabilities.name = 'Check if expressions work when changing data outside of the form'
+    browser.expect.element('#compound-string-fs').to.not.be.visible
+
+    browser.click('#update-data-btn')
+    browser.expect.element('#compound-string-fs').to.be.visible
+    browser.expect.element('#compound-string').to.not.have.attribute('required')
+
+    browser.end()
   }
 }

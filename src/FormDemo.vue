@@ -13,6 +13,7 @@
         <div class="card">
           <div class="card-header">
             <h5>Example form</h5>
+            <button id="update-data-btn" type="button" @click="changeData">Change form data</button>
           </div>
 
           <div id="alert-message" v-if="message" class="alert alert-info" role="alert">
@@ -101,6 +102,10 @@
           value: 'Demo value'
         }
         completedFunction(newMockOption)
+      },
+      changeData () {
+        this.formData['nested-compound-string'] = 'show'
+        this.formData['comppound-int'] = '1'
       }
     },
     created () {
