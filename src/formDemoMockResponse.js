@@ -232,7 +232,8 @@ const metadata = {
       'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
-      'description': 'Nillable DATE description'
+      'description': 'Nillable DATE description',
+      'validationExpression': '$("nillable_date").age().value() == null || ($("nillable_date").age().value() >= 0 && $("nillable_date").age().value() < 150)'
     },
     {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/date_time',
