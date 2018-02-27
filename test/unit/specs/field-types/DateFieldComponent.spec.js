@@ -2,7 +2,7 @@ import DateFieldComponent from '@/components/field-types/DateFieldComponent'
 import { mount } from 'vue-test-utils'
 import moment from 'moment'
 
-describe('DateFieldComponent', () => {
+describe.only('DateFieldComponent', () => {
   describe('component', () => {
     it('should load the component with "DateFieldComponent" as a name', () => {
       expect(DateFieldComponent.name).to.equal('DateFieldComponent')
@@ -55,6 +55,18 @@ describe('DateFieldComponent', () => {
       })
     })
 
+    describe('getDateFromValue', () => {
+      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+
+      it('should return a moment object for a date string', () => {
+        const date = '2018-01-02'
+        const actual = wrapper.vm.getDateFromValue(date)
+        const expected = moment(date, 'YYYY-MM-DD', true)
+
+        expect(actual).to.deep.equal(expected)
+      })
+    })
+
     describe('isValidDateTime', () => {
       const wrapper = mount(DateFieldComponent, {propsData: propsData})
 
@@ -90,8 +102,9 @@ describe('DateFieldComponent', () => {
       isTimeIncluded: true
     }
 
-    const wrapper = mount(DateFieldComponent, {propsData: propsData})
     describe('on value change', () => {
+      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+
       it('should emit an updated Date object including time on change', () => {
         wrapper.setData({localValue: '2018-01-02 13:37'})
 
@@ -102,7 +115,21 @@ describe('DateFieldComponent', () => {
       })
     })
 
+    describe('getDateTimeFromValue', () => {
+      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+
+      it('should return a moment object for a date string', () => {
+        const date = '2018-01-02 13:37'
+        const actual = wrapper.vm.getDateFromValue(date)
+        const expected = moment(date, 'YYYY-MM-DD HH:mm', true)
+
+        expect(actual).to.deep.equal(expected)
+      })
+    })
+
     describe('isValidDateTime', () => {
+      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+
       it('should return true if the localValue is set to a valid date', () => {
         expect(wrapper.vm.isValidDateTime('2018-01-02 13:23')).to.equal(true)
       })
