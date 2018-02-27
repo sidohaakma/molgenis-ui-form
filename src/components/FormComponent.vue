@@ -61,12 +61,7 @@
     data () {
       return {
         eventBus: new Vue(),
-        showOptionalFields: true,
-
-        /**
-         *  Create local copy for data
-         */
-        formData: Object.assign({}, this.initialFormData)
+        showOptionalFields: true
       }
     },
     methods: {
@@ -86,6 +81,14 @@
     computed: {
       eyeMessage () {
         return this.showOptionalFields ? 'Hide optional fields' : 'Show all fields'
+      },
+
+      /**
+       *  Create local copy to break data reactivity with the
+       *  outside world and "enforce" a one way data-flow
+       */
+      formData () {
+        return Object.assign({}, this.initialFormData)
       }
     },
     created: function () {
