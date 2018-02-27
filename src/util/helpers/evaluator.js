@@ -1,3 +1,5 @@
+import moment from 'moment'
+
 /**
  * Evaluates a script.
  *
@@ -125,6 +127,9 @@ export default function (script, entity) {
         if (_isNull(this.val)) {
           this.val = undefined
         } else {
+          if (typeof this.val === 'string') {
+            this.val = moment(this.val, 'YYYY-MM-DD', true).toDate()
+          }
           this.val = Math.floor((Date.now() - this.val) / (365.2425 * 24 * 60 * 60 * 1000))
         }
         return this
@@ -366,7 +371,7 @@ export default function (script, entity) {
         return true
       }
       /*eslint-disable */
-      return (typeof value === 'string') && (value.length == 0);
+      return (typeof value === 'string') && (value.length == 0)
       /*eslint-enable */
     }
 
@@ -381,6 +386,7 @@ export default function (script, entity) {
    * @version 1.0
    * @namespace $
    */
+
   /*eslint-disable */
   function $ (attr) {
     return new attribute(this[attr])
