@@ -2,7 +2,7 @@ import DateFieldComponent from '@/components/field-types/DateFieldComponent'
 import { mount } from 'vue-test-utils'
 import moment from 'moment'
 
-describe.only('DateFieldComponent', () => {
+describe('DateFieldComponent', () => {
   describe('component', () => {
     it('should load the component with "DateFieldComponent" as a name', () => {
       expect(DateFieldComponent.name).to.equal('DateFieldComponent')
