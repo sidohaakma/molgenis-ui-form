@@ -70,7 +70,7 @@ describe('FormComponents shallow tests', () => {
     it('should not show the eye button', () => {
       wrapper.setProps({
         id: 'test',
-        formData: {'string': 'data'},
+        initialFormData: {'string': 'data'},
         formFields: [field],
         formState: formState,
         options: {
@@ -86,6 +86,28 @@ describe('FormComponents shallow tests', () => {
     it('should emit add "addOptionRequest" event passing through the event params', () => {
       wrapper.vm.handleAddOptionEvent('a', 'b', 'c')
       expect(wrapper.emitted().addOptionRequest[0]).to.deep.equal(['a', 'b', 'c'])
+    })
+  })
+
+  describe('handleValueChange', () => {
+    it('should emit a valueChange event when data changes', () => {
+      wrapper.vm.handleValueChange({'string': 'test event'})
+      expect(wrapper.emitted().valueChange[0]).to.deep.equal([{'string': 'test event'}])
+    })
+  })
+
+  describe('Update initialFormData property updates local formData value', () => {
+    it('should update the computed formData object when the initialFormData prop is updated', () => {
+      wrapper.setProps({
+        id: 'test',
+        initialFormData: {'string': 'new data value'},
+        formFields: [field],
+        options: {
+          showEyeButton: false
+        }
+      })
+
+      expect(wrapper.vm.formData).to.deep.equal({'string': 'new data value'})
     })
   })
 })

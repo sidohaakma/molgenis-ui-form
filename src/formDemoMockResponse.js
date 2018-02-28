@@ -232,7 +232,8 @@ const metadata = {
       'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
-      'description': 'Nillable DATE description'
+      'description': 'Nillable DATE description',
+      'validationExpression': '$("nillable_date").age().value() == null || ($("nillable_date").age().value() >= 0 && $("nillable_date").age().value() < 150)'
     },
     {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/date_time',
@@ -697,6 +698,7 @@ const items = {
   text: 'text value',
   hyperlink: 'www.nu.nl',
   boolean: true,
+  nillable_date: '2017-09-06',
   categorical: {href: 'url', value: 'ref1', label: 'label1'},
   categorical_mref: [
     {href: 'url', value: 'ref1', label: 'label1'},
