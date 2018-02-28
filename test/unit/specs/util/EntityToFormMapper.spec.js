@@ -562,35 +562,56 @@ describe('Entity to state mapper', () => {
       }
     }
 
-    const form = EntityToFormMapper.generateForm(schemas.categoricalSchema, data)
-    const field = form.formFields[0]
+    describe('when categorical options are not part of the response', () => {
+      const form = EntityToFormMapper.generateForm(schemas.categoricalSchema, data)
+      const field = form.formFields[0]
 
-    it('should map a [CATEGORICAL] attribute to a form field object', done => {
-      expect(field.type).to.equal('radio')
-      expect(field.id).to.equal('categorical')
-      expect(field.label).to.equal('Categorical Field')
-      expect(field.description).to.equal('Categorical description')
-      expect(field.disabled).to.equal(false)
-      expect(field.readOnly).to.equal(false)
-      expect(field.visible()).to.equal(true)
-      expect(typeof field.options).to.equal('function')
+      it('should map a [CATEGORICAL] attribute to a form field object', done => {
+        expect(field.type).to.equal('radio')
+        expect(field.id).to.equal('categorical')
+        expect(field.label).to.equal('Categorical Field')
+        expect(field.description).to.equal('Categorical description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible()).to.equal(true)
+        expect(typeof field.options).to.equal('function')
 
-      field.options().then(response => {
-        expect(response).to.deep.equal([
-          {id: 'ref1', value: 'ref1', label: 'ref1'},
-          {id: 'ref2', value: 'ref2', label: 'ref2'},
-          {id: 'ref3', value: 'ref3', label: 'ref3'}
-        ])
-        done()
+        field.options().then(response => {
+          expect(response).to.deep.equal([
+            {id: 'ref1', value: 'ref1', label: 'ref1'},
+            {id: 'ref2', value: 'ref2', label: 'ref2'},
+            {id: 'ref3', value: 'ref3', label: 'ref3'}
+          ])
+          done()
+        })
+      })
+
+      it('should map a [CATEGORICAL] entity to a form data object', () => {
+        const expectedData = {
+          'categorical': 'ref1'
+        }
+
+        expect(form.formData).to.deep.equal(expectedData)
       })
     })
 
-    it('should map a [CATEGORICAL] entity to a form data object', () => {
-      const expectedData = {
-        'categorical': 'ref1'
-      }
+    describe('when categorical options are included in the response', () => {
+      const form = EntityToFormMapper.generateForm(schemas.categoricalSchemaIncludingOptions, data)
+      const field = form.formFields[0]
 
-      expect(form.formData).to.deep.equal(expectedData)
+      it('should map a [CATEGORICAL] attribute to a form field object', done => {
+        expect(field.type).to.equal('radio')
+        expect(field.id).to.equal('categorical')
+        expect(typeof field.options).to.equal('function')
+
+        field.options().then(response => {
+          expect(response).to.deep.equal([
+            {id: 'ref1', value: 'ref1', label: 'label1'},
+            {id: 'ref2', value: 'ref2', label: 'label2'}
+          ])
+          done()
+        })
+      })
     })
   })
 
