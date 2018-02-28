@@ -291,7 +291,29 @@ const metadata = {
       'unique': false,
       'visible': true,
       'lookupAttribute': false,
-      'isAggregatable': false
+      'isAggregatable': false,
+      'categoricalOptions': [
+        {
+          'id': 'ref1',
+          'label': 'label1'
+        },
+        {
+          'id': 'ref2',
+          'label': 'label2'
+        },
+        {
+          'id': 'ref3',
+          'label': 'label3'
+        },
+        {
+          'id': 'ref4',
+          'label': 'label4'
+        },
+        {
+          'id': 'ref5',
+          'label': 'label5'
+        }
+      ]
     },
     {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/categorical_mref',
@@ -316,7 +338,29 @@ const metadata = {
       'unique': false,
       'visible': true,
       'lookupAttribute': false,
-      'isAggregatable': false
+      'isAggregatable': false,
+      'categoricalOptions': [
+        {
+          'id': 'ref1',
+          'label': 'label1'
+        },
+        {
+          'id': 'ref2',
+          'label': 'label2'
+        },
+        {
+          'id': 'ref3',
+          'label': 'label3'
+        },
+        {
+          'id': 'ref4',
+          'label': 'label4'
+        },
+        {
+          'id': 'ref5',
+          'label': 'label5'
+        }
+      ]
     },
     {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/xref',

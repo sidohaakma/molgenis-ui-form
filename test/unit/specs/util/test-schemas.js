@@ -495,6 +495,44 @@ export const categoricalSchema = {
   ]
 }
 
+export const categoricalSchemaIncludingOptions = {
+  'attributes': [
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/categorical',
+      'fieldType': 'CATEGORICAL',
+      'name': 'categorical',
+      'label': 'Categorical Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': true,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Categorical description',
+      'refEntity': {
+        href: '/api/v1/it_emx_datatypes_TypeTestRef/meta',
+        hrefCollection: '/api/v1/it_emx_datatypes_TypeTestRef',
+        idAttribute: 'value',
+        languageCode: 'en',
+        writable: true
+      },
+      'categoricalOptions': [
+        {
+          'id': 'ref1',
+          'label': 'label1'
+        },
+        {
+          'id': 'ref2',
+          'label': 'label2'
+        }
+      ]
+    }
+  ]
+}
+
 export const categoricalMrefSchema = {
   'attributes': [
     {
