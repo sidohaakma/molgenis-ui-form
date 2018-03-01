@@ -272,6 +272,28 @@ const fields = [
 ]
 ```
 
+### Validation message localization
+Validation messages may be localized via the use of the `@molgenis/molgenis-i18n-js` plugin.
+
+Usage:
+```
+Vue.use(i18n, {
+  lng: 'en',
+  fallbackLng: 'en',
+  namespace: 'form',
+  callback () {
+    /* eslint-disable no-new */
+    new Vue({
+      el: '#form-demo',
+      template: '<FormDemo/>',
+      components: { FormDemo }
+    })
+  }
+})
+```
+
+If no i18n is set on the supplied Vue instance the default (English) messages are used.
+
 ## Development
 The general guidelines and setup of the development environment are described here.
 
