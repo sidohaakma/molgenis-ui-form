@@ -62,7 +62,10 @@ module.exports = {
           'form_validation_failed': 'Validation failed',
           'form_not_a_valid_number': 'Not a valid number',
           'form_not_a_valid_url': 'Not a valid URL',
-          'form_not_a_valid_email': 'Not a valid email'
+          'form_not_a_valid_email': 'Not a valid email',
+          'form_bool_true': 'True',
+          'form_bool_false': 'False',
+          'form_bool_missing': 'N/A'
         }
         res.json(localizedMessages)
       })

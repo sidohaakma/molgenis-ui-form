@@ -294,6 +294,12 @@ Vue.use(i18n, {
 
 If no i18n is set on the supplied Vue instance the default (English) messages are used.
 
+### Entity mapper options
+
+The `EntityToFormMapper.generateForm` function takes a optional `options` param.
+The options param is a object that can contain the following prorerties:
+- booleanLabels Object use to set labels for boolean type fields, can be use in combination with i18n pluging to translate boolean labels.
+
 ## Development
 The general guidelines and setup of the development environment are described here.
 

@@ -241,6 +241,36 @@ describe('Entity to state mapper', () => {
         done()
       })
     })
+
+    it('should use the mapper options.booleanLabels when available ', done => {
+      const options = {
+        booleanLabels: {
+          trueLabel: 'oui',
+          falseLabel: 'non',
+          nillLabel: 'inconnu'
+        }
+      }
+      const form = EntityToFormMapper.generateForm(schemas.booleanSchemaNillable, {}, options)
+      const field = form.formFields[0]
+
+      expect(field.type).to.equal('radio')
+      expect(field.id).to.equal('boolean')
+      expect(field.label).to.equal('Boolean Field')
+      expect(field.description).to.equal('Boolean description')
+      expect(field.disabled).to.equal(false)
+      expect(field.readOnly).to.equal(false)
+      expect(field.visible()).to.equal(true)
+      expect(typeof field.options).to.equal('function')
+
+      field.options().then(response => {
+        expect(response).to.deep.equal([
+          {id: 'true', value: true, label: 'oui'},
+          {id: 'false', value: false, label: 'non'},
+          {id: 'null', value: null, label: 'inconnu'}
+        ])
+        done()
+      })
+    })
   })
 
   describe('Generate form fields and data for a [INT] attribute', () => {

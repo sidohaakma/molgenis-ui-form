@@ -33,3 +33,11 @@ export type RefEntityType = {
   languageCode?: string,
   writable?: boolean
 }
+
+export type MapperOptions = {
+  booleanLabels?: {
+    trueLabel: string,
+    falseLabel: string,
+    nillLabel: string
+  }
+}
