@@ -28,14 +28,14 @@ yarn add @molgenis/molgenis-ui-form
       @addOptionRequest="handleAddOptionRequest">
     </form-component>
 </template>
-  
+
 <script>
   // Import form component
   import { FormComponent } from '@molgenis/molgenis-ui-form'
-  
+
   // Import EntityToFormMapper
   import { EntityToFormMapper } from '@molgenis/molgenis-ui-form'
-  
+
   export default {
     name: 'ExampleComponent',
     data () {
@@ -56,17 +56,17 @@ yarn add @molgenis/molgenis-ui-form
           label: 'New Item',
           value: 'new_item'
         }
-        
+
         addNewItemFunction(item)
       },
-      
+
       onValueChanged (formData) {
         // Do something with the updated formData
         console.log(formData)
       }
     },
     created () {
-      // Generate a form from a MOLGENIS v2 API response 
+      // Generate a form from a MOLGENIS v2 API response
       // Or create fields based on the specs (Form specifications)
       const form = EntityToFormMapper(metadata, items[0])
       this.formFields = form.formFields
@@ -76,7 +76,7 @@ yarn add @molgenis/molgenis-ui-form
 </script>
 ```
 
-__Note__: Whatever you pass to the FormComponent as formData object, 
+__Note__: Whatever you pass to the FormComponent as formData object,
 the FormComponent makes a local copy with `Object.assign({}, formData)`.
 
 If you want to react to data input, use the [@valueChanged](#valuechanged-event) event.
@@ -110,7 +110,7 @@ To allow the use to add new options to a select list the `handleAddOptionRequest
  * `value` the form value
 
 ### Options
-The FormComponent object can be configured via an options property. 
+The FormComponent object can be configured via an options property.
 If no options object is supplied the defaults are used.
 
 | Option name   | Default | Description |
@@ -135,7 +135,7 @@ const fields = [
     validate: (formData) => true
   }
 ]
-  
+
 const data = {
   'example-text-field': 'example value'
 }
@@ -163,7 +163,7 @@ We support most HTML input types like number, text, and email. Below is a list o
 ### option field example
 
 Fields that render lists of options like radio buttons, checkboxes, and select dropdowns have an additional `option` parameter.
-This option parameter should always contain a function returning a promise. 
+This option parameter should always contain a function returning a promise.
 
 This makes it usable for both synchronous and asynchronous rendering of option lists.
 
@@ -192,8 +192,8 @@ const fields = [
           value: '2'
         }
       ]
-      
-      return Promise.resolve(options) 
+
+      return Promise.resolve(options)
     }
   }
 ]
@@ -230,8 +230,8 @@ const fields = [
     ]
   }
 ]
-  
-// Note that the field group itself does not have data 
+
+// Note that the field group itself does not have data
 const data = {
   'example-text-field': 'example value'
 }
@@ -239,7 +239,7 @@ const data = {
 
 ### Required, visible, and validate
 As you might have noticed in the above examples, required, visible, and validate are functions returning a boolean.
-The reason for this is that you might want to validate a field based on the input of another field. 
+The reason for this is that you might want to validate a field based on the input of another field.
 
 Or show / hide a field once another field has a certain value.
 
@@ -293,6 +293,12 @@ Vue.use(i18n, {
 ```
 
 If no i18n is set on the supplied Vue instance the default (English) messages are used.
+
+### Entity mapper options
+
+The `EntityToFormMapper.generateForm` function takes a optional `options` param.
+The options param is a object that can contain the following properties:
+- booleanLabels Object used to set labels for boolean type fields, can be use in combination with i18n plugin to translate boolean labels.
 
 ## Development
 The general guidelines and setup of the development environment are described here.

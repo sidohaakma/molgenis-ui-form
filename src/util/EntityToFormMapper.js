@@ -1,5 +1,5 @@
 // @flow
-import type { EntityFieldType, FieldOption, FormField, HtmlFieldType, RefEntityType } from '../flow.types'
+import type { EntityFieldType, FieldOption, FormField, HtmlFieldType, RefEntityType, MapperOptions } from '../flow.types'
 
 import evaluator from './helpers/evaluator'
 // $FlowFixMe
@@ -87,13 +87,20 @@ const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<st
  * }
  *
  * @param attribute
+ * @param options MapperOptions optional object containing options to configure mapper
  * @returns {Function|null} Function which returns a Promise representing an Array of FieldOptions
  */
-const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
+const getFieldOptions = (attribute, options?: MapperOptions): ?(() => Promise<Array<FieldOption>>) => {
   const fetchOptionsFunction = (search: ?string | Array<string>): Promise<Array<FieldOption>> => {
     return fetchFieldOptions(attribute.refEntity, search).then(response => {
       return response
     })
+  }
+
+  const booleanLabels = {
+    trueLabel: options && options.booleanLabels ? options.booleanLabels.trueLabel : 'True',
+    falseLabel: options && options.booleanLabels ? options.booleanLabels.falseLabel : 'False',
+    nillLabel: options && options.booleanLabels ? options.booleanLabels.nillLabel : 'N/A'
   }
 
   switch (attribute.fieldType) {
@@ -127,12 +134,12 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
       return (): Promise<Array<FieldOption>> => Promise.resolve(enumOptions)
     case 'BOOL':
       const boolOptions = attribute.nillable ? [
-        {id: 'true', value: true, label: 'True'},
-        {id: 'false', value: false, label: 'False'},
-        {id: 'null', value: null, label: 'N/A'}
+        {id: 'true', value: true, label: booleanLabels.trueLabel},
+        {id: 'false', value: false, label: booleanLabels.falseLabel},
+        {id: 'null', value: null, label: booleanLabels.nillLabel}
       ] : [
-        {id: 'true', value: true, label: 'True'},
-        {id: 'false', value: false, label: 'False'}
+        {id: 'true', value: true, label: booleanLabels.trueLabel},
+        {id: 'false', value: false, label: booleanLabels.falseLabel}
       ]
       return (): Promise<Array<FieldOption>> => Promise.resolve(boolOptions)
     default:
@@ -231,11 +238,12 @@ const isValid = (attribute): ((?Object) => boolean) => {
  * Generate a schema field object suitable for the forms
  *
  * @param attribute Attribute metadata from an EntityType V2 response
+ * @param mapperOptions MapperOptions optional object containing options to configure mapper
  * @returns {{type: String, id, label, description, required: boolean, disabled, visible, options: ({uri, id, label, multiple}|{uri, id, label})}}
  */
-const generateFormSchemaField = (attribute): FormField => {
+const generateFormSchemaField = (attribute, mapperOptions?: MapperOptions): FormField => {
   // options is a function that always returns an array of option objects
-  const options = getFieldOptions(attribute)
+  const options = getFieldOptions(attribute, mapperOptions)
   let fieldProperties = {
     type: getHtmlFieldType(attribute.fieldType),
     id: attribute.name,
@@ -249,7 +257,7 @@ const generateFormSchemaField = (attribute): FormField => {
   }
 
   if (fieldProperties.type === 'field-group') {
-    const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute))
+    const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute, mapperOptions))
     fieldProperties = {...fieldProperties, children}
   }
 
@@ -302,10 +310,11 @@ const generateFormData = (fields: any, data: any, attributes: any) => {
  * Generates an array for form fields
  *
  * @param attributes A list of MOLGENIS attribute metadata
+ * @param options MapperOptions optional object containing options to configure mapper
  * @returns a an array of Field objects
  */
-const generateFormFields = (attributes: any): Array<FormField> => attributes.reduce((accumulator, attribute) => {
-  accumulator.push(generateFormSchemaField(attribute))
+const generateFormFields = (attributes: any, options?: MapperOptions): Array<FormField> => attributes.reduce((accumulator, attribute) => {
+  accumulator.push(generateFormSchemaField(attribute, options))
   return accumulator
 }, [])
 
@@ -314,12 +323,13 @@ const generateFormFields = (attributes: any): Array<FormField> => attributes.red
  *
  * @param metadata MOLGENIS metadata, containing attributes
  * @param data
+ * @param options MapperOptions optional object containing options to configure mapper
  * @returns {{formFields: Array<FormField>, formData: *}}
  */
-const generateForm = (metadata: any, data: ?any) => {
+const generateForm = (metadata: any, data: ?any, options?: MapperOptions) => {
   const attributes = metadata.attributes
 
-  const formFields = generateFormFields(attributes)
+  const formFields = generateFormFields(attributes, options)
   const formData = data ? generateFormData(formFields, data, attributes) : {}
 
   return {

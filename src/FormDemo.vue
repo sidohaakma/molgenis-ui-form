@@ -109,7 +109,14 @@
       }
     },
     created () {
-      const form = EntityToFormMapper.generateForm(EntityTypeV2Response.metadata, EntityTypeV2Response.items)
+      const mapperOptions = {
+        booleanLabels: {
+          trueLabel: this.$t('form_bool_true'), // $t is set via @molgenis/molgenis-i18n-js plugin
+          falseLabel: this.$t('form_bool_false'),
+          nillLabel: this.$t('form_bool_missing')
+        }
+      }
+      const form = EntityToFormMapper.generateForm(EntityTypeV2Response.metadata, EntityTypeV2Response.items, mapperOptions)
       this.formFields = form.formFields
       this.formData = form.formData
     }
