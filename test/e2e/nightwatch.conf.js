@@ -2,6 +2,8 @@ require('babel-register')
 var config = require('../../config')
 var packageJson = require('../../package.json');
 
+var defaultPauzeBeforeTestStart = 3000
+
 // http://nightwatchjs.org/gettingstarted#settings-file
 module.exports = {
   src_folders: ['test/e2e/specs'],
@@ -25,7 +27,9 @@ module.exports = {
       selenium_host: 'localhost',
       silent: true,
       globals: {
-        devServerURL: 'http://localhost:' + (process.env.PORT || config.dev.port)
+        devServerURL: 'http://localhost:' + (process.env.PORT || config.dev.port),
+        waitForConditionTimeout: 10000,
+        waitBeforeTestStart: 1000
       }
     },
 
@@ -43,7 +47,8 @@ module.exports = {
         browserName: 'chrome'
       },
       globals: {
-        waitForConditionTimeout: 10000
+        waitForConditionTimeout: 10000,
+        waitBeforeTestStart: defaultPauzeBeforeTestStart
       }
     },
 
@@ -61,7 +66,8 @@ module.exports = {
         browserName: 'firefox'
       },
       globals: {
-        waitForConditionTimeout: 10000
+        waitForConditionTimeout: 10000,
+        waitBeforeTestStart: defaultPauzeBeforeTestStart
       }
     },
 
@@ -81,7 +87,8 @@ module.exports = {
         version: '11.103',
       },
       globals: {
-        waitForConditionTimeout: 10000
+        waitForConditionTimeout: 10000,
+        waitBeforeTestStart: defaultPauzeBeforeTestStart
       }
     },
 
@@ -99,7 +106,8 @@ module.exports = {
         browserName: 'safari'
       },
       globals: {
-        waitForConditionTimeout: 10000
+        waitForConditionTimeout: 10000,
+        waitBeforeTestStart: 5000
       }
     },
 

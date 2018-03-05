@@ -5,6 +5,7 @@ module.exports = {
   beforeEach: function (browser) {
     // Wait for form to be loaded
     browser.url(browser.globals.devServerURL)
+    browser.pause(browser.globals.waitBeforeTestStart)
   },
 
   'Click on submit and check if event is fired': function (browser) {
@@ -56,11 +57,11 @@ module.exports = {
 
   'Toggle show optional fields': function (browser) {
     browser.options.desiredCapabilities.name = 'Toggle show optional fields'
-    browser.click('button.toggle-btn')
+    browser.click('.hide-option-fields-btn-container button.toggle-btn')
     browser.expect.element('#string').to.be.not.visible
     browser.expect.element('i.show-fields-icon').to.be.visible
     browser.expect.element('i.show-fields-icon').to.have.attribute('class').which.contains('fa-eye')
-    browser.click('button.toggle-btn')
+    browser.click('.hide-option-fields-btn-container button.toggle-btn')
     browser.expect.element('#string').to.be.visible
     browser.expect.element('i.show-fields-icon').to.have.attribute('class').which.contains('fa-eye-slash')
     browser.end()

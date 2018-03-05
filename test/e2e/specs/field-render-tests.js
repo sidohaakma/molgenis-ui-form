@@ -5,6 +5,7 @@ module.exports = {
   before: function (browser) {
     // Wait for form to be loaded
     browser.url(browser.globals.devServerURL)
+    browser.pause(browser.globals.waitBeforeTestStart)
   },
 
   after: function (browser) {
