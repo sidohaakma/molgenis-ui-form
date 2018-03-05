@@ -25,10 +25,8 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
-        <div slot="required">This field is required</div>
-        <div slot="validate">Validation failed</div>
-      </field-messages>
+      <form-field-messages :field-id="field.id" :type="field.type" :field-state="fieldState">
+      </form-field-messages>
 
     </div>
   </validate>
@@ -36,10 +34,14 @@
 
 <script>
   import VueForm from 'vue-form'
+  import FormFieldMessages from '../FormFieldMessages'
   import { FormField } from '../../flow.types'
 
   export default {
     name: 'CheckboxFieldComponent',
+    components: {
+      FormFieldMessages
+    },
     mixins: [VueForm],
     props: {
       value: {

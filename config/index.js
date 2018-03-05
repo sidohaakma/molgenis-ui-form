@@ -47,13 +47,24 @@ module.exports = {
     // In our experience, they generally work as expected,
     // just be aware of this issue when enabling this option.
     cssSourceMap: false,
-    before (app) {
+    before(app) {
       app.get('/api/v1/it_emx_datatypes_TypeTestRef', function (req, res) {
         res.json(mockResponse)
       })
 
       app.get('/api/v2/it_emx_datatypes_TypeTestRef', function (req, res) {
         res.json(mockResponse)
+      })
+
+      app.get('/api/v2/i18n/form/en', function (req, res) {
+        const localizedMessages = {
+          'form_required_field': 'This field is required',
+          'form_validation_failed': 'Validation failed',
+          'form_not_a_valid_number': 'Not a valid number',
+          'form_not_a_valid_url': 'Not a valid URL',
+          'form_not_a_valid_email': 'Not a valid email'
+        }
+        res.json(localizedMessages)
       })
     }
   },
