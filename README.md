@@ -237,6 +237,23 @@ const data = {
 }
 ```
 
+### Range
+A number fields valid input range can be restricted by supplying a range object
+The range object can have a `min` property, a `max` property or both.
+for example 
+
+```js
+{
+  id: 'example-number-with-range',
+  type: 'number',
+  range: {
+    min: 0,
+    max: 13
+  }
+}
+```
+
+
 ### Required, visible, and validate
 As you might have noticed in the above examples, required, visible, and validate are functions returning a boolean.
 The reason for this is that you might want to validate a field based on the input of another field.
@@ -293,6 +310,18 @@ Vue.use(i18n, {
 ```
 
 If no i18n is set on the supplied Vue instance the default (English) messages are used.
+
+#####message keys and defaults
+| Key     | Default message   | Additional Info   |
+| -------: |:-------:| -------|
+| form_required_field| 'This field is required'|
+| form_validation_failed| 'Validation failed'|
+| form_not_a_valid_number| 'Not a valid number'|
+| form_not_a_valid_url| 'Not a valid URL'|
+| form_not_a_valid_email| 'Not a valid email'|
+| form_not_within_range| 'Value is outside of range'|  min, max is added as: ' ($min - $max)' 
+| form_below_min_value| 'Value is below allowed value'| min value is added as: ' $min'
+| form_above_max_value| 'Value is above the allowed value| max value is added as: ' $max'
 
 ### Entity mapper options
 

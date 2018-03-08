@@ -67,7 +67,11 @@ const metadata = {
       'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
-      'description': 'Integer description'
+      'description': 'Integer description',
+      'range': {
+        'min': 1,
+        'max': 45
+      }
     },
     {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/long',

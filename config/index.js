@@ -63,6 +63,9 @@ module.exports = {
           'form_not_a_valid_number': 'Not a valid number',
           'form_not_a_valid_url': 'Not a valid URL',
           'form_not_a_valid_email': 'Not a valid email',
+          'form_not_within_range': 'Value is outside of range',
+          'form_below_min_value': 'Value is below allowed value',
+          'form_above_max_value': 'Value is above the allowed value',
           'form_bool_true': 'True',
           'form_bool_false': 'False',
           'form_bool_missing': 'N/A'

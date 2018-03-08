@@ -256,9 +256,21 @@ const generateFormSchemaField = (attribute, mapperOptions?: MapperOptions): Form
     validate: isValid(attribute)
   }
 
-  if (fieldProperties.type === 'field-group') {
+  if (attribute.fieldType === 'COMPOUND') {
     const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute, mapperOptions))
     fieldProperties = {...fieldProperties, children}
+  }
+
+  if ((attribute.fieldType === 'INT' || attribute.fieldType === 'LONG') && attribute.range) {
+    let range = {}
+    if (attribute.range.hasOwnProperty('min')) {
+      range.min = attribute.range.min
+    }
+    if (attribute.range.hasOwnProperty('max')) {
+      range.max = attribute.range.max
+    }
+
+    fieldProperties = {...fieldProperties, range}
   }
 
   return options ? {...fieldProperties, options} : fieldProperties

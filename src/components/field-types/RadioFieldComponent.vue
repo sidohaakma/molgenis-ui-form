@@ -23,7 +23,7 @@
         {{ field.description }}
       </small>
 
-      <form-field-messages :field-id="field.id" :type="field.type" :field-state="fieldState">
+      <form-field-messages :field-id="field.id" :field-state="fieldState">
       </form-field-messages>
 
     </div>

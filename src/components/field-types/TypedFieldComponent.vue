@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{'validate': isValid}">
+  <validate :state="fieldState" :custom="customValidation">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -18,7 +18,7 @@
         {{ field.description }}
       </small>
 
-      <form-field-messages :field-id="field.id" :type="field.type" :field-state="fieldState">
+      <form-field-messages :field-id="field.id" :type="field.type" :range="field.range" :field-state="fieldState">
       </form-field-messages>
     </div>
   </validate>
@@ -71,6 +71,27 @@
         // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
+      }
+    },
+    computed: {
+      customValidation () {
+        let customValidation = {'validate': this.isValid}
+        if (this.field.type === 'number' && this.field.range) {
+          customValidation.range = this.isWithinRange
+        }
+        return customValidation
+      }
+    },
+    methods: {
+      isWithinRange () {
+        if (this.field.range.hasOwnProperty('min') && this.localValue < this.field.range.min) {
+          return false
+        }
+        if (this.field.range.hasOwnProperty('max') && this.localValue > this.field.range.max) {
+          return false
+        }
+
+        return true
       }
     }
   }
