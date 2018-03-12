@@ -300,6 +300,46 @@ describe('Entity to state mapper', () => {
     })
   })
 
+  describe('Generate form fields and data for a [INT] attribute having a range property', () => {
+    const form = EntityToFormMapper.generateForm(schemas.intSchemaWithRange, {})
+    const field = form.formFields[0]
+
+    it('should map a [INT] attribute to a form field object', () => {
+      expect(field.type).to.equal('number')
+      expect(field.id).to.equal('integer')
+      expect(field.range).to.deep.equal({
+        min: 1,
+        max: 45
+      })
+    })
+  })
+
+  describe('Generate form fields and data for a [INT] attribute having only the min part of the range property', () => {
+    const form = EntityToFormMapper.generateForm(schemas.intSchemaWithMinRange, {})
+    const field = form.formFields[0]
+
+    it('should map a [INT] attribute to a form field object', () => {
+      expect(field.type).to.equal('number')
+      expect(field.id).to.equal('integer')
+      expect(field.range).to.deep.equal({
+        min: 1
+      })
+    })
+  })
+
+  describe('Generate form fields and data for a [INT] attribute having only the max part of the range property', () => {
+    const form = EntityToFormMapper.generateForm(schemas.intSchemaWithMaxRange, {})
+    const field = form.formFields[0]
+
+    it('should map a [INT] attribute to a form field object', () => {
+      expect(field.type).to.equal('number')
+      expect(field.id).to.equal('integer')
+      expect(field.range).to.deep.equal({
+        max: 45
+      })
+    })
+  })
+
   describe('Generate form fields and data for a [LONG] attribute', () => {
     const data = {
       'long': 2147483648

@@ -120,7 +120,11 @@ describe('TypedFieldComponent unit tests', () => {
       label: 'Typed Field',
       description: 'This is a field that supports many types',
       type: 'number',
-      disabled: false
+      disabled: false,
+      range: {
+        min: 1,
+        max: 9
+      }
     }
 
     const fieldState = {
@@ -148,6 +152,57 @@ describe('TypedFieldComponent unit tests', () => {
     it('should render an input of type number', () => {
       const input = wrapper.find('input')
       expect(input.element.type).to.equal('number')
+    })
+  })
+
+  describe('isWithinRange', () => {
+    let propsData = {
+      field: {
+        id: 'typed-field',
+        type: 'number'
+      },
+      fieldState: {
+        $touched: false,
+        $submitted: false,
+        $invalid: false,
+        _addControl: mockParentFunction
+      }
+    }
+    describe('should return true if range is (1, 9) and value is 5', () => {
+      propsData.field.range = {
+        min: 1,
+        max: 9
+      }
+      propsData.value = 5
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      it('if the value is between min and max', () => {
+        const result = wrapper.vm.isWithinRange()
+        expect(result).to.equal(true)
+      })
+    })
+    describe('should return false if range is (1, 9) and value is 11', () => {
+      propsData.field.range = {
+        min: 1,
+        max: 9
+      }
+      propsData.value = 11
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      it('if the value is between min and max', () => {
+        const result = wrapper.vm.isWithinRange()
+        expect(result).to.equal(false)
+      })
+    })
+    describe('should return false if range is (1, 9) and value is -1', () => {
+      propsData.field.range = {
+        min: 1,
+        max: 9
+      }
+      propsData.value = -1
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      it('if the value is between min and max', () => {
+        const result = wrapper.vm.isWithinRange()
+        expect(result).to.equal(false)
+      })
     })
   })
 

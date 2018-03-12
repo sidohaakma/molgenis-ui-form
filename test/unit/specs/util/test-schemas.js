@@ -255,6 +255,79 @@ export const intSchema = {
   ]
 }
 
+export const intSchemaWithRange = {
+  'attributes': [
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/integer',
+      'fieldType': 'INT',
+      'name': 'integer',
+      'label': 'Integer Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Integer description',
+      'range': {
+        'min': 1,
+        'max': 45
+      }
+    }
+  ]
+}
+
+export const intSchemaWithMinRange = {
+  'attributes': [
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/integer',
+      'fieldType': 'INT',
+      'name': 'integer',
+      'label': 'Integer Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Integer description',
+      'range': {
+        'min': 1
+      }
+    }
+  ]
+}
+
+export const intSchemaWithMaxRange = {
+  'attributes': [
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/integer',
+      'fieldType': 'INT',
+      'name': 'integer',
+      'label': 'Integer Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Integer description',
+      'range': {
+        'max': 45
+      }
+    }
+  ]
+}
+
 export const longSchema = {
   'attributes': [
     {
