@@ -301,7 +301,6 @@ describe('Entity to state mapper', () => {
   })
 
   describe('Generate form fields and data for a [INT] attribute having a range property', () => {
-
     const form = EntityToFormMapper.generateForm(schemas.intSchemaWithRange, {})
     const field = form.formFields[0]
 
@@ -316,7 +315,6 @@ describe('Entity to state mapper', () => {
   })
 
   describe('Generate form fields and data for a [INT] attribute having only the min part of the range property', () => {
-
     const form = EntityToFormMapper.generateForm(schemas.intSchemaWithMinRange, {})
     const field = form.formFields[0]
 
@@ -330,7 +328,6 @@ describe('Entity to state mapper', () => {
   })
 
   describe('Generate form fields and data for a [INT] attribute having only the max part of the range property', () => {
-
     const form = EntityToFormMapper.generateForm(schemas.intSchemaWithMaxRange, {})
     const field = form.formFields[0]
 
