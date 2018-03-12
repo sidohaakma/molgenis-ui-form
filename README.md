@@ -321,7 +321,7 @@ If no i18n is set on the supplied Vue instance the default (English) messages ar
 | form_not_a_valid_email| 'Not a valid email'|
 | form_not_within_range| 'Value is outside of range'|  min, max is added as: ' ($min - $max)' 
 | form_below_min_value| 'Value is below allowed value'| min value is added as: ' $min'
-| form_above_max_value| 'Value is above the allowed value| max value is added as: ' $max'
+| form_above_max_value| 'Value is above allowed value| max value is added as: ' $max'
 
 ### Entity mapper options
 
