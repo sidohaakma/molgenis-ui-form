@@ -133,14 +133,17 @@ const getFieldOptions = (attribute, options?: MapperOptions): ?(() => Promise<Ar
 
       return (): Promise<Array<FieldOption>> => Promise.resolve(enumOptions)
     case 'BOOL':
-      const boolOptions = attribute.nillable ? [
-        {id: 'true', value: true, label: booleanLabels.trueLabel},
-        {id: 'false', value: false, label: booleanLabels.falseLabel},
-        {id: 'null', value: null, label: booleanLabels.nillLabel}
-      ] : [
+      const boolOptions = [
         {id: 'true', value: true, label: booleanLabels.trueLabel},
         {id: 'false', value: false, label: booleanLabels.falseLabel}
       ]
+
+      if (attribute.nillable &&
+        (!options || !options.hasOwnProperty('showNillableBooleanOption') || options.showNillableBooleanOption)
+      ) {
+        boolOptions.push({id: 'null', value: null, label: booleanLabels.nillLabel})
+      }
+
       return (): Promise<Array<FieldOption>> => Promise.resolve(boolOptions)
     default:
       return null

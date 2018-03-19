@@ -39,5 +39,6 @@ export type MapperOptions = {
     trueLabel: string,
     falseLabel: string,
     nillLabel: string
-  }
+  },
+  showNillableBooleanOption?: boolean
 }

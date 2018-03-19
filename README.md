@@ -325,10 +325,10 @@ If no i18n is set on the supplied Vue instance the default (English) messages ar
 
 ### Entity mapper options
 
-The `EntityToFormMapper.generateForm` function takes a optional `options` param.
+The `EntityToFormMapper.generateForm` function takes a *optional* `options` param.
 The options param is a object that can contain the following properties:
-- booleanLabels Object used to set labels for boolean type fields, can be use in combination with i18n plugin to translate boolean labels.
-
+- `booleanLabels` optional Object used to set labels for boolean type fields, can be use in combination with i18n plugin to translate boolean labels.
+- `showNillableBooleanOption` optional boolean that hides 'N/A' option for nillable boolean is set to `false`, defaults to true
 ## Development
 The general guidelines and setup of the development environment are described here.
 
