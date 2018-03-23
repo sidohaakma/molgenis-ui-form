@@ -19,7 +19,8 @@
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "@molgenis/molgenis-api-client": "^2.1.2",
