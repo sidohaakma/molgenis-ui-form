@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <a name="0.10.*"></a>
 ## 0.10.* (tba)
 * Fix issue 82, Multi select validation does not trigger on input  
@@ -13,6 +14,9 @@
 
 
 <a name="0.10.0"></a>
+=======
+<a name="0.1.0"></a>
+>>>>>>> update slack key + add changelog
 ## 0.10.0 (13-04-2018)
 * Make ability to add new option to select configurable 
 * Update for use with multiple namespaces, form uses the 'ui-form' namespace 
