@@ -5,6 +5,10 @@
 
 > Library for generating HTML web forms
 
+## Changelog
+Details changes for each release are documented in the [CHANGELOG.md](https://github.com/molgenis/molgenis-ui-form/blob/master/CHANGELOG.md).
+
+
 ## Usage
 
 ### Install
