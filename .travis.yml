@@ -10,7 +10,10 @@ jobs:
   include:
   - stage: test
     script:
-    - bash .travis/run_on_non_pull_requests.sh; fi
+    - yarn install
+    - yarn build
+    - yarn unit
+    - yarn e2e -- --env ci_chrome,ci_safari,ci_ie11,ci_firefox
     after_success:
     - bash <(curl -s https://codecov.io/bash)
   - stage: npm release
