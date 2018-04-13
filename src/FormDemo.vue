@@ -60,7 +60,8 @@
         formState: {},
         formData: {},
         options: {
-          showEyeButton: true
+          showEyeButton: true,
+          allowAddingOptions: true
         }
       }
     },

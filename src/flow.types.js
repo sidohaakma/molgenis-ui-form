@@ -42,3 +42,8 @@ export type MapperOptions = {
   },
   showNillableBooleanOption?: boolean
 }
+
+export type FormComponentOptions = {
+  showEyeButton?: boolean,
+  allowAddingOptions?: boolean
+}

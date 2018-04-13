@@ -211,4 +211,24 @@ describe('MultiSelectFieldComponent unit tests', () => {
     })
     expect(wrapper.findAll('.input-group-append').exists()).to.equal(false)
   })
+
+  it('should not render the add btn when the allowAddingOptions property is set to false ', () => {
+    propsData.allowAddingOptions = false
+
+    const wrapper = mount(MultiSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    expect(wrapper.findAll('.input-group-append').exists()).to.equal(false)
+  })
+
+  it('should render the add btn when the allowAddingOptions property is set to true ', () => {
+    propsData.allowAddingOptions = true
+
+    const wrapper = mount(MultiSelectFieldComponent, {
+      propsData: propsData,
+      stubs: {'fieldMessages': '<div>This field is required</div>'}
+    })
+    expect(wrapper.findAll('.input-group-append').exists()).to.equal(true)
+  })
 })

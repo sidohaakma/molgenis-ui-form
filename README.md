@@ -113,9 +113,10 @@ To allow the use to add new options to a select list the `handleAddOptionRequest
 The FormComponent object can be configured via an options property.
 If no options object is supplied the defaults are used.
 
-| Option name   | Default | Description |
-|---------------|---------|-------------|
-| showEyeButton | True    | Toggle the visibility of the Eye button
+| Option name        | Default | Description                             |
+|--------------------|---------|-----------------------------------------|
+| showEyeButton      | True    | Toggle the visibility of the Eye button |
+| allowAddingOptions | False   | When set to true users are show a interface item to add options to a (multi)select  
 
 
 ## Form specifications
