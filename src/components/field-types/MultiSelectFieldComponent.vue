@@ -22,7 +22,7 @@
           </div>
         </v-select>
 
-        <div v-if="!field.disabled" class="input-group-append">
+        <div v-if="!field.disabled && allowAddingOptions" class="input-group-append">
           <button @click="addOptionClicked($event)" class="btn btn-outline-secondary" type="button">
             <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
@@ -75,6 +75,11 @@
       eventBus: {
         type: Object,
         required: true
+      },
+      allowAddingOptions: {
+        type: Boolean,
+        required: false,
+        default: false
       }
     },
     data () {

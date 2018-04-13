@@ -68,7 +68,8 @@
         :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
-        @dataChange="onDataChange">
+        @dataChange="onDataChange"
+        :allowAddingOptions="formComponentOptions.allowAddingOptions">
       </multi-select-field-component>
     </template>
 
@@ -93,7 +94,8 @@
         :fieldState="formState[field.id]"
         :isRequired="isRequired"
         :isValid="isValid"
-        @dataChange="onDataChange">
+        @dataChange="onDataChange"
+        :allowAddingOptions="formComponentOptions.allowAddingOptions">
       </single-select-field-component>
     </template>
 
@@ -171,7 +173,7 @@
   import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
   import TypedFieldComponent from './field-types/TypedFieldComponent'
 
-  import { FormField } from '../flow.types'
+  import { FormField, FormComponentOptions } from '../flow.types'
   import isCompoundVisible from '../util/helpers/isCompoundVisible'
 
   export default {
@@ -201,6 +203,13 @@
       showOptionalFields: {
         type: Boolean,
         required: true
+      },
+      formComponentOptions: {
+        type: FormComponentOptions,
+        required: false,
+        default: () => {
+          return {}
+        }
       }
     },
     methods: {

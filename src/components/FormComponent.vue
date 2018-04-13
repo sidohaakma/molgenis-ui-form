@@ -14,7 +14,8 @@
         :field="field"
         :formState="formState"
         :showOptionalFields="showOptionalFields"
-        @dataChange="handleValueChange(formData)">
+        @dataChange="handleValueChange(formData)"
+        :form-component-options="options">
       </form-field-component>
     </template>
   </vue-form>
