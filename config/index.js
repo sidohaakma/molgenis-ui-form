@@ -56,7 +56,7 @@ module.exports = {
         res.json(mockResponse)
       })
 
-      app.get('/api/v2/i18n/form/en', function (req, res) {
+      app.get('/api/v2/i18n/ui-form/en', function (req, res) {
         const localizedMessages = {
           'form_required_field': 'This field is required',
           'form_validation_failed': 'Validation failed',
