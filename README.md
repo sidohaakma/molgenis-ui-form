@@ -298,7 +298,7 @@ Usage:
 Vue.use(i18n, {
   lng: 'en',
   fallbackLng: 'en',
-  namespace: 'form',
+  namespace: ['some-namespace', ui-form],
   callback () {
     /* eslint-disable no-new */
     new Vue({
@@ -310,19 +310,19 @@ Vue.use(i18n, {
 })
 ```
 
-If no i18n is set on the supplied Vue instance the default (English) messages are used.
+If no 'ui-form' namespace is set on the supplied Vue instance the default (English) messages are used.
 
 #####message keys and defaults
-| Key     | Default message   | Additional Info   |
-| -------: |:-------:| -------|
-| form_required_field| 'This field is required'|
-| form_validation_failed| 'Validation failed'|
-| form_not_a_valid_number| 'Not a valid number'|
-| form_not_a_valid_url| 'Not a valid URL'|
-| form_not_a_valid_email| 'Not a valid email'|
-| form_not_within_range| 'Value is outside of range'|  min, max is added as: ' ($min - $max)' 
-| form_below_min_value| 'Value is below allowed value'| min value is added as: ' $min'
-| form_above_max_value| 'Value is above allowed value| max value is added as: ' $max'
+| Key                             | Default message                 | Additional Info                         |
+| ------------------------------- |---------------------------------| ----------------------------------------|
+| ui-form:form_required_field     | 'This field is required'        |                                         |
+| ui-form:form_validation_failed  | 'Validation failed'             |                                         |
+| ui-form:form_not_a_valid_number | 'Not a valid number'            |                                         |
+| ui-form:form_not_a_valid_url    | 'Not a valid URL'               |                                         |
+| ui-form:form_not_a_valid_email  | 'Not a valid email'             |                                         |
+| ui-form:form_not_within_range   | 'Value is outside of range'     |  min, max is added as: ' ($min - $max)' | 
+| ui-form:form_below_min_value    | 'Value is below allowed value'  | min value is added as: ' $min'          |
+| ui-form:form_above_max_value    | 'Value is above allowed value   | max value is added as: ' $max'          |
 
 ### Entity mapper options
 
