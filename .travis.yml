@@ -4,14 +4,13 @@ node_js:
 install: true
 addons:
   sauce_connect: true
+  jwt:
+    secure: secure: DKvmnWLsnh5h9YU3DDSBh8LjmxnQqihW8NdMeZwqS9rbea4f8oq88kg/Gdg83xaRyz3XvDoPOHVQCKnRHgn4nksel/9Rv7+rg2BXyDq0mx5Lk3RNXUjuhDbyMoa+YNJELqjU6Kp7sIakElDmbfUcWtvj8y0WFXNJBMYJ6tBQGHNM1YByoYf5AzScYyv2s9AU29qAOlpgdrQ7e8aXfxydKiO4EqfM1/zThgKp0vngYgFVk+a8XB1Mzu5mkjWBvSJrCVecC2N1RAQqQJ+WK9IfxQrOmj+MlZIVL1IF1oRP5nhJoxd61fNMWtPsONNnzUsR3j/kTGw0BMBMpslmPPPf9Sh/9orMPuFPAp03+xtmzX3qmwq4/hCxEgONJQJ2VlvXEUgkfXpalg2gTd7ZjStzBHrJAs+vK21ZApSLf7wnT3c2i7MyRmVmKynLoYCU3ZZUmjszPt/9kL1SYn3Qum5Pz6fCoAj9NZ/VBirh7fltN84diPOeWpoR8bO1Q0tBMnk119YPvGh0fzXptBaQRmi9yztdOArNnXWKNa52eEo+dOvFQwgJqsv8IqJ2k76fXP/oiLxgtdzf1+b8InpoDP8fh5JoucEO/11wuRcijZcq6ONQImr/tRcb/OfvfJhR9X62Yq8gwQKT+j2QZSZ+KzrCdDcq7w5C1WaR1Q4PcsXsM6o=
 jobs:
   include:
   - stage: test
     script:
-    - if [ "$TRAVIS_PULL_REQUEST" != "false" ]; then bash .travis/run_on_pull_requests.sh;
-      fi
-    - if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then bash .travis/run_on_non_pull_requests.sh;
-      fi
+    - bash .travis/run_on_non_pull_requests.sh; fi
     after_success:
     - bash <(curl -s https://codecov.io/bash)
   - stage: npm release
