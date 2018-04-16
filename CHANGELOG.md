@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 <a name="0.10.*"></a>
 ## 0.10.* (tba)
 * Fix issue 82, Multi select validation does not trigger on input  
-
 
 <a name="0.10.2"></a>
 ## 0.10.2 (18-04-2018)
@@ -12,16 +10,13 @@
 ## 0.10.1 (16-04-2018)
 * fix issue with multiple namespaces ( not working with ie11)
 
-
 <a name="0.10.0"></a>
-=======
+
 <a name="0.1.0"></a>
->>>>>>> update slack key + add changelog
 ## 0.10.0 (13-04-2018)
 * Make ability to add new option to select configurable 
 * Update for use with multiple namespaces, form uses the 'ui-form' namespace 
 * Fix select styling
-
 
 <a name="0.9.12"></a>
 ## pre 0.10.0 (13-04-2018)
