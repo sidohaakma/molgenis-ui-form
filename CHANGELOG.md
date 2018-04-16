@@ -1,4 +1,9 @@
-<a name="0.1.0"></a>
+<a name="0.10.1"></a>
+## 0.10.1 (16-04-2018)
+* fix issue with multiple namespaces ( not working with ie11)
+
+
+<a name="0.10.0"></a>
 ## 0.10.0 (13-04-2018)
 * Make ability to add new option to select configurable 
 * Update for use with multiple namespaces, form uses the 'ui-form' namespace 
