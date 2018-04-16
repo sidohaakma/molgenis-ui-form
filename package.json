@@ -33,7 +33,7 @@
     "vue": "2.5.13"
   },
   "devDependencies": {
-    "@molgenis/molgenis-i18n-js": "^0.1.0",
+    "@molgenis/molgenis-i18n-js": "^0.1.1",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
