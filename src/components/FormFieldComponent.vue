@@ -152,7 +152,7 @@
     background-color: #f8f8f8;
   }
 
-  .v-select > .dropdown-toggle {
+  .mg-ui-form-field .v-select > .dropdown-toggle {
     border: none;
   }
 

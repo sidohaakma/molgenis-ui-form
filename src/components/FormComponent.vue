@@ -9,6 +9,7 @@
 
     <template v-for="field in formFields">
       <form-field-component
+        class="mg-ui-form-field"
         :eventBus="eventBus"
         :formData="formData"
         :field="field"
