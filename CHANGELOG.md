@@ -1,3 +1,7 @@
+<a name="0.10.2"></a>
+## 0.10.2 (18-04-2018)
+* Add 'mg-ui-form-field' to generated fields, this allows app css to target fields for styling. 
+
 <a name="0.10.1"></a>
 ## 0.10.1 (16-04-2018)
 * fix issue with multiple namespaces ( not working with ie11)
