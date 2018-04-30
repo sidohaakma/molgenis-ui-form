@@ -101,14 +101,17 @@
         this.eventBus.$emit('addOption', this.afterOptionCreation, event, this.field)
       },
       afterOptionCreation (newOption) {
-        this.options.push(newOption)
-        this.localValue.push(newOption)
+        this.options = this.options.concat(newOption)
+        this.localValue = this.localValue.concat(newOption)
       }
     },
     watch: {
-      localValue (values) {
+      localValue (newValues, oldValues) {
         // Emit value changes to the parent (form)
-        this.$emit('input', values.map(value => value.id))
+        console.log('old size: ' + oldValues.length + ' new size: ' + newValues.length)
+        this.$emit('input', newValues.map(value => value.id))
+        this.$emit('focus')
+        this.$emit('blur')
         // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
@@ -118,13 +121,14 @@
       // If there is a value set, fetch an initial list of options
       if (this.value.length > 0) {
         // Call the field.options with the initial array of values
+        const that = this
         this.field.options(this.value).then(response => {
-          this.options = response
+          that.options = response
 
           // Replace localValue with the entire object so vue-select can use the label property
           // Filter the list of the options based on the actual selected IDs
           // a like query can return more then just your IDs
-          this.localValue = this.options.filter(option => this.value.includes(option.id))
+          that.localValue = that.options.filter(option => that.value.includes(option.id))
         })
       }
     },
