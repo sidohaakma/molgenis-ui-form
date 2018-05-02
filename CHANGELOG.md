@@ -1,5 +1,8 @@
 <a name="0.10.*"></a>
 ## 0.10.* (tba)
+
+<a name="0.10.3"></a>
+## 0.10.3 (02-05-2018)
 * Fix issue 82, Multi select validation does not trigger on input  
 
 
