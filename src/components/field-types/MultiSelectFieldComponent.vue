@@ -106,9 +106,8 @@
       }
     },
     watch: {
-      localValue (newValues, oldValues) {
+      localValue (newValues) {
         // Emit value changes to the parent (form)
-        console.log('old size: ' + oldValues.length + ' new size: ' + newValues.length)
         this.$emit('input', newValues.map(value => value.id))
         this.$emit('focus')
         this.$emit('blur')
