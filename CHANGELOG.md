@@ -1,3 +1,8 @@
+<a name="0.10.*"></a>
+## 0.10.* (tba)
+* Fix issue 82, Multi select validation does not trigger on input  
+
+
 <a name="0.10.2"></a>
 ## 0.10.2 (18-04-2018)
 * Add 'mg-ui-form-field' to generated fields, this allows app css to target fields for styling. 
