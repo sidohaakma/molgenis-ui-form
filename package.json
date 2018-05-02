@@ -1,6 +1,6 @@
 {
   "name": "@molgenis/molgenis-ui-form",
-  "version": "0.10.2",
+  "version": "0.10.3",
   "description": "Library for generating HTML web forms",
   "author": "Mark-de-Haan <markdehaan90@gmail.com>",
   "keywords": [
@@ -31,7 +31,7 @@
     "vue-code": "^1.2.3",
     "vue-flatpickr-component": "^7.0.0",
     "vue-form": "^4.8.1",
-    "vue-select": "ConnorStroomberg/vue-select.git#release\/patch-for-update-issue"
+    "vue-select": "ConnorStroomberg/vue-select.git#release/patch-for-update-issue"
   },
   "peerDependencies": {
     "vue": "2.5.13"
