@@ -1,7 +1,7 @@
 import TextAreaFieldComponent from '@/components/field-types/TextAreaFieldComponent'
 import { mount } from 'vue-test-utils'
 
-describe('CheckboxFieldComponent unit tests', () => {
+describe('TextAreaFieldComponent unit tests', () => {
   const field = {
     id: 'text-area-field',
     label: 'Text Area Field',
@@ -26,7 +26,8 @@ describe('CheckboxFieldComponent unit tests', () => {
     field: field,
     fieldState: fieldState,
     isRequired: true,
-    isValid: true
+    isValid: true,
+    textAreaDebounceTime: 0
   }
 
   const wrapper = mount(TextAreaFieldComponent, {
@@ -42,9 +43,12 @@ describe('CheckboxFieldComponent unit tests', () => {
     expect(wrapper.findAll('textarea').length).to.equal(1)
   })
 
-  it('should emit an updated value on change', () => {
+  it('should emit an updated value on change', (done) => {
     wrapper.setData({localValue: 'test text area MESSAGE!!'})
-    expect(wrapper.emitted().input[0]).to.deep.equal(['test text area MESSAGE!!'])
-    expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+    setTimeout(function () {
+      expect(wrapper.emitted().input[0]).to.deep.equal(['test text area MESSAGE!!'])
+      expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+      done()
+    }, 1000)
   })
 })

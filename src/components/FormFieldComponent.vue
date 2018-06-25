@@ -107,6 +107,7 @@
         :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
+        :textAreaDebounceTime="formComponentOptions.textAreaDebounceTime"
         @dataChange="onDataChange">
       </text-area-field-component>
     </template>
@@ -208,7 +209,9 @@
         type: FormComponentOptions,
         required: false,
         default: () => {
-          return {}
+          return {
+            textAreaDebounceTime: 500
+          }
         }
       }
     },

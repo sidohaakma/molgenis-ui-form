@@ -1,6 +1,7 @@
-<a name="0.10.*"></a>
-## 0.10.* (tba)
+<a name="0.11.0"></a>
+## 0.11.0 (tba)
 * Fix issue 82, Multi select validation does not trigger on input  
+* Debounce textArea update event ( default 500 ms), can be changed through settings ('textAreaDebounceTime')
 
 <a name="0.10.2"></a>
 ## 0.10.2 (18-04-2018)

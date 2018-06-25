@@ -61,7 +61,8 @@
         formData: {},
         options: {
           showEyeButton: true,
-          allowAddingOptions: true
+          allowAddingOptions: true,
+          textAreaDebounceTime: 300
         }
       }
     },

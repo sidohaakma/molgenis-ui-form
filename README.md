@@ -117,10 +117,11 @@ To allow the use to add new options to a select list the `handleAddOptionRequest
 The FormComponent object can be configured via an options property.
 If no options object is supplied the defaults are used.
 
-| Option name        | Default | Description                             |
-|--------------------|---------|-----------------------------------------|
-| showEyeButton      | True    | Toggle the visibility of the Eye button |
-| allowAddingOptions | False   | When set to true users are show a interface item to add options to a (multi)select  
+| Option name          | Default | Description                             |
+|----------------------|---------|-----------------------------------------|
+| showEyeButton        | True    | Toggle the visibility of the Eye button. |
+| allowAddingOptions   | False   | When set to true users are show a interface item to add options to a (multi)select.  
+| textAreaDebounceTime | 500     | Time (in milliseconds) between textArea updateds that needs to pass before update event is fired.
 
 
 ## Form specifications
