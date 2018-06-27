@@ -107,7 +107,7 @@
         :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
-        :textAreaDebounceTime="formComponentOptions.textAreaDebounceTime"
+        :inputDebounceTime="formComponentOptions.inputDebounceTime"
         @dataChange="onDataChange">
       </text-area-field-component>
     </template>
@@ -133,6 +133,7 @@
         :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
+        :inputDebounceTime="formComponentOptions.inputDebounceTime"
         @dataChange="onDataChange">
       </typed-field-component>
     </template>
@@ -210,7 +211,7 @@
         required: false,
         default: () => {
           return {
-            textAreaDebounceTime: 500
+            inputDebounceTime: 500
           }
         }
       }

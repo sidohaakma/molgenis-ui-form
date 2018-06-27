@@ -62,7 +62,7 @@
         options: {
           showEyeButton: true,
           allowAddingOptions: true,
-          textAreaDebounceTime: 300
+          inputDebounceTime: 300
         }
       }
     },

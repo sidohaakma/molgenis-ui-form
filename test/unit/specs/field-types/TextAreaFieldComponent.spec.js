@@ -27,7 +27,7 @@ describe('TextAreaFieldComponent unit tests', () => {
     fieldState: fieldState,
     isRequired: true,
     isValid: true,
-    textAreaDebounceTime: 0
+    inputDebounceTime: 0
   }
 
   const wrapper = mount(TextAreaFieldComponent, {

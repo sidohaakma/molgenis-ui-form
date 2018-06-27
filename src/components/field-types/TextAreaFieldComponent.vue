@@ -58,7 +58,7 @@
         type: Boolean,
         default: false
       },
-      textAreaDebounceTime: {
+      inputDebounceTime: {
         type: Number,
         default: debounceTime
       }
@@ -80,7 +80,7 @@
       }, debounceTime)
     },
     created () {
-      debounceTime = this.textAreaDebounceTime
+      debounceTime = this.inputDebounceTime
     }
   }
 </script>

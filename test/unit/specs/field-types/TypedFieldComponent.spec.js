@@ -28,7 +28,8 @@ describe('TypedFieldComponent unit tests', () => {
       field: field,
       fieldState: fieldState,
       isRequired: true,
-      isValid: false
+      isValid: false,
+      inputDebounceTime: 0
     }
 
     const wrapper = mount(TypedFieldComponent,
@@ -78,14 +79,12 @@ describe('TypedFieldComponent unit tests', () => {
         'form-control vf-pristine vf-invalid vf-untouched vf-invalid-validate')
     })
 
-    it('should emit an updated value on change', () => {
+    it('should emit an updated value on change', (done) => {
       wrapper.setData({localValue: 'test'})
-      expect(wrapper.emitted().input[0]).to.deep.equal(['test'])
-
-      wrapper.setData({localValue: 'test another'})
-      expect(wrapper.emitted().input[1]).to.deep.equal(['test another'])
-
-      expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+      setTimeout(function () {
+        expect(wrapper.emitted().input[0]).to.deep.equal(['test'])
+        done()
+      }, 1000)
     })
 
     it('should receive the "is-invalid" class if not valid', () => {

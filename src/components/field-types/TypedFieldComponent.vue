@@ -28,6 +28,9 @@
   import VueForm from 'vue-form'
   import { FormField } from '../../flow.types'
   import FormFieldMessages from '../FormFieldMessages'
+  import debounce from 'debounce'
+
+  let debounceTime = 500
 
   export default {
     name: 'TypedFieldComponent',
@@ -55,6 +58,10 @@
       isRequired: {
         type: Boolean,
         default: false
+      },
+      inputDebounceTime: {
+        type: Number,
+        default: debounceTime
       }
     },
     mixins: [VueForm],
@@ -65,13 +72,13 @@
       }
     },
     watch: {
-      localValue (value) {
+      localValue: debounce(function (value) {
         // Emit value changes to the parent (form)
         this.$emit('input', value)
         // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
-      }
+      }, debounceTime)
     },
     computed: {
       customValidation () {
@@ -93,6 +100,9 @@
 
         return true
       }
+    },
+    created () {
+      debounceTime = this.inputDebounceTime
     }
   }
 </script>
