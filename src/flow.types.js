@@ -45,5 +45,6 @@ export type MapperOptions = {
 
 export type FormComponentOptions = {
   showEyeButton?: boolean,
-  allowAddingOptions?: boolean
+  allowAddingOptions?: boolean,
+  inputDebounceTime: number
 }
