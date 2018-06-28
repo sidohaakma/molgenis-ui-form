@@ -1,5 +1,6 @@
-<a name="0.10.*"></a>
-## 0.10.* (tba)
+<a name="0.11.0"></a>
+## 0.11.0 (28-06-2018)
+* add debounce on input and textarea type
 
 <a name="0.10.3"></a>
 ## 0.10.3 (02-05-2018)
