@@ -1,4 +1,8 @@
 <a name="0.11.0"></a>
+## 0.11.1 (02-07-2018)
+* localize datepicker
+
+<a name="0.11.0"></a>
 ## 0.11.0 (28-06-2018)
 * add debounce on input and textarea type
 
