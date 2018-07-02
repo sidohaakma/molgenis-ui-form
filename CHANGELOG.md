@@ -1,4 +1,4 @@
-<a name="0.11.0"></a>
+<a name="0.11.1"></a>
 ## 0.11.1 (02-07-2018)
 * localize datepicker
 
