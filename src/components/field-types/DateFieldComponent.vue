@@ -49,6 +49,21 @@
   import flatPickr from 'vue-flatpickr-component'
   import 'flatpickr/dist/flatpickr.css'
   import moment from 'moment'
+  import { Portuguese } from 'flatpickr/dist/l10n/pt.js'
+  import { Spanish } from 'flatpickr/dist/l10n/es.js'
+  import { Italian } from 'flatpickr/dist/l10n/it.js'
+  import { French } from 'flatpickr/dist/l10n/fr.js'
+  import { Dutch } from 'flatpickr/dist/l10n/nl.js'
+  import { German } from 'flatpickr/dist/l10n/de.js'
+
+  const flatpickerLangMap = {
+    pt: Portuguese,
+    es: Spanish,
+    it: Italian,
+    fr: French,
+    nl: Dutch,
+    de: German
+  }
 
   export default {
     name: 'DateFieldComponent',
@@ -127,6 +142,11 @@
           // Do not use input event for this to prevent unwanted behavior
           this.$emit('dataChange')
         }
+      }
+    },
+    created () {
+      if (flatpickerLangMap[this.$lng]) {
+        this.config.locale = flatpickerLangMap[this.$lng]
       }
     },
     components: {
