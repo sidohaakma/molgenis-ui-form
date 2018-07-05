@@ -115,7 +115,7 @@ describe('DateFieldComponent', () => {
       })
     })
 
-    describe.only('on created', () => {
+    describe('on created', () => {
       const mocks = {
         $lng: 'nl'
       }
