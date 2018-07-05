@@ -115,6 +115,18 @@ describe('DateFieldComponent', () => {
       })
     })
 
+    describe('on created', () => {
+      const mocks = {
+        $lng: 'nl'
+      }
+
+      const wrapper = mount(DateFieldComponent, {propsData: propsData, mocks: mocks})
+
+      it('set the language', () => {
+        expect(wrapper.vm.config.locale.months.longhand[0]).to.equal('januari')
+      })
+    })
+
     describe('getDateTimeFromValue', () => {
       const wrapper = mount(DateFieldComponent, {propsData: propsData})
 
