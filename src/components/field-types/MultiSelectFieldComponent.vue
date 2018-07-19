@@ -1,4 +1,4 @@
-<template>
+  <template>
   <validate :state="fieldState" :custom="{'validate': isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
@@ -18,7 +18,7 @@
                   :multiple="true">
 
           <div slot="no-options">
-            <small v-if="localValue">Option '{{ localValue }}' not found.</small>
+            <small>{{ noOptionsMessage }}</small>
           </div>
         </v-select>
 
@@ -80,6 +80,10 @@
         type: Boolean,
         required: false,
         default: false
+      },
+      noOptionsMessage: {
+        type: String,
+        required: false
       }
     },
     data () {

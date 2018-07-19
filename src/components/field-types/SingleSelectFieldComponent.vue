@@ -16,7 +16,7 @@
                   :required="isRequired">
 
           <div slot="no-options">
-            <small v-if="localValue">Option '{{ localValue }}' not found.</small>
+            <small>{{ noOptionsMessage }}</small>
           </div>
         </v-select>
 
@@ -78,6 +78,10 @@
         type: Boolean,
         required: false,
         default: false
+      },
+      noOptionsMessage: {
+        type: String,
+        required: false
       }
     },
     data () {

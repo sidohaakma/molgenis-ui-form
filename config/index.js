@@ -68,7 +68,8 @@ module.exports = {
           'form_above_max_value': 'Value is above allowed value',
           'form_bool_true': 'True',
           'form_bool_false': 'False',
-          'form_bool_missing': 'N/A'
+          'form_bool_missing': 'N/A',
+          'form_no_options': 'No options found.'
         }
         res.json(localizedMessages)
       })

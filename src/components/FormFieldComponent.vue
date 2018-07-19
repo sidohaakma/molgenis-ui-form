@@ -69,7 +69,8 @@
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange"
-        :allowAddingOptions="formComponentOptions.allowAddingOptions">
+        :allowAddingOptions="formComponentOptions.allowAddingOptions"
+        :noOptionsMessage="noOptionsMessage">
       </multi-select-field-component>
     </template>
 
@@ -95,7 +96,8 @@
         :isRequired="isRequired"
         :isValid="isValid"
         @dataChange="onDataChange"
-        :allowAddingOptions="formComponentOptions.allowAddingOptions">
+        :allowAddingOptions="formComponentOptions.allowAddingOptions"
+        :noOptionsMessage="noOptionsMessage">
       </single-select-field-component>
     </template>
 
@@ -178,6 +180,8 @@
   import { FormField, FormComponentOptions } from '../flow.types'
   import isCompoundVisible from '../util/helpers/isCompoundVisible'
 
+  const defaultNoOptionsMessage = 'No options found for given search term.'
+
   export default {
     name: 'FormFieldComponent',
     props: {
@@ -233,6 +237,19 @@
           return isCompoundVisible(this.field, this.formData)
         }
         return (this.showOptionalFields || this.isRequired) && this.field.visible(this.formData)
+      },
+      noOptionsMessage () {
+        const msgKey = 'form_no_options'
+        const namespace = 'ui-form'
+
+        if (this.$t) {
+          const i18nMessage = this.$t(namespace + ':' + msgKey)
+          if (i18nMessage !== msgKey) {
+            return i18nMessage
+          }
+        }
+
+        return defaultNoOptionsMessage
       }
     },
     components: {
