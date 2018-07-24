@@ -1,3 +1,7 @@
+<a name="0.11.2"></a>
+## 0.11.2 (02-07-2018)
+* Fix issue ,no options in mref not displayed correctly
+
 <a name="0.11.1"></a>
 ## 0.11.1 (02-07-2018)
 * localize datepicker

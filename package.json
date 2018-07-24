@@ -25,6 +25,7 @@
     "debug": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --browsers Chrome",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "build": "node build/build.js"
+    "preversion": "yarn test; yarn build"
   },
   "dependencies": {
     "@molgenis/molgenis-api-client": "^2.1.2",
