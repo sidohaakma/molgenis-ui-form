@@ -14,20 +14,6 @@ jobs:
       fi
     after_success:
     - bash <(curl -s https://codecov.io/bash)
-  - stage: npm release
-    if: tag IS present
-    node_js: '8'
-    script: yarn build
-    before_deploy:
-    - cd dist
-    deploy:
-      provider: npm
-      branch: deploy
-      email: "$NPM_EMAIL"
-      api_key: "$NPM_TOKEN"
-      skip_cleanup: true
-      on:
-        tags: true
 notifications:
   slack:
     secure: ljxoSUkCW24qqKGhNuXciaKgrGn6pWMng7HAWCwpiMIHc5MeEtkgU/3HwkzRmlSnptCz6YNhf2w61dTT/NluCVZo3zyjf06iVmY3I8tEm75jl+IBfj3xk9oE54vIMjyPmiGR3yZMdVRlvKFAQyPtsEvZK++4/WJHZJZ8ItYnvTa+3QqzofjLAXjAxj2Ch4Q+jqD3BMzaaK/ZJi5w8pMNHczjtyxreImBK38ElOLlBxeYP2HCe41XXWjA5sgGrn6kJwUvYsAlyp2rTviNnvsnKYOePQuTjnlLchgWgtyfYhhuVhNfm75hBCDN4IE6gRcP5p22B9r2cuCVfYdjhwrsBlG9FtRPZjyzUkYc/vTLdBnJKPVuqkVRmcok/daPMxs5d2kiXeZwttr6cHBljlRQQG8ulApO05KCJGaTX4DNyY1C+Z1b4ncuHcS2lCw2Do9CbnRiWGFVu2aFZ7lzvaAhX1VVULULX20ymQqkHtKOBZq1rDn+UsZf0MFKtTICkgjn5XqOBVULXkjOvcnTCyKY2znPuvVtIq+bqFVk3Z6U9E0Lb8/ussotYEfwE3NyEVgimIaiNiiRI/0F/u8Xdv2LAql8tfROzVP6IWKRlLeZliH3RRtGMVckQU+AIEshXBCko5DqiXERqCYQNMlWJnBWetXlszNqRCssNrrI89P3xQk=
