@@ -128,6 +128,50 @@ describe('FormFieldComponents unit tests', () => {
     })
   })
 
+  describe('noOptionsMessage constructs a message', () => {
+    const field = {
+      id: 'string',
+      type: 'text',
+      validate: (data) => data['string'] === 'data',
+      required: () => false,
+      visible: () => true
+    }
+
+    const propsData = {
+      formData: {'string': 'data'},
+      field: field,
+      formState: formState,
+      showOptionalFields: true
+    }
+
+    let wrapper
+
+    it('should return the default message is i18n message is not configured', () => {
+      wrapper = mount(FormFieldComponent, {propsData: propsData})
+      expect(wrapper.vm.noOptionsMessage).to.equal('No options found for given search term.')
+    })
+
+    it('should return the default message is i18n configured but no options messsage is set', () => {
+      wrapper = mount(FormFieldComponent, {
+        propsData: propsData,
+        mocks: {
+          $t: () => 'form_no_options'
+        }
+      })
+      expect(wrapper.vm.noOptionsMessage).to.equal('No options found for given search term.')
+    })
+
+    it('should return the i18n no options message if set', () => {
+      wrapper = mount(FormFieldComponent, {
+        propsData: propsData,
+        mocks: {
+          $t: (param) => param === 'ui-form:form_no_options' ? 'Message set' : 'No message set'
+        }
+      })
+      expect(wrapper.vm.noOptionsMessage).to.equal('Message set')
+    })
+  })
+
   describe('Hide optional fields', () => {
     const field = {
       id: 'string',
