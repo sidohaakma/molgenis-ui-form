@@ -24,7 +24,7 @@
     "test": "npm run unit && npm run e2e",
     "debug": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --browsers Chrome",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
     "preversion": "yarn test; yarn build"
   },
   "dependencies": {
