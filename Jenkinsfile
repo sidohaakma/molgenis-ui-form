@@ -21,13 +21,16 @@ pipeline {
             }
             steps {
                 container('node') {
-                    sh 'yarn install'
-                    sh 'yarn test'
+                   sh 'yarn install'
+                   sh 'yarn unit'
+                   sh 'yarn e2e -- --env ci_chrome,ci_safari,ci_ie11,ci_firefox'
                 }
             }
             post {
                 always {
-                    sh 'curl -s https://codecov.io/bash | bash -s - -c -F unit -K'
+                    container('node') {
+                        sh 'curl -s https://codecov.io/bash | bash -s - -c -F unit -K'
+                    }
                 }
             }
         }
@@ -39,12 +42,15 @@ pipeline {
                 milestone 1
                 container('node') {
                     sh 'yarn install'
-                    sh 'yarn test'
+                    sh 'yarn unit'
+                    sh 'yarn e2e -- --env ci_chrome,ci_safari,ci_ie11,ci_firefox'
                 }
             }
             post {
                 always {
-                    sh 'curl -s https://codecov.io/bash | bash -s - -c -F unit -K'
+                    container('node') {
+                        sh 'curl -s https://codecov.io/bash | bash -s - -c -F unit -K'
+                    }
                 }
             }
         }

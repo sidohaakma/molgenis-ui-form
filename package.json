@@ -25,7 +25,11 @@
     "debug": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --browsers Chrome",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "build": "node build/build.js",
-    "preversion": "yarn test; yarn build"
+    "preversion": "yarn install; yarn test; yarn build"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "http://registry.npmjs.org"
   },
   "dependencies": {
     "@molgenis/molgenis-api-client": "^2.1.2",
