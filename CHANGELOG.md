@@ -1,3 +1,7 @@
+<a name="0.11.3"></a>
+## 0.11.3 (02-08-2018)
+* Updated peer dependency to remove warnings from build
+
 <a name="0.11.2"></a>
 ## 0.11.2 (02-07-2018)
 * Fix issue ,no options in mref not displayed correctly
