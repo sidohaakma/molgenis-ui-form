@@ -64,7 +64,7 @@ pipeline {
         GITHUB_CRED = credentials('molgenis-jenkins-github-secret')
       }
       steps {
-        timeout(time: 10, unit: 'MINUTES') {
+        timeout(time: 30, unit: 'MINUTES') {
           script {
             env.RELEASE_SCOPE = input(
               message: 'Do you want to release?',
@@ -84,6 +84,7 @@ pipeline {
           sh "git checkout -f master"
 
           sh "npm version ${env.RELEASE_SCOPE}"
+          sh "yarn build"
 
           sh "git push --tags origin master"
 

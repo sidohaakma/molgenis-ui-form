@@ -1,6 +1,6 @@
 {
   "name": "@molgenis/molgenis-ui-form",
-  "version": "0.11.3",
+  "version": "0.11.2",
   "description": "Library for generating HTML web forms",
   "author": "Mark-de-Haan <markdehaan90@gmail.com>",
   "keywords": [
@@ -24,8 +24,7 @@
     "test": "npm run unit && npm run e2e",
     "debug": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --browsers Chrome",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
-    "build": "node build/build.js",
-    "preversion": "yarn install; yarn test; yarn build"
+    "build": "node build/build.js"
   },
   "publishConfig": {
     "access": "public",
