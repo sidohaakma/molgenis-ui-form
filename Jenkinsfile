@@ -84,6 +84,7 @@ pipeline {
           sh "git checkout -f master"
 
           sh "npm version ${env.RELEASE_SCOPE}"
+          sh "yarn build"
 
           sh "git push --tags origin master"
 
