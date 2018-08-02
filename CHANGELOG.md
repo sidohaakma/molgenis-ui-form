@@ -1,5 +1,5 @@
-<a name="0.11.3"></a>
-## 0.11.3 (02-08-2018)
+<a name="0.11.4"></a>
+## 0.11.4 (02-08-2018)
 * Updated peer dependency to remove warnings from build
 
 <a name="0.11.2"></a>
