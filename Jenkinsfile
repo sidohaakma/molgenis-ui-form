@@ -4,9 +4,6 @@ pipeline {
       label 'node-carbon'
     }
   }
-  environment {
-    ORG = 'molgenis'
-  }
   stages {
     stage('Prepare') {
       steps {
@@ -69,8 +66,9 @@ pipeline {
         branch 'master'
       }
       environment {
+        ORG = 'molgenis'
         APP_NAME = 'molgenis-ui-form'
-        NPM_REGISTRY = 'registry.npmjs.org'
+        REGISTRY = 'registry.npmjs.org'
         GITHUB_CRED = credentials('molgenis-jenkins-github-secret')
       }
       steps {
@@ -98,7 +96,7 @@ pipeline {
 
           sh "git push --tags origin master"
 
-          sh "echo //${NPM_REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc"
+          sh "echo //${REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc"
 
           sh "npm publish"
         }
