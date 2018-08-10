@@ -4,9 +4,6 @@ pipeline {
       label 'node-carbon'
     }
   }
-  environment {
-    ORG = 'molgenis'
-  }
   stages {
     stage('Prepare') {
       steps {
@@ -19,11 +16,16 @@ pipeline {
       when {
         changeRequest()
       }
+      environment {
+        SAUCE_CRED = credentials('molgenis-jenkins-saucelabs-secret')
+      }
       steps {
         container('node') {
           sh "yarn install"
           sh "yarn unit"
-          sh "yarn e2e"
+//          sh "daemon --name=sauceconnect -- /usr/local/bin/sc -u ${SAUCE_CRED_USR} -k ${SAUCE_CRED_PSW}"
+//          sh "yarn e2e --env ci_chrome,ci_safari,ci_ie11,ci_firefox"
+//          sh "daemon --name=sauceconnect --stop"
         }
       }
       post {
@@ -38,12 +40,17 @@ pipeline {
       when {
         branch 'master'
       }
+      environment {
+        SAUCE_CRED = credentials('molgenis-jenkins-saucelabs-secret')
+      }
       steps {
         milestone 1
         container('node') {
           sh "yarn install"
           sh "yarn unit"
-          sh "yarn e2e"
+//          sh "daemon --name=sauceconnect -- /usr/local/bin/sc -u ${SAUCE_CRED_USR} -k ${SAUCE_CRED_PSW}"
+//          sh "yarn e2e --env ci_chrome,ci_safari,ci_ie11,ci_firefox"
+//          sh "daemon --name=sauceconnect --stop"
         }
       }
       post {
@@ -59,8 +66,9 @@ pipeline {
         branch 'master'
       }
       environment {
+        ORG = 'molgenis'
         APP_NAME = 'molgenis-ui-form'
-        NPM_REGISTRY = 'registry.npmjs.org'
+        REGISTRY = 'registry.npmjs.org'
         GITHUB_CRED = credentials('molgenis-jenkins-github-secret')
       }
       steps {
@@ -81,14 +89,14 @@ pipeline {
           sh "git config --global user.name ${env.GITHUB_CRED_USR}"
           sh "git remote set-url origin https://${env.GITHUB_CRED_PSW}@github.com/${ORG}/${APP_NAME}.git"
 
-          sh "git checkout -f master"
+          sh "git checkout -f ${BRANCH_NAME}"
 
-          sh "npm version ${env.RELEASE_SCOPE}"
+          sh "npm version ${env.RELEASE_SCOPE} -m '[ci skip] [npm-version] %s'"
           sh "yarn build"
 
-          sh "git push --tags origin master"
+          sh "git push --tags origin ${BRANCH_NAME}"
 
-          sh "echo //${NPM_REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc"
+          sh "echo //${REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc"
 
           sh "npm publish"
         }
