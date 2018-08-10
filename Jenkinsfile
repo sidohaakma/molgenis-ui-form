@@ -89,12 +89,12 @@ pipeline {
           sh "git config --global user.name ${env.GITHUB_CRED_USR}"
           sh "git remote set-url origin https://${env.GITHUB_CRED_PSW}@github.com/${ORG}/${APP_NAME}.git"
 
-          sh "git checkout -f master"
+          sh "git checkout -f ${BRANCH_NAME}"
 
           sh "npm version ${env.RELEASE_SCOPE} -m '[ci skip] [npm-version] %s'"
           sh "yarn build"
 
-          sh "git push --tags origin master"
+          sh "git push --tags origin ${BRANCH_NAME}"
 
           sh "echo //${REGISTRY}/:_authToken=${env.NPM_TOKEN} > ~/.npmrc"
 
