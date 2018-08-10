@@ -19,11 +19,16 @@ pipeline {
       when {
         changeRequest()
       }
+      environment {
+        SAUCE_CRED = credentials('molgenis-jenkins-saucelabs-secret')
+      }
       steps {
         container('node') {
           sh "yarn install"
           sh "yarn unit"
-          sh "yarn e2e"
+//          sh "daemon --name=sauceconnect -- /usr/local/bin/sc -u ${SAUCE_CRED_USR} -k ${SAUCE_CRED_PSW}"
+//          sh "yarn e2e --env ci_chrome,ci_safari,ci_ie11,ci_firefox"
+//          sh "daemon --name=sauceconnect --stop"
         }
       }
       post {
@@ -38,12 +43,17 @@ pipeline {
       when {
         branch 'master'
       }
+      environment {
+        SAUCE_CRED = credentials('molgenis-jenkins-saucelabs-secret')
+      }
       steps {
         milestone 1
         container('node') {
           sh "yarn install"
           sh "yarn unit"
-          sh "yarn e2e"
+//          sh "daemon --name=sauceconnect -- /usr/local/bin/sc -u ${SAUCE_CRED_USR} -k ${SAUCE_CRED_PSW}"
+//          sh "yarn e2e --env ci_chrome,ci_safari,ci_ie11,ci_firefox"
+//          sh "daemon --name=sauceconnect --stop"
         }
       }
       post {
@@ -83,7 +93,7 @@ pipeline {
 
           sh "git checkout -f master"
 
-          sh "npm version ${env.RELEASE_SCOPE}"
+          sh "npm version ${env.RELEASE_SCOPE} -m '[ci skip] [npm-version] %s'"
           sh "yarn build"
 
           sh "git push --tags origin master"
