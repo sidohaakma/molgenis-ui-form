@@ -335,55 +335,95 @@ The `EntityToFormMapper.generateForm` function takes a *optional* `options` para
 The options param is a object that can contain the following properties:
 - `booleanLabels` optional Object used to set labels for boolean type fields, can be use in combination with i18n plugin to translate boolean labels.
 - `showNillableBooleanOption` optional boolean that hides 'N/A' option for nillable boolean is set to `false`, defaults to true
-## Development
-The general guidelines and setup of the development environment are described here.
 
-### Build setup
+
+## Contributing
+There are 2 ways to test and develop in components for MOLGENIS.
+
+- locally without MOLGENIS
+- locally with MOLGENIS
+
+### Test locally without a running MOLGENIS instance
+
+For local testing you can execute the following commands:
 
 ```bash
-# install dependencies
+# To install the application
 yarn install
 
-# serve with hot reload at localhost:8080
-yarn run dev
-
-# build for production with minification
-yarn run build
-
-# build for production and view the bundle analyzer report
-yarn run build --report
-
-# run unit tests
-yarn run unit
-
-# run e2e tests
-yarn run e2e
-
-# run all tests
-yarn test
+# To run develop mode
+yarn dev
 ```
 
-### How to publish
+It will render a local version of the core variable catalogue.
+
+#### Run unit tests
+You can run unit tests by executing this command:
+
 ```bash
+# Run once
+yarn unit
 
-# Login to NPM with your credentials
-npm login
-
-# Run the NPM publish command to the correct scope
-npm publish --scope=@molgenis/molgenis-ui-form --access=public
-
+# Run in watch-mode
+yarn debug
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+#### Run end-to-end tests
+You can run end-to-end test locally by running the following command:
 
-### Tests
-To develop tests please acknowledge the following guidelines.
+```bash
+yarn e2e
+```
 
-#### End-to-End test
+### Test with a running MOLGENIS instance
+For local testing with a running MOLGENIS instance you have to alter the config of the app:
 
-Please make sure you add the name of the specific test in the test. This is needed to see the test-name in [Saucelabs](https://www.saucelabs.com).
-**Example**
+Comment in the following block
+
+```config/index.js```
 
 ```javascript
-browser.options.desiredCapabilities.name = 'Example testname'
+module.exports = {
+  dev: {
+
+    // Paths
+    assetsSubDirectory: 'static',
+    assetsPublicPath: '/',
+    // Beginning of block
+    proxyTable: {
+      '/login': {
+        target: 'http://localhost:8080'
+      },
+      '/api': {
+        target: 'http://localhost:8080'
+      }
+    },
+    // End of block
 ```
+
+And comment out this block in the same file.
+
+
+```javascript
+/**
+ * GET and POST interceptors
+ * Removes the need for a running backend during development
+ */
+No mock data available
+```
+
+That is it. Run a MOLGENIS instance on localhost:8080 and start the core variable catalogue with:
+
+```javascript
+yarn dev
+```
+
+## Build your MOLGENIS component
+
+You can now create a working application that can be imported in MOLGENIS directly, by executing:
+
+```bash
+yarn build
+```
+
+If you submit a pull-request you can release the component by navigating to the [jenkins](https://jenkins.molgenis.org/job/molgenis/job/molgenis-ui-form) and click on release.
