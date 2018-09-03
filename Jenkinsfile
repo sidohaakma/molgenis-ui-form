@@ -109,8 +109,10 @@ pipeline {
     }
   }
   post {
-    container('node') {
-      sh "daemon --name=sauceconnect --stop"
+    always {
+      container('node') {
+        sh "daemon --name=sauceconnect --stop"
+      }
     }
     // [ slackSend ]; has to be configured on the host, it is the "Slack Notification Plugin" that has to be installed
     success {
