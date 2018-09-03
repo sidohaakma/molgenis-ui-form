@@ -67,7 +67,7 @@ const metadata = {
       'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
-      'description': 'Integer description',
+      'description': 'Integer description (range 1 - 45)',
       'range': {
         'min': 1,
         'max': 45
