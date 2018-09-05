@@ -20,19 +20,7 @@
       </div>
 
       <div class="col-sm">
-        <div class="card">
-          <h5 class="card-header text-center">Settings</h5>
-          <div class="card-body">
-
-            <h5 class="card-title">model</h5>
-            <pre>{{ formFields[0] | pretty }}</pre>
-            <hr/>
-
-            <h5 class="card-title">data</h5>
-            <pre>{{ formData }}</pre>
-
-          </div>
-        </div>
+        <model-settings :field-settings="formFields[0]" :field-data="formData"></model-settings>
       </div>
 
     </div>
@@ -42,10 +30,12 @@
 
 <script>
   import { FormComponent } from '../../molgenisUiForm'
+  import ModelSettings from '../components/ModelSettings'
 
   export default {
     name: 'integer-example',
     components: {
+      ModelSettings,
       FormComponent
     },
     data () {
