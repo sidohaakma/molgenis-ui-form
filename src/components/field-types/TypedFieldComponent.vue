@@ -73,8 +73,10 @@
     },
     watch: {
       localValue: debounce(function (value) {
+        const typedValue = this.field.type === 'number' ? Number(value) : value
+
         // Emit value changes to the parent (form)
-        this.$emit('input', value)
+        this.$emit('input', typedValue)
         // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
@@ -82,11 +84,16 @@
     },
     computed: {
       customValidation () {
-        let customValidation = {'validate': this.isValid}
-        if (this.field.type === 'number' && this.field.range) {
-          customValidation.range = this.isWithinRange
+        let validate = {'validate': this.isValid}
+        if (this.field.type === 'number' && this.field.subType === 'integer') {
+          validate = { ...validate, integer: Number.isInteger(this.value) }
         }
-        return customValidation
+
+        if (this.field.type === 'number' && this.field.range) {
+          validate = { ...validate, range: this.isWithinRange }
+        }
+
+        return validate
       }
     },
     methods: {

@@ -7,6 +7,8 @@ export type EntityFieldType = 'BOOL' | 'CATEGORICAL' | 'ENUM' | 'XREF' | 'MREF' 
 export type HtmlFieldType = 'radio' | 'select' | 'number' | 'text-area' | 'date' | 'date-time' | 'checkbox' |
   'text' | 'url' | 'email' | 'file' | 'field-group' | 'multi-select' | 'single-select' | 'script' | 'html'
 
+export type SubType = 'integer'
+
 export type FieldOption = {
   id: string,
   value: string | boolean | number | null,
@@ -15,6 +17,7 @@ export type FieldOption = {
 
 export type FormField = {
   type: HtmlFieldType,
+  subType?: SubType,
   id: string,
   label: string,
   required: ((?Object) => boolean),

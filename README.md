@@ -166,7 +166,22 @@ We support most HTML input types like number, text, and email. Below is a list o
 | file | A HTML5 file input |
 | field-group | A type that is used to nest other inputs |
 
-### option field example
+#### Sub types
+The `number` type can optionally be expended with a sub type `integer`.
+
+Example: 
+```json
+{
+  "id": "integer-example",
+  "label": "Integer Field",
+  "type": "number",
+  "subType": "integer"
+}
+```
+
+
+
+### Option field example
 
 Fields that render lists of options like radio buttons, checkboxes, and select dropdowns have an additional `option` parameter.
 This option parameter should always contain a function returning a promise.

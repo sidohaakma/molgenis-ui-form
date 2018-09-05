@@ -248,15 +248,19 @@ const generateFormSchemaField = (attribute, mapperOptions?: MapperOptions): Form
   // options is a function that always returns an array of option objects
   const options = getFieldOptions(attribute, mapperOptions)
   let fieldProperties = {
-    type: getHtmlFieldType(attribute.fieldType),
     id: attribute.name,
     label: attribute.label,
     description: attribute.description,
+    type: getHtmlFieldType(attribute.fieldType),
     required: isRequired(attribute),
     disabled: attribute.readOnly || attribute.fieldType === 'ONE_TO_MANY',
     readOnly: attribute.readOnly || attribute.fieldType === 'ONE_TO_MANY',
     visible: isVisible(attribute),
     validate: isValid(attribute)
+  }
+
+  if (attribute.fieldType === 'INT') {
+    fieldProperties = {...fieldProperties, subType: 'integer'}
   }
 
   if (attribute.fieldType === 'COMPOUND') {

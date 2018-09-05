@@ -205,6 +205,39 @@ describe('TypedFieldComponent unit tests', () => {
     })
   })
 
+  describe('TypedFieldComponent number subtype integer', () => {
+    let propsData = {
+      field: {
+        id: 'typed-field',
+        type: 'number',
+        subType: 'integer'
+      },
+      fieldState: {
+        $touched: false,
+        $submitted: false,
+        $invalid: false,
+        _addControl: mockParentFunction
+      }
+    }
+    describe('should return true for valid integer values', () => {
+      it('if value is 19 in integer validation should return true', () => {
+        propsData.value = 19
+        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        expect(wrapper.vm.customValidation).to.deep.equal({ validate: true, integer: true })
+      })
+      it('if value is -2 in integer validation should return true', () => {
+        propsData.value = -2
+        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        expect(wrapper.vm.customValidation).to.deep.equal({ validate: true, integer: true })
+      })
+      it('if value is 0.25 in integer validation should return false', () => {
+        propsData.value = 0.25
+        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        expect(wrapper.vm.customValidation).to.deep.equal({ validate: true, integer: false })
+      })
+    })
+  })
+
   describe('TypedFieldComponent with type email', () => {
     const field = {
       id: 'typed-field',

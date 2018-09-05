@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5>Basic number</h5>
+    <h5>Integer subtype</h5>
     <div class="row mb-1">
 
       <div class="col-sm">
@@ -8,7 +8,7 @@
           <h5 class="card-header text-center">Demo</h5>
           <div class="card-body">
             <form-component
-              id="number-example"
+              id="integer-example"
               :options="formOptions"
               :formFields="formFields"
               :initialFormData="formData"
@@ -44,7 +44,7 @@
   import { FormComponent } from '../../molgenisUiForm'
 
   export default {
-    name: 'number-example',
+    name: 'integer-example',
     components: {
       FormComponent
     },
@@ -55,10 +55,11 @@
         },
         formFields: [
           {
-            id: 'number',
-            label: 'Number Field',
-            description: 'A default number field',
+            id: 'integer-example',
+            label: 'Integer Field',
+            description: 'Integer is a number sub type',
             type: 'number',
+            subType: 'integer',
             visible: () => true,
             required: () => false,
             validate: () => true
@@ -66,7 +67,7 @@
         ],
         formState: {},
         formData: {
-          number: 88
+          'integer-example': 3
         }
       }
     },

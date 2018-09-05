@@ -5,12 +5,15 @@
       <h1 class="display-3">MOLGENIS Form</h1>
     </blockquote>
 
-    <ul class="nav nav-tabs mb-1">
+    <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
         <router-link to="/all" class="nav-link">All-fields</router-link>
       </li>
       <li class="nav-item">
         <router-link to="/number" class="nav-link">Number-field</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/integer" class="nav-link">Integer-field</router-link>
       </li>
     </ul>
 
