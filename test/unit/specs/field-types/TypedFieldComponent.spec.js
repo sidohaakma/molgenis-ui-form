@@ -152,6 +152,11 @@ describe('TypedFieldComponent unit tests', () => {
       const input = wrapper.find('input')
       expect(input.element.type).to.equal('number')
     })
+
+    it('should return false for stepSize to exclude the set attribute', () => {
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      expect(wrapper.vm.stepSize).to.equal(false)
+    })
   })
 
   describe('isWithinRange', () => {
@@ -234,6 +239,10 @@ describe('TypedFieldComponent unit tests', () => {
         propsData.value = 0.25
         const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
         expect(wrapper.vm.customValidation).to.deep.equal({ validate: true, integer: false })
+      })
+      it('should set a step size of 1', () => {
+        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        expect(wrapper.vm.stepSize).to.deep.equal(1)
       })
     })
   })

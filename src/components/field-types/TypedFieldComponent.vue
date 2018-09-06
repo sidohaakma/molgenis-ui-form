@@ -12,7 +12,8 @@
         :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
         :aria-describedby="field.id + '-description'"
         :required="isRequired"
-        :disabled="field.disabled">
+        :disabled="field.disabled"
+        :step="stepSize">
 
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
@@ -86,7 +87,7 @@
       customValidation () {
         let validate = {'validate': this.isValid}
         if (this.field.type === 'number' && this.field.subType === 'integer') {
-          validate = { ...validate, integer: Number.isInteger(this.value) }
+          validate = { ...validate, integer: Number.isSafeInteger(this.value) }
         }
 
         if (this.field.type === 'number' && this.field.range) {
@@ -94,6 +95,10 @@
         }
 
         return validate
+      },
+      stepSize () {
+        // Conditionally add step size, return false to omit step attribute
+        return this.field.type === 'number' && this.field.subType === 'integer' ? 1 : false
       }
     },
     methods: {

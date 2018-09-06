@@ -23,7 +23,7 @@ module.exports = {
     browser.expect.element('#integer-example input[type=number]').to.be.present
     browser.click('#integer-example input[type=number]') // https://github.com/nightwatchjs/nightwatch/issues/504
     browser.clearValue('#integer-example input[type=number]')
-    browser.setValue('#integer-example input[type=number]', '0,25')
+    browser.setValue('#integer-example input[type=number]', '0.25')
     browser.click('h5.card-header.text-center') // click outside of input to trigger validation
     browser.expect.element('#integer-example input[type=number]').to.have.attribute('class').which.contains('vf-invalid-integer')
     browser.expect.element('.invalid-message').to.be.present
