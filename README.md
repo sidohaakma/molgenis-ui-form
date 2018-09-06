@@ -167,9 +167,15 @@ We support most HTML input types like number, text, and email. Below is a list o
 | field-group | A type that is used to nest other inputs |
 
 #### Sub types
-The `number` type can optionally be expended with a sub type `integer`.
+The `number` type can optionally be expended with a sub type.
+`subtype` must be one of  `integer`, `long` or `decimal`. 
 
-Example: 
+Adding the subtype add more specific form validation. 
+- Integer subtype may not include a fraction and must lie between --2147483648 and 2147483647  .
+- Long subtype may not include a fraction and fit into javascript number type.
+- Decimal subtype may include fractional part
+
+Number subtype example: 
 ```json
 {
   "id": "integer-example",
