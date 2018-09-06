@@ -247,6 +247,39 @@ describe('TypedFieldComponent unit tests', () => {
     })
   })
 
+  describe('TypedFieldComponent number subtype long', () => {
+    let propsData = {
+      field: {
+        id: 'typed-field',
+        type: 'number',
+        subType: 'long'
+      },
+      fieldState: {
+        $touched: false,
+        $submitted: false,
+        $invalid: false,
+        _addControl: mockParentFunction
+      }
+    }
+    describe('should return true for valid long values', () => {
+      it('if value is 2147483657 (max java int + 10) in long validation should return true', () => {
+        const maxJavaInt = 2147483647
+        propsData.value = maxJavaInt + 10
+        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        expect(wrapper.vm.customValidation).to.deep.equal({ validate: true, long: true })
+      })
+      it('if value is 0.25 in long validation should return false', () => {
+        propsData.value = 0.25
+        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        expect(wrapper.vm.customValidation).to.deep.equal({ validate: true, long: false })
+      })
+      it('should set a step size of 1', () => {
+        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        expect(wrapper.vm.stepSize).to.deep.equal(1)
+      })
+    })
+  })
+
   describe('TypedFieldComponent with type email', () => {
     const field = {
       id: 'typed-field',

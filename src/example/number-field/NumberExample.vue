@@ -1,11 +1,10 @@
 <template>
   <div>
-    <h5>Basic number</h5>
     <div class="row mb-1">
 
       <div class="col-sm">
         <div class="card">
-          <h5 class="card-header text-center">Demo</h5>
+          <h5 class="card-header text-center bg-info">Number field demo</h5>
           <div class="card-body">
             <form-component
               id="number-example"

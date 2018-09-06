@@ -4,10 +4,10 @@
 
       <div class="col-sm">
         <div class="card">
-          <h5 class="card-header text-center bg-info">Integer field demo</h5>
+          <h5 class="card-header text-center bg-info">Long field demo</h5>
           <div class="card-body">
             <form-component
-              id="integer-example"
+              id="long-example"
               :options="formOptions"
               :formFields="formFields"
               :initialFormData="formData"
@@ -32,7 +32,7 @@
   import ModelSettings from '../components/ModelSettings'
 
   export default {
-    name: 'integer-example',
+    name: 'long-example',
     components: {
       ModelSettings,
       FormComponent
@@ -44,11 +44,11 @@
         },
         formFields: [
           {
-            id: 'integer-example',
-            label: 'Integer Field',
-            description: 'Integer is a number sub type',
+            id: 'long-example',
+            label: 'Long Field',
+            description: 'Long is a number sub type',
             type: 'number',
-            subType: 'integer',
+            subType: 'long',
             visible: () => true,
             required: () => false,
             validate: () => true
@@ -56,7 +56,7 @@
         ],
         formState: {},
         formData: {
-          'integer-example': 3
+          'long-example': 9147483647
         }
       }
     },

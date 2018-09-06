@@ -7,7 +7,7 @@ export type EntityFieldType = 'BOOL' | 'CATEGORICAL' | 'ENUM' | 'XREF' | 'MREF' 
 export type HtmlFieldType = 'radio' | 'select' | 'number' | 'text-area' | 'date' | 'date-time' | 'checkbox' |
   'text' | 'url' | 'email' | 'file' | 'field-group' | 'multi-select' | 'single-select' | 'script' | 'html'
 
-export type SubType = 'integer'
+export type SubType = 'integer' | 'long'
 
 export type FieldOption = {
   id: string,

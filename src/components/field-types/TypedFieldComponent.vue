@@ -31,6 +31,9 @@
   import FormFieldMessages from '../FormFieldMessages'
   import debounce from 'debounce'
 
+  const MIN_JAVA_INT = -2147483648
+  const MAX_JAVA_INT = 2147483647
+
   let debounceTime = 500
 
   export default {
@@ -91,8 +94,12 @@
     computed: {
       customValidation () {
         let validate = {'validate': this.isValid}
-        if (this.field.type === 'number' && this.field.subType === 'integer') {
-          validate = { ...validate, integer: Number.isSafeInteger(this.value) }
+        if (this.field.type === 'number') {
+          if (this.field.subType === 'integer') {
+            validate = { ...validate, integer: this.isCompatibleWithJavaInt() }
+          } else if (this.field.subType === 'long') {
+            validate = { ...validate, long: this.isCompatibleWithJavaLong() }
+          }
         }
 
         if (this.field.type === 'number' && this.field.range) {
@@ -103,7 +110,9 @@
       },
       stepSize () {
         // Conditionally add step size, return false to omit step attribute
-        return this.field.type === 'number' && this.field.subType === 'integer' ? 1 : false
+        const fieldType = this.field.type
+        const fieldSubType = this.field.subType
+        return fieldType === 'number' && (fieldSubType === 'integer' || fieldSubType === 'long') ? 1 : false
       }
     },
     methods: {
@@ -116,6 +125,12 @@
         }
 
         return true
+      },
+      isCompatibleWithJavaInt () {
+        return Number.isSafeInteger(this.value) && this.value <= MAX_JAVA_INT && this.value >= MIN_JAVA_INT
+      },
+      isCompatibleWithJavaLong () {
+        return Number.isInteger(this.value)
       }
     },
     created () {

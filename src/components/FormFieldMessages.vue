@@ -4,6 +4,7 @@
     <div class="invalid-message" slot="email">{{ notAValidEmailMsg }}</div>
     <div class="invalid-message" slot="url">{{ notAValidUrlMsg }}</div>
     <div class="invalid-message" slot="integer">{{ notAValidIntegerMsg }}</div>
+    <div class="invalid-message" slot="long">{{ notAValidLongMsg }}</div>
     <div class="invalid-message" slot="number">{{ notAValidNumberMsg }}</div>
     <div class="invalid-message" slot="validate">{{ validationFailedMsg }}</div>
     <div v-if="range" class="invalid-message" slot="range">
@@ -22,6 +23,7 @@
     'ui-form:form_validation_failed': 'Validation failed',
     'ui-form:form_not_a_valid_number': 'Not a valid number',
     'ui-form:form_not_a_valid_integer': 'Not a valid integer value',
+    'ui-form:form_not_a_valid_long': 'Not a valid long value',
     'ui-form:form_not_a_valid_url': 'Not a valid URL',
     'ui-form:form_not_a_valid_email': 'Not a valid email',
     'ui-form:form_not_within_range': 'Value is outside of range',
@@ -65,6 +67,7 @@
       this.validationFailedMsg = this.getLocalizedMessage('ui-form:form_validation_failed')
       this.notAValidNumberMsg = this.getLocalizedMessage('ui-form:form_not_a_valid_number')
       this.notAValidIntegerMsg = this.getLocalizedMessage('ui-form:form_not_a_valid_integer')
+      this.notAValidLongMsg = this.getLocalizedMessage('ui-form:form_not_a_valid_long')
       this.notAValidUrlMsg = this.getLocalizedMessage('ui-form:form_not_a_valid_url')
       this.notAValidEmailMsg = this.getLocalizedMessage('ui-form:form_not_a_valid_email')
 

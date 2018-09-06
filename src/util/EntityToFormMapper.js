@@ -1,5 +1,13 @@
 // @flow
-import type { EntityFieldType, FieldOption, FormField, HtmlFieldType, RefEntityType, MapperOptions } from '../flow.types'
+import type {
+  EntityFieldType,
+  FieldOption,
+  FormField,
+  HtmlFieldType,
+  RefEntityType,
+  MapperOptions,
+  SubType
+} from '../flow.types'
 
 import evaluator from './helpers/evaluator'
 // $FlowFixMe
@@ -237,6 +245,23 @@ const isValid = (attribute): ((?Object) => boolean) => {
   return expression ? (data) => evaluator(expression, data) : () => true
 }
 
+const entityTypeToSubFieldType = (entityFieldType: EntityFieldType): SubType | null => {
+  let subType
+
+  switch (entityFieldType) {
+    case 'INT':
+      subType = 'integer'
+      break
+    case 'LONG':
+      subType = 'long'
+      break
+    default:
+      subType = null
+  }
+
+  return subType
+}
+
 /**
  * Generate a schema field object suitable for the forms
  *
@@ -259,8 +284,9 @@ const generateFormSchemaField = (attribute, mapperOptions?: MapperOptions): Form
     validate: isValid(attribute)
   }
 
-  if (attribute.fieldType === 'INT') {
-    fieldProperties = {...fieldProperties, subType: 'integer'}
+  const subType = entityTypeToSubFieldType(attribute.fieldType)
+  if (subType) {
+    fieldProperties = {...fieldProperties, subType}
   }
 
   if (attribute.fieldType === 'COMPOUND') {
