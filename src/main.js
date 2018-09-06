@@ -7,6 +7,7 @@ import FormDemo from './example/FormDemo'
 import NumberExample from './example/number-field/NumberExample'
 import IntegerExample from './example/number-field/IntegerExample'
 import LongExample from './example/number-field/LongExample'
+import DecimalExample from './example/number-field/DecimalExample'
 import i18n from '@molgenis/molgenis-i18n-js'
 
 Vue.config.productionTip = false
@@ -32,6 +33,10 @@ const router = new Router({
     {
       path: '/long/',
       component: LongExample
+    },
+    {
+      path: '/decimal/',
+      component: DecimalExample
     },
     {
       path: '/',

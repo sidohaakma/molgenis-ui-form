@@ -255,6 +255,9 @@ const entityTypeToSubFieldType = (entityFieldType: EntityFieldType): SubType | n
     case 'LONG':
       subType = 'long'
       break
+    case 'DECIMAL':
+      subType = 'decimal'
+      break
     default:
       subType = null
   }

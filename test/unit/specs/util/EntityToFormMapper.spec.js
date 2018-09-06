@@ -403,7 +403,7 @@ describe('Entity to state mapper', () => {
 
     it('should map a [DECIMAL] attribute to a form field object', () => {
       expect(field.type).to.equal('number')
-      expect(field.subType).to.equal(undefined)
+      expect(field.subType).to.equal('decimal')
       expect(field.id).to.equal('decimal')
       expect(field.label).to.equal('Decimal Field')
       expect(field.description).to.equal('Decimal description')
