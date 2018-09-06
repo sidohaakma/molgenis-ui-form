@@ -74,10 +74,15 @@
     },
     watch: {
       localValue: debounce(function (value) {
-        const typedValue = this.field.type === 'number' ? Number(value) : value
+        /*
+        Do not convert NaN field to number to allow for validation to generate warning
+         */
+        if (this.field.type === 'number' && !Number.isNaN(value)) {
+          this.$emit('input', Number(value))
+        } else {
+          this.$emit('input', value)
+        }
 
-        // Emit value changes to the parent (form)
-        this.$emit('input', typedValue)
         // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')

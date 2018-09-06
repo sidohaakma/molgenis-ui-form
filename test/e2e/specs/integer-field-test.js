@@ -21,10 +21,14 @@ module.exports = {
   'Integer field should be invalid with decimal value': function (browser) {
     browser.options.desiredCapabilities.name = 'Integer field not valid for decimal value'
     browser.expect.element('#integer-example input[type=number]').to.be.present
+
     browser.click('#integer-example input[type=number]') // https://github.com/nightwatchjs/nightwatch/issues/504
     browser.clearValue('#integer-example input[type=number]')
     browser.setValue('#integer-example input[type=number]', '0.25')
+
+    browser.keys(browser.Keys.TAB)
     browser.click('h5.card-header.text-center') // click outside of input to trigger validation
+    browser.pause(1000)
     browser.expect.element('#integer-example input[type=number]').to.have.attribute('class').which.contains('vf-invalid-integer')
     browser.expect.element('.invalid-message').to.be.present
     browser.expect.element('.invalid-message').text.to.be.equal('Not a valid integer value')
