@@ -1,3 +1,7 @@
+<a name="0.12.0"></a>
+## 0.12.0 (??-??-????)
+* Entity mapper maps 'auto' field to always valid field.
+
 <a name="0.11.4"></a>
 ## 0.11.4 (02-08-2018)
 * Updated peer dependency to remove warnings from build

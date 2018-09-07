@@ -25,7 +25,6 @@ MappingException.prototype.toString = function () {
  *
  * @param refEntity The refEntity of the attribute.
  * @param search An optional search query used to filter the items of the response
- * @param multiple An optional boolean specifying that the search value is an array of values
  * @return {Promise} Promise object representing an Array of FieldOption
  */
 const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<string>): Promise<Array<FieldOption>> => {
@@ -212,6 +211,8 @@ const isVisible = (attribute): ((?Object) => boolean) => {
 }
 
 /**
+ * If the 'auto' attribute property is present and set to true, the field value can not be required. This allows for
+ * filling out a new form with a 'auto' field that gets set on the server side.
  * If there is a nullable expression present, return a function which evaluates said expression.
  * If there is no expression present, return a function which evaluates to the !value of attribute.nillable
  *
@@ -219,6 +220,9 @@ const isVisible = (attribute): ((?Object) => boolean) => {
  * @returns {Function} Function which evaluates to a boolean
  */
 const isRequired = (attribute): ((?Object) => boolean) => {
+  if (attribute.auto === true) {
+    return () => false
+  }
   const expression = attribute.nullableExpression
 
   // If an attribute is nullable, it is NOT required
@@ -226,6 +230,8 @@ const isRequired = (attribute): ((?Object) => boolean) => {
 }
 
 /**
+ * If the 'auto' attribute property is present and set to true, the field value can not be invalid. This allows for
+ * filling out a new form with a 'auto' field that gets set on the server side.
  * If there is a validation expression present, return a function which evaluates said expression.
  * If there is no expression present, return a function which always evaluates to true
  *
@@ -233,6 +239,9 @@ const isRequired = (attribute): ((?Object) => boolean) => {
  * @returns {Function} Function which evaluates to a boolean
  */
 const isValid = (attribute): ((?Object) => boolean) => {
+  if (attribute.auto === true) {
+    return () => true
+  }
   const expression = attribute.validationExpression
   return expression ? (data) => evaluator(expression, data) : () => true
 }

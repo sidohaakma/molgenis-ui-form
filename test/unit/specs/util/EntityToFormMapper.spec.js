@@ -881,4 +881,19 @@ describe('Entity to state mapper', () => {
       expect(form.formData).to.deep.equal(expectedData)
     })
   })
+
+  describe('Auto generated ( server side) field value validation', () => {
+    const data = {}
+    const form = EntityToFormMapper.generateForm(schemas.autoIdSchema, data)
+    const field = form.formFields[0]
+
+    it('should map required and visible field attrs to function always evaluating to true', () => {
+      expect(field.type).to.equal('text')
+      expect(field.id).to.equal('id')
+      expect(field.disabled).to.equal(true)
+      expect(field.readOnly).to.equal(true)
+      expect(field.visible()).to.equal(false)
+      expect(field.validate()).to.equal(true)
+    })
+  })
 })
