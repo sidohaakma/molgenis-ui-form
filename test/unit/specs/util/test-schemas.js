@@ -788,3 +788,24 @@ export const autoIdSchema = {
     }
   ]
 }
+
+export const createRowSchema = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'STRING',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true
+    }
+  ]
+}

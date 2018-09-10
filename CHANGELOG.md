@@ -1,6 +1,11 @@
 <a name="0.12.0"></a>
 ## 0.12.0 (??-??-????)
-* Entity mapper maps 'auto' field to always valid field.
+* EntityMapper: Add entityMapper option to run entityMapper in "update" or 'create' mode.
+    * In create mode readonly attributes map to editable fields to allow creating row.
+    * By default the mapper is run in 'update' mode (ensures backwards compatibility).
+* EntityMapper: Non visible, auto-value attributes are not mapped to from fields
+    * These fields can not be read or written by the user and therefore not part of the form.
+       
 
 <a name="0.11.4"></a>
 ## 0.11.4 (02-08-2018)

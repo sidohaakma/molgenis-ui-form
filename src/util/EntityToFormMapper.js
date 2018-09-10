@@ -1,9 +1,27 @@
 // @flow
-import type { EntityFieldType, FieldOption, FormField, HtmlFieldType, RefEntityType, MapperOptions } from '../flow.types'
+import type {
+  EntityFieldType,
+  FieldOption,
+  FormField,
+  HtmlFieldType,
+  RefEntityType,
+  MapperOptions,
+  MapperSettings
+} from '../flow.types'
 
 import evaluator from './helpers/evaluator'
 // $FlowFixMe
 import api from '@molgenis/molgenis-api-client'
+
+const DEFAULTS = {
+  mapperMode: 'UPDATE',
+  booleanLabels: {
+    trueLabel: 'True',
+    falseLabel: 'False',
+    nillLabel: 'N/A'
+  },
+  showNillableBooleanOption: true
+}
 
 // Create an object type UserException
 function MappingException (message: string) {
@@ -89,17 +107,11 @@ const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<st
  * @param options MapperOptions optional object containing options to configure mapper
  * @returns {Function|null} Function which returns a Promise representing an Array of FieldOptions
  */
-const getFieldOptions = (attribute, options?: MapperOptions): ?(() => Promise<Array<FieldOption>>) => {
+const getFieldOptions = (attribute, options: MapperSettings): ?(() => Promise<Array<FieldOption>>) => {
   const fetchOptionsFunction = (search: ?string | Array<string>): Promise<Array<FieldOption>> => {
     return fetchFieldOptions(attribute.refEntity, search).then(response => {
       return response
     })
-  }
-
-  const booleanLabels = {
-    trueLabel: options && options.booleanLabels ? options.booleanLabels.trueLabel : 'True',
-    falseLabel: options && options.booleanLabels ? options.booleanLabels.falseLabel : 'False',
-    nillLabel: options && options.booleanLabels ? options.booleanLabels.nillLabel : 'N/A'
   }
 
   switch (attribute.fieldType) {
@@ -133,14 +145,12 @@ const getFieldOptions = (attribute, options?: MapperOptions): ?(() => Promise<Ar
       return (): Promise<Array<FieldOption>> => Promise.resolve(enumOptions)
     case 'BOOL':
       const boolOptions = [
-        {id: 'true', value: true, label: booleanLabels.trueLabel},
-        {id: 'false', value: false, label: booleanLabels.falseLabel}
+        {id: 'true', value: true, label: options.booleanLabels.trueLabel},
+        {id: 'false', value: false, label: options.booleanLabels.falseLabel}
       ]
 
-      if (attribute.nillable &&
-        (!options || !options.hasOwnProperty('showNillableBooleanOption') || options.showNillableBooleanOption)
-      ) {
-        boolOptions.push({id: 'null', value: null, label: booleanLabels.nillLabel})
+      if (attribute.nillable && options.showNillableBooleanOption) {
+        boolOptions.push({id: 'null', value: null, label: options.booleanLabels.nillLabel})
       }
 
       return (): Promise<Array<FieldOption>> => Promise.resolve(boolOptions)
@@ -211,8 +221,6 @@ const isVisible = (attribute): ((?Object) => boolean) => {
 }
 
 /**
- * If the 'auto' attribute property is present and set to true, the field value can not be required. This allows for
- * filling out a new form with a 'auto' field that gets set on the server side.
  * If there is a nullable expression present, return a function which evaluates said expression.
  * If there is no expression present, return a function which evaluates to the !value of attribute.nillable
  *
@@ -220,9 +228,6 @@ const isVisible = (attribute): ((?Object) => boolean) => {
  * @returns {Function} Function which evaluates to a boolean
  */
 const isRequired = (attribute): ((?Object) => boolean) => {
-  if (attribute.auto === true) {
-    return () => false
-  }
   const expression = attribute.nullableExpression
 
   // If an attribute is nullable, it is NOT required
@@ -230,8 +235,6 @@ const isRequired = (attribute): ((?Object) => boolean) => {
 }
 
 /**
- * If the 'auto' attribute property is present and set to true, the field value can not be invalid. This allows for
- * filling out a new form with a 'auto' field that gets set on the server side.
  * If there is a validation expression present, return a function which evaluates said expression.
  * If there is no expression present, return a function which always evaluates to true
  *
@@ -239,11 +242,26 @@ const isRequired = (attribute): ((?Object) => boolean) => {
  * @returns {Function} Function which evaluates to a boolean
  */
 const isValid = (attribute): ((?Object) => boolean) => {
-  if (attribute.auto === true) {
-    return () => true
-  }
   const expression = attribute.validationExpression
   return expression ? (data) => evaluator(expression, data) : () => true
+}
+
+/**
+ * Determine if field should be disabled
+ * @param attribute
+ * @param mapperOptions
+ * @returns boolean
+ */
+const isDisabledField = (attribute, mapperOptions: MapperSettings): boolean => {
+  if (attribute.fieldType === 'ONE_TO_MANY') {
+    return true
+  }
+
+  if (mapperOptions.mapperMode === 'CREATE') {
+    return false
+  }
+
+  return attribute.readOnly
 }
 
 /**
@@ -253,17 +271,18 @@ const isValid = (attribute): ((?Object) => boolean) => {
  * @param mapperOptions MapperOptions optional object containing options to configure mapper
  * @returns {{type: String, id, label, description, required: boolean, disabled, visible, options: ({uri, id, label, multiple}|{uri, id, label})}}
  */
-const generateFormSchemaField = (attribute, mapperOptions?: MapperOptions): FormField => {
+const generateFormSchemaField = (attribute, mapperOptions: MapperSettings): FormField => {
   // options is a function that always returns an array of option objects
   const options = getFieldOptions(attribute, mapperOptions)
+  const isDisabled = isDisabledField(attribute, mapperOptions)
   let fieldProperties = {
     type: getHtmlFieldType(attribute.fieldType),
     id: attribute.name,
     label: attribute.label,
     description: attribute.description,
     required: isRequired(attribute),
-    disabled: attribute.readOnly || attribute.fieldType === 'ONE_TO_MANY',
-    readOnly: attribute.readOnly || attribute.fieldType === 'ONE_TO_MANY',
+    disabled: isDisabled,
+    readOnly: isDisabled,
     visible: isVisible(attribute),
     validate: isValid(attribute)
   }
@@ -331,29 +350,73 @@ const generateFormData = (fields: any, data: any, attributes: any) => {
 }
 
 /**
+ * Returns true if entity attribute should be included in form
+ *
+ * Some attributes do not map to a actionable from item ( for example a server side generated auto id field)
+ *
+ * @param attribute
+ * @returns {boolean}
+ */
+const isFormFieldAttribute = (attribute: any):boolean => {
+  return !(attribute.auto && !attribute.visible)
+}
+
+/**
  * Generates an array for form fields
  *
  * @param attributes A list of MOLGENIS attribute metadata
- * @param options MapperOptions optional object containing options to configure mapper
+ * @param options MapperOptions object containing options to configure mapper
  * @returns a an array of Field objects
  */
-const generateFormFields = (attributes: any, options?: MapperOptions): Array<FormField> => attributes.reduce((accumulator, attribute) => {
-  accumulator.push(generateFormSchemaField(attribute, options))
-  return accumulator
-}, [])
+const generateFormFields = (attributes: any, options: MapperSettings): Array<FormField> => attributes
+  .filter(isFormFieldAttribute)
+  .map((attr) => {
+    return generateFormSchemaField(attr, options)
+  })
+
+/**
+ * Construct mapper settings taking into account the user settings, if no settings are passed the defaults are used
+ * @param settings
+ * @returns {{mapperMode: *, booleanLabels: {trueLabel: string, falseLabel: string, nillLabel: string}, showNillableBooleanOption: boolean}}
+ */
+const buildMapperSettings = (settings?: MapperOptions): MapperSettings => {
+  if (!settings) {
+    return DEFAULTS
+  }
+
+  const mapperMode = settings.mapperMode ? settings.mapperMode : DEFAULTS.mapperMode
+  let booleanLabels = DEFAULTS.booleanLabels
+  if (settings.booleanLabels) {
+    booleanLabels = {
+      trueLabel: settings.booleanLabels.trueLabel ? settings.booleanLabels.trueLabel : 'True',
+      falseLabel: settings.booleanLabels.falseLabel ? settings.booleanLabels.falseLabel : 'False',
+      nillLabel: settings.booleanLabels.nillLabel ? settings.booleanLabels.nillLabel : 'N/A'
+    }
+  }
+  let showNillableBooleanOption = DEFAULTS.showNillableBooleanOption
+  if (typeof (settings.showNillableBooleanOption) === 'boolean') {
+    showNillableBooleanOption = settings.showNillableBooleanOption
+  }
+
+  return {
+    mapperMode: mapperMode,
+    booleanLabels: booleanLabels,
+    showNillableBooleanOption: showNillableBooleanOption
+  }
+}
 
 /**
  * Generates both fields and data objects for rendering a form
  *
  * @param metadata MOLGENIS metadata, containing attributes
  * @param data
- * @param options MapperOptions optional object containing options to configure mapper
+ * @param userSettings MapperOptions optional object containing options to configure mapper
  * @returns {{formFields: Array<FormField>, formData: *}}
  */
-const generateForm = (metadata: any, data: ?any, options?: MapperOptions) => {
+const generateForm = (metadata: any, data: ?any, userSettings?: MapperOptions) => {
+  const mapperOptions = buildMapperSettings(userSettings)
   const attributes = metadata.attributes
-
-  const formFields = generateFormFields(attributes, options)
+  const formFields = generateFormFields(attributes, mapperOptions)
   const formData = data ? generateFormData(formFields, data, attributes) : {}
 
   return {
