@@ -902,7 +902,7 @@ describe('Entity to state mapper', () => {
       expect(field.visible()).to.equal(true)
     })
 
-    it('Setting the mapper mode to UPDATE should set readonly fields to enabled', () => {
+    it('Setting the mapper mode to UPDATE should set readonly fields to disabled', () => {
       const form = EntityToFormMapper.generateForm(schemas.createRowSchema, data, {mapperMode: 'UPDATE'})
       const field = form.formFields[0]
       expect(field.disabled).to.equal(true)
