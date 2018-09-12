@@ -1,5 +1,5 @@
 // @flow
-import type { EntityFieldType, FieldOption, FormField, HtmlFieldType, RefEntityType } from '../flow.types'
+import type { EntityFieldType, FieldOption, FormField, HtmlFieldType, RefEntityType, MapperOptions } from '../flow.types'
 
 import evaluator from './helpers/evaluator'
 // $FlowFixMe
@@ -87,20 +87,37 @@ const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<st
  * }
  *
  * @param attribute
+ * @param options MapperOptions optional object containing options to configure mapper
  * @returns {Function|null} Function which returns a Promise representing an Array of FieldOptions
  */
-const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
+const getFieldOptions = (attribute, options?: MapperOptions): ?(() => Promise<Array<FieldOption>>) => {
+  const fetchOptionsFunction = (search: ?string | Array<string>): Promise<Array<FieldOption>> => {
+    return fetchFieldOptions(attribute.refEntity, search).then(response => {
+      return response
+    })
+  }
+
+  const booleanLabels = {
+    trueLabel: options && options.booleanLabels ? options.booleanLabels.trueLabel : 'True',
+    falseLabel: options && options.booleanLabels ? options.booleanLabels.falseLabel : 'False',
+    nillLabel: options && options.booleanLabels ? options.booleanLabels.nillLabel : 'N/A'
+  }
+
   switch (attribute.fieldType) {
     case 'CATEGORICAL':
     case 'CATEGORICAL_MREF':
+      if (attribute.categoricalOptions) {
+        return () => Promise.resolve(attribute.categoricalOptions.map(option => {
+          option.value = option.id
+          return option
+        }))
+      } else {
+        return fetchOptionsFunction
+      }
     case 'ONE_TO_MANY':
     case 'XREF':
     case 'MREF':
-      return (search: ?string | Array<string>): Promise<Array<FieldOption>> => {
-        return fetchFieldOptions(attribute.refEntity, search).then(response => {
-          return response
-        })
-      }
+      return fetchOptionsFunction
     case 'ENUM':
       const enumOptions = attribute.enumOptions.map(option => {
         return {
@@ -116,14 +133,17 @@ const getFieldOptions = (attribute): ?(() => Promise<Array<FieldOption>>) => {
 
       return (): Promise<Array<FieldOption>> => Promise.resolve(enumOptions)
     case 'BOOL':
-      const boolOptions = attribute.nillable ? [
-        {id: 'true', value: 'true', label: 'True'},
-        {id: 'false', value: 'false', label: 'False'},
-        {id: 'null', value: 'null', label: 'N/A'}
-      ] : [
-        {id: 'true', value: 'true', label: 'True'},
-        {id: 'false', value: 'false', label: 'False'}
+      const boolOptions = [
+        {id: 'true', value: true, label: booleanLabels.trueLabel},
+        {id: 'false', value: false, label: booleanLabels.falseLabel}
       ]
+
+      if (attribute.nillable &&
+        (!options || !options.hasOwnProperty('showNillableBooleanOption') || options.showNillableBooleanOption)
+      ) {
+        boolOptions.push({id: 'null', value: null, label: booleanLabels.nillLabel})
+      }
+
       return (): Promise<Array<FieldOption>> => Promise.resolve(boolOptions)
     default:
       return null
@@ -186,7 +206,7 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
  * @param attribute
  * @returns {Function} Function which evaluates to a boolean
  */
-const isVisible = (attribute): (() => boolean) => {
+const isVisible = (attribute): ((?Object) => boolean) => {
   const expression = attribute.visibleExpression
   return expression ? (data) => evaluator(expression, data) : () => attribute.visible
 }
@@ -198,9 +218,11 @@ const isVisible = (attribute): (() => boolean) => {
  * @param attribute
  * @returns {Function} Function which evaluates to a boolean
  */
-const isRequired = (attribute): (() => boolean) => {
+const isRequired = (attribute): ((?Object) => boolean) => {
   const expression = attribute.nullableExpression
-  return expression ? (data) => evaluator(expression, data) : () => !attribute.nillable
+
+  // If an attribute is nullable, it is NOT required
+  return expression ? (data) => !evaluator(expression, data) : () => !attribute.nillable
 }
 
 /**
@@ -210,7 +232,7 @@ const isRequired = (attribute): (() => boolean) => {
  * @param attribute
  * @returns {Function} Function which evaluates to a boolean
  */
-const isValid = (attribute): (() => boolean) => {
+const isValid = (attribute): ((?Object) => boolean) => {
   const expression = attribute.validationExpression
   return expression ? (data) => evaluator(expression, data) : () => true
 }
@@ -219,11 +241,12 @@ const isValid = (attribute): (() => boolean) => {
  * Generate a schema field object suitable for the forms
  *
  * @param attribute Attribute metadata from an EntityType V2 response
+ * @param mapperOptions MapperOptions optional object containing options to configure mapper
  * @returns {{type: String, id, label, description, required: boolean, disabled, visible, options: ({uri, id, label, multiple}|{uri, id, label})}}
  */
-const generateFormSchemaField = (attribute): FormField => {
+const generateFormSchemaField = (attribute, mapperOptions?: MapperOptions): FormField => {
   // options is a function that always returns an array of option objects
-  const options = getFieldOptions(attribute)
+  const options = getFieldOptions(attribute, mapperOptions)
   let fieldProperties = {
     type: getHtmlFieldType(attribute.fieldType),
     id: attribute.name,
@@ -236,9 +259,21 @@ const generateFormSchemaField = (attribute): FormField => {
     validate: isValid(attribute)
   }
 
-  if (fieldProperties.type === 'field-group') {
-    const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute))
+  if (attribute.fieldType === 'COMPOUND') {
+    const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute, mapperOptions))
     fieldProperties = {...fieldProperties, children}
+  }
+
+  if ((attribute.fieldType === 'INT' || attribute.fieldType === 'LONG') && attribute.range) {
+    let range = {}
+    if (attribute.range.hasOwnProperty('min')) {
+      range.min = attribute.range.min
+    }
+    if (attribute.range.hasOwnProperty('max')) {
+      range.max = attribute.range.max
+    }
+
+    fieldProperties = {...fieldProperties, range}
   }
 
   return options ? {...fieldProperties, options} : fieldProperties
@@ -251,25 +286,36 @@ const generateFormSchemaField = (attribute): FormField => {
  *
  * @param fields an array of field objects
  * @param data a data object containing everything a EntityType V2 response has in its item list
+ * @param attributes an array of MOLGENIS attribute metadata, used for idAttribute
  * @returns a {fieldId: value} object
  */
-const generateFormData = (fields: any, data: any) => {
+const generateFormData = (fields: any, data: any, attributes: any) => {
   return fields.reduce((accumulator, field) => {
-    if (field.type === 'field-group') {
-      return {...accumulator, ...generateFormData(field.children, data)}
-    } else if (field.type === 'file') {
-      // Map MOLGENIS FileMeta entity to our form file object
-      // which only contains a name
-      const fileData = data[field.id]
-      accumulator[field.id] = fileData ? fileData.filename : data[field.id]
-    } else if (field.type === 'checkbox' || field.type === 'multi-select') {
-      const checkboxData = data[field.id]
-      accumulator[field.id] = checkboxData && checkboxData.map(data => data.id)
-    } else if (field.type === 'radio' || field.type === 'single-select') {
-      const radioData = data[field.id]
-      accumulator[field.id] = radioData && typeof radioData === 'object' ? radioData.id : data[field.id]
-    } else {
-      accumulator[field.id] = data[field.id]
+    const fieldAttribute = attributes.find(attribute => attribute.name === field.id)
+    const idAttribute = fieldAttribute.refEntity && fieldAttribute.refEntity.idAttribute
+
+    switch (field.type) {
+      case 'field-group':
+        // Recursively generate data for compounds
+        return {...accumulator, ...generateFormData(field.children, data, fieldAttribute.attributes)}
+      case 'file':
+        // Map MOLGENIS FileMeta entity to our form file object
+        // which only contains a name
+        const fileData = data[field.id]
+        accumulator[field.id] = fileData ? fileData.filename : data[field.id]
+        break
+      case 'checkbox':
+      case 'multi-select':
+        const checkboxData = data[field.id]
+        accumulator[field.id] = checkboxData && checkboxData.map(data => data[idAttribute])
+        break
+      case 'radio':
+      case 'single-select':
+        const radioData = data[field.id]
+        accumulator[field.id] = radioData && typeof radioData === 'object' ? radioData[idAttribute] : data[field.id]
+        break
+      default:
+        accumulator[field.id] = data[field.id]
     }
     return accumulator
   }, {})
@@ -278,15 +324,35 @@ const generateFormData = (fields: any, data: any) => {
 /**
  * Generates an array for form fields
  *
- * @param schema an object containing the metadata from an EntityType V2 response
+ * @param attributes A list of MOLGENIS attribute metadata
+ * @param options MapperOptions optional object containing options to configure mapper
  * @returns a an array of Field objects
  */
-const generateFormFields = (schema: any): Array<FormField> => schema.attributes.reduce((accumulator, attribute) => {
-  accumulator.push(generateFormSchemaField(attribute))
+const generateFormFields = (attributes: any, options?: MapperOptions): Array<FormField> => attributes.reduce((accumulator, attribute) => {
+  accumulator.push(generateFormSchemaField(attribute, options))
   return accumulator
 }, [])
 
+/**
+ * Generates both fields and data objects for rendering a form
+ *
+ * @param metadata MOLGENIS metadata, containing attributes
+ * @param data
+ * @param options MapperOptions optional object containing options to configure mapper
+ * @returns {{formFields: Array<FormField>, formData: *}}
+ */
+const generateForm = (metadata: any, data: ?any, options?: MapperOptions) => {
+  const attributes = metadata.attributes
+
+  const formFields = generateFormFields(attributes, options)
+  const formData = data ? generateFormData(formFields, data, attributes) : {}
+
+  return {
+    formFields,
+    formData
+  }
+}
+
 export default {
-  generateFormFields,
-  generateFormData
+  generateForm
 }

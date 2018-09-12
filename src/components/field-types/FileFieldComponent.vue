@@ -22,10 +22,9 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
-        <div class="invalid-message" slot="required">This field is required</div>
-        <div class="invalid-message" slot="validate">Validation failed</div>
-      </field-messages>
+      <form-field-messages :field-id="field.id" :field-state="fieldState">
+      </form-field-messages>
+
     </div>
   </validate>
 </template>
@@ -33,9 +32,13 @@
 <script>
   import VueForm from 'vue-form'
   import { FormField } from '../../flow.types'
+  import FormFieldMessages from '../FormFieldMessages'
 
   export default {
     name: 'FileFieldComponent',
+    components: {
+      FormFieldMessages
+    },
     props: {
       value: {
         type: [File, String],
@@ -70,7 +73,7 @@
         // Whenever the file changes, emit the 'input' event with the file data.
         this.$emit('input', e.target.files[0])
 
-        // Emit value changes to trigger the hooks.onValueChange
+        // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
       }

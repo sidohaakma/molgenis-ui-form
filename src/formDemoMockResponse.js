@@ -67,7 +67,11 @@ const metadata = {
       'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
-      'description': 'Integer description'
+      'description': 'Integer description',
+      'range': {
+        'min': 1,
+        'max': 45
+      }
     },
     {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/long',
@@ -232,7 +236,8 @@ const metadata = {
       'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
-      'description': 'Nillable DATE description'
+      'description': 'Nillable DATE description',
+      'validationExpression': '$("nillable_date").age().value() == null || ($("nillable_date").age().value() >= 0 && $("nillable_date").age().value() < 150)'
     },
     {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/date_time',
@@ -290,7 +295,29 @@ const metadata = {
       'unique': false,
       'visible': true,
       'lookupAttribute': false,
-      'isAggregatable': false
+      'isAggregatable': false,
+      'categoricalOptions': [
+        {
+          'id': 'ref1',
+          'label': 'label1'
+        },
+        {
+          'id': 'ref2',
+          'label': 'label2'
+        },
+        {
+          'id': 'ref3',
+          'label': 'label3'
+        },
+        {
+          'id': 'ref4',
+          'label': 'label4'
+        },
+        {
+          'id': 'ref5',
+          'label': 'label5'
+        }
+      ]
     },
     {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/categorical_mref',
@@ -315,7 +342,29 @@ const metadata = {
       'unique': false,
       'visible': true,
       'lookupAttribute': false,
-      'isAggregatable': false
+      'isAggregatable': false,
+      'categoricalOptions': [
+        {
+          'id': 'ref1',
+          'label': 'label1'
+        },
+        {
+          'id': 'ref2',
+          'label': 'label2'
+        },
+        {
+          'id': 'ref3',
+          'label': 'label3'
+        },
+        {
+          'id': 'ref4',
+          'label': 'label4'
+        },
+        {
+          'id': 'ref5',
+          'label': 'label5'
+        }
+      ]
     },
     {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/xref',
@@ -496,7 +545,7 @@ const metadata = {
           'lookupAttribute': false,
           'isAggregatable': true,
           'visibleExpression': '$("nested-compound-string").value() === "show"',
-          'nullableExpression': '$("compound-int").value() === "1"',
+          'nullableExpression': '$("compound-int").value() !== "1"',
           'validationExpression': '$("compound-string").value() === "valid"'
         },
         {
@@ -575,6 +624,75 @@ const metadata = {
       'visible': true,
       'lookupAttribute': false,
       'isAggregatable': false
+    },
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound',
+      'fieldType': 'COMPOUND',
+      'name': 'hidden-compound',
+      'label': 'Hidden compound field',
+      'description': 'Hidden Compound description',
+      'attributes': [
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_int',
+          'fieldType': 'STRING',
+          'name': 'hidden-compound-child',
+          'label': 'Hidden compound string field',
+          'attributes': [],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'defaultValue': '1',
+          'labelAttribute': false,
+          'unique': false,
+          'visible': false,
+          'lookupAttribute': false,
+          'isAggregatable': true,
+          'description': 'Cool Integer child description'
+        },
+        {
+          'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_int',
+          'fieldType': 'COMPOUND',
+          'name': 'nested-hidden-compound',
+          'label': 'Nested Hidden compound',
+          'attributes': [
+            {
+              'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcompound_int',
+              'fieldType': 'STRING',
+              'name': 'nested-hidden-compound-child',
+              'label': 'Hidden compound string field',
+              'attributes': [],
+              'auto': false,
+              'nillable': false,
+              'readOnly': false,
+              'defaultValue': '1',
+              'labelAttribute': false,
+              'unique': false,
+              'visible': false,
+              'lookupAttribute': false,
+              'isAggregatable': true,
+              'description': 'Cool Integer child description'
+            }
+          ],
+          'auto': false,
+          'nillable': false,
+          'readOnly': false,
+          'defaultValue': '1',
+          'labelAttribute': false,
+          'unique': false,
+          'visible': true,
+          'lookupAttribute': false,
+          'isAggregatable': true,
+          'description': 'Cool Hidden nested compound'
+        }
+      ],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': false,
+      'unique': false,
+      'visible': true,
+      'lookupAttribute': false,
+      'isAggregatable': false
     }
   ]
 }
@@ -584,20 +702,21 @@ const items = {
   text: 'text value',
   hyperlink: 'www.nu.nl',
   boolean: true,
-  categorical: {href: 'url', id: 'ref1', label: 'label1'},
+  nillable_date: '2017-09-06',
+  categorical: {href: 'url', value: 'ref1', label: 'label1'},
   categorical_mref: [
-    {href: 'url', id: 'ref1', label: 'label1'},
-    {href: 'url', id: 'ref2', label: 'label2'}
+    {href: 'url', value: 'ref1', label: 'label1'},
+    {href: 'url', value: 'ref2', label: 'label2'}
   ],
-  xref: {href: 'url', id: 'ref1', label: 'label1'},
+  xref: {href: 'url', value: 'ref1', label: 'label1'},
   mref: [
-    {href: 'url', id: 'ref1', label: 'label1'},
-    {href: 'url', id: 'ref2', label: 'label2'},
-    {href: 'url', id: 'ref3', label: 'label3'}
+    {href: 'url', value: 'ref1', label: 'label1'},
+    {href: 'url', value: 'ref2', label: 'label2'},
+    {href: 'url', value: 'ref3', label: 'label3'}
   ],
   one_to_many: [
-    {href: 'url', id: 'ref1', label: 'label1'},
-    {href: 'url', id: 'ref2', label: 'label2'}
+    {href: 'url', value: 'ref1', label: 'label1'},
+    {href: 'url', value: 'ref2', label: 'label2'}
   ],
   enum: 'enum2',
   html: '<h1>test</h1>',

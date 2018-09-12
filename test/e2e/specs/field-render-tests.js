@@ -5,6 +5,7 @@ module.exports = {
   before: function (browser) {
     // Wait for form to be loaded
     browser.url(browser.globals.devServerURL)
+    browser.pause(browser.globals.waitBeforeTestStart)
   },
 
   after: function (browser) {
@@ -98,6 +99,7 @@ module.exports = {
     browser.expect.element('.flatpickr-calendar').to.be.visible
 
     browser.click('.today')
+    browser.click('#form-demo') // click outside calender (work around for IE11 issue: https://github.com/chmln/flatpickr/issues/900)
     browser.expect.element('.flatpickr-calendar').to.be.not.visible
 
     const today = new Date().toJSON().slice(0, 10)
@@ -131,7 +133,7 @@ module.exports = {
     browser.expect.element('.flatpickr-minute').to.be.visible
     browser.expect.element('.flatpickr-am-pm').to.be.visible
 
-    browser.click('#form-demo') // click outside calender
+    browser.click('#form-demo') // click outside calender (work around for IE11 issue: https://github.com/chmln/flatpickr/issues/900)
     browser.expect.element('.flatpickr-calendar').to.be.not.visible
 
     const today = new Date().toJSON().slice(0, 10)

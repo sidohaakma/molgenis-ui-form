@@ -1,20 +1,22 @@
 <template>
-  <vue-form :id="id" :state="formState" @submit.prevent="hooks.onSubmit(formData)" @reset.prevent="hooks.onCancel">
-    <div class="text-right hide-option-fields-btn-container">
+  <vue-form :id="id" :state="formState">
+    <div v-if="options.showEyeButton" class="text-right hide-option-fields-btn-container">
       <button type="button" class="btn btn-sm btn-outline-secondary toggle-btn" :title="eyeMessage"
               @click="toggleOptionalFields">
         <i class="fa show-fields-icon" :class="{'fa-eye-slash': showOptionalFields, 'fa-eye': !showOptionalFields}"></i>
       </button>
     </div>
 
-    <template v-for="field in schema.fields">
+    <template v-for="field in formFields">
       <form-field-component
+        class="mg-ui-form-field"
         :eventBus="eventBus"
         :formData="formData"
         :field="field"
         :formState="formState"
         :showOptionalFields="showOptionalFields"
-        @dataChange="hooks.onValueChanged(formData)">
+        @dataChange="handleValueChange(formData)"
+        :form-component-options="options">
       </form-field-component>
     </template>
   </vue-form>
@@ -25,7 +27,6 @@
   import VueForm from 'vue-form'
   import FormFieldComponent from './FormFieldComponent'
   import { isValidSchema } from '../util/SchemaService'
-  import { FormHook } from '../flow.types'
 
   export default {
     name: 'FormComponent',
@@ -35,30 +36,34 @@
         type: String,
         required: true
       },
-      schema: {
-        type: Object,
+      formFields: {
+        type: Array,
         required: true,
         validator: isValidSchema
       },
-      formState: {
-        type: Object,
-        required: true
-      },
       initialFormData: {
         type: Object,
-        required: false
-      },
-      hooks: {
-        type: FormHook,
         required: true
+      },
+      formState: {
+        type: Object,
+        required: false,
+        default: () => ({})
+      },
+      options: {
+        type: Object,
+        required: false,
+        default: () => {
+          return {
+            showEyeButton: true
+          }
+        }
       }
     },
     data () {
       return {
         eventBus: new Vue(),
-        showOptionalFields: true,
-        // clone initialFormData to formData as formDate needs to be Observable
-        formData: Object.assign({}, this.initialFormData)
+        showOptionalFields: true
       }
     },
     methods: {
@@ -67,6 +72,9 @@
       },
       handleAddOptionEvent (completedFunction, event, data) {
         this.$emit('addOptionRequest', completedFunction, event, data)
+      },
+      handleValueChange (formData) {
+        this.$emit('valueChange', formData)
       }
     },
     components: {
@@ -75,6 +83,14 @@
     computed: {
       eyeMessage () {
         return this.showOptionalFields ? 'Hide optional fields' : 'Show all fields'
+      },
+
+      /**
+       *  Create local copy to break data reactivity with the
+       *  outside world and "enforce" a one way data-flow
+       */
+      formData () {
+        return Object.assign({}, this.initialFormData)
       }
     },
     created: function () {

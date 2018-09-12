@@ -1,5 +1,6 @@
 import DateFieldComponent from '@/components/field-types/DateFieldComponent'
 import { mount } from 'vue-test-utils'
+import moment from 'moment'
 
 describe('DateFieldComponent', () => {
   describe('component', () => {
@@ -40,13 +41,29 @@ describe('DateFieldComponent', () => {
       isRequired: true,
       isValid: true
     }
-    describe('on value change', () => {
-      const wrapper = mount(DateFieldComponent, { propsData: propsData })
 
-      it('should emit an updated value on change', () => {
+    describe('on value change', () => {
+      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+
+      it('should emit an updated Date object on change', () => {
         wrapper.setData({localValue: '2018-01-02'})
-        expect(wrapper.emitted().input[0]).to.deep.equal(['2018-01-02'])
+
+        const expectedDateValue = moment('2018-01-02', 'YYYY-MM-DD').toDate()
+
+        expect(wrapper.emitted().input[0]).to.deep.equal([expectedDateValue])
         expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+      })
+    })
+
+    describe('getDateFromValue', () => {
+      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+
+      it('should return a moment object for a date string', () => {
+        const date = '2018-01-02'
+        const actual = wrapper.vm.getDateFromValue(date)
+        const expected = moment(date, 'YYYY-MM-DD', true)
+
+        expect(actual).to.deep.equal(expected)
       })
     })
 
@@ -84,6 +101,43 @@ describe('DateFieldComponent', () => {
       validate: () => true,
       isTimeIncluded: true
     }
+
+    describe('on value change', () => {
+      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+
+      it('should emit an updated Date object including time on change', () => {
+        wrapper.setData({localValue: '2018-01-02 13:37'})
+
+        const expectedDateTimeValue = moment('2018-01-02 13:37', 'YYYY-MM-DD HH:mm').toDate()
+
+        expect(wrapper.emitted().input[0]).to.deep.equal([expectedDateTimeValue])
+        expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+      })
+    })
+
+    describe('on created', () => {
+      const mocks = {
+        $lng: 'nl'
+      }
+
+      const wrapper = mount(DateFieldComponent, {propsData: propsData, mocks: mocks})
+
+      it('set the language', () => {
+        expect(wrapper.vm.config.locale.months.longhand[0]).to.equal('januari')
+      })
+    })
+
+    describe('getDateTimeFromValue', () => {
+      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+
+      it('should return a moment object for a date string', () => {
+        const date = '2018-01-02 13:37'
+        const actual = wrapper.vm.getDateFromValue(date)
+        const expected = moment(date, 'YYYY-MM-DD HH:mm', true)
+
+        expect(actual).to.deep.equal(expected)
+      })
+    })
 
     describe('isValidDateTime', () => {
       const wrapper = mount(DateFieldComponent, {propsData: propsData})

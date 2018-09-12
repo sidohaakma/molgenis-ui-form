@@ -9,9 +9,10 @@ describe('FormComponent unit tests', () => {
   it('should have the correct props listed', () => {
     const props = FormComponent.props
     expect(typeof props.id).to.equal('object')
-    expect(typeof props.schema).to.equal('object')
+    expect(typeof props.formFields).to.equal('object')
     expect(typeof props.initialFormData).to.equal('object')
     expect(typeof props.formState).to.equal('object')
+    expect(typeof props.options).to.equal('object')
   })
 
   it('should have the correct state of the FormComponent', () => {
@@ -41,14 +42,11 @@ describe('FormComponents shallow tests', () => {
 
   const propsData = {
     id: 'test',
-    data: {'string': 'data'},
-    schema: {
-      fields: [ field ]
-    },
+    initialFormData: {'string': 'data'},
+    formFields: [field],
     formState: formState,
-    hooks: {
-      onSubmit: () => true,
-      onCancel: () => true
+    options: {
+      showEyeButton: true
     }
   }
 
@@ -64,10 +62,52 @@ describe('FormComponents shallow tests', () => {
     })
   })
 
+  describe('Eye button visibility', () => {
+    it('should show the eye button', () => {
+      expect(wrapper.find('.hide-option-fields-btn-container').exists()).to.equal(true)
+    })
+
+    it('should not show the eye button', () => {
+      wrapper.setProps({
+        id: 'test',
+        initialFormData: {'string': 'data'},
+        formFields: [field],
+        formState: formState,
+        options: {
+          showEyeButton: false
+        }
+      })
+
+      expect(wrapper.find('.hide-option-fields-btn-container').exists()).to.equal(false)
+    })
+  })
+
   describe('handleAddOptionEvent', () => {
     it('should emit add "addOptionRequest" event passing through the event params', () => {
       wrapper.vm.handleAddOptionEvent('a', 'b', 'c')
       expect(wrapper.emitted().addOptionRequest[0]).to.deep.equal(['a', 'b', 'c'])
+    })
+  })
+
+  describe('handleValueChange', () => {
+    it('should emit a valueChange event when data changes', () => {
+      wrapper.vm.handleValueChange({'string': 'test event'})
+      expect(wrapper.emitted().valueChange[0]).to.deep.equal([{'string': 'test event'}])
+    })
+  })
+
+  describe('Update initialFormData property updates local formData value', () => {
+    it('should update the computed formData object when the initialFormData prop is updated', () => {
+      wrapper.setProps({
+        id: 'test',
+        initialFormData: {'string': 'new data value'},
+        formFields: [field],
+        options: {
+          showEyeButton: false
+        }
+      })
+
+      expect(wrapper.vm.formData).to.deep.equal({'string': 'new data value'})
     })
   })
 })

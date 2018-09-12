@@ -23,7 +23,8 @@
               <span aria-hidden="true" class="sr-only">Toggle</span>
             </i>
           </button>
-          <button v-if="!isRequired" class="date-field-clear-btn btn btn-outline-secondary" type="button" title="Clear" data-clear>
+          <button v-if="!isRequired" class="date-field-clear-btn btn btn-outline-secondary" type="button" title="Clear"
+                  data-clear>
             <i class="fa fa-times">
               <span aria-hidden="true" class="sr-only">Clear</span>
             </i>
@@ -35,10 +36,8 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
-        <div slot="required">This field is required</div>
-        <div slot="validate">Validation failed</div>
-      </field-messages>
+      <form-field-messages :field-id="field.id" :field-state="fieldState">
+      </form-field-messages>
 
     </div>
   </validate>
@@ -46,16 +45,32 @@
 
 <script>
   import VueForm from 'vue-form'
+  import FormFieldMessages from '../FormFieldMessages'
   import flatPickr from 'vue-flatpickr-component'
   import 'flatpickr/dist/flatpickr.css'
   import moment from 'moment'
+  import { Portuguese } from 'flatpickr/dist/l10n/pt.js'
+  import { Spanish } from 'flatpickr/dist/l10n/es.js'
+  import { Italian } from 'flatpickr/dist/l10n/it.js'
+  import { French } from 'flatpickr/dist/l10n/fr.js'
+  import { Dutch } from 'flatpickr/dist/l10n/nl.js'
+  import { German } from 'flatpickr/dist/l10n/de.js'
+
+  const flatpickerLangMap = {
+    pt: Portuguese,
+    es: Spanish,
+    it: Italian,
+    fr: French,
+    nl: Dutch,
+    de: German
+  }
 
   export default {
     name: 'DateFieldComponent',
     mixins: [VueForm],
     props: {
       value: {
-        type: String,
+        type: [String, Date],
         required: false
       },
       field: {
@@ -92,23 +107,51 @@
       }
     },
     methods: {
-      isValidDateTime (dateString) {
+      /**
+       * Convert a date string to a Moment Date.
+       * Include hours and minutes if time is enabled
+       *
+       * @param dateString
+       * @returns {Moment} A date object created by moment
+       */
+      getDateFromValue (dateString) {
         const format = this.isTimeIncluded ? 'YYYY-MM-DD HH:mm' : 'YYYY-MM-DD'
-        const date = moment(dateString, format, true)
+        return moment(dateString, format, true)
+      },
+
+      /**
+       * Validates a date string to see if it is a proper date
+       *
+       * @param dateString
+       * @returns {boolean}
+       */
+      isValidDateTime (dateString) {
+        const date = this.getDateFromValue(dateString)
         return date != null && date.isValid()
       }
     },
     watch: {
       localValue (value) {
-        // Emit value changes to the parent (form)
-        this.$emit('input', value)
-        // Emit value changes to trigger the hooks.onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
+        // Only emit a data change if the date is valid
+        if (this.isValidDateTime(value)) {
+          // Emit value changes to the parent (form)
+          // Always emit a date value, not a string
+          this.$emit('input', this.getDateFromValue(value).toDate())
+
+          // Emit value changes to trigger the onValueChange
+          // Do not use input event for this to prevent unwanted behavior
+          this.$emit('dataChange')
+        }
+      }
+    },
+    created () {
+      if (flatpickerLangMap[this.$lng]) {
+        this.config.locale = flatpickerLangMap[this.$lng]
       }
     },
     components: {
-      flatPickr
+      flatPickr,
+      FormFieldMessages
     }
   }
 </script>

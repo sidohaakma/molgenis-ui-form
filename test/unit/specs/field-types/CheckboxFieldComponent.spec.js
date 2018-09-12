@@ -1,40 +1,33 @@
 import CheckboxFieldComponent from '@/components/field-types/CheckboxFieldComponent'
-import { mount } from 'vue-test-utils'
+import { shallow } from 'vue-test-utils'
 
 describe('CheckboxFieldComponent unit tests', () => {
+  const options = [
+    {
+      id: '1',
+      label: 'Option 1',
+      value: '1'
+    },
+    {
+      id: '2',
+      label: 'Option 2',
+      value: '2'
+    }
+  ]
   const field = {
     id: 'checkbox-field',
     label: 'Checkbox Field',
     description: 'This is a checkbox field',
     type: 'checkbox',
     disabled: false,
-    options: () => {
-      return new Promise((resolve, reject) => {
-        resolve([
-          {
-            id: '1',
-            label: 'Option 1',
-            value: '1'
-          },
-          {
-            id: '2',
-            label: 'Option 2',
-            value: '2'
-          }
-        ])
-      })
-    }
-  }
-
-  const mockParentFunction = () => {
-    return null
+    options: () => Promise.resolve(options)
   }
 
   const fieldState = {
     $touched: false,
     $submitted: false,
     $invalid: false,
-    _addControl: mockParentFunction
+    _addControl: () => null
   }
 
   const propsData = {
@@ -44,9 +37,17 @@ describe('CheckboxFieldComponent unit tests', () => {
     isValid: true
   }
 
-  const wrapper = mount(CheckboxFieldComponent, {
-    propsData: propsData,
-    stubs: {'fieldMessages': '<div>This field is required</div>'}
+  let wrapper
+
+  beforeEach(function (done) {
+    wrapper = shallow(CheckboxFieldComponent, {
+      attachToDocument: true,
+      propsData: propsData,
+      stubs: ['fieldMessages']
+    })
+    wrapper.vm.$nextTick().then(function () {
+      done()
+    })
   })
 
   it('should set empty array as localValue when value is undefined', () => {
@@ -55,7 +56,7 @@ describe('CheckboxFieldComponent unit tests', () => {
 
   it('should render an input for every option', () => {
     const inputs = wrapper.findAll('input')
-    expect(inputs.at(0).element.id).to.equal('checkbox-field-0')
+    expect(inputs.length).to.equal(2)
   })
 
   it('should emit an updated value on change', () => {

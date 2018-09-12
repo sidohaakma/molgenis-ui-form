@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{'validate': isValid}">
+  <validate :state="fieldState" :custom="customValidation">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -18,13 +18,8 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
-        <div class="invalid-message" slot="required">This field is required</div>
-        <div class="invalid-message" slot="number">Not a valid number</div>
-        <div class="invalid-message" slot="url">Not a valid URL</div>
-        <div class="invalid-message" slot="email">Not a valid email</div>
-        <div class="invalid-message" slot="validate">Validation failed</div>
-      </field-messages>
+      <form-field-messages :field-id="field.id" :type="field.type" :range="field.range" :field-state="fieldState">
+      </form-field-messages>
     </div>
   </validate>
 </template>
@@ -32,9 +27,16 @@
 <script>
   import VueForm from 'vue-form'
   import { FormField } from '../../flow.types'
+  import FormFieldMessages from '../FormFieldMessages'
+  import debounce from 'debounce'
+
+  let debounceTime = 500
 
   export default {
     name: 'TypedFieldComponent',
+    components: {
+      FormFieldMessages
+    },
     props: {
       value: {
         // The value representing a Number or String
@@ -56,6 +58,10 @@
       isRequired: {
         type: Boolean,
         default: false
+      },
+      inputDebounceTime: {
+        type: Number,
+        default: debounceTime
       }
     },
     mixins: [VueForm],
@@ -66,13 +72,37 @@
       }
     },
     watch: {
-      localValue (value) {
+      localValue: debounce(function (value) {
         // Emit value changes to the parent (form)
         this.$emit('input', value)
-        // Emit value changes to trigger the hooks.onValueChange
+        // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
+      }, debounceTime)
+    },
+    computed: {
+      customValidation () {
+        let customValidation = {'validate': this.isValid}
+        if (this.field.type === 'number' && this.field.range) {
+          customValidation.range = this.isWithinRange
+        }
+        return customValidation
       }
+    },
+    methods: {
+      isWithinRange () {
+        if (this.field.range.hasOwnProperty('min') && this.localValue < this.field.range.min) {
+          return false
+        }
+        if (this.field.range.hasOwnProperty('max') && this.localValue > this.field.range.max) {
+          return false
+        }
+
+        return true
+      }
+    },
+    created () {
+      debounceTime = this.inputDebounceTime
     }
   }
 </script>

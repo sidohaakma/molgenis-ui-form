@@ -150,27 +150,6 @@ export const stringSchema = {
   ]
 }
 
-export const stringSchemaWithVisibleExpression = {
-  'attributes': [
-    {
-      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/string',
-      'fieldType': 'STRING',
-      'name': 'string',
-      'label': 'String Field',
-      'attributes': [],
-      'auto': false,
-      'nillable': false,
-      'readOnly': false,
-      'labelAttribute': true,
-      'unique': true,
-      'visibleExpression': '$("string").value() === "show me"',
-      'lookupAttribute': true,
-      'isAggregatable': false,
-      'description': 'STRING description'
-    }
-  ]
-}
-
 export const emailSchema = {
   'attributes': [
     {
@@ -272,6 +251,79 @@ export const intSchema = {
       'lookupAttribute': true,
       'isAggregatable': false,
       'description': 'Integer description'
+    }
+  ]
+}
+
+export const intSchemaWithRange = {
+  'attributes': [
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/integer',
+      'fieldType': 'INT',
+      'name': 'integer',
+      'label': 'Integer Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Integer description',
+      'range': {
+        'min': 1,
+        'max': 45
+      }
+    }
+  ]
+}
+
+export const intSchemaWithMinRange = {
+  'attributes': [
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/integer',
+      'fieldType': 'INT',
+      'name': 'integer',
+      'label': 'Integer Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Integer description',
+      'range': {
+        'min': 1
+      }
+    }
+  ]
+}
+
+export const intSchemaWithMaxRange = {
+  'attributes': [
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/integer',
+      'fieldType': 'INT',
+      'name': 'integer',
+      'label': 'Integer Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': false,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Integer description',
+      'range': {
+        'max': 45
+      }
     }
   ]
 }
@@ -516,6 +568,44 @@ export const categoricalSchema = {
   ]
 }
 
+export const categoricalSchemaIncludingOptions = {
+  'attributes': [
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/categorical',
+      'fieldType': 'CATEGORICAL',
+      'name': 'categorical',
+      'label': 'Categorical Field',
+      'attributes': [],
+      'auto': false,
+      'nillable': true,
+      'readOnly': false,
+      'labelAttribute': true,
+      'unique': true,
+      'visible': true,
+      'lookupAttribute': true,
+      'isAggregatable': false,
+      'description': 'Categorical description',
+      'refEntity': {
+        href: '/api/v1/it_emx_datatypes_TypeTestRef/meta',
+        hrefCollection: '/api/v1/it_emx_datatypes_TypeTestRef',
+        idAttribute: 'value',
+        languageCode: 'en',
+        writable: true
+      },
+      'categoricalOptions': [
+        {
+          'id': 'ref1',
+          'label': 'label1'
+        },
+        {
+          'id': 'ref2',
+          'label': 'label2'
+        }
+      ]
+    }
+  ]
+}
+
 export const categoricalMrefSchema = {
   'attributes': [
     {
@@ -550,7 +640,7 @@ export const mrefSchema = {
     {
       'href': '/api/v1/it_emx_datatypes_TypeTest/meta/mref',
       'fieldType': 'MREF',
-      'name': 'mref-field',
+      'name': 'mref',
       'label': 'MREF Field',
       'description': 'MREF description',
       'attributes': [],

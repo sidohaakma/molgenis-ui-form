@@ -56,6 +56,36 @@ describe('FormFieldComponents unit tests', () => {
     it('should return true if schema-field visibility is set to true', () => {
       expect(wrapper.vm.isVisible).to.equal(true)
     })
+
+    it('should return true if field is of type field-group', () => {
+      const propsData = {
+        formData: {},
+        field: {
+          id: 'group',
+          type: 'field-group',
+          visible: () => true,
+          required: () => true,
+          validate: () => true,
+          children: [
+            {
+              id: 'string',
+              type: 'text',
+              visible: () => true,
+              required: () => true,
+              validate: () => true
+            }
+          ]
+        },
+        formState: formState,
+        showOptionalFields: true
+      }
+
+      const wrapper = shallow(FormFieldComponent, {
+        propsData: propsData
+      })
+
+      expect(wrapper.vm.isVisible).to.equal(true)
+    })
   })
 
   describe('isRequired passed as true in component', () => {
@@ -95,6 +125,50 @@ describe('FormFieldComponents unit tests', () => {
 
     it('should return false if schema-field required is set to false', () => {
       expect(wrapper.vm.isRequired).to.equal(false)
+    })
+  })
+
+  describe('noOptionsMessage constructs a message', () => {
+    const field = {
+      id: 'string',
+      type: 'text',
+      validate: (data) => data['string'] === 'data',
+      required: () => false,
+      visible: () => true
+    }
+
+    const propsData = {
+      formData: {'string': 'data'},
+      field: field,
+      formState: formState,
+      showOptionalFields: true
+    }
+
+    let wrapper
+
+    it('should return the default message is i18n message is not configured', () => {
+      wrapper = mount(FormFieldComponent, {propsData: propsData})
+      expect(wrapper.vm.noOptionsMessage).to.equal('No options found for given search term.')
+    })
+
+    it('should return the default message is i18n configured but no options messsage is set', () => {
+      wrapper = mount(FormFieldComponent, {
+        propsData: propsData,
+        mocks: {
+          $t: () => 'form_no_options'
+        }
+      })
+      expect(wrapper.vm.noOptionsMessage).to.equal('No options found for given search term.')
+    })
+
+    it('should return the i18n no options message if set', () => {
+      wrapper = mount(FormFieldComponent, {
+        propsData: propsData,
+        mocks: {
+          $t: (param) => param === 'ui-form:form_no_options' ? 'Message set' : 'No message set'
+        }
+      })
+      expect(wrapper.vm.noOptionsMessage).to.equal('Message set')
     })
   })
 

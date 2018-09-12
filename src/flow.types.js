@@ -9,7 +9,7 @@ export type HtmlFieldType = 'radio' | 'select' | 'number' | 'text-area' | 'date'
 
 export type FieldOption = {
   id: string,
-  value: string | boolean | number,
+  value: string | boolean | number | null,
   label: string
 }
 
@@ -17,16 +17,12 @@ export type FormField = {
   type: HtmlFieldType,
   id: string,
   label: string,
-  required: (() => boolean),
+  required: ((?Object) => boolean),
   disabled: boolean,
-  visible: (() => boolean),
+  visible: ((?Object) => boolean),
   options?: (() => Promise<Array<FieldOption>>),
   children?: Array<FormField>,
-  validate: (() => boolean)
-}
-
-export type Schema = {
-  fields: Array<FormField>
+  validate: ((?Object) => boolean)
 }
 
 export type RefEntityType = {
@@ -38,26 +34,17 @@ export type RefEntityType = {
   writable?: boolean
 }
 
-/**
- *
- * You can define hooks in the VUE-app that uses molgenis-form (client). You can view examples below.
- *
- * @example
- *
- * hooks: {
- *   onSubmit(formData) {
- *     // press the save-button for instance of the client
- *   },
- *   onCancel() {
- *     // press the cancel-button in the client
- *   },
- *   onValueChanged(formData) {
- *     // trigger onValueChanged hook in the client
- *   }
- * }
- */
-export type FormHook = {
-  onSubmit: ? (formData: Object) => {},
-  onCancel?: () => {},
-  onValueChanged?: (formData: Object) => {}
+export type MapperOptions = {
+  booleanLabels?: {
+    trueLabel: string,
+    falseLabel: string,
+    nillLabel: string
+  },
+  showNillableBooleanOption?: boolean
+}
+
+export type FormComponentOptions = {
+  showEyeButton?: boolean,
+  allowAddingOptions?: boolean,
+  inputDebounceTime: number
 }

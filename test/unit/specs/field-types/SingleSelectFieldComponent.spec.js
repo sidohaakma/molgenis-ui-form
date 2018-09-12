@@ -154,4 +154,14 @@ describe('SingleSelectFieldComponent unit tests', () => {
     wrapper.vm.afterOptionCreation(myOption)
     expect(wrapper.vm.localValue).to.deep.equal(myOption)
   })
+
+  it('should render the add btn when the allowAddingOptions property is set to true ', () => {
+    propsData.allowAddingOptions = true
+
+    const wrapper = mount(SingleSelectFieldComponent, {
+      propsData: propsData,
+      stubs: ['fieldMessages']
+    })
+    expect(wrapper.findAll('.input-group-append').exists()).to.equal(true)
+  })
 })

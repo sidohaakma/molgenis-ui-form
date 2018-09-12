@@ -40,7 +40,7 @@
     <!-- Render field groups + child fields, nesting subsequent groups with padding -->
     <template v-else-if="field.type === 'field-group'">
       <legend>{{ field.label }}</legend>
-      <small>{{field.description}} </small>
+      <small>{{field.description}}</small>
 
       <hr>
 
@@ -68,7 +68,9 @@
         :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
-        @dataChange="onDataChange">
+        @dataChange="onDataChange"
+        :allowAddingOptions="formComponentOptions.allowAddingOptions"
+        :noOptionsMessage="noOptionsMessage">
       </multi-select-field-component>
     </template>
 
@@ -90,10 +92,12 @@
         :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
-        :formState="formState[field.id]"
+        :fieldState="formState[field.id]"
         :isRequired="isRequired"
         :isValid="isValid"
-        @dataChange="onDataChange">
+        @dataChange="onDataChange"
+        :allowAddingOptions="formComponentOptions.allowAddingOptions"
+        :noOptionsMessage="noOptionsMessage">
       </single-select-field-component>
     </template>
 
@@ -105,6 +109,7 @@
         :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
+        :inputDebounceTime="formComponentOptions.inputDebounceTime"
         @dataChange="onDataChange">
       </text-area-field-component>
     </template>
@@ -130,6 +135,7 @@
         :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
+        :inputDebounceTime="formComponentOptions.inputDebounceTime"
         @dataChange="onDataChange">
       </typed-field-component>
     </template>
@@ -139,6 +145,24 @@
 <style>
   fieldset.required-field > div > div.form-group > label::after {
     content: ' *';
+  }
+
+  /*  Styling to have v-select look like bootstrap field */
+  .v-select {
+    padding: 0 0 0 10px;
+  }
+
+  .v-select.disabled {
+    background-color: #f8f8f8;
+  }
+
+  .mg-ui-form-field .v-select > .dropdown-toggle {
+    border: none;
+  }
+
+  /* fix to hide input[type=search] as webkit forces browser style */
+  .v-select .dropdown-toggle input[type=search] {
+    -webkit-appearance: textfield;
   }
 </style>
 
@@ -153,7 +177,10 @@
   import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
   import TypedFieldComponent from './field-types/TypedFieldComponent'
 
-  import { FormField } from '../flow.types'
+  import { FormField, FormComponentOptions } from '../flow.types'
+  import isCompoundVisible from '../util/helpers/isCompoundVisible'
+
+  const defaultNoOptionsMessage = 'No options found for given search term.'
 
   export default {
     name: 'FormFieldComponent',
@@ -182,6 +209,15 @@
       showOptionalFields: {
         type: Boolean,
         required: true
+      },
+      formComponentOptions: {
+        type: FormComponentOptions,
+        required: false,
+        default: () => {
+          return {
+            inputDebounceTime: 500
+          }
+        }
       }
     },
     methods: {
@@ -190,14 +226,30 @@
       }
     },
     computed: {
-      isValid: function () {
+      isValid () {
         return this.field.validate(this.formData)
       },
-      isRequired: function () {
+      isRequired () {
         return this.field.required(this.formData)
       },
-      isVisible: function () {
+      isVisible () {
+        if (this.field.type === 'field-group') {
+          return isCompoundVisible(this.field, this.formData)
+        }
         return (this.showOptionalFields || this.isRequired) && this.field.visible(this.formData)
+      },
+      noOptionsMessage () {
+        const msgKey = 'form_no_options'
+        const namespace = 'ui-form'
+
+        if (this.$t) {
+          const i18nMessage = this.$t(namespace + ':' + msgKey)
+          if (i18nMessage !== msgKey) {
+            return i18nMessage
+          }
+        }
+
+        return defaultNoOptionsMessage
       }
     },
     components: {

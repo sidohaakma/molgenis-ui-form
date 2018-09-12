@@ -1,4 +1,5 @@
 import evaluator from '@/util/helpers/evaluator'
+import moment from 'moment'
 
 describe('evaluator', () => {
   describe('string comparison', () => {
@@ -82,22 +83,32 @@ describe('evaluator', () => {
   })
 
   describe('age', () => {
+    const expression = '$("date").age().value()'
+
     it('should return undefined in case of empty property', () => {
-      const expression = '$(\'myProp\').age().value()'
-      const entity = {myProp: null}
+      const entity = {date: null}
       const result = evaluator(expression, entity)
       expect(result).to.equal(undefined)
     })
+
     it('should return the age in years (4) if the property is a valid date', () => {
-      const expression = '$(\'myProp1\').age().value()'
       const d = new Date()
       const year = d.getFullYear()
       const month = d.getMonth()
       const day = d.getDate()
       const testDate = new Date(year - 4, month, day)
-      const entity = {myProp1: testDate}
+      const entity = {date: testDate}
       const result = evaluator(expression, entity)
       expect(result).to.equal(4)
+    })
+
+    it('should return the age in years if the property is a valid date string', () => {
+      const date = '2015-01-01'
+      const entity = {date: date}
+      const actual = evaluator(expression, entity)
+
+      const expected = moment().diff(date, 'years')
+      expect(actual).to.equal(expected)
     })
   })
 
@@ -108,18 +119,21 @@ describe('evaluator', () => {
       const result = evaluator(expression, entity)
       expect(result).to.equal(2)
     })
+
     it('should map to a default value 4 if no mapping is defined for the property (3)', () => {
       const expression2 = '$(\'myProp\').map({0:1, 1:2}, 4, 5).value()'
       const entity2 = {myProp: 3}
       const result2 = evaluator(expression2, entity2)
       expect(result2).to.equal(4)
     })
+
     it('should map to the null value (5) is property is missing', () => {
       const expression2 = '$(\'myProp\').map({0:1, 1:2}, 4, 5).value()'
       const entity2 = {myProp: null}
       const result2 = evaluator(expression2, entity2)
       expect(result2).to.equal(5)
     })
+
     it('should map to the null value (5) is property is undefined', () => {
       const expression2 = '$(\'myProp\').map({0:1, 1:2}, 4, 5).value()'
       const entity2 = {myProp: null}
@@ -144,18 +158,21 @@ describe('evaluator', () => {
       const result = evaluator(expression, entity)
       expect(result).to.equal(false)
     })
+
     it('property value (null) compared to non null value (3) returns false', () => {
       const expression = '$(\'myProp\').eq(3).value()'
       const entity = {myProp: null}
       const result = evaluator(expression, entity)
       expect(result).to.equal(false)
     })
+
     it('non null property value ("a") compared to non null value ("b") returns false', () => {
       const expression = '$(\'myProp\').eq("b").value()'
       const entity = {myProp: 'a'}
       const result = evaluator(expression, entity)
       expect(result).to.equal(false)
     })
+
     it('non null property value ("c") compared to non null value ("c") returns true', () => {
       const expression = '$(\'myProp\').eq("c").value()'
       const entity = {myProp: 'c'}
@@ -172,6 +189,7 @@ describe('evaluator', () => {
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('property value ("123abc456") matched against regex ("efg") should equal false', () => {
       var patt = new RegExp('efg')
       const expression = '$(\'myProp\').matches(' + patt + ').value()'
@@ -188,6 +206,7 @@ describe('evaluator', () => {
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return false if property value is not null', () => {
       const expression = '$(\'myProp\').isNull().value()'
       const entity = {myProp: 'not null'}
@@ -212,18 +231,21 @@ describe('evaluator', () => {
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return true if one property value is false and the other is true', () => {
       const expression = '$(\'myProp\').or($(\'otherProp\')).value()'
       const entity = {myProp: false, otherProp: true}
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return true if both values are true', () => {
       const expression = '$(\'myProp\').or($(\'otherProp\')).value()'
       const entity = {myProp: true, otherProp: true}
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return false if both values are false', () => {
       const expression = '$(\'myProp\').or($(\'otherProp\')).value()'
       const entity = {myProp: false, otherProp: false}
@@ -239,18 +261,21 @@ describe('evaluator', () => {
       const result = evaluator(expression, entity)
       expect(result).to.equal(false)
     })
+
     it('should return false if one property value is false and the other is true', () => {
       const expression = '$(\'myProp\').and($(\'otherProp\')).value()'
       const entity = {myProp: false, otherProp: true}
       const result = evaluator(expression, entity)
       expect(result).to.equal(false)
     })
+
     it('should return true if both values are true', () => {
       const expression = '$(\'myProp\').and($(\'otherProp\')).value()'
       const entity = {myProp: true, otherProp: true}
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return false if both values are false', () => {
       const expression = '$(\'myProp\').and($(\'otherProp\')).value()'
       const entity = {myProp: false, otherProp: false}
@@ -266,12 +291,14 @@ describe('evaluator', () => {
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return false if the property value (2) is less than the given value (9)', () => {
       const expression = '$(\'myProp\').gt(9).value()'
       const entity = {myProp: 2}
       const result = evaluator(expression, entity)
       expect(result).to.equal(false)
     })
+
     it('should return false if the property value is null', () => {
       const expression = '$(\'myProp\').gt(9).value()'
       const entity = {myProp: null}
@@ -287,12 +314,14 @@ describe('evaluator', () => {
       const result = evaluator(expression, entity)
       expect(result).to.equal(false)
     })
+
     it('should return true if the property value (2) is less then than the given value (9)', () => {
       const expression = '$(\'myProp\').lt(9).value()'
       const entity = {myProp: 2}
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return false if the property value is null', () => {
       const expression = '$(\'myProp\').lt(9).value()'
       const entity = {myProp: null}
@@ -308,18 +337,21 @@ describe('evaluator', () => {
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return false if the property value (2) is less than the given value (9)', () => {
       const expression = '$(\'myProp\').ge(9).value()'
       const entity = {myProp: 2}
       const result = evaluator(expression, entity)
       expect(result).to.equal(false)
     })
+
     it('should return true if the property value (2) is equal to the given value (2)', () => {
       const expression = '$(\'myProp\').ge(2).value()'
       const entity = {myProp: 2}
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return false if the property value is null', () => {
       const expression = '$(\'myProp\').ge(9).value()'
       const entity = {myProp: null}
@@ -335,18 +367,21 @@ describe('evaluator', () => {
       const result = evaluator(expression, entity)
       expect(result).to.equal(false)
     })
+
     it('should return true if the property value (2) is less then than the given value (9)', () => {
       const expression = '$(\'myProp\').le(9).value()'
       const entity = {myProp: 2}
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return true if the property value (2) is equal to the given value (2)', () => {
       const expression = '$(\'myProp\').ge(2).value()'
       const entity = {myProp: 2}
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return false if the property value is null', () => {
       const expression = '$(\'myProp\').le(9).value()'
       const entity = {myProp: null}
@@ -362,18 +397,21 @@ describe('evaluator', () => {
       const result = evaluator(expression, entity)
       expect(result).to.equal(false)
     })
+
     it('should return true if the property value (2) is less then than the given value (9)', () => {
       const expression = '$(\'myProp\').le(9).value()'
       const entity = {myProp: 2}
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return true if the property value (2) is equal to the given value (2)', () => {
       const expression = '$(\'myProp\').ge(2).value()'
       const entity = {myProp: 2}
       const result = evaluator(expression, entity)
       expect(result).to.equal(true)
     })
+
     it('should return false if the property value is null', () => {
       const expression = '$(\'myProp\').le(9).value()'
       const entity = {myProp: null}

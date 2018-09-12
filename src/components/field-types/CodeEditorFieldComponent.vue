@@ -14,10 +14,8 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
-        <div class="invalid-message" slot="required">This field is required</div>
-        <div class="invalid-message" slot="validate">Validation failed</div>
-      </field-messages>
+      <form-field-messages :field-id="field.id" :field-state="fieldState">
+      </form-field-messages>
     </div>
   </validate>
 </template>
@@ -25,6 +23,7 @@
 <script>
   import VueForm from 'vue-form'
   import VueCode from 'vue-code'
+  import FormFieldMessages from '../FormFieldMessages'
 
   import 'codemirror/lib/codemirror.css'
   import 'codemirror/mode/htmlmixed/htmlmixed'
@@ -104,14 +103,15 @@
       localValue (value) {
         // Emit value changes to the parent (form)
         this.$emit('input', value)
-        // Emit value changes to trigger the hooks.onValueChange
+        // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
         this.fieldState.$touched = true
       }
     },
     components: {
-      VueCode
+      VueCode,
+      FormFieldMessages
     }
   }
 </script>

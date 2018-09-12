@@ -1,4 +1,4 @@
-import EntityToStateMapper from '@/util/EntityToStateMapper'
+import EntityToFormMapper from '@/util/EntityToFormMapper'
 import td from 'testdouble'
 import api from '@molgenis/molgenis-api-client'
 
@@ -34,7 +34,7 @@ describe('Entity to state mapper', () => {
       }
 
       const result = () => {
-        EntityToStateMapper.generateFormFields(invalidSchema)
+        EntityToFormMapper.generateForm(invalidSchema)
       }
 
       expect(result).to.throw('unknown fieldType (NON_EXISTING_TYPE)')
@@ -42,11 +42,15 @@ describe('Entity to state mapper', () => {
   })
 
   describe('generate form fields and data for a [COMPOUND] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.compoundSchema)
-    const field = fields[0]
+    const data = {
+      'compound-string': 'string value',
+      'compound-int': 1
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.compoundSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [COMPOUND] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
       expect(field.children.length).to.equal(3)
       expect(field.type).to.equal('field-group')
       expect(field.id).to.equal('compound-field')
@@ -64,8 +68,8 @@ describe('Entity to state mapper', () => {
     })
 
     it('should have working required expressions', () => {
-      expect(compoundString.required({'compound-int': 1})).to.equal(true)
-      expect(compoundString.required({'compound-int': 2})).to.equal(false)
+      expect(compoundString.required({'compound-int': 1})).to.equal(false)
+      expect(compoundString.required({'compound-int': 2})).to.equal(true)
     })
 
     it('should have working visible expressions', () => {
@@ -73,18 +77,14 @@ describe('Entity to state mapper', () => {
       expect(compoundString.visible({'nested-compound-string': 'don not show'})).to.equal(false)
     })
 
+    const compoundInt = field.children[0]
     it('should create boolean functions when no expressions are present', () => {
-      const compoundInt = field.children[0]
       expect(compoundInt.validate({})).to.equal(true)
       expect(compoundInt.visible({})).to.equal(true)
       expect(compoundInt.required({})).to.equal(true)
     })
 
     it('should map a [COMPOUND] entity to a form data object', () => {
-      const fields = EntityToStateMapper.generateFormFields(schemas.compoundSchema)
-      const data = {'compound-string': 'string value', 'compound-int': 1}
-
-      const formData = EntityToStateMapper.generateFormData(fields, data)
       const expectedData = {
         'compound-int': 1,
         'nested-compound-enum': undefined,
@@ -93,16 +93,19 @@ describe('Entity to state mapper', () => {
         'compound-string': 'string value'
       }
 
-      expect(formData).to.deep.equal(expectedData)
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [STRING] attribute', () => {
-    it('should map a [STRING] attribute to a form field object', () => {
-      const fields = EntityToStateMapper.generateFormFields(schemas.stringSchema)
+    const data = {
+      'string': 'string value'
+    }
 
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
+    const form = EntityToFormMapper.generateForm(schemas.stringSchema, data)
+    const field = form.formFields[0]
+
+    it('should map a [STRING] attribute to a form field object', () => {
       expect(field.type).to.equal('text')
       expect(field.id).to.equal('string')
       expect(field.label).to.equal('String Field')
@@ -110,44 +113,32 @@ describe('Entity to state mapper', () => {
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
       expect(field.visible()).to.equal(true)
-      expect(field.required({'text': 'not test'})).to.equal(true)
-      expect(field.required({'text': 'test'})).to.equal(false)
+      expect(field.required({'text': 'not test'})).to.equal(false)
+      expect(field.required({'text': 'test'})).to.equal(true)
 
       expect(typeof field.validate).to.equal('function')
       expect(field.validate({'string': 'valid'})).to.equal(true)
       expect(field.validate({'string': 'not-valid'})).to.equal(false)
     })
 
-    it('should map a [STRING] attribute with a visible expression to a form field object ', () => {
-      const fields = EntityToStateMapper.generateFormFields(schemas.stringSchemaWithVisibleExpression)
-
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
-      expect(field.type).to.equal('text')
-      expect(field.id).to.equal('string')
-      expect(field.label).to.equal('String Field')
-      expect(field.description).to.equal('STRING description')
-      expect(field.disabled).to.equal(false)
-      expect(field.readOnly).to.equal(false)
-      expect(field.visible({'string': 'hide me'})).to.deep.equal(false)
-    })
-
     it('should map a [STRING] entity to a form data object', () => {
-      const fields = EntityToStateMapper.generateFormFields(schemas.stringSchema)
-      const data = {string: 'string value'}
-      const formData = EntityToStateMapper.generateFormData(fields, data)
+      const expectedData = {
+        'string': 'string value'
+      }
 
-      expect(formData).to.deep.equal({string: 'string value'})
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [EMAIL] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.emailSchema)
-    const data = {email: 'foobar@molgenis.org'}
+    const data = {
+      'email': 'foobar@molgenis.org'
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.emailSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [EMAIL] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('email')
       expect(field.id).to.equal('email')
       expect(field.label).to.equal('Email Field')
@@ -158,18 +149,23 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [EMAIL] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({email: 'foobar@molgenis.org'})
+      const expectedData = {
+        'email': 'foobar@molgenis.org'
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [TEXT] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.textSchema)
-    const data = {text: 'text value'}
+    const data = {
+      'text': 'text value'
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.textSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [TEXT] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('text-area')
       expect(field.id).to.equal('text')
       expect(field.label).to.equal('Text Field')
@@ -180,17 +176,23 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [TEXT] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({text: 'text value'})
+      const expectedData = {
+        'text': 'text value'
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [BOOLEAN] attribute', () => {
+    const data = {
+      'boolean': false
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.booleanSchema, data)
+    const field = form.formFields[0]
+
     it('should map a [BOOLEAN] attribute to a form field object', done => {
-      const fields = EntityToStateMapper.generateFormFields(schemas.booleanSchema)
-
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('radio')
       expect(field.id).to.equal('boolean')
       expect(field.label).to.equal('Boolean Field')
@@ -202,53 +204,106 @@ describe('Entity to state mapper', () => {
 
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'true', value: 'true', label: 'True'},
-          {id: 'false', value: 'false', label: 'False'}
-        ])
-        done()
-      })
-    })
-
-    it('should map a nillable [BOOLEAN] attribute to a form field object', done => {
-      const fields = EntityToStateMapper.generateFormFields(schemas.booleanSchemaNillable)
-
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
-      expect(field.type).to.equal('radio')
-      expect(field.id).to.equal('boolean')
-      expect(field.label).to.equal('Boolean Field')
-      expect(field.description).to.equal('Boolean description')
-      expect(field.disabled).to.equal(false)
-      expect(field.readOnly).to.equal(false)
-      expect(field.visible()).to.equal(true)
-      expect(typeof field.options).to.equal('function')
-
-      field.options().then(response => {
-        expect(response).to.deep.equal([
-          {id: 'true', value: 'true', label: 'True'},
-          {id: 'false', value: 'false', label: 'False'},
-          {id: 'null', value: 'null', label: 'N/A'}
+          {id: 'true', value: true, label: 'True'},
+          {id: 'false', value: false, label: 'False'}
         ])
         done()
       })
     })
 
     it('should map a [BOOLEAN] entity to a form data object', () => {
-      const fields = EntityToStateMapper.generateFormFields(schemas.booleanSchema)
-      const data = {boolean: false}
-      const formData = EntityToStateMapper.generateFormData(fields, data)
+      const expectedData = {
+        'boolean': false
+      }
 
-      expect(formData).to.deep.equal({boolean: false})
+      expect(form.formData).to.deep.equal(expectedData)
+    })
+
+    it('should map a nillable [BOOLEAN] attribute to a form field object', done => {
+      const form = EntityToFormMapper.generateForm(schemas.booleanSchemaNillable, {})
+      const field = form.formFields[0]
+
+      expect(field.type).to.equal('radio')
+      expect(field.id).to.equal('boolean')
+      expect(field.label).to.equal('Boolean Field')
+      expect(field.description).to.equal('Boolean description')
+      expect(field.disabled).to.equal(false)
+      expect(field.readOnly).to.equal(false)
+      expect(field.visible()).to.equal(true)
+      expect(typeof field.options).to.equal('function')
+
+      field.options().then(response => {
+        expect(response).to.deep.equal([
+          {id: 'true', value: true, label: 'True'},
+          {id: 'false', value: false, label: 'False'},
+          {id: 'null', value: null, label: 'N/A'}
+        ])
+        done()
+      })
+    })
+
+    it('should hide \'N/A\' option for nillable [BOOLEAN] attribute is mapperOptions.showNillableBooleanOption is set to false', done => {
+      const data = null
+      const mapperOptions = {
+        showNillableBooleanOption: false
+      }
+      const form = EntityToFormMapper.generateForm(schemas.booleanSchemaNillable, data, mapperOptions)
+      const field = form.formFields[0]
+
+      expect(field.type).to.equal('radio')
+      expect(field.id).to.equal('boolean')
+      expect(field.visible()).to.equal(true)
+      expect(typeof field.options).to.equal('function')
+
+      field.options().then(response => {
+        expect(response).to.deep.equal([
+          {id: 'true', value: true, label: 'True'},
+          {id: 'false', value: false, label: 'False'}
+        ])
+        done()
+      })
+    })
+
+    it('should use the mapper options.booleanLabels when available ', done => {
+      const options = {
+        booleanLabels: {
+          trueLabel: 'oui',
+          falseLabel: 'non',
+          nillLabel: 'inconnu'
+        }
+      }
+      const form = EntityToFormMapper.generateForm(schemas.booleanSchemaNillable, {}, options)
+      const field = form.formFields[0]
+
+      expect(field.type).to.equal('radio')
+      expect(field.id).to.equal('boolean')
+      expect(field.label).to.equal('Boolean Field')
+      expect(field.description).to.equal('Boolean description')
+      expect(field.disabled).to.equal(false)
+      expect(field.readOnly).to.equal(false)
+      expect(field.visible()).to.equal(true)
+      expect(typeof field.options).to.equal('function')
+
+      field.options().then(response => {
+        expect(response).to.deep.equal([
+          {id: 'true', value: true, label: 'oui'},
+          {id: 'false', value: false, label: 'non'},
+          {id: 'null', value: null, label: 'inconnu'}
+        ])
+        done()
+      })
     })
   })
 
   describe('Generate form fields and data for a [INT] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.intSchema)
-    const data = {integer: 99}
+    const data = {
+      'integer': 99
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.intSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [INT] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('number')
       expect(field.id).to.equal('integer')
       expect(field.label).to.equal('Integer Field')
@@ -259,18 +314,63 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [INT] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({integer: 99})
+      const expectedData = {
+        'integer': 99
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
+    })
+  })
+
+  describe('Generate form fields and data for a [INT] attribute having a range property', () => {
+    const form = EntityToFormMapper.generateForm(schemas.intSchemaWithRange, {})
+    const field = form.formFields[0]
+
+    it('should map a [INT] attribute to a form field object', () => {
+      expect(field.type).to.equal('number')
+      expect(field.id).to.equal('integer')
+      expect(field.range).to.deep.equal({
+        min: 1,
+        max: 45
+      })
+    })
+  })
+
+  describe('Generate form fields and data for a [INT] attribute having only the min part of the range property', () => {
+    const form = EntityToFormMapper.generateForm(schemas.intSchemaWithMinRange, {})
+    const field = form.formFields[0]
+
+    it('should map a [INT] attribute to a form field object', () => {
+      expect(field.type).to.equal('number')
+      expect(field.id).to.equal('integer')
+      expect(field.range).to.deep.equal({
+        min: 1
+      })
+    })
+  })
+
+  describe('Generate form fields and data for a [INT] attribute having only the max part of the range property', () => {
+    const form = EntityToFormMapper.generateForm(schemas.intSchemaWithMaxRange, {})
+    const field = form.formFields[0]
+
+    it('should map a [INT] attribute to a form field object', () => {
+      expect(field.type).to.equal('number')
+      expect(field.id).to.equal('integer')
+      expect(field.range).to.deep.equal({
+        max: 45
+      })
     })
   })
 
   describe('Generate form fields and data for a [LONG] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.longSchema)
-    const data = {long: 2147483648} // max java int + 1
+    const data = {
+      'long': 2147483648
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.longSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [LONG] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('number')
       expect(field.id).to.equal('long')
       expect(field.label).to.equal('Long Field')
@@ -281,18 +381,23 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [LONG] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({long: 2147483648})
+      const expectedData = {
+        'long': 2147483648
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [DECIMAL] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.decimalSchema)
-    const data = {decimal: 0.205}
+    const data = {
+      'decimal': 0.205
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.decimalSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [DECIMAL] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('number')
       expect(field.id).to.equal('decimal')
       expect(field.label).to.equal('Decimal Field')
@@ -303,15 +408,17 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [DECIMAL] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({decimal: 0.205})
+      const expectedData = {
+        'decimal': 0.205
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [FILE] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.fileSchema)
     const data = {
-      file: {
+      'file': {
         'href': '/api/v1/sys_FileMeta/aaa123bbb',
         'id': 'aaa123bbb',
         'filename': 'foo.txt',
@@ -322,9 +429,10 @@ describe('Entity to state mapper', () => {
       }
     }
 
+    const form = EntityToFormMapper.generateForm(schemas.fileSchema, data)
+    const field = form.formFields[0]
+
     it('should map a [FILE] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('file')
       expect(field.id).to.equal('file')
       expect(field.label).to.equal('File Field')
@@ -335,20 +443,23 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [FILE] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({
-        file: 'foo.txt'
-      })
+      const expectedData = {
+        'file': 'foo.txt'
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [HTML] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.htmlSchema)
-    const data = {html: '<p>gloves on</p>'}
+    const data = {
+      'html': '<p>gloves on</p>'
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.htmlSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [HTML] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('html')
       expect(field.id).to.equal('html')
       expect(field.label).to.equal('Html Field')
@@ -359,18 +470,23 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [HTML] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({html: '<p>gloves on</p>'})
+      const expectedData = {
+        'html': '<p>gloves on</p>'
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [SCRIPT] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.scriptSchema)
-    const data = {script: 'print("Python is awesome")'}
+    const data = {
+      'script': 'print("Python is awesome")'
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.scriptSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [SCRIPT] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('script')
       expect(field.id).to.equal('script')
       expect(field.label).to.equal('Script Field')
@@ -381,18 +497,23 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [SCRIPT] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({script: 'print("Python is awesome")'})
+      const expectedData = {
+        'script': 'print("Python is awesome")'
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [HYPERLINK] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.hyperlinkSchema)
-    const data = {hyperlink: 'https://google.com'}
+    const data = {
+      'hyperlink': 'https://google.com'
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.hyperlinkSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [HYPERLINK] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('url')
       expect(field.id).to.equal('hyperlink')
       expect(field.label).to.equal('Hyperlink Field')
@@ -403,17 +524,23 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [HYPERLINK] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({hyperlink: 'https://google.com'})
+      const expectedData = {
+        'hyperlink': 'https://google.com'
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [ENUM] attribute', () => {
-    it('should map a [ENUM] attribute to a form field object', done => {
-      const fields = EntityToStateMapper.generateFormFields(schemas.enumSchema)
+    const data = {
+      'enum': 'enum1'
+    }
 
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
+    const form = EntityToFormMapper.generateForm(schemas.enumSchema, data)
+    const field = form.formFields[0]
+
+    it('should map a [ENUM] attribute to a form field object', done => {
       expect(field.type).to.equal('radio')
       expect(field.id).to.equal('enum')
       expect(field.label).to.equal('Enum Field')
@@ -434,11 +561,18 @@ describe('Entity to state mapper', () => {
       })
     })
 
-    it('should map a nillable [ENUM] attribute to a form field object', done => {
-      const fields = EntityToStateMapper.generateFormFields(schemas.enumSchemaNillable)
+    it('should map a [ENUM] entity to a form data object', () => {
+      const expectedData = {
+        'enum': 'enum1'
+      }
 
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
+      expect(form.formData).to.deep.equal(expectedData)
+    })
+
+    it('should map a nillable [ENUM] attribute to a form field object', done => {
+      const form = EntityToFormMapper.generateForm(schemas.enumSchemaNillable, {})
+      const field = form.formFields[0]
+
       expect(field.type).to.equal('radio')
       expect(field.id).to.equal('enum')
       expect(field.label).to.equal('Enum Field')
@@ -457,23 +591,17 @@ describe('Entity to state mapper', () => {
         done()
       })
     })
-
-    it('should map a [ENUM] entity to a form data object', () => {
-      const fields = EntityToStateMapper.generateFormFields(schemas.enumSchema)
-      const data = {enum: 'enum1'}
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-
-      expect(formData).to.deep.equal({enum: 'enum1'})
-    })
   })
 
   describe('Generate form fields and data for a [DATE] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.dateSchema)
-    const data = {date: '1947/04/07'}
+    const data = {
+      'date': '1947/04/07'
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.dateSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [DATE] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('date')
       expect(field.id).to.equal('date')
       expect(field.label).to.equal('Date Field')
@@ -484,18 +612,23 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [DATE] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({date: '1947/04/07'})
+      const expectedData = {
+        'date': '1947/04/07'
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [DATE_TIME] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.dateTimeSchema)
-    const data = {datetime: '1985-08-12T11:12:13+0500'}
+    const data = {
+      'datetime': '1985-08-12T11:12:13+0500'
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.dateTimeSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [DATE_TIME] attribute to a form field object', () => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('date-time')
       expect(field.id).to.equal('datetime')
       expect(field.label).to.equal('Date and time Field')
@@ -506,50 +639,86 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [DATE_TIME] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({datetime: '1985-08-12T11:12:13+0500'})
+      const expectedData = {
+        'datetime': '1985-08-12T11:12:13+0500'
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [CATEGORICAL] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.categoricalSchema)
-    const data = {categorical: {id: 'ref1', label: 'ref1'}}
+    const data = {
+      'categorical': {
+        value: 'ref1', label: 'ref1'
+      }
+    }
 
-    it('should map a [CATEGORICAL] attribute to a form field object', done => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
-      expect(field.type).to.equal('radio')
-      expect(field.id).to.equal('categorical')
-      expect(field.label).to.equal('Categorical Field')
-      expect(field.description).to.equal('Categorical description')
-      expect(field.disabled).to.equal(false)
-      expect(field.readOnly).to.equal(false)
-      expect(field.visible()).to.equal(true)
-      expect(typeof field.options).to.equal('function')
+    describe('when categorical options are not part of the response', () => {
+      const form = EntityToFormMapper.generateForm(schemas.categoricalSchema, data)
+      const field = form.formFields[0]
 
-      field.options().then(response => {
-        expect(response).to.deep.equal([
-          {id: 'ref1', value: 'ref1', label: 'ref1'},
-          {id: 'ref2', value: 'ref2', label: 'ref2'},
-          {id: 'ref3', value: 'ref3', label: 'ref3'}
-        ])
-        done()
+      it('should map a [CATEGORICAL] attribute to a form field object', done => {
+        expect(field.type).to.equal('radio')
+        expect(field.id).to.equal('categorical')
+        expect(field.label).to.equal('Categorical Field')
+        expect(field.description).to.equal('Categorical description')
+        expect(field.disabled).to.equal(false)
+        expect(field.readOnly).to.equal(false)
+        expect(field.visible()).to.equal(true)
+        expect(typeof field.options).to.equal('function')
+
+        field.options().then(response => {
+          expect(response).to.deep.equal([
+            {id: 'ref1', value: 'ref1', label: 'ref1'},
+            {id: 'ref2', value: 'ref2', label: 'ref2'},
+            {id: 'ref3', value: 'ref3', label: 'ref3'}
+          ])
+          done()
+        })
+      })
+
+      it('should map a [CATEGORICAL] entity to a form data object', () => {
+        const expectedData = {
+          'categorical': 'ref1'
+        }
+
+        expect(form.formData).to.deep.equal(expectedData)
       })
     })
 
-    it('should map a [CATEGORICAL] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({categorical: 'ref1'})
+    describe('when categorical options are included in the response', () => {
+      const form = EntityToFormMapper.generateForm(schemas.categoricalSchemaIncludingOptions, data)
+      const field = form.formFields[0]
+
+      it('should map a [CATEGORICAL] attribute to a form field object', done => {
+        expect(field.type).to.equal('radio')
+        expect(field.id).to.equal('categorical')
+        expect(typeof field.options).to.equal('function')
+
+        field.options().then(response => {
+          expect(response).to.deep.equal([
+            {id: 'ref1', value: 'ref1', label: 'label1'},
+            {id: 'ref2', value: 'ref2', label: 'label2'}
+          ])
+          done()
+        })
+      })
     })
   })
 
   describe('Generate form fields and data for a [CATEGORICAL_MREF] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.categoricalMrefSchema)
-    const data = {categorical_mref: [{id: 'ref1', label: 'label1'}, {id: 'ref2', label: 'label2'}]}
+    const data = {
+      'categorical_mref': [
+        {value: 'ref1', label: 'label2'},
+        {value: 'ref2', label: 'label2'}
+      ]
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.categoricalMrefSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [CATEGORICAL_MREF] attribute to a form field object', done => {
-      expect(fields.length).to.equal(1)
-      const field = fields[0]
       expect(field.type).to.equal('checkbox')
       expect(field.id).to.equal('categorical_mref')
       expect(field.label).to.equal('Categorical MREF Field')
@@ -570,20 +739,26 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [CATEGORICAL_MREF] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({categorical_mref: ['ref1', 'ref2']})
+      const expectedData = {
+        'categorical_mref': ['ref1', 'ref2']
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [MREF] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.mrefSchema)
-    const field = fields[0]
-    const data = {'mref-field': [{id: 'ref1', label: 'label1'}]}
+    const data = {
+      'mref': [
+        {value: 'ref1', label: 'label2'}
+      ]
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.mrefSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [MREF] attribute to a form field object', done => {
-      expect(fields.length).to.equal(1)
-      expect(field.type).to.equal('multi-select')
-      expect(field.id).to.equal('mref-field')
+      expect(field.id).to.equal('mref')
       expect(field.label).to.equal('MREF Field')
       expect(field.description).to.equal('MREF description')
       expect(field.disabled).to.equal(false)
@@ -612,18 +787,25 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [MREF] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({'mref-field': ['ref1']})
+      const expectedData = {
+        'mref': ['ref1']
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [XREF] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.xrefSchema)
-    const field = fields[0]
-    const data = {xref: {id: 'ref1', label: 'label1'}}
+    const data = {
+      'xref': {
+        value: 'ref1', label: 'label2'
+      }
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.xrefSchema, data)
+    const field = form.formFields[0]
 
     it('should map a [XREF] attribute to a form field object', done => {
-      expect(fields.length).to.equal(1)
       expect(field.type).to.equal('single-select')
       expect(field.id).to.equal('xref')
       expect(field.label).to.equal('XREF Field')
@@ -652,18 +834,27 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [XREF] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({xref: 'ref1'})
+      const expectedData = {
+        'xref': 'ref1'
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 
   describe('Generate form fields and data for a [ONE_TO_MANY] attribute', () => {
-    const fields = EntityToStateMapper.generateFormFields(schemas.oneToManySchema)
-    const field = fields[0]
-    const data = {one_to_many: [{id: 'ref1'}, {id: 'ref2'}, {id: 'ref3'}]}
+    const data = {
+      'one_to_many': [
+        {value: 'ref1'},
+        {value: 'ref2'},
+        {value: 'ref3'}
+      ]
+    }
+
+    const form = EntityToFormMapper.generateForm(schemas.oneToManySchema, data)
+    const field = form.formFields[0]
 
     it('should map a [ONE_TO_MANY] attribute to a form field object', done => {
-      expect(fields.length).to.equal(1)
       expect(field.type).to.equal('multi-select')
       expect(field.id).to.equal('one_to_many')
       expect(field.label).to.equal('One to many Field')
@@ -683,8 +874,11 @@ describe('Entity to state mapper', () => {
     })
 
     it('should map a [ONE_TO_MANY] entity to a form data object', () => {
-      const formData = EntityToStateMapper.generateFormData(fields, data)
-      expect(formData).to.deep.equal({one_to_many: ['ref1', 'ref2', 'ref3']})
+      const expectedData = {
+        'one_to_many': ['ref1', 'ref2', 'ref3']
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
     })
   })
 })

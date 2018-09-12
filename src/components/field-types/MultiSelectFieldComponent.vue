@@ -1,4 +1,4 @@
-<template>
+  <template>
   <validate :state="fieldState" :custom="{'validate': isValid}">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
@@ -18,11 +18,11 @@
                   :multiple="true">
 
           <div slot="no-options">
-            <small v-if="localValue">Option '{{ localValue }}' not found.</small>
+            <small>{{ noOptionsMessage }}</small>
           </div>
         </v-select>
 
-        <div v-if="!field.disabled" class="input-group-append">
+        <div v-if="!field.disabled && allowAddingOptions" class="input-group-append">
           <button @click="addOptionClicked($event)" class="btn btn-outline-secondary" type="button">
             <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
@@ -33,10 +33,8 @@
         {{ field.description }}
       </small>
 
-      <field-messages :name="field.id" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
-        <div slot="required">This field is required</div>
-        <div slot="validate">Validation failed</div>
-      </field-messages>
+      <form-field-messages :field-id="field.id" :field-state="fieldState">
+      </form-field-messages>
 
     </div>
   </validate>
@@ -45,6 +43,7 @@
 <script>
   import VueForm from 'vue-form'
   import vSelect from 'vue-select'
+  import FormFieldMessages from '../FormFieldMessages'
 
   import { FormField } from '../../flow.types'
 
@@ -76,6 +75,15 @@
       eventBus: {
         type: Object,
         required: true
+      },
+      allowAddingOptions: {
+        type: Boolean,
+        required: false,
+        default: false
+      },
+      noOptionsMessage: {
+        type: String,
+        required: false
       }
     },
     data () {
@@ -97,15 +105,17 @@
         this.eventBus.$emit('addOption', this.afterOptionCreation, event, this.field)
       },
       afterOptionCreation (newOption) {
-        this.options.push(newOption)
-        this.localValue.push(newOption)
+        this.options = this.options.concat(newOption)
+        this.localValue = this.localValue.concat(newOption)
       }
     },
     watch: {
-      localValue (values) {
+      localValue (newValues) {
         // Emit value changes to the parent (form)
-        this.$emit('input', values.map(value => value.id))
-        // Emit value changes to trigger the hooks.onValueChange
+        this.$emit('input', newValues.map(value => value.id))
+        this.$emit('focus')
+        this.$emit('blur')
+        // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
       }
@@ -114,18 +124,20 @@
       // If there is a value set, fetch an initial list of options
       if (this.value.length > 0) {
         // Call the field.options with the initial array of values
+        const that = this
         this.field.options(this.value).then(response => {
-          this.options = response
+          that.options = response
 
           // Replace localValue with the entire object so vue-select can use the label property
           // Filter the list of the options based on the actual selected IDs
           // a like query can return more then just your IDs
-          this.localValue = this.options.filter(option => this.value.includes(option.id))
+          that.localValue = that.options.filter(option => that.value.includes(option.id))
         })
       }
     },
     components: {
-      vSelect
+      vSelect,
+      FormFieldMessages
     }
   }
 </script>
