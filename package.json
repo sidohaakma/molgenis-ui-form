@@ -37,7 +37,7 @@
     "moment": "^2.20.1",
     "vue-code": "^1.2.3",
     "vue-flatpickr-component": "^7.0.4",
-    "vue-form": "^4.8.1",
+    "vue-form": "^4.10.1",
     "vue-select": "ConnorStroomberg/vue-select.git#release/patch-for-update-issue"
   },
   "peerDependencies": {
