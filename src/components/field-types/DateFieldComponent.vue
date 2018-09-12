@@ -134,12 +134,7 @@
       localValue (value) {
         // Only emit a data change if the date is valid
         if (this.isValidDateTime(value)) {
-          // Emit value changes to the parent (form)
-          // Always emit a date value, not a string
-          this.$emit('input', this.getDateFromValue(value).toDate())
-
-          // Emit value changes to trigger the onValueChange
-          // Do not use input event for this to prevent unwanted behavior
+          this.$emit('input', value)
           this.$emit('dataChange')
         }
       }
