@@ -1,6 +1,6 @@
 {
   "name": "@molgenis/molgenis-ui-form",
-  "version": "0.11.4",
+  "version": "0.12.0",
   "description": "Library for generating HTML web forms",
   "author": "Mark-de-Haan <markdehaan90@gmail.com>",
   "keywords": [
