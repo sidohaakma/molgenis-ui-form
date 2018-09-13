@@ -93,9 +93,9 @@ module.exports = {
   'Fill out date field using picker': function (browser) {
     browser.options.desiredCapabilities.name = 'Fill out date field using picker'
 
-    browser.expect.element('#date').to.be.visible
+    browser.expect.element('fieldset#date-fs').to.be.visible
 
-    browser.click('#date')
+    browser.click('#date-fs > div > div > div.input-group > input.form-control.flatpickr-input.input')
     browser.expect.element('.flatpickr-calendar').to.be.visible
 
     browser.click('.today')
@@ -123,9 +123,9 @@ module.exports = {
   'Fill out date time field using picker': function (browser) {
     browser.options.desiredCapabilities.name = 'Fill out date time field using picker'
 
-    browser.expect.element('#date_time').to.be.visible
+    browser.expect.element('fieldset#date_time-fs').to.be.visible
 
-    browser.click('#date_time')
+    browser.click('fieldset#date_time-fs')
     browser.expect.element('body > div.flatpickr-calendar.hasTime.animate.open').to.be.visible
 
     browser.click('body > div.flatpickr-calendar.hasTime.animate.open > div.flatpickr-innerContainer > div > div.flatpickr-days > div > span.flatpickr-day.today')

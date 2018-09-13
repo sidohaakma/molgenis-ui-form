@@ -102,7 +102,10 @@
         config: {
           wrap: true,
           allowInput: true,
-          enableTime: this.isTimeIncluded
+          altInput: true,
+          enableTime: this.isTimeIncluded,
+          dateFormat: this.isTimeIncluded ? 'Z' : 'Y-m-d',
+          altFormat: this.isTimeIncluded ? 'Y-m-d h:i K' : 'Y-m-d'
         }
       }
     },
@@ -115,7 +118,7 @@
        * @returns {Moment} A date object created by moment
        */
       getDateFromValue (dateString) {
-        const format = this.isTimeIncluded ? 'YYYY-MM-DD HH:mm' : 'YYYY-MM-DD'
+        const format = this.isTimeIncluded ? moment.ISO_8601 : 'YYYY-MM-DD'
         return moment(dateString, format, true)
       },
 
