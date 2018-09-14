@@ -33,7 +33,7 @@ module.exports = {
 
     browser.setValue('#integer', 1000)
     browser.expect.element('#message-span').to.be.visible
-    browser.expect.element('#message-span').text.to.contain('"integer":"1000"')
+    browser.expect.element('#message-span').text.to.contain('"integer":1000')
 
     browser.click('#boolean-0')
     browser.expect.element('#message-span').to.be.visible
