@@ -46,9 +46,8 @@
           {
             id: 'integer-example',
             label: 'Integer Field',
-            description: 'Integer is a number sub type',
-            type: 'number',
-            subType: 'integer',
+            description: 'Integer type',
+            type: 'integer',
             visible: () => true,
             required: () => false,
             validate: () => true

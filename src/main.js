@@ -4,7 +4,6 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import ExamplePage from './example/ExamplePage'
 import FormDemo from './example/FormDemo'
-import NumberExample from './example/number-field/NumberExample'
 import IntegerExample from './example/number-field/IntegerExample'
 import LongExample from './example/number-field/LongExample'
 import DecimalExample from './example/number-field/DecimalExample'
@@ -21,10 +20,6 @@ const router = new Router({
     {
       path: '/all',
       component: FormDemo
-    },
-    {
-      path: '/number/',
-      component: NumberExample
     },
     {
       path: '/integer/',

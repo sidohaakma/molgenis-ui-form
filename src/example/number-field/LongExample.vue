@@ -46,9 +46,8 @@
           {
             id: 'long-example',
             label: 'Long Field',
-            description: 'Long is a number sub type',
-            type: 'number',
-            subType: 'long',
+            description: 'Long type',
+            type: 'long',
             visible: () => true,
             required: () => false,
             validate: () => true

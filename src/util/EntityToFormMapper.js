@@ -6,8 +6,7 @@ import type {
   HtmlFieldType,
   RefEntityType,
   MapperOptions,
-  MapperSettings,
-  SubType
+  MapperSettings
 } from '../flow.types'
 
 import evaluator from './helpers/evaluator'
@@ -179,9 +178,11 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
     case 'MREF':
       return 'multi-select'
     case 'INT':
+      return 'integer'
     case 'DECIMAL':
+      return 'decimal'
     case 'LONG':
-      return 'number'
+      return 'long'
     case 'TEXT':
       return 'text-area'
     case 'SCRIPT':
@@ -247,26 +248,6 @@ const isValid = (attribute): ((?Object) => boolean) => {
   return expression ? (data) => evaluator(expression, data) : () => true
 }
 
-const entityTypeToSubFieldType = (entityFieldType: EntityFieldType): SubType | null => {
-  let subType
-
-  switch (entityFieldType) {
-    case 'INT':
-      subType = 'integer'
-      break
-    case 'LONG':
-      subType = 'long'
-      break
-    case 'DECIMAL':
-      subType = 'decimal'
-      break
-    default:
-      subType = null
-  }
-
-  return subType
-}
-
 /**
  * Determine if field should be disabled
  * @param attribute
@@ -306,11 +287,6 @@ const generateFormSchemaField = (attribute, mapperOptions: MapperSettings): Form
     readOnly: isDisabled,
     visible: isVisible(attribute),
     validate: isValid(attribute)
-  }
-
-  const subType = entityTypeToSubFieldType(attribute.fieldType)
-  if (subType) {
-    fieldProperties = {...fieldProperties, subType}
   }
 
   if (attribute.fieldType === 'COMPOUND') {

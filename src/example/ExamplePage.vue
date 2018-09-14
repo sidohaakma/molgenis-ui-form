@@ -10,9 +10,6 @@
         <router-link to="/all" class="nav-link">All-fields</router-link>
       </li>
       <li class="nav-item">
-        <router-link to="/number" class="nav-link">Number</router-link>
-      </li>
-      <li class="nav-item">
         <router-link to="/integer" class="nav-link">Integer</router-link>
       </li>
       <li class="nav-item">

@@ -46,9 +46,8 @@
           {
             id: 'decimal-example',
             label: 'Decimal Field',
-            description: 'Decimal is a number sub type',
-            type: 'number',
-            subType: 'decimal',
+            description: 'Decimal type',
+            type: 'decimal',
             visible: () => true,
             required: () => false,
             validate: () => true

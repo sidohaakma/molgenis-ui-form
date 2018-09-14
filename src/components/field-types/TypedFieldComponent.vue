@@ -6,7 +6,7 @@
       <input
         :id="field.id"
         v-model="localValue"
-        :type="field.type"
+        :type="inputType"
         :name="field.id"
         class="form-control"
         :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
@@ -80,7 +80,7 @@
         /*
         Do not convert NaN field to number to allow for validation to generate warning
          */
-        if (this.field.type === 'number' && !Number.isNaN(value)) {
+        if (this.isNumberField(this.field) && !Number.isNaN(value)) {
           this.$emit('input', Number(value))
         } else {
           this.$emit('input', value)
@@ -94,15 +94,15 @@
     computed: {
       customValidation () {
         let validate = {'validate': this.isValid}
-        if (this.field.type === 'number') {
-          if (this.field.subType === 'integer') {
+        if (this.isNumberField(this.field)) {
+          if (this.field.type === 'integer') {
             validate = { ...validate, integer: this.isCompatibleWithJavaInt() }
-          } else if (this.field.subType === 'long') {
+          } else if (this.field.type === 'long') {
             validate = { ...validate, long: this.isCompatibleWithJavaLong() }
           }
         }
 
-        if (this.field.type === 'number' && this.field.range) {
+        if (this.isNumberField(this.field) && this.field.range) {
           validate = { ...validate, range: this.isWithinRange }
         }
 
@@ -110,9 +110,10 @@
       },
       stepSize () {
         // Conditionally add step size, return false to omit step attribute
-        const fieldType = this.field.type
-        const fieldSubType = this.field.subType
-        return fieldType === 'number' && (fieldSubType === 'integer' || fieldSubType === 'long') ? 1 : false
+        return (this.field.type === 'integer' || this.field.type === 'long') ? 1 : false
+      },
+      inputType () {
+        return this.isNumberField(this.field) ? 'number' : this.field.type
       }
     },
     methods: {
@@ -131,6 +132,9 @@
       },
       isCompatibleWithJavaLong () {
         return Number.isInteger(this.value)
+      },
+      isNumberField (field) {
+        return field.type === 'integer' || field.type === 'long' || field.type === 'decimal'
       }
     },
     created () {

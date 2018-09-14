@@ -210,12 +210,11 @@ describe('TypedFieldComponent unit tests', () => {
     })
   })
 
-  describe('TypedFieldComponent number subtype integer', () => {
+  describe('TypedFieldComponent with integer type', () => {
     let propsData = {
       field: {
         id: 'typed-field',
-        type: 'number',
-        subType: 'integer'
+        type: 'integer'
       },
       fieldState: {
         $touched: false,
@@ -247,12 +246,11 @@ describe('TypedFieldComponent unit tests', () => {
     })
   })
 
-  describe('TypedFieldComponent number subtype long', () => {
+  describe('TypedFieldComponent with long type', () => {
     let propsData = {
       field: {
         id: 'typed-field',
-        type: 'number',
-        subType: 'long'
+        type: 'long'
       },
       fieldState: {
         $touched: false,
@@ -280,12 +278,11 @@ describe('TypedFieldComponent unit tests', () => {
     })
   })
 
-  describe('TypedFieldComponent number subtype decimal', () => {
+  describe('TypedFieldComponent with decimal type', () => {
     let propsData = {
       field: {
         id: 'typed-field',
-        type: 'number',
-        subType: 'decimal'
+        type: 'decimal'
       },
       fieldState: {
         $touched: false,

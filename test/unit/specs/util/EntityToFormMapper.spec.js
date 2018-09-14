@@ -304,7 +304,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [INT] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
+      expect(field.type).to.equal('integer')
       expect(field.id).to.equal('integer')
       expect(field.label).to.equal('Integer Field')
       expect(field.description).to.equal('Integer description')
@@ -327,8 +327,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [INT] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
-      expect(field.subType).to.equal('integer')
+      expect(field.type).to.equal('integer')
       expect(field.id).to.equal('integer')
       expect(field.range).to.deep.equal({
         min: 1,
@@ -342,8 +341,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [INT] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
-      expect(field.subType).to.equal('integer')
+      expect(field.type).to.equal('integer')
       expect(field.id).to.equal('integer')
       expect(field.range).to.deep.equal({
         min: 1
@@ -356,8 +354,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [INT] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
-      expect(field.subType).to.equal('integer')
+      expect(field.type).to.equal('integer')
       expect(field.id).to.equal('integer')
       expect(field.range).to.deep.equal({
         max: 45
@@ -374,8 +371,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [LONG] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
-      expect(field.subType).to.equal('long')
+      expect(field.type).to.equal('long')
       expect(field.id).to.equal('long')
       expect(field.label).to.equal('Long Field')
       expect(field.description).to.equal('Long description')
@@ -402,8 +398,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [DECIMAL] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
-      expect(field.subType).to.equal('decimal')
+      expect(field.type).to.equal('decimal')
       expect(field.id).to.equal('decimal')
       expect(field.label).to.equal('Decimal Field')
       expect(field.description).to.equal('Decimal description')

@@ -155,6 +155,9 @@ We support most HTML input types like number, text, and email. Below is a list o
 | radios | A list of radio buttons |
 | single-select | A Vue Multiselect dropdown which supports asynchronous and synchronous option lists
 | number | A HTML5 number input |
+| integer | A HTML5 number input, with step size set to 1 and may not include a fraction and must lie between --2147483648 and 2147483647
+| long |  A HTML5 number input, Long may not include a fraction and should fit into javascript number type.
+| decimal | A HTML5 number input, may include a fraction
 | text-area | A textarea HTML element |
 | date | A Vue Flatpickr Date component |
 | date-time | A Vue Flatpickr Date component with 'enableTime = true' |
@@ -165,25 +168,6 @@ We support most HTML input types like number, text, and email. Below is a list o
 | password | A HTML5 password input |
 | file | A HTML5 file input |
 | field-group | A type that is used to nest other inputs |
-
-#### Sub types
-The `number` type can optionally be expended with a sub type.
-`subtype` must be one of  `integer`, `long` or `decimal`. 
-
-Adding the subtype add more specific form validation. 
-- Integer subtype may not include a fraction and must lie between --2147483648 and 2147483647  .
-- Long subtype may not include a fraction and fit into javascript number type.
-- Decimal subtype may include fractional part
-
-Number subtype example: 
-```json
-{
-  "id": "integer-example",
-  "label": "Integer Field",
-  "type": "number",
-  "subType": "integer"
-}
-```
 
 
 
