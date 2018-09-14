@@ -7,6 +7,8 @@ export type EntityFieldType = 'BOOL' | 'CATEGORICAL' | 'ENUM' | 'XREF' | 'MREF' 
 export type HtmlFieldType = 'radio' | 'select' | 'number' | 'text-area' | 'date' | 'date-time' | 'checkbox' |
   'text' | 'url' | 'email' | 'file' | 'field-group' | 'multi-select' | 'single-select' | 'script' | 'html'
 
+export type MapperMode = 'UPDATE' | 'CREATE'
+
 export type SubType = 'integer' | 'long' | 'decimal'
 
 export type FieldOption = {
@@ -37,13 +39,30 @@ export type RefEntityType = {
   writable?: boolean
 }
 
+/**
+ * Optional settings object, allows user to tune the mapper, all fields are optional
+ */
 export type MapperOptions = {
+  mapperMode?: MapperMode,
   booleanLabels?: {
     trueLabel: string,
     falseLabel: string,
     nillLabel: string
   },
   showNillableBooleanOption?: boolean
+}
+
+/**
+ * Construct to store mapper settings, all attributes are non optional.
+ */
+export type MapperSettings = {
+  mapperMode: MapperMode,
+  booleanLabels: {
+    trueLabel: string,
+    falseLabel: string,
+    nillLabel: string
+  },
+  showNillableBooleanOption: boolean
 }
 
 export type FormComponentOptions = {

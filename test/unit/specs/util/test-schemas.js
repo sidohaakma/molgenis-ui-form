@@ -766,3 +766,46 @@ export const oneToManySchema = {
     }
   ]
 }
+
+export const autoIdSchema = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': true,
+      'description': 'automatically generated internal id, only for internal use.',
+      'fieldType': 'STRING',
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/id',
+      'isAggregatable': false,
+      'label': 'id',
+      'labelAttribute': false,
+      'lookupAttribute': false,
+      'maxLength': 255,
+      'name': 'id',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': false
+    }
+  ]
+}
+
+export const createRowSchema = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'STRING',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true
+    }
+  ]
+}
