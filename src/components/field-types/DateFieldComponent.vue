@@ -103,8 +103,7 @@
           wrap: true,
           allowInput: true,
           enableTime: this.isTimeIncluded,
-          dateFormat: this.isTimeIncluded ? 'Z' : 'Y-m-d',
-          altFormat: this.isTimeIncluded ? 'Y-m-d h:i K' : 'Y-m-d'
+          dateFormat: this.isTimeIncluded ? 'Z' : 'Y-m-d'
         }
       }
     },

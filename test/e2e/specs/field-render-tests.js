@@ -96,6 +96,7 @@ module.exports = {
     browser.expect.element('#date').to.be.visible
 
     browser.click('#date')
+    browser.pause(500)
     browser.expect.element('.flatpickr-calendar').to.be.visible
 
     browser.click('.today')
