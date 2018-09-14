@@ -256,7 +256,7 @@ for example
 ```js
 {
   id: 'example-number-with-range',
-  type: 'number',
+  type: 'integer' | 'long',
   range: {
     min: 0,
     max: 13
@@ -285,9 +285,9 @@ const fields = [
     validate: (formData) => true
   },
   {
-    type: 'number',
-    id: 'example-number-field',
-    label: 'Example number field',
+    type: 'integer',
+    id: 'example-integer-field',
+    label: 'Example integer field',
     description: 'This field is shown if "example-text-field" contains the text "show"',
     required: (formData) => true,
     disabled: false,

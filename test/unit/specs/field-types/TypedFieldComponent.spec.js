@@ -32,12 +32,16 @@ describe('TypedFieldComponent unit tests', () => {
       inputDebounceTime: 0
     }
 
-    const wrapper = mount(TypedFieldComponent,
-      {
-        propsData: propsData,
-        stubs: {'formFieldMessages': '<div class="form-control-feedback"><div class="invalid-message">This field is required</div></div>'}
-      }
-    )
+    let wrapper
+
+    beforeEach(() => {
+      wrapper = mount(TypedFieldComponent,
+        {
+          propsData: propsData,
+          stubs: {'formFieldMessages': '<div class="form-control-feedback"><div class="invalid-message">This field is required</div></div>'}
+        }
+      )
+    })
 
     it('should load the component with "TypedFieldComponent" as a name', () => {
       expect(TypedFieldComponent.name).to.equal('TypedFieldComponent')
@@ -113,12 +117,12 @@ describe('TypedFieldComponent unit tests', () => {
     })
   })
 
-  describe('TypedFieldComponent with type number', () => {
+  describe('TypedFieldComponent with type integer', () => {
     const field = {
       id: 'typed-field',
       label: 'Typed Field',
       description: 'This is a field that supports many types',
-      type: 'number',
+      type: 'integer',
       disabled: false,
       range: {
         min: 1,
@@ -141,21 +145,33 @@ describe('TypedFieldComponent unit tests', () => {
       isValid: true
     }
 
-    const wrapper = mount(TypedFieldComponent,
-      {
-        propsData: propsData,
-        stubs: {'fieldMessages': '<div>This field is required</div>'}
-      }
-    )
+    let wrapper
+
+    beforeEach(() => {
+      wrapper = mount(TypedFieldComponent,
+        {
+          propsData: propsData,
+          stubs: {'fieldMessages': '<div>This field is required</div>'}
+        }
+      )
+    })
+
+    it('should emit an updated integer if value us valid integer on change', (done) => {
+      wrapper.setData({localValue: '1'})
+      setTimeout(function () {
+        expect(wrapper.emitted().input[0]).to.deep.equal([1])
+        done()
+      }, 1000)
+    })
 
     it('should render an input of type number', () => {
       const input = wrapper.find('input')
       expect(input.element.type).to.equal('number')
     })
 
-    it('should return false for stepSize to exclude the set attribute', () => {
+    it('should return 1 for integer stepSize', () => {
       const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-      expect(wrapper.vm.stepSize).to.equal(false)
+      expect(wrapper.vm.stepSize).to.equal(1)
     })
   })
 
@@ -163,7 +179,7 @@ describe('TypedFieldComponent unit tests', () => {
     let propsData = {
       field: {
         id: 'typed-field',
-        type: 'number'
+        type: 'long'
       },
       fieldState: {
         $touched: false,
