@@ -102,7 +102,8 @@
         config: {
           wrap: true,
           allowInput: true,
-          enableTime: this.isTimeIncluded
+          enableTime: this.isTimeIncluded,
+          dateFormat: this.isTimeIncluded ? 'Z' : 'Y-m-d'
         }
       }
     },
@@ -115,7 +116,7 @@
        * @returns {Moment} A date object created by moment
        */
       getDateFromValue (dateString) {
-        const format = this.isTimeIncluded ? 'YYYY-MM-DD HH:mm' : 'YYYY-MM-DD'
+        const format = this.isTimeIncluded ? moment.ISO_8601 : 'YYYY-MM-DD'
         return moment(dateString, format, true)
       },
 
@@ -134,12 +135,7 @@
       localValue (value) {
         // Only emit a data change if the date is valid
         if (this.isValidDateTime(value)) {
-          // Emit value changes to the parent (form)
-          // Always emit a date value, not a string
-          this.$emit('input', this.getDateFromValue(value).toDate())
-
-          // Emit value changes to trigger the onValueChange
-          // Do not use input event for this to prevent unwanted behavior
+          this.$emit('input', value)
           this.$emit('dataChange')
         }
       }
