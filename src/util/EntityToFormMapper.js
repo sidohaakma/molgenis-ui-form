@@ -6,6 +6,7 @@ import type {
   HtmlFieldType,
   RefEntityType,
   MapperOptions,
+  MapperSettings,
   SubType
 } from '../flow.types'
 
