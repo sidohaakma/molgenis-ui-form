@@ -370,9 +370,9 @@ export default function (script, entity) {
       if (value === null || value === undefined) {
         return true
       }
-      /*eslint-disable */
+      /* eslint-disable */
       return (typeof value === 'string') && (value.length == 0)
-      /*eslint-enable */
+      /* eslint-enable */
     }
 
     attribute.val = value
@@ -387,7 +387,7 @@ export default function (script, entity) {
    * @namespace $
    */
 
-  /*eslint-disable */
+  /* eslint-disable */
   function $ (attr) {
     return new attribute(this[attr])
   }
@@ -395,5 +395,5 @@ export default function (script, entity) {
   $ = $.bind(entity)
 
   return eval(script)
-  /*eslint-enable */
+  /* eslint-enable */
 }

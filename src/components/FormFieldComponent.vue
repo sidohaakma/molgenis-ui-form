@@ -127,7 +127,7 @@
       </date-field-component>
     </template>
 
-    <!-- Render email, url, password, number, and text fields -->
+    <!-- Render email, url, password, integer, long, decimal, and text fields -->
     <template v-else>
       <typed-field-component
         v-model="formData[field.id]"

@@ -6,6 +6,23 @@ const metadata = {
   'description': 'MOLGENIS Data types test entity',
   'attributes': [
     {
+      'attributes': [],
+      'auto': true,
+      'description': 'automatically generated internal id, only for internal use.',
+      'fieldType': 'STRING',
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/id',
+      'isAggregatable': false,
+      'label': 'id',
+      'labelAttribute': false,
+      'lookupAttribute': false,
+      'maxLength': 255,
+      'name': 'id',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': false
+    },
+    {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/string',
       'fieldType': 'STRING',
       'name': 'string',
@@ -67,7 +84,7 @@ const metadata = {
       'visible': true,
       'lookupAttribute': true,
       'isAggregatable': false,
-      'description': 'Integer description',
+      'description': 'Integer description (range 1 - 45)',
       'range': {
         'min': 1,
         'max': 45
@@ -450,7 +467,7 @@ const metadata = {
           'auto': false,
           'nillable': false,
           'readOnly': false,
-          'defaultValue': '1',
+          'defaultValue': 1,
           'labelAttribute': false,
           'unique': false,
           'visible': true,
@@ -545,7 +562,7 @@ const metadata = {
           'lookupAttribute': false,
           'isAggregatable': true,
           'visibleExpression': '$("nested-compound-string").value() === "show"',
-          'nullableExpression': '$("compound-int").value() !== "1"',
+          'nullableExpression': '$("compound-int").value() !== 1',
           'validationExpression': '$("compound-string").value() === "valid"'
         },
         {
@@ -641,7 +658,7 @@ const metadata = {
           'auto': false,
           'nillable': false,
           'readOnly': false,
-          'defaultValue': '1',
+          'defaultValue': 'demo',
           'labelAttribute': false,
           'unique': false,
           'visible': false,
@@ -664,7 +681,7 @@ const metadata = {
               'auto': false,
               'nillable': false,
               'readOnly': false,
-              'defaultValue': '1',
+              'defaultValue': 'demo',
               'labelAttribute': false,
               'unique': false,
               'visible': false,
@@ -676,7 +693,7 @@ const metadata = {
           'auto': false,
           'nillable': false,
           'readOnly': false,
-          'defaultValue': '1',
+          'defaultValue': 'demo',
           'labelAttribute': false,
           'unique': false,
           'visible': true,

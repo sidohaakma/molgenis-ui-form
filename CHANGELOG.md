@@ -1,3 +1,21 @@
+<a name="1.0.0"></a>
+## 1.0.0 (??-??-????)
+* Add validation support for integer, long and decimal
+    * Extend field type with 'integer', 'long' and 'decimal' types
+    * Remove 'number' type ( ***breaking change***)
+    * Add support for mapping int, long and decimal to EntityMapper
+* Update dev/demo/e2e-test setup, add page per feature to improve development, debugging and e2e-test experience 
+       
+
+<a name="0.12.0"></a>
+## 0.12.0 (13-09-2018)
+* EntityMapper: Add entityMapper option to run entityMapper in "update" or 'create' mode.
+    * In create mode readonly attributes map to editable fields to allow creating row.
+    * By default the mapper is run in 'update' mode (ensures backwards compatibility).
+* EntityMapper: Non visible, auto-value attributes are not mapped to from fields
+    * These fields can not be read or written by the user and therefore not part of the form.
+       
+
 <a name="0.11.4"></a>
 ## 0.11.4 (02-08-2018)
 * Updated peer dependency to remove warnings from build

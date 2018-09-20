@@ -1,6 +1,6 @@
 require('babel-register')
 var config = require('../../config')
-var packageJson = require('../../package.json');
+var packageJson = require('../../package.json')
 
 var defaultPauzeBeforeTestStart = 3000
 

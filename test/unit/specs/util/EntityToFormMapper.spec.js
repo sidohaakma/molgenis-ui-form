@@ -304,7 +304,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [INT] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
+      expect(field.type).to.equal('integer')
       expect(field.id).to.equal('integer')
       expect(field.label).to.equal('Integer Field')
       expect(field.description).to.equal('Integer description')
@@ -327,7 +327,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [INT] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
+      expect(field.type).to.equal('integer')
       expect(field.id).to.equal('integer')
       expect(field.range).to.deep.equal({
         min: 1,
@@ -341,7 +341,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [INT] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
+      expect(field.type).to.equal('integer')
       expect(field.id).to.equal('integer')
       expect(field.range).to.deep.equal({
         min: 1
@@ -354,7 +354,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [INT] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
+      expect(field.type).to.equal('integer')
       expect(field.id).to.equal('integer')
       expect(field.range).to.deep.equal({
         max: 45
@@ -371,7 +371,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [LONG] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
+      expect(field.type).to.equal('long')
       expect(field.id).to.equal('long')
       expect(field.label).to.equal('Long Field')
       expect(field.description).to.equal('Long description')
@@ -398,7 +398,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [DECIMAL] attribute to a form field object', () => {
-      expect(field.type).to.equal('number')
+      expect(field.type).to.equal('decimal')
       expect(field.id).to.equal('decimal')
       expect(field.label).to.equal('Decimal Field')
       expect(field.description).to.equal('Decimal description')
@@ -879,6 +879,43 @@ describe('Entity to state mapper', () => {
       }
 
       expect(form.formData).to.deep.equal(expectedData)
+    })
+  })
+
+  describe('Auto generated ( server side) field value validation', () => {
+    const data = {}
+    const form = EntityToFormMapper.generateForm(schemas.autoIdSchema, data)
+
+    it('should not map auto, non-visible attribute to field', () => {
+      expect(form.formFields.length).to.equal(0)
+    })
+  })
+
+  describe('MapperMode option', () => {
+    const data = {}
+
+    it('Setting the mapper mode to CREATE should set readonly fields to enabled', () => {
+      const form = EntityToFormMapper.generateForm(schemas.createRowSchema, data, {mapperMode: 'CREATE'})
+      const field = form.formFields[0]
+      expect(field.disabled).to.equal(false)
+      expect(field.readOnly).to.equal(false)
+      expect(field.visible()).to.equal(true)
+    })
+
+    it('Setting the mapper mode to UPDATE should set readonly fields to disabled', () => {
+      const form = EntityToFormMapper.generateForm(schemas.createRowSchema, data, {mapperMode: 'UPDATE'})
+      const field = form.formFields[0]
+      expect(field.disabled).to.equal(true)
+      expect(field.readOnly).to.equal(true)
+      expect(field.visible()).to.equal(true)
+    })
+
+    it('Not setting the mapper mode result is the default UPDATE mode being used', () => {
+      const form = EntityToFormMapper.generateForm(schemas.createRowSchema, data)
+      const field = form.formFields[0]
+      expect(field.disabled).to.equal(true)
+      expect(field.readOnly).to.equal(true)
+      expect(field.visible()).to.equal(true)
     })
   })
 })

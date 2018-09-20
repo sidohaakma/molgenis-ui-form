@@ -155,6 +155,9 @@ We support most HTML input types like number, text, and email. Below is a list o
 | radios | A list of radio buttons |
 | single-select | A Vue Multiselect dropdown which supports asynchronous and synchronous option lists
 | number | A HTML5 number input |
+| integer | A HTML5 number input, with step size set to 1 and may not include a fraction and must lie between --2147483648 and 2147483647
+| long |  A HTML5 number input, Long may not include a fraction and should fit into javascript number type.
+| decimal | A HTML5 number input, may include a fraction
 | text-area | A textarea HTML element |
 | date | A Vue Flatpickr Date component |
 | date-time | A Vue Flatpickr Date component with 'enableTime = true' |
@@ -166,7 +169,9 @@ We support most HTML input types like number, text, and email. Below is a list o
 | file | A HTML5 file input |
 | field-group | A type that is used to nest other inputs |
 
-### option field example
+
+
+### Option field example
 
 Fields that render lists of options like radio buttons, checkboxes, and select dropdowns have an additional `option` parameter.
 This option parameter should always contain a function returning a promise.
@@ -251,7 +256,7 @@ for example
 ```js
 {
   id: 'example-number-with-range',
-  type: 'number',
+  type: 'integer' | 'long',
   range: {
     min: 0,
     max: 13
@@ -280,9 +285,9 @@ const fields = [
     validate: (formData) => true
   },
   {
-    type: 'number',
-    id: 'example-number-field',
-    label: 'Example number field',
+    type: 'integer',
+    id: 'example-integer-field',
+    label: 'Example integer field',
     description: 'This field is shown if "example-text-field" contains the text "show"',
     required: (formData) => true,
     disabled: false,
@@ -335,6 +340,7 @@ The `EntityToFormMapper.generateForm` function takes a *optional* `options` para
 The options param is a object that can contain the following properties:
 - `booleanLabels` optional Object used to set labels for boolean type fields, can be use in combination with i18n plugin to translate boolean labels.
 - `showNillableBooleanOption` optional boolean that hides 'N/A' option for nillable boolean is set to `false`, defaults to true
+- `mapperMode` optional string (valid modes are `UPDATE` and `CREATE`) if set to `CREATE` readonly attributes map to writable fields, defaults to `CREATE`
 ## Development
 The general guidelines and setup of the development environment are described here.
 
