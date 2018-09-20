@@ -55,7 +55,9 @@
             unique: (proposedValue) => {
               return new Promise((resolve, reject) => {
                 setTimeout(() => {
-                  resolve(proposedValue !== 'test')
+                  // 'demo valuetest' is work around for clearValue function not working in selemiun test
+                  // https://github.com/nightwatchjs/nightwatch/issues/504
+                  resolve(proposedValue !== 'test' || proposedValue !== 'demo valuetest')
                 }, 500)
               })
             }
