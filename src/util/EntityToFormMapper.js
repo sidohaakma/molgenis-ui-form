@@ -12,6 +12,8 @@ import type {
 import evaluator from './helpers/evaluator'
 // $FlowFixMe
 import api from '@molgenis/molgenis-api-client'
+// $FlowFixMe
+import { encodeRsqlValue, transformToRSQL } from '@molgenis/rsql'
 
 const DEFAULTS = {
   mapperMode: 'UPDATE',
@@ -249,18 +251,67 @@ const isValid = (attribute): ((?Object) => boolean) => {
 }
 
 /**
+ * Construct function that queries backend to check for uniqueness.
+ * Returned function is expected to the called with resolve and reject functions to handle async callback and
+ * proposedValue to verify uniqueness for. When runnig the mapper in update mode the optional data param is expected to
+ * contain the id value of the entity to be updated.
+ * @param attribute
+ * @param entityMetadata
+ * @param mapperOptions
+ * @returns {*}
+ */
+const buildIsUniqueFunction = (attribute, entityMetadata: any, mapperOptions: MapperSettings): (() => Promise<boolean>) => {
+  // no need to check uniqueness if uniqueness is not required, or uniqueness check not supported for field type
+  // todo maybe add support for multi value field types
+  if (!attribute.unique || attribute.fieldType === 'CATEGORICAL_MREF' || attribute.fieldType === 'MREF' || attribute.fieldType === 'ONE_TO_MANY') {
+    return () => Promise.resolve(true)
+  }
+
+  return (proposedValue: any, data: any) => {
+    return new Promise((resolve, reject) => {
+      let query = {selector: attribute.name, comparison: '==', arguments: proposedValue}
+      if (mapperOptions.mapperMode === 'UPDATE') {
+        query = {
+          operator: 'AND',
+          operands: [
+            query,
+            {
+              selector: entityMetadata.idAttribute,
+              comparison: '!=',
+              arguments: data[entityMetadata.idAttribute] // to validate uniqueness in update mode there must be a id value present
+            }
+          ]
+        }
+      }
+
+      const testUniqueUrl = entityMetadata.hrefCollection + '?&num=1&q=' + encodeRsqlValue(transformToRSQL(query))
+      return api.get(testUniqueUrl).then((response) => {
+        resolve(response.items.length <= 0)
+      }, (error) => {
+        reject(error)
+      })
+    })
+  }
+}
+
+/**
  * Determine if field should be disabled
  * @param attribute
+ * @param entityMetaData
  * @param mapperOptions
  * @returns boolean
  */
-const isDisabledField = (attribute, mapperOptions: MapperSettings): boolean => {
+const isDisabledField = (attribute, entityMetaData, mapperOptions: MapperSettings): boolean => {
   if (attribute.fieldType === 'ONE_TO_MANY') {
     return true
   }
 
   if (mapperOptions.mapperMode === 'CREATE') {
     return false
+  }
+
+  if (mapperOptions.mapperMode === 'UPDATE' && attribute.name === entityMetaData.idAttribute) {
+    return true
   }
 
   return attribute.readOnly
@@ -270,13 +321,14 @@ const isDisabledField = (attribute, mapperOptions: MapperSettings): boolean => {
  * Generate a schema field object suitable for the forms
  *
  * @param attribute Attribute metadata from an EntityType V2 response
+ * @param entityMetadata object containing entityMetadata
  * @param mapperOptions MapperOptions optional object containing options to configure mapper
  * @returns {{type: String, id, label, description, required: boolean, disabled, visible, options: ({uri, id, label, multiple}|{uri, id, label})}}
  */
-const generateFormSchemaField = (attribute, mapperOptions: MapperSettings): FormField => {
+const generateFormSchemaField = (attribute, entityMetadata:any, mapperOptions: MapperSettings): FormField => {
   // options is a function that always returns an array of option objects
   const options = getFieldOptions(attribute, mapperOptions)
-  const isDisabled = isDisabledField(attribute, mapperOptions)
+  const isDisabled = isDisabledField(attribute, entityMetadata, mapperOptions)
   let fieldProperties = {
     id: attribute.name,
     label: attribute.label,
@@ -286,11 +338,12 @@ const generateFormSchemaField = (attribute, mapperOptions: MapperSettings): Form
     disabled: isDisabled,
     readOnly: isDisabled,
     visible: isVisible(attribute),
-    validate: isValid(attribute)
+    validate: isValid(attribute),
+    unique: buildIsUniqueFunction(attribute, entityMetadata, mapperOptions)
   }
 
   if (attribute.fieldType === 'COMPOUND') {
-    const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute, mapperOptions))
+    const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute, entityMetadata, mapperOptions))
     fieldProperties = {...fieldProperties, children}
   }
 
@@ -320,14 +373,19 @@ const generateFormSchemaField = (attribute, mapperOptions: MapperSettings): Form
  * @returns a {fieldId: value} object
  */
 const generateFormData = (fields: any, data: any, attributes: any) => {
-  return fields.reduce((accumulator, field) => {
-    const fieldAttribute = attributes.find(attribute => attribute.name === field.id)
-    const idAttribute = fieldAttribute.refEntity && fieldAttribute.refEntity.idAttribute
+  return attributes.reduce((accumulator, attribute) => {
+    const field = fields.find(field => attribute.name === field.id)
+    const idAttribute = attribute.refEntity && attribute.refEntity.idAttribute
+
+    if (!field) {
+      accumulator[attribute.name] = data[attribute.name]
+      return accumulator
+    }
 
     switch (field.type) {
       case 'field-group':
         // Recursively generate data for compounds
-        return {...accumulator, ...generateFormData(field.children, data, fieldAttribute.attributes)}
+        return {...accumulator, ...generateFormData(field.children, data, attribute.attributes)}
       case 'file':
         // Map MOLGENIS FileMeta entity to our form file object
         // which only contains a name
@@ -367,13 +425,14 @@ const isFormFieldAttribute = (attribute: any):boolean => {
  * Generates an array for form fields
  *
  * @param attributes A list of MOLGENIS attribute metadata
+ * @param entityMetadata object containing the entity metaData
  * @param options MapperOptions object containing options to configure mapper
  * @returns a an array of Field objects
  */
-const generateFormFields = (attributes: any, options: MapperSettings): Array<FormField> => attributes
+const generateFormFields = (attributes: any, entityMetadata: any, options: MapperSettings): Array<FormField> => attributes
   .filter(isFormFieldAttribute)
   .map((attr) => {
-    return generateFormSchemaField(attr, options)
+    return generateFormSchemaField(attr, entityMetadata, options)
   })
 
 /**
@@ -417,8 +476,8 @@ const buildMapperSettings = (settings?: MapperOptions): MapperSettings => {
  */
 const generateForm = (metadata: any, data: ?any, userSettings?: MapperOptions) => {
   const mapperOptions = buildMapperSettings(userSettings)
-  const attributes = metadata.attributes
-  const formFields = generateFormFields(attributes, mapperOptions)
+  const { attributes, ...entityMetadata } = metadata
+  const formFields = generateFormFields(attributes, entityMetadata, mapperOptions)
   const formData = data ? generateFormData(formFields, data, attributes) : {}
 
   return {

@@ -196,8 +196,7 @@ describe('TypedFieldComponent unit tests', () => {
       propsData.value = 5
       const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
       it('if the value is between min and max', () => {
-        const result = wrapper.vm.isWithinRange()
-        expect(result).to.equal(true)
+        expect(wrapper.vm.isValidRange).to.equal(true)
       })
     })
     describe('should return false if range is (1, 9) and value is 11', () => {
@@ -208,8 +207,7 @@ describe('TypedFieldComponent unit tests', () => {
       propsData.value = 11
       const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
       it('if the value is between min and max', () => {
-        const result = wrapper.vm.isWithinRange()
-        expect(result).to.equal(false)
+        expect(wrapper.vm.isValidRange).to.equal(false)
       })
     })
     describe('should return false if range is (1, 9) and value is -1', () => {
@@ -220,49 +218,65 @@ describe('TypedFieldComponent unit tests', () => {
       propsData.value = -1
       const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
       it('if the value is between min and max', () => {
-        const result = wrapper.vm.isWithinRange()
-        expect(result).to.equal(false)
+        expect(wrapper.vm.isValidRange).to.equal(false)
+      })
+    })
+    describe('should return false if range is (1, 9) and value is \'foo\'', () => {
+      propsData.field.range = {
+        min: 1,
+        max: 9
+      }
+      propsData.value = 'foo'
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      it('if the value is not a number', () => {
+        expect(wrapper.vm.isValidRange).to.equal(false)
       })
     })
   })
 
-  describe('TypedFieldComponent with integer type', () => {
-    let propsData = {
-      field: {
-        id: 'typed-field',
-        type: 'integer'
-      },
-      fieldState: {
-        $touched: false,
-        $submitted: false,
-        $invalid: false,
-        _addControl: mockParentFunction
+  describe('isValidInt', () => {
+    let propsData
+
+    beforeEach(() => {
+      propsData = {
+        field: {
+          id: 'typed-field',
+          type: 'integer'
+        },
+        fieldState: {
+          $touched: false,
+          $submitted: false,
+          $invalid: false,
+          _addControl: mockParentFunction
+        }
       }
-    }
-    describe('should return true for valid integer values', () => {
+    })
+
+    describe('isValidInt should return true for valid integer values', () => {
       it('if value is 19 in integer validation should return true', () => {
         propsData.value = 19
         const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-        expect(wrapper.vm.customValidation).to.deep.equal({ validate: true, integer: true })
+        expect(wrapper.vm.isValidInt).to.equal(true)
       })
-      it('if value is -2 in integer validation should return true', () => {
+      it('if value is -2 should return true', () => {
         propsData.value = -2
         const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-        expect(wrapper.vm.customValidation).to.deep.equal({ validate: true, integer: true })
+        expect(wrapper.vm.isValidInt).to.equal(true)
       })
-      it('if value is 0.25 in integer validation should return false', () => {
+      it('if value is 0.25 should return false', () => {
         propsData.value = 0.25
         const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-        expect(wrapper.vm.customValidation).to.deep.equal({ validate: true, integer: false })
+        expect(wrapper.vm.isValidInt).to.equal(false)
       })
-      it('should set a step size of 1', () => {
+      it('if value is \'foo\' should return false', () => {
+        propsData.value = 'foo'
         const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-        expect(wrapper.vm.stepSize).to.deep.equal(1)
+        expect(wrapper.vm.isValidInt).to.equal(false)
       })
     })
   })
 
-  describe('TypedFieldComponent with long type', () => {
+  describe('isValidLong', () => {
     let propsData = {
       field: {
         id: 'typed-field',
@@ -276,46 +290,21 @@ describe('TypedFieldComponent unit tests', () => {
       }
     }
     describe('should return true for valid long values', () => {
-      it('if value is 2147483657 (max java int + 10) in long validation should return true', () => {
+      it('if value is 2147483657 (max java int + 10) should return true', () => {
         const maxJavaInt = 2147483647
         propsData.value = maxJavaInt + 10
         const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-        expect(wrapper.vm.customValidation).to.deep.equal({ validate: true, long: true })
+        expect(wrapper.vm.isValidLong).to.equal(true)
       })
-      it('if value is 0.25 in long validation should return false', () => {
+      it('if value is 0.25 should return false', () => {
         propsData.value = 0.25
         const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-        expect(wrapper.vm.customValidation).to.deep.equal({ validate: true, long: false })
+        expect(wrapper.vm.isValidLong).to.equal(false)
       })
-      it('should set a step size of 1', () => {
+      it('if value is \'foo\' return false', () => {
+        propsData.value = 'foo'
         const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-        expect(wrapper.vm.stepSize).to.deep.equal(1)
-      })
-    })
-  })
-
-  describe('TypedFieldComponent with decimal type', () => {
-    let propsData = {
-      field: {
-        id: 'typed-field',
-        type: 'decimal'
-      },
-      fieldState: {
-        $touched: false,
-        $submitted: false,
-        $invalid: false,
-        _addControl: mockParentFunction
-      }
-    }
-    describe('should return true for valid long values', () => {
-      it('if value 0.33 validate should be true', () => {
-        propsData.value = 0.33
-        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-        expect(wrapper.vm.customValidation).to.deep.equal({ validate: true })
-      })
-      it('should set stepSize to false to indicate no stepSize attribute needs to be set', () => {
-        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-        expect(wrapper.vm.stepSize).to.equal(false)
+        expect(wrapper.vm.isValidLong).to.equal(false)
       })
     })
   })
