@@ -300,6 +300,22 @@ const fields = [
 ]
 ```
 
+### Unique field value validation
+Fields of type string, number, integer, long, decimal or radio may include a function that validated value uniqueness.
+The function should return a promise that resolves to a boolean indicating if the value is unique in some context.
+
+Example: 
+
+```js
+unique: (proposedValue, [context]) => {
+  return new Promise((resolve, reject) => {
+      api.get('some-api-call-that-checks-proposed-value').then((result) => {
+        resolve(result)
+      })
+    })
+  }
+```
+
 ### Validation message localization
 Validation messages may be localized via the use of the `@molgenis/molgenis-i18n-js` plugin.
 
