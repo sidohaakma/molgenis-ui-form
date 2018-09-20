@@ -178,9 +178,11 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
     case 'MREF':
       return 'multi-select'
     case 'INT':
+      return 'integer'
     case 'DECIMAL':
+      return 'decimal'
     case 'LONG':
-      return 'number'
+      return 'long'
     case 'TEXT':
       return 'text-area'
     case 'SCRIPT':
@@ -276,10 +278,10 @@ const generateFormSchemaField = (attribute, mapperOptions: MapperSettings): Form
   const options = getFieldOptions(attribute, mapperOptions)
   const isDisabled = isDisabledField(attribute, mapperOptions)
   let fieldProperties = {
-    type: getHtmlFieldType(attribute.fieldType),
     id: attribute.name,
     label: attribute.label,
     description: attribute.description,
+    type: getHtmlFieldType(attribute.fieldType),
     required: isRequired(attribute),
     disabled: isDisabled,
     readOnly: isDisabled,

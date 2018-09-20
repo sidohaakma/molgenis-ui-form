@@ -109,7 +109,7 @@ describe('SingleSelectFieldComponent unit tests', () => {
       stubs: {'fieldMessages': '<div>This field is required</div>'}
     })
 
-    wrapper.setData({localValue: {id: 'ref1'}})
+    wrapper.setData({localValue: {id: 'ref1', label: 'label1'}})
     expect(wrapper.emitted().input[0]).to.deep.equal(['ref1'])
     expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
 

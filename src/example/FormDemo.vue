@@ -1,14 +1,6 @@
 <template>
-  <div id="form-demo" class="container">
     <div class="row">
       <div class="col-md-12">
-
-        <blockquote class="blockquote text-center">
-          <h1 class="display-3">MOLGENIS Form</h1>
-          <footer class="blockquote-footer">Powered by<cite title="Source Title">Vue.js</cite></footer>
-        </blockquote>
-
-        <hr>
 
         <div class="card">
           <div class="card-header">
@@ -41,12 +33,11 @@
       </div>
 
     </div>
-  </div>
 </template>
 
 <script>
-  import { EntityToFormMapper, FormComponent } from './molgenisUiForm'
-  import EntityTypeV2Response from './formDemoMockResponse'
+  import { EntityToFormMapper, FormComponent } from '../molgenisUiForm'
+  import EntityTypeV2Response from '../formDemoMockResponse'
 
   export default {
     name: 'form-demo',
