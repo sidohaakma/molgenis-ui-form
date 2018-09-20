@@ -57,7 +57,7 @@
                 setTimeout(() => {
                   // 'demo valuetest' is work around for clearValue function not working in selemiun test
                   // https://github.com/nightwatchjs/nightwatch/issues/504
-                  resolve(proposedValue !== 'test' || proposedValue !== 'demo valuetest')
+                  resolve(proposedValue !== 'test' && proposedValue !== 'demo valuetest')
                 }, 500)
               })
             }
