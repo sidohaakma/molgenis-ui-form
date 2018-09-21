@@ -360,7 +360,7 @@ const generateFormData = (fields: any, data: any, attributes: any) => {
 const isFormFieldAttribute = (attribute: any): boolean => {
   return !(
     (attribute.auto && !attribute.visible) || // server side generated field
-    (attribute.expression && attribute.readOnly) // computed field
+    (attribute.hasOwnProperty('expression') && attribute.expression.length > 0) // computed field
   )
 }
 

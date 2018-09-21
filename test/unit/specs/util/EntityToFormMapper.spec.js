@@ -925,4 +925,11 @@ describe('Entity to state mapper', () => {
       expect(form.formFields.length).to.equal(0)
     })
   })
+
+  describe('Computed writable expression field', () => {
+    it('should not be part of the form', () => {
+      const form = EntityToFormMapper.generateForm(schemas.computedWritableXrefSchema, {})
+      expect(form.formFields.length).to.equal(0)
+    })
+  })
 })
