@@ -12,7 +12,7 @@
           type="radio"
           :name="field.id"
           class="form-check-input"
-          :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
+          :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
           :required="isRequired"
           :disabled="field.disabled"
           :bool="localValue === true || localValue === false">
