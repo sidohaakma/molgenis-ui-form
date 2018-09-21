@@ -918,4 +918,26 @@ describe('Entity to state mapper', () => {
       expect(field.visible()).to.equal(true)
     })
   })
+
+  describe('MapperMode option: showNonVisibleAttributes', () => {
+    const data = {}
+
+    it('Setting showNonVisibleAttributes to true results in non visible attr mapping to visible field', () => {
+      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, {showNonVisibleAttributes: true})
+      const field = form.formFields[0]
+      expect(field.visible()).to.equal(true)
+    })
+
+    it('Setting showNonVisibleAttributes to false results in non visible attr mapping to non-visible field', () => {
+      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, {showNonVisibleAttributes: false})
+      const field = form.formFields[0]
+      expect(field.visible()).to.equal(false)
+    })
+
+    it('By default the mapper maps in non visible attr to non-visible field', () => {
+      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, {showNonVisibleAttributes: false})
+      const field = form.formFields[0]
+      expect(field.visible()).to.equal(false)
+    })
+  })
 })

@@ -20,7 +20,8 @@ const DEFAULTS = {
     falseLabel: 'False',
     nillLabel: 'N/A'
   },
-  showNillableBooleanOption: true
+  showNillableBooleanOption: true,
+  showNonVisibleAttributes: false
 }
 
 // Create an object type UserException
@@ -212,14 +213,16 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
 
 /**
  * If there is a visible expression present, return a function which evaluates the expression.
- * If there is no expression present, return a function which evaluates to the value of attribute.visible
+ * If there is no expression present, check if mapper is run with showVisibleAttribute option set to true,
+ * if this is not the case attributes visible property is used
  *
  * @param attribute
+ * @param mapperOptions
  * @returns {Function} Function which evaluates to a boolean
  */
-const isVisible = (attribute): ((?Object) => boolean) => {
+const isVisible = (attribute, mapperOptions: MapperSettings): ((?Object) => boolean) => {
   const expression = attribute.visibleExpression
-  return expression ? (data) => evaluator(expression, data) : () => attribute.visible
+  return expression ? (data) => evaluator(expression, data) : () => mapperOptions.showNonVisibleAttributes || attribute.visible
 }
 
 /**
@@ -285,7 +288,7 @@ const generateFormSchemaField = (attribute, mapperOptions: MapperSettings): Form
     required: isRequired(attribute),
     disabled: isDisabled,
     readOnly: isDisabled,
-    visible: isVisible(attribute),
+    visible: isVisible(attribute, mapperOptions),
     validate: isValid(attribute)
   }
 
@@ -387,6 +390,7 @@ const buildMapperSettings = (settings?: MapperOptions): MapperSettings => {
   }
 
   const mapperMode = settings.mapperMode ? settings.mapperMode : DEFAULTS.mapperMode
+
   let booleanLabels = DEFAULTS.booleanLabels
   if (settings.booleanLabels) {
     booleanLabels = {
@@ -395,15 +399,22 @@ const buildMapperSettings = (settings?: MapperOptions): MapperSettings => {
       nillLabel: settings.booleanLabels.nillLabel ? settings.booleanLabels.nillLabel : 'N/A'
     }
   }
+
   let showNillableBooleanOption = DEFAULTS.showNillableBooleanOption
   if (typeof (settings.showNillableBooleanOption) === 'boolean') {
     showNillableBooleanOption = settings.showNillableBooleanOption
   }
 
+  let showNonVisibleAttributes = DEFAULTS.showNonVisibleAttributes
+  if (typeof (settings.showNonVisibleAttributes) === 'boolean') {
+    showNonVisibleAttributes = settings.showNonVisibleAttributes
+  }
+
   return {
-    mapperMode: mapperMode,
-    booleanLabels: booleanLabels,
-    showNillableBooleanOption: showNillableBooleanOption
+    mapperMode,
+    booleanLabels,
+    showNillableBooleanOption,
+    showNonVisibleAttributes
   }
 }
 
