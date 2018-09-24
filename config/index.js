@@ -60,6 +60,7 @@ module.exports = {
         const localizedMessages = {
           'form_required_field': 'This field is required',
           'form_validation_failed': 'Validation failed',
+          'form_not_unique': 'Not a unique value',
           'form_not_a_valid_number': 'Not a valid number',
           'form_not_a_valid_integer': 'Not a valid integer value',
           'form_not_a_valid_long': 'Not a valid long value',
@@ -75,6 +76,13 @@ module.exports = {
         }
         res.json(localizedMessages)
       })
+
+      // mock unique test response
+      app.get('/api/v2/it_emx_datatypes_TypeTest', function (req, res) {
+        const result = req.query.q === 'string==\'string value\';id!=123-abc' ? {items: []} : {items: [{foo: 'bar'}]}
+        res.json(result)
+      })
+
     }
   },
 

@@ -870,3 +870,26 @@ export const showNonVisibleAttributeSchema = {
     }
   ]
 }
+
+export const uniqueFieldSchema = {
+  'hrefCollection': '/api/v2/sys_demo/unique_example',
+  'idAttribute': 'id',
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'STRING',
+      'href': '/api/v2/sys_demo/unique_example',
+      'isAggregatable': false,
+      'label': 'Unique demo',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'unique_demo',
+      'nillable': true,
+      'readOnly': false,
+      'unique': true,
+      'visible': true
+    }
+  ]
+}

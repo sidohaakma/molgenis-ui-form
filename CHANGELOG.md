@@ -9,6 +9,9 @@
     * If set to true maps non visible attribute to visible field
     * showNonVisibleAttributes is optional and defaults to false
     * If visible expression is set this takes precedence 
+* Add support for unique field validation
+    * string, integer, long, decimal and radio fields support unique value validation
+    * Molgenis entity mapper support creating isUnique function for form multi-value attributes 
        
 
 <a name="0.12.0"></a>

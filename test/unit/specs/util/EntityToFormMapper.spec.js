@@ -22,6 +22,8 @@ const get = td.function('api.get')
 td.when(get('/api/v2/it_emx_datatypes_TypeTestRef')).thenResolve(response)
 td.when(get('/api/v2/it_emx_datatypes_TypeTestRef?q=value=like=ref1,label=like=ref1')).thenResolve(responseBySearch)
 td.when(get('/api/v2/it_emx_datatypes_TypeTestRef?q=value=in=(ref1,ref2,ref3),label=in=(ref1,ref2,ref3)')).thenResolve(response)
+td.when(get('/api/v2/sys_demo/unique_example?&num=1&q=unique_demo==\'am%20i%20unique%3F\'')).thenResolve({items: []})
+td.when(get('/api/v2/sys_demo/unique_example?&num=1&q=unique_demo==\'i%20am%20not%20unique%3F\';id!=123')).thenResolve({items: []})
 td.replace(api, 'get', get)
 
 describe('Entity to state mapper', () => {
@@ -952,6 +954,42 @@ describe('Entity to state mapper', () => {
       const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, {showNonVisibleAttributes: false})
       const field = form.formFields[0]
       expect(field.visible()).to.equal(false)
+    })
+  })
+
+  describe('buildIsUniqueFunction', () => {
+    const data = {}
+
+    describe('when running the mapper in CREATE mode', () => {
+      const form = EntityToFormMapper.generateForm(schemas.uniqueFieldSchema, data, {mapperMode: 'CREATE'})
+
+      it('should return a function that resolve for true in case of unique value', (done) => {
+        const promise = form.formFields[0].unique('am i unique?', {id: '123'})
+
+        promise.then((result) => {
+          expect(result).to.equal(true)
+          done()
+        }, () => {
+          expect(false).to.equal(true) // fail test
+          done()
+        })
+      })
+    })
+
+    describe('when running the mapper in UPDATE mode', () => {
+      const form = EntityToFormMapper.generateForm(schemas.uniqueFieldSchema, data, {mapperMode: 'UPDATE'})
+
+      it('should return a function that when querying the backend should exclude the row being updated', (done) => {
+        const promise = form.formFields[0].unique('i am not unique?', {id: '123'})
+
+        promise.then((result) => {
+          expect(result).to.equal(true)
+          done()
+        }, () => {
+          expect(false).to.equal(true) // fail test
+          done()
+        })
+      })
     })
   })
 })

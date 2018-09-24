@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{'validate': isValid}" v-if="options.length > 0">
+  <validate :state="fieldState" :custom="{'validate': isValid, 'unique': isUnique}" v-if="options.length > 0">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -61,6 +61,10 @@
       isRequired: {
         type: Boolean,
         default: false
+      },
+      isUnique: {
+        type: Function,
+        default: () => true
       }
     },
     mixins: [VueForm],

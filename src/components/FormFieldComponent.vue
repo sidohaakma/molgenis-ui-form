@@ -82,6 +82,7 @@
         :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
+        :isUnique="isUnique"
         @dataChange="onDataChange">
       </radio-field-component>
     </template>
@@ -135,6 +136,7 @@
         :fieldState="formState[field.id]"
         :isValid="isValid"
         :isRequired="isRequired"
+        :isUnique="isUnique"
         :inputDebounceTime="formComponentOptions.inputDebounceTime"
         @dataChange="onDataChange">
       </typed-field-component>
@@ -223,6 +225,13 @@
     methods: {
       onDataChange () {
         this.$emit('dataChange')
+      },
+      isUnique (value) {
+        if (this.field.hasOwnProperty('unique')) {
+          return this.field.unique(value, this.formData)
+        }
+
+        return true
       }
     },
     computed: {

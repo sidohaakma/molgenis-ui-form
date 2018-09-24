@@ -196,4 +196,40 @@ describe('FormFieldComponents unit tests', () => {
       expect(wrapper.vm.isVisible).to.equal(true)
     })
   })
+
+  describe('Async isUnique function', () => {
+    const field = {
+      id: 'string',
+      type: 'text',
+      validate: (data) => true,
+      required: () => true,
+      visible: () => true,
+      unique: (valueToTest, context) => {
+        return new Promise((resolve, reject) => {
+          resolve(valueToTest === 'test-value' && context.id === 'abc')
+        })
+      }
+    }
+
+    const propsData = {
+      formData: {'string': 'data', id: 'abc'},
+      field: field,
+      formState: formState,
+      showOptionalFields: false
+    }
+
+    const wrapper = mount(FormFieldComponent, {
+      propsData: propsData
+    })
+
+    it('should return a promise that resolve to a boolean', (done) => {
+      const promise = wrapper.vm.isUnique('test-value')
+      promise.then((result) => {
+        expect(result).to.equal(true)
+        done()
+      }, (error) => {
+        console.log(error)
+      })
+    })
+  })
 })
