@@ -1,5 +1,11 @@
+<a name="1.0.1"></a>
+## 1.0.1 (24-09-2018)
+### Bugfixes
+* Changelog release date is now set
+
 <a name="1.0.0"></a>
-## 1.0.0 (??-??-????)
+## 1.0.0 (24-09-2018)
+### Features
 * Add validation support for integer, long and decimal
     * Extend field type with 'integer', 'long' and 'decimal' types
     * Remove 'number' type ( ***breaking change***)
@@ -12,6 +18,12 @@
 * Add support for unique field validation
     * string, integer, long, decimal and radio fields support unique value validation
     * Molgenis entity mapper support creating isUnique function for form multi-value attributes 
+
+### Bugfixes
+* #166 Date-time cannot be processed by MOLGENIS
+* #195 Date field emits date-time even if only date part is set 
+* #189 Vulnerability vue-form depends on extend 3.0.1
+* #185 Vue forms require you to fill in the id field when it's AUTO    
        
 
 <a name="0.12.0"></a>
