@@ -357,13 +357,14 @@ const generateFormData = (fields: any, data: any, attributes: any) => {
 /**
  * Returns true if entity attribute should be included in form
  *
- * Some attributes do not map to a actionable from item ( for example a server side generated auto id field)
- *
  * @param attribute
  * @returns {boolean}
  */
-const isFormFieldAttribute = (attribute: any):boolean => {
-  return !(attribute.auto && !attribute.visible)
+const isFormFieldAttribute = (attribute: any): boolean => {
+  return !(
+    (attribute.auto && !attribute.visible) || // server side generated field
+    (attribute.hasOwnProperty('expression') && attribute.expression.length > 0) // computed field
+  )
 }
 
 /**

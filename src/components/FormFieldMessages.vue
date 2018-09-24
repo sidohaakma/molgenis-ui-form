@@ -1,5 +1,5 @@
 <template>
-  <field-messages :name="fieldId" :state="fieldState" show="$touched || $submitted" class="form-control-feedback">
+  <field-messages :name="fieldId" :state="fieldState" show="$touched || $submitted || $dirty" class="form-control-feedback">
     <div class="invalid-message" slot="required">{{ requiredFieldMsg }}</div>
     <div class="invalid-message" slot="email">{{ notAValidEmailMsg }}</div>
     <div class="invalid-message" slot="url">{{ notAValidUrlMsg }}</div>

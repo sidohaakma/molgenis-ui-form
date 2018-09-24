@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="customValidation">
+  <validate :state="fieldState" :custom="customValidation" :debounce="validationDebounce">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -9,7 +9,7 @@
         :type="inputType"
         :name="field.id"
         class="form-control"
-        :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
+        :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
         :aria-describedby="field.id + '-description'"
         :required="isRequired"
         :disabled="field.disabled"
@@ -139,6 +139,7 @@
     },
     created () {
       debounceTime = this.inputDebounceTime
+      this.validationDebounce = debounceTime + 200 // validate after event update debounce
     }
   }
 </script>

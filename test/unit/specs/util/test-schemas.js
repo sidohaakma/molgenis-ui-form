@@ -810,6 +810,46 @@ export const createRowSchema = {
   ]
 }
 
+export const computedXrefSchema = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'description': 'Typetest computed xref attribute',
+      'expression': '{Chromosome: xstring, Position: xint}',
+      'fieldType': 'XREF',
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcomputedxref',
+      'isAggregatable': false,
+      'label': 'xcomputedxref label',
+      'labelAttribute': false,
+      'lookupAttribute': false,
+      'name': 'xcomputedxref',
+      'nillable': true,
+      'readOnly': true
+    }
+  ]
+}
+
+export const computedWritableXrefSchema = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'description': 'Typetest computed xref attribute',
+      'expression': '{Chromosome: xstring, Position: xint}',
+      'fieldType': 'XREF',
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcomputedxref',
+      'isAggregatable': false,
+      'label': 'xcomputedxref label',
+      'labelAttribute': false,
+      'lookupAttribute': false,
+      'name': 'xcomputedxref',
+      'nillable': true,
+      'readOnly': false
+    }
+  ]
+}
+
 export const showNonVisibleAttributeSchema = {
   'attributes': [
     {
