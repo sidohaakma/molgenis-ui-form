@@ -849,3 +849,24 @@ export const computedWritableXrefSchema = {
     }
   ]
 }
+
+export const showNonVisibleAttributeSchema = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'STRING',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': true,
+      'readOnly': false,
+      'unique': false,
+      'visible': false
+    }
+  ]
+}
