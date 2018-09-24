@@ -354,9 +354,10 @@ If no 'ui-form' namespace is set on the supplied Vue instance the default (Engli
 
 The `EntityToFormMapper.generateForm` function takes a *optional* `options` param.
 The options param is a object that can contain the following properties:
-- `booleanLabels` optional Object used to set labels for boolean type fields, can be use in combination with i18n plugin to translate boolean labels.
-- `showNillableBooleanOption` optional boolean that hides 'N/A' option for nillable boolean is set to `false`, defaults to true
-- `mapperMode` optional string (valid modes are `UPDATE` and `CREATE`) if set to `CREATE` readonly attributes map to writable fields, defaults to `CREATE`
+- `booleanLabels` Optional Object used to set labels for boolean type fields, can be use in combination with i18n plugin to translate boolean labels.
+- `showNillableBooleanOption` Optional boolean that hides 'N/A' option for nillable boolean is set to `false`, defaults to true
+- `showNonVisibleAttributes` Optional boolean if set to true maps non visible attributes to visible field, defaults to false
+- `mapperMode` Optional string (valid modes are `UPDATE` and `CREATE`) if set to `CREATE` readonly attributes map to writable fields, defaults to `CREATE`
 ## Development
 The general guidelines and setup of the development environment are described here.
 

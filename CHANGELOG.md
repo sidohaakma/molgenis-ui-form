@@ -4,7 +4,11 @@
     * Extend field type with 'integer', 'long' and 'decimal' types
     * Remove 'number' type ( ***breaking change***)
     * Add support for mapping int, long and decimal to EntityMapper
-* Update dev/demo/e2e-test setup, add page per feature to improve development, debugging and e2e-test experience
+* Update dev/demo/e2e-test setup, add page per feature to improve development, debugging and e2e-test experience 
+* Add showNonVisibleAttributes option to EntityMapper options 
+    * If set to true maps non visible attribute to visible field
+    * showNonVisibleAttributes is optional and defaults to false
+    * If visible expression is set this takes precedence 
 * Add support for unique field validation
     * string, integer, long, decimal and radio fields support unique value validation
     * Molgenis entity mapper support creating isUnique function for form multi-value attributes 

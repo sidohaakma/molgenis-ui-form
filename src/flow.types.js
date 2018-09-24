@@ -46,7 +46,8 @@ export type MapperOptions = {
     falseLabel: string,
     nillLabel: string
   },
-  showNillableBooleanOption?: boolean
+  showNillableBooleanOption?: boolean,
+  showNonVisibleAttributes?: boolean
 }
 
 /**
@@ -59,7 +60,8 @@ export type MapperSettings = {
     falseLabel: string,
     nillLabel: string
   },
-  showNillableBooleanOption: boolean
+  showNillableBooleanOption: boolean,
+  showNonVisibleAttributes: boolean
 }
 
 export type FormComponentOptions = {
