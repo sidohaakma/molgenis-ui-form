@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, range: isValidRange, unique: isUnique}">
+  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, range: isValidRange, unique: isUnique}" :debounce="validationDebounce">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -9,7 +9,7 @@
         :type="inputType"
         :name="field.id"
         class="form-control"
-        :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
+        :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
         :aria-describedby="field.id + '-description'"
         :required="isRequired"
         :disabled="field.disabled"
@@ -75,6 +75,7 @@
     mixins: [VueForm],
     data () {
       return {
+        // Store a local value to prevent changing the parent state
         localValue: this.value
       }
     },
@@ -144,6 +145,7 @@
     },
     created () {
       debounceTime = this.inputDebounceTime
+      this.validationDebounce = debounceTime + 200 // validate after event update debounce
     }
   }
 </script>

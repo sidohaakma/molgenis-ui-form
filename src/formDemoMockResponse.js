@@ -711,6 +711,23 @@ const metadata = {
       'visible': true,
       'lookupAttribute': false,
       'isAggregatable': false
+    },
+    {
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/xcomputedint',
+      'name': 'xcomputedint',
+      'label': 'xcomputedint label',
+      'attributes': [],
+      'auto': false,
+      'description': 'Typetest computed int attribute',
+      'expression': 'xint',
+      'fieldType': 'INT',
+      'isAggregatable': false,
+      'labelAttribute': false,
+      'lookupAttribute': false,
+      'nillable': true,
+      'readOnly': true,
+      'unique': false,
+      'visible': true
     }
   ]
 }

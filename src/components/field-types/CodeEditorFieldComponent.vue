@@ -96,7 +96,8 @@
         return this.field.type === 'html' || lang === 'html' ? 'htmlmixed' : lang === 'python' || lang === 'javascript' ? lang : 'r'
       },
       isInvalid () {
-        return this.fieldState && ((this.fieldState.$touched || this.fieldState.$submitted) && (!this.isValid || (this.isRequired && this.localValue === '')))
+        return this.fieldState && ((this.fieldState.$touched || this.fieldState.$submitted || this.fieldState.$dirty) &&
+          (!this.isValid || (this.isRequired && this.localValue === '')))
       }
     },
     watch: {
@@ -107,6 +108,7 @@
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
         this.fieldState.$touched = true
+        this.fieldState.$dirty = true
       }
     },
     components: {

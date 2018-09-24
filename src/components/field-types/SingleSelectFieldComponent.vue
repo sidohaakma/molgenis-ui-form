@@ -7,7 +7,7 @@
 
         <v-select v-model="localValue"
                   class="form-control"
-                  :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
+                  :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
                   :options="options"
                   :onSearch="fetchOptions"
                   :filterable="false"
