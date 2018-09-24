@@ -8,7 +8,7 @@
         v-model="localValue"
         :name="field.id"
         class="form-control"
-        :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
+        :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
         :aria-describedby="field.id + '-description'"
         :required="isRequired"
         :disabled="field.disabled">
@@ -81,6 +81,7 @@
     },
     created () {
       debounceTime = this.inputDebounceTime
+      this.validationDebounce = debounceTime + 200 // validate after event update debounce
     }
   }
 </script>
