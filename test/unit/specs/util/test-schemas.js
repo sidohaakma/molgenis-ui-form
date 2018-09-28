@@ -893,3 +893,98 @@ export const uniqueFieldSchema = {
     }
   ]
 }
+
+export const defaultStringValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'STRING',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'defaultValue': 'default string value'
+    }
+  ]
+}
+
+export const defaultBooleanValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'BOOL',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'defaultValue': true
+    }
+  ]
+}
+
+// This is a guess, can not test this due to issue: https://github.com/molgenis/molgenis/issues/7857
+export const defaultFileValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'FILE',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'File field',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'file-field',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'defaultValue': {
+        filename: 'file_example.xlsx',
+        id: 'aaaaczqwbgfstmvtrombrlyaae',
+        url: 'http://localhost:8080/files/aaaaczqwbgfstmvtrombrlyaae',
+        _href: '/api/v2/sys_FileMeta/aaaaczqwbgfstmvtrombrlyaae'
+      }
+    }
+  ]
+}
+
+export const defaultEnumValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'ENUM',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'File field',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'enum-field',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'enumOptions': ['option1', 'option2'],
+      'defaultValue': 'option1'
+    }
+  ]
+}

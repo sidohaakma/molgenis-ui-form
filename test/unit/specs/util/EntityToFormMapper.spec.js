@@ -992,4 +992,58 @@ describe('Entity to state mapper', () => {
       })
     })
   })
+
+  describe('Mapping default values', () => {
+    describe('when running the mapper in create mode', () => {
+      const data = {}
+      const mapperOptions = {
+        mapperMode: 'CREATE'
+      }
+      it('A default string value should be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultStringValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal('default string value')
+      })
+
+      it('A default boolean value should be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(true)
+      })
+
+      it('A default file value should be mapped using the file name', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultFileValue, data, mapperOptions)
+        expect(form.formData['file-field']).to.equal('file_example.xlsx')
+      })
+
+      it('A default enum value should be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultEnumValue, data, mapperOptions)
+        expect(form.formData['enum-field']).to.equal('option1')
+      })
+    })
+
+    describe('when running the mapper in update mode', () => {
+      const data = {}
+      const mapperOptions = {
+        mapperMode: 'UPDATE'
+      }
+      it('A default string value should NOT be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultStringValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(undefined)
+      })
+
+      it('A default boolean value should NOT be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(undefined)
+      })
+
+      it('A default file value should NOT be mapped using the file name', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultFileValue, data, mapperOptions)
+        expect(form.formData['file-field']).to.equal(undefined)
+      })
+
+      it('A default enum value should NOT be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultEnumValue, data, mapperOptions)
+        expect(form.formData['enum-field']).to.equal(undefined)
+      })
+    })
+  })
 })

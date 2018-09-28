@@ -4,7 +4,7 @@
 
         <div class="card">
           <div class="card-header">
-            <h5>Example form</h5>
+            <h5>Create entity</h5>
             <button id="update-data-btn" type="button" @click="changeData">Change form data</button>
           </div>
 
@@ -26,8 +26,8 @@
           </div>
 
           <div class="card-footer">
-            <button id="save-btn" class="btn btn-primary" type="submit" @click.prevent="onSubmit">Save</button>
             <button id="cancel-btn" class="btn btn-secondary" type="reset" @click.prevent="onCancel">Cancel</button>
+            <button id="save-btn" class="btn btn-primary" type="submit" @click.prevent="onSubmit">Save</button>
           </div>
         </div>
       </div>
@@ -36,11 +36,11 @@
 </template>
 
 <script>
-  import { EntityToFormMapper, FormComponent } from '../molgenisUiForm'
-  import EntityTypeV2Response from '../formDemoMockResponse'
+  import { EntityToFormMapper, FormComponent } from '@/molgenisUiForm'
+  import EntityTypeV2Response from '@/formDemoMockResponse'
 
   export default {
-    name: 'form-demo',
+    name: 'create-entity-example',
     components: {
       FormComponent
     },
@@ -87,7 +87,8 @@
           trueLabel: this.$t('form_bool_true'), // $t is set via @molgenis/molgenis-i18n-js plugin
           falseLabel: this.$t('form_bool_false'),
           nillLabel: this.$t('form_bool_missing')
-        }
+        },
+        mapperMode: 'CREATE'
       }
       const form = EntityToFormMapper.generateForm(EntityTypeV2Response.metadata, EntityTypeV2Response.items, mapperOptions)
       this.formFields = form.formFields

@@ -373,9 +373,10 @@ const generateFormSchemaField = (attribute, entityMetadata:any, mapperOptions: M
  * @param fields an array of field objects
  * @param data a data object containing everything a EntityType V2 response has in its item list
  * @param attributes an array of MOLGENIS attribute metadata, used for idAttribute
+ * @param options Object containing settings for the mapper
  * @returns a {fieldId: value} object
  */
-const generateFormData = (fields: any, data: any, attributes: any) => {
+const generateFormData = (fields: any, data: any, attributes: any, options: MapperSettings) => {
   return attributes.reduce((accumulator, attribute) => {
     const field = fields.find(field => attribute.name === field.id)
     const idAttribute = attribute.refEntity && attribute.refEntity.idAttribute
@@ -385,28 +386,39 @@ const generateFormData = (fields: any, data: any, attributes: any) => {
       return accumulator
     }
 
+    const setDefaultValues = options.mapperMode === 'CREATE'
+
     switch (field.type) {
       case 'field-group':
         // Recursively generate data for compounds
-        return {...accumulator, ...generateFormData(field.children, data, attribute.attributes)}
+        return {...accumulator, ...generateFormData(field.children, data, attribute.attributes, options)}
       case 'file':
         // Map MOLGENIS FileMeta entity to our form file object
         // which only contains a name
         const fileData = data[field.id]
-        accumulator[field.id] = fileData ? fileData.filename : data[field.id]
+        if (setDefaultValues) {
+          accumulator[field.id] = attribute.defaultValue && attribute.defaultValue.filename
+        } else {
+          accumulator[field.id] = fileData ? fileData.filename : data[field.id]
+        }
         break
       case 'checkbox':
       case 'multi-select':
+        // Default values are not supported for mref and xref values
         const checkboxData = data[field.id]
         accumulator[field.id] = checkboxData && checkboxData.map(data => data[idAttribute])
         break
       case 'radio':
       case 'single-select':
         const radioData = data[field.id]
-        accumulator[field.id] = radioData && typeof radioData === 'object' ? radioData[idAttribute] : data[field.id]
+        if (setDefaultValues) {
+          accumulator[field.id] = attribute.defaultValue
+        } else {
+          accumulator[field.id] = radioData && typeof radioData === 'object' ? radioData[idAttribute] : data[field.id]
+        }
         break
       default:
-        accumulator[field.id] = data[field.id]
+        accumulator[field.id] = setDefaultValues ? attribute.defaultValue : data[field.id]
     }
     return accumulator
   }, {})
@@ -428,16 +440,17 @@ const isFormFieldAttribute = (attribute: any): boolean => {
 /**
  * Generates an array for form fields
  *
- * @param attributes A list of MOLGENIS attribute metadata
- * @param entityMetadata object containing the entity metaData
+ * @param metaData object containing the entity metaData
  * @param options MapperOptions object containing options to configure mapper
  * @returns a an array of Field objects
  */
-const generateFormFields = (attributes: any, entityMetadata: any, options: MapperSettings): Array<FormField> => attributes
-  .filter(isFormFieldAttribute)
-  .map((attr) => {
-    return generateFormSchemaField(attr, entityMetadata, options)
-  })
+const generateFormFields = (metaData: any, options: MapperSettings): Array<FormField> => {
+  const {attributes, ...entityMetadata} = metaData
+  return attributes.filter(isFormFieldAttribute)
+    .map((attr) => {
+      return generateFormSchemaField(attr, entityMetadata, options)
+    })
+}
 
 /**
  * Construct mapper settings taking into account the user settings, if no settings are passed the defaults are used
@@ -487,10 +500,9 @@ const buildMapperSettings = (settings?: MapperOptions): MapperSettings => {
  * @returns {{formFields: Array<FormField>, formData: *}}
  */
 const generateForm = (metadata: any, data: ?any, userSettings?: MapperOptions) => {
-  const mapperOptions = buildMapperSettings(userSettings)
-  const { attributes, ...entityMetadata } = metadata
-  const formFields = generateFormFields(attributes, entityMetadata, mapperOptions)
-  const formData = data ? generateFormData(formFields, data, attributes) : {}
+  const mapperSettings = buildMapperSettings(userSettings)
+  const formFields = generateFormFields(metadata, mapperSettings)
+  const formData = generateFormData(formFields, data || {}, metadata.attributes, mapperSettings)
 
   return {
     formFields,
