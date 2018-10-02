@@ -956,12 +956,7 @@ export const defaultFileValue = {
       'readOnly': true,
       'unique': true,
       'visible': true,
-      'defaultValue': {
-        filename: 'file_example.xlsx',
-        id: 'aaaaczqwbgfstmvtrombrlyaae',
-        url: 'http://localhost:8080/files/aaaaczqwbgfstmvtrombrlyaae',
-        _href: '/api/v2/sys_FileMeta/aaaaczqwbgfstmvtrombrlyaae'
-      }
+      'defaultValue': 'file_example.xlsx'
     }
   ]
 }
@@ -985,6 +980,29 @@ export const defaultEnumValue = {
       'visible': true,
       'enumOptions': ['option1', 'option2'],
       'defaultValue': 'option1'
+    }
+  ]
+}
+
+export const defaultCategoricalMref = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'CATEGORICAL_MREF',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'categorical mref field',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'cat-mref-field',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'enumOptions': ['option1', 'option2'],
+      'defaultValue': 'option1, option2'
     }
   ]
 }

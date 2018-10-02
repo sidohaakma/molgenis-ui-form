@@ -365,6 +365,31 @@ const generateFormSchemaField = (attribute, entityMetadata:any, mapperOptions: M
   return options ? {...fieldProperties, options} : fieldProperties
 }
 
+const getFieldValue = (fieldType: string, fieldData: any, refEntityIdAttribute: string) => {
+  switch (fieldType) {
+    case 'file':
+      return fieldData ? fieldData.filename : undefined
+    case 'checkbox':
+    case 'multi-select':
+      return fieldData && fieldData.map(data => data[refEntityIdAttribute])
+    case 'radio':
+    case 'single-select':
+      return fieldData && typeof fieldData === 'object' ? fieldData[refEntityIdAttribute] : fieldData
+    default:
+      return fieldData
+  }
+}
+
+const getDefaultValue = (fieldType: string, defaultValue: any) => {
+  switch (fieldType) {
+    case 'checkbox':
+    case 'multi-select':
+      return defaultValue && defaultValue.split(',').map(item => item.trim())
+    default:
+      return defaultValue
+  }
+}
+
 /**
  * Generates a data object suitable for the forms
  * Recursively calls itself when a field of type "field-group" is present
@@ -386,40 +411,14 @@ const generateFormData = (fields: any, data: any, attributes: any, options: Mapp
       return accumulator
     }
 
-    const setDefaultValues = options.mapperMode === 'CREATE'
-
-    switch (field.type) {
-      case 'field-group':
-        // Recursively generate data for compounds
-        return {...accumulator, ...generateFormData(field.children, data, attribute.attributes, options)}
-      case 'file':
-        // Map MOLGENIS FileMeta entity to our form file object
-        // which only contains a name
-        const fileData = data[field.id]
-        if (setDefaultValues) {
-          accumulator[field.id] = attribute.defaultValue && attribute.defaultValue.filename
-        } else {
-          accumulator[field.id] = fileData ? fileData.filename : data[field.id]
-        }
-        break
-      case 'checkbox':
-      case 'multi-select':
-        // Default values are not supported for mref and xref values
-        const checkboxData = data[field.id]
-        accumulator[field.id] = checkboxData && checkboxData.map(data => data[idAttribute])
-        break
-      case 'radio':
-      case 'single-select':
-        const radioData = data[field.id]
-        if (setDefaultValues) {
-          accumulator[field.id] = attribute.defaultValue
-        } else {
-          accumulator[field.id] = radioData && typeof radioData === 'object' ? radioData[idAttribute] : data[field.id]
-        }
-        break
-      default:
-        accumulator[field.id] = setDefaultValues ? attribute.defaultValue : data[field.id]
+    if (field.type === 'field-group') {
+      return {...accumulator, ...generateFormData(field.children, data, attribute.attributes, options)}
     }
+
+    accumulator[field.id] = options.mapperMode === 'CREATE'
+      ? getDefaultValue(field.type, attribute.defaultValue)
+      : getFieldValue(field.type, data[field.id], idAttribute)
+
     return accumulator
   }, {})
 }

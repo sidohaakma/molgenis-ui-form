@@ -1018,6 +1018,11 @@ describe('Entity to state mapper', () => {
         const form = EntityToFormMapper.generateForm(schemas.defaultEnumValue, data, mapperOptions)
         expect(form.formData['enum-field']).to.equal('option1')
       })
+
+      it('A default categorical mref value should be mapped to the form values', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultCategoricalMref, data, mapperOptions)
+        expect(form.formData['cat-mref-field']).to.deep.equal(['option1', 'option2'])
+      })
     })
 
     describe('when running the mapper in update mode', () => {
