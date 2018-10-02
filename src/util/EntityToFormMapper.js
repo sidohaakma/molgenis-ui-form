@@ -365,7 +365,7 @@ const generateFormSchemaField = (attribute, entityMetadata:any, mapperOptions: M
   return options ? {...fieldProperties, options} : fieldProperties
 }
 
-const getFieldValue = (fieldType: string, fieldData: any, refEntityIdAttribute: string) => {
+const getFieldValue = (fieldType: HtmlFieldType, fieldData: any, refEntityIdAttribute: string) => {
   switch (fieldType) {
     case 'file':
       return fieldData ? fieldData.filename : undefined
@@ -380,10 +380,12 @@ const getFieldValue = (fieldType: string, fieldData: any, refEntityIdAttribute: 
   }
 }
 
-const getDefaultValue = (fieldType: string, defaultValue: any) => {
+const getDefaultValue = (fieldType: EntityFieldType, defaultValue: any) => {
   switch (fieldType) {
-    case 'checkbox':
-    case 'multi-select':
+    case 'BOOL':
+      return defaultValue === 'true' ? true : defaultValue === 'false' ? false : defaultValue === 'null' ? null : undefined
+    case 'CATEGORICAL_MREF':
+    case 'MREF':
       return defaultValue && defaultValue.split(',').map(item => item.trim())
     default:
       return defaultValue
@@ -416,7 +418,7 @@ const generateFormData = (fields: any, data: any, attributes: any, options: Mapp
     }
 
     accumulator[field.id] = options.mapperMode === 'CREATE'
-      ? getDefaultValue(field.type, attribute.defaultValue)
+      ? getDefaultValue(attribute.fieldType, attribute.defaultValue)
       : getFieldValue(field.type, data[field.id], idAttribute)
 
     return accumulator

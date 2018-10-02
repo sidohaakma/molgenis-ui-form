@@ -1004,9 +1004,24 @@ describe('Entity to state mapper', () => {
         expect(form.formData['username']).to.equal('default string value')
       })
 
-      it('A default boolean value should be mapped to the form value', () => {
+      it('A default boolean \'true\' value should be mapped to the form value true', () => {
         const form = EntityToFormMapper.generateForm(schemas.defaultBooleanValue, data, mapperOptions)
         expect(form.formData['username']).to.equal(true)
+      })
+
+      it('A default boolean \'false\' value should be mapped to the form value false', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanFalseValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(false)
+      })
+
+      it('A default boolean \'null\' value should be mapped to the form value null', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanNullValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(null)
+      })
+
+      it('A boolean without defualt value should be mapped to the form value undefined', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanNoValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(undefined)
       })
 
       it('A default file value should be mapped using the file name', () => {

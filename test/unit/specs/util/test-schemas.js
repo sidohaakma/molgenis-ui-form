@@ -933,7 +933,72 @@ export const defaultBooleanValue = {
       'readOnly': true,
       'unique': true,
       'visible': true,
-      'defaultValue': true
+      'defaultValue': 'true'
+    }
+  ]
+}
+
+export const defaultBooleanFalseValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'BOOL',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'defaultValue': 'false'
+    }
+  ]
+}
+
+export const defaultBooleanNullValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'BOOL',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': true,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'defaultValue': 'null'
+    }
+  ]
+}
+
+export const defaultBooleanNoValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'BOOL',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true
     }
   ]
 }
