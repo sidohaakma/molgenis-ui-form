@@ -24,6 +24,9 @@
       <li class="nav-item">
         <router-link to="/date-time" class="nav-link">Date time</router-link>
       </li>
+      <li class="nav-item">
+        <router-link to="/file" class="nav-link">File</router-link>
+      </li>
     </ul>
 
     <div>

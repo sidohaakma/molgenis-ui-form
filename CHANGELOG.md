@@ -1,6 +1,7 @@
-<a name="1.1.0"></a>
-## 1.1.0 (??-??-????)
-
+<a name="1.0.1"></a>
+## 1.0.1 (??-??-????)
+### Bugfixes
+* [201 Selecting File does not trigger vue-from change detect](https://github.com/molgenis/molgenis-ui-form/issues/201)
 
 <a name="1.0.1"></a>
 ## 1.0.1 (24-09-2018)
