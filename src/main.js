@@ -8,6 +8,7 @@ import IntegerExample from './example/number-field/IntegerExample'
 import LongExample from './example/number-field/LongExample'
 import DecimalExample from './example/number-field/DecimalExample'
 import UniqueExample from './example/unique/UniqueExample'
+import DateTimeExample from './example/date/DateTimeExample'
 import i18n from '@molgenis/molgenis-i18n-js'
 
 Vue.config.productionTip = false
@@ -37,6 +38,10 @@ const router = new Router({
     {
       path: '/unique/',
       component: UniqueExample
+    },
+    {
+      path: '/date-time/',
+      component: DateTimeExample
     },
     {
       path: '/',

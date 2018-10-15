@@ -94,7 +94,7 @@ describe('DateFieldComponent', () => {
     }
 
     const propsData = {
-      value: '2018-01-01 13:23',
+      value: '1985-08-12T11:12:13+0500',
       field: field,
       fieldState: fieldState,
       isRequired: () => true,
@@ -106,9 +106,9 @@ describe('DateFieldComponent', () => {
       const wrapper = mount(DateFieldComponent, {propsData: propsData})
 
       it('should emit an updated Date object including time on change', () => {
-        wrapper.setData({localValue: '2018-01-02 13:37'})
+        wrapper.setData({localValue: '2018-08-12T11:12:13+0500'})
 
-        const expectedDateTimeValue = '2018-01-02 13:37'
+        const expectedDateTimeValue = '2018-08-12T11:12:13+0500'
 
         expect(wrapper.emitted().input[0]).to.deep.equal([expectedDateTimeValue])
         expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
@@ -131,9 +131,9 @@ describe('DateFieldComponent', () => {
       const wrapper = mount(DateFieldComponent, {propsData: propsData})
 
       it('should return a moment object for a date string', () => {
-        const date = '2018-01-02 13:37'
+        const date = '2018-08-12T11:12:13+0500'
         const actual = wrapper.vm.getDateFromValue(date)
-        const expected = moment(date, moment.ISO_8601, true)
+        const expected = moment(date, 'Y-MM-DD\\THH:mm:ssZ', true)
 
         expect(actual).to.deep.equal(expected)
       })
@@ -143,11 +143,11 @@ describe('DateFieldComponent', () => {
       const wrapper = mount(DateFieldComponent, {propsData: propsData})
 
       it('should return true if the localValue is set to a valid date', () => {
-        expect(wrapper.vm.isValidDateTime('2018-01-02 13:23')).to.equal(true)
+        expect(wrapper.vm.isValidDateTime('2018-08-12T11:12:13+0500')).to.equal(true)
       })
 
       it('should return false if the localValue is set to a invalid date', () => {
-        expect(wrapper.vm.isValidDateTime('2018-01-02 13:23 PM')).to.equal(false)
+        expect(wrapper.vm.isValidDateTime('2018-14-12T11:62:13+0500')).to.equal(false)
       })
     })
   })
