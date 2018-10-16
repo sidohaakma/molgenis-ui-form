@@ -893,3 +893,181 @@ export const uniqueFieldSchema = {
     }
   ]
 }
+
+export const defaultStringValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'STRING',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'defaultValue': 'default string value'
+    }
+  ]
+}
+
+export const defaultBooleanValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'BOOL',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'defaultValue': 'true'
+    }
+  ]
+}
+
+export const defaultBooleanFalseValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'BOOL',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'defaultValue': 'false'
+    }
+  ]
+}
+
+export const defaultBooleanNullValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'BOOL',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': true,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'defaultValue': 'null'
+    }
+  ]
+}
+
+export const defaultBooleanNoValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'BOOL',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'Username',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'username',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true
+    }
+  ]
+}
+
+// This is a guess, can not test this due to issue: https://github.com/molgenis/molgenis/issues/7857
+export const defaultFileValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'FILE',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'File field',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'file-field',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'defaultValue': 'file_example.xlsx'
+    }
+  ]
+}
+
+export const defaultEnumValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'ENUM',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'File field',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'enum-field',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'enumOptions': ['option1', 'option2'],
+      'defaultValue': 'option1'
+    }
+  ]
+}
+
+export const defaultCategoricalMref = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'CATEGORICAL_MREF',
+      'href': '/api/v2/sys_sec_User/meta/username',
+      'isAggregatable': false,
+      'label': 'categorical mref field',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'cat-mref-field',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'enumOptions': ['option1', 'option2'],
+      'defaultValue': 'option1, option2'
+    }
+  ]
+}

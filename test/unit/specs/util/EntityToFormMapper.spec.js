@@ -992,4 +992,78 @@ describe('Entity to state mapper', () => {
       })
     })
   })
+
+  describe('Mapping default values', () => {
+    describe('when running the mapper in create mode', () => {
+      const data = {}
+      const mapperOptions = {
+        mapperMode: 'CREATE'
+      }
+      it('A default string value should be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultStringValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal('default string value')
+      })
+
+      it('A default boolean \'true\' value should be mapped to the form value true', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(true)
+      })
+
+      it('A default boolean \'false\' value should be mapped to the form value false', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanFalseValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(false)
+      })
+
+      it('A default boolean \'null\' value should be mapped to the form value null', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanNullValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(null)
+      })
+
+      it('A boolean without defualt value should be mapped to the form value undefined', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanNoValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(undefined)
+      })
+
+      it('A default file value should be mapped using the file name', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultFileValue, data, mapperOptions)
+        expect(form.formData['file-field']).to.equal('file_example.xlsx')
+      })
+
+      it('A default enum value should be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultEnumValue, data, mapperOptions)
+        expect(form.formData['enum-field']).to.equal('option1')
+      })
+
+      it('A default categorical mref value should be mapped to the form values', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultCategoricalMref, data, mapperOptions)
+        expect(form.formData['cat-mref-field']).to.deep.equal(['option1', 'option2'])
+      })
+    })
+
+    describe('when running the mapper in update mode', () => {
+      const data = {}
+      const mapperOptions = {
+        mapperMode: 'UPDATE'
+      }
+      it('A default string value should NOT be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultStringValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(undefined)
+      })
+
+      it('A default boolean value should NOT be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(undefined)
+      })
+
+      it('A default file value should NOT be mapped using the file name', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultFileValue, data, mapperOptions)
+        expect(form.formData['file-field']).to.equal(undefined)
+      })
+
+      it('A default enum value should NOT be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultEnumValue, data, mapperOptions)
+        expect(form.formData['enum-field']).to.equal(undefined)
+      })
+    })
+  })
 })

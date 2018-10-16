@@ -3,7 +3,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import ExamplePage from './example/ExamplePage'
-import FormDemo from './example/FormDemo'
+import UpdateEntityExample from './example/entity/UpdateEntityExample'
+import CreateEntityExample from './example/entity/CreateEntityExample'
 import IntegerExample from './example/number-field/IntegerExample'
 import LongExample from './example/number-field/LongExample'
 import DecimalExample from './example/number-field/DecimalExample'
@@ -21,8 +22,12 @@ const router = new Router({
   linkExactActiveClass: 'active',
   routes: [
     {
-      path: '/all',
-      component: FormDemo
+      path: '/update-entity',
+      component: UpdateEntityExample
+    },
+    {
+      path: '/create-entity',
+      component: CreateEntityExample
     },
     {
       path: '/integer/',
@@ -50,7 +55,7 @@ const router = new Router({
     },
     {
       path: '/',
-      redirect: '/all'
+      redirect: '/update-entity'
     }]
 })
 

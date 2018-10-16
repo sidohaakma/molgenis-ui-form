@@ -7,7 +7,10 @@
 
     <ul class="nav nav-tabs mb-3">
       <li class="nav-item">
-        <router-link to="/all" class="nav-link">All-fields</router-link>
+        <router-link to="/update-entity" class="nav-link">Update entity</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/create-entity" class="nav-link">Create entity</router-link>
       </li>
       <li class="nav-item">
         <router-link to="/integer" class="nav-link">Integer</router-link>
