@@ -1,10 +1,16 @@
-<a name="1.0.1"></a>
-## 1.0.1 (??-??-????)
+<a name="1.2.0"></a>
+## 1.2.0 (17-10-2018)
+### Features
+* Feature/map default entity values when mapping in create mode
+   
 ### Bugfixes
 * [201 Selecting File does not trigger vue-from change detect](https://github.com/molgenis/molgenis-ui-form/issues/201)
+* [211 When using Safari browser Molgenis datatime format result is empty date picker ](https://github.com/molgenis/molgenis-ui-form/issues/211)
 
-<a name="1.0.1"></a>
-## 1.0.1 (24-09-2018)
+<a name="1.1.0"></a>
+## 1.1.0 (24-09-2018)
+### Features
+* No features package version was set incorrectly 
 ### Bugfixes
 * Changelog release date is now set
 
