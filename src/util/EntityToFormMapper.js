@@ -14,6 +14,8 @@ import evaluator from './helpers/evaluator'
 import api from '@molgenis/molgenis-api-client'
 // $FlowFixMe
 import { encodeRsqlValue, transformToRSQL } from '@molgenis/rsql'
+// $FlowFixMe
+import moment from 'moment'
 
 const DEFAULTS = {
   mapperMode: 'UPDATE',
@@ -365,6 +367,8 @@ const generateFormSchemaField = (attribute, entityMetadata:any, mapperOptions: M
   return options ? {...fieldProperties, options} : fieldProperties
 }
 
+const toISO8601DateString = (molgenisDate: string) => moment(molgenisDate, moment.ISO_8601, true).format('YYYY-MM-DD')
+
 const getFieldValue = (fieldType: HtmlFieldType, fieldData: any, refEntityIdAttribute: string) => {
   switch (fieldType) {
     case 'file':
@@ -375,6 +379,8 @@ const getFieldValue = (fieldType: HtmlFieldType, fieldData: any, refEntityIdAttr
     case 'radio':
     case 'single-select':
       return fieldData && typeof fieldData === 'object' ? fieldData[refEntityIdAttribute] : fieldData
+    case 'date':
+      return fieldData && toISO8601DateString(fieldData)
     default:
       return fieldData
   }
@@ -387,6 +393,8 @@ const getDefaultValue = (fieldType: EntityFieldType, defaultValue: any) => {
     case 'CATEGORICAL_MREF':
     case 'MREF':
       return defaultValue && defaultValue.split(',').map(item => item.trim())
+    case 'DATE':
+      return defaultValue && toISO8601DateString(defaultValue)
     default:
       return defaultValue
   }

@@ -597,7 +597,7 @@ describe('Entity to state mapper', () => {
 
   describe('Generate form fields and data for a [DATE] attribute', () => {
     const data = {
-      'date': '1947/04/07'
+      'date': '1947-04-07'
     }
 
     const form = EntityToFormMapper.generateForm(schemas.dateSchema, data)
@@ -615,7 +615,20 @@ describe('Entity to state mapper', () => {
 
     it('should map a [DATE] entity to a form data object', () => {
       const expectedData = {
-        'date': '1947/04/07'
+        'date': '1947-04-07'
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
+    })
+
+    it('should map a molgenis date string the a valid ISO-8601 date format', () => {
+      const data = {
+        'date': '1947-04-07T00:00'
+      }
+
+      const form = EntityToFormMapper.generateForm(schemas.dateSchema, data)
+      const expectedData = {
+        'date': '1947-04-07'
       }
 
       expect(form.formData).to.deep.equal(expectedData)
@@ -1037,6 +1050,11 @@ describe('Entity to state mapper', () => {
       it('A default categorical mref value should be mapped to the form values', () => {
         const form = EntityToFormMapper.generateForm(schemas.defaultCategoricalMref, data, mapperOptions)
         expect(form.formData['cat-mref-field']).to.deep.equal(['option1', 'option2'])
+      })
+
+      it('A default date value should be mapped to the form values', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultDateValue, data, mapperOptions)
+        expect(form.formData['date-of-birth']).to.equal('2015-03-28')
       })
     })
 

@@ -48,8 +48,8 @@ const router = new Router({
     {
       path: '/date-time/',
       component: DateTimeExample
-	},
-	{
+    },
+    {
       path: '/file/',
       component: FileExample
     },
@@ -69,7 +69,7 @@ Vue.use(i18n, {
       el: '#form-demo',
       router,
       template: '<ExamplePage/>',
-      components: { ExamplePage }
+      components: {ExamplePage}
     })
   }
 })
