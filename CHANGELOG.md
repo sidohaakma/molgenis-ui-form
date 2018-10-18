@@ -1,4 +1,9 @@
 <a name="1.2.0"></a>
+## 1.2.1 (18-10-2018)
+### Bugfixes
+* [220 Molgenis alternative data format is seen as invalid](https://github.com/molgenis/molgenis-ui-form/issues/220)
+
+<a name="1.2.0"></a>
 ## 1.2.0 (17-10-2018)
 ### Features
 * Feature/map default entity values when mapping in create mode
