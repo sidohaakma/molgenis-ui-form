@@ -1071,3 +1071,25 @@ export const defaultCategoricalMref = {
     }
   ]
 }
+
+export const defaultDateValue = {
+  'attributes': [
+    {
+      'attributes': [],
+      'auto': false,
+      'fieldType': 'DATE',
+      'href': '/api/v2/sys_sec_User/meta/dateOfBirth',
+      'isAggregatable': false,
+      'label': 'date field',
+      'labelAttribute': true,
+      'lookupAttribute': true,
+      'maxLength': 255,
+      'name': 'date-of-birth',
+      'nillable': false,
+      'readOnly': true,
+      'unique': true,
+      'visible': true,
+      'defaultValue': '2015-03-28T00:00'
+    }
+  ]
+}
