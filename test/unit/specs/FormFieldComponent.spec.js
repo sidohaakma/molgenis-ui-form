@@ -23,7 +23,8 @@ describe('FormFieldComponents unit tests', () => {
     formData: {'string': 'data'},
     field: field,
     formState: formState,
-    showOptionalFields: true
+    showOptionalFields: true,
+    eventBus: {}
   }
 
   const wrapper = shallow(FormFieldComponent, {
@@ -77,7 +78,8 @@ describe('FormFieldComponents unit tests', () => {
           ]
         },
         formState: formState,
-        showOptionalFields: true
+        showOptionalFields: true,
+        eventBus: {}
       }
 
       const wrapper = shallow(FormFieldComponent, {
@@ -116,7 +118,8 @@ describe('FormFieldComponents unit tests', () => {
       formData: {'string': 'data'},
       field: field,
       formState: formState,
-      showOptionalFields: true
+      showOptionalFields: true,
+      eventBus: {}
     }
 
     const wrapper = mount(FormFieldComponent, {
@@ -141,7 +144,8 @@ describe('FormFieldComponents unit tests', () => {
       formData: {'string': 'data'},
       field: field,
       formState: formState,
-      showOptionalFields: true
+      showOptionalFields: true,
+      eventBus: {}
     }
 
     let wrapper
@@ -185,7 +189,8 @@ describe('FormFieldComponents unit tests', () => {
       formData: {'string': 'data'},
       field: field,
       formState: formState,
-      showOptionalFields: false
+      showOptionalFields: false,
+      eventBus: {}
     }
 
     const wrapper = mount(FormFieldComponent, {
@@ -215,10 +220,11 @@ describe('FormFieldComponents unit tests', () => {
       formData: {'string': 'data', id: 'abc'},
       field: field,
       formState: formState,
-      showOptionalFields: false
+      showOptionalFields: false,
+      eventBus: {}
     }
 
-    const wrapper = mount(FormFieldComponent, {
+    const wrapper = shallow(FormFieldComponent, {
       propsData: propsData
     })
 
