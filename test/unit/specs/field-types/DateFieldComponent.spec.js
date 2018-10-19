@@ -1,5 +1,5 @@
 import DateFieldComponent from '@/components/field-types/DateFieldComponent'
-import { mount } from 'vue-test-utils'
+import { mount, shallow } from 'vue-test-utils'
 import moment from 'moment'
 
 describe('DateFieldComponent', () => {
@@ -43,7 +43,7 @@ describe('DateFieldComponent', () => {
     }
 
     describe('on value change', () => {
-      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+      const wrapper = shallow(DateFieldComponent, {propsData: propsData})
 
       it('should emit an updated Date object on change', () => {
         wrapper.setData({localValue: '2018-03-13'})
@@ -103,7 +103,7 @@ describe('DateFieldComponent', () => {
     }
 
     describe('on value change', () => {
-      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+      const wrapper = shallow(DateFieldComponent, {propsData: propsData})
 
       it('should emit an updated Date object including time on change', () => {
         wrapper.setData({localValue: '2018-08-12T11:12:13+0500'})
