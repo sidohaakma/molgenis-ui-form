@@ -4,16 +4,16 @@ import type {
   FieldOption,
   FormField,
   HtmlFieldType,
-  RefEntityType,
   MapperOptions,
-  MapperSettings
+  MapperSettings,
+  RefEntityType
 } from '../flow.types'
 
 import evaluator from './helpers/evaluator'
 // $FlowFixMe
 import api from '@molgenis/molgenis-api-client'
 // $FlowFixMe
-import { encodeRsqlValue, transformToRSQL } from '@molgenis/rsql'
+import {encodeRsqlValue, transformToRSQL} from '@molgenis/rsql'
 // $FlowFixMe
 import moment from 'moment'
 
@@ -29,7 +29,7 @@ const DEFAULTS = {
 }
 
 // Create an object type UserException
-function MappingException (message: string) {
+function MappingException(message: string) {
   this.message = message
   this.name = 'MappingException'
 }
@@ -330,7 +330,7 @@ const isDisabledField = (attribute, entityMetaData, mapperOptions: MapperSetting
  * @param mapperOptions MapperOptions optional object containing options to configure mapper
  * @returns {{type: String, id, label, description, required: boolean, disabled, visible, options: ({uri, id, label, multiple}|{uri, id, label})}}
  */
-const generateFormSchemaField = (attribute, entityMetadata:any, mapperOptions: MapperSettings): FormField => {
+const generateFormSchemaField = (attribute, entityMetadata: any, mapperOptions: MapperSettings): FormField => {
   // options is a function that always returns an array of option objects
   const options = getFieldOptions(attribute, mapperOptions)
   const isDisabled = isDisabledField(attribute, entityMetadata, mapperOptions)
@@ -395,6 +395,13 @@ const getDefaultValue = (fieldType: EntityFieldType, defaultValue: any) => {
       return defaultValue && defaultValue.split(',').map(item => item.trim())
     case 'DATE':
       return defaultValue && toISO8601DateString(defaultValue)
+    case 'FILE':
+      const fileNameUrl = 'sys_FileMeta/' + defaultValue
+      return api.get(fileNameUrl).then((response) => {
+        resolve(response.filename)
+      }, (error) => {
+        reject(error)
+      })
     default:
       return defaultValue
   }

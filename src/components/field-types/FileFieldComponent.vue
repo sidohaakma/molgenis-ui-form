@@ -39,7 +39,7 @@
 
 <script>
   import VueForm from 'vue-form'
-  import { FormField } from '../../flow.types'
+  import {FormField} from '../../flow.types'
   import FormFieldMessages from '../FormFieldMessages'
 
   export default {
@@ -49,7 +49,7 @@
     },
     props: {
       value: {
-        type: [File, String],
+        type: [File, String, Promise],
         required: false
       },
       field: {
@@ -70,14 +70,15 @@
       }
     },
     mixins: [VueForm],
-    data () {
+    data() {
       return {
         // Store a local value to prevent changing the parent state
+
         localValue: this.value
       }
     },
     methods: {
-      handleFileChange (e) {
+      handleFileChange(e) {
         // Whenever the file changes, emit the 'input' event with the file data.
         this.localValue = e.target.files[0]
         this.$emit('input', this.localValue)
@@ -92,9 +93,21 @@
       }
     },
     computed: {
-      label () {
-        return typeof this.value === 'string' ? this.value
-          : this.value instanceof Blob ? this.value.name : ''
+      label() {
+        let labelValue = ''
+        if (typeof this.value === 'string') {
+          labelValue = this.value
+        } else if (typeof this.value === 'function') {
+          this.value.then(function (value) {
+            labelValue = value
+            console.log(value)
+          }).catch(function (error) {
+            console.error(error)
+          })
+        } else if (this.value instanceof Blob) {
+          labelValue = this.value.name
+        }
+        return labelValue
       }
     }
   }
