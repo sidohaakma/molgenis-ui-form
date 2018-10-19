@@ -1,6 +1,7 @@
 # molgenis-ui-form
 
 [![Build Status](https://travis-ci.org/molgenis/molgenis-ui-form.svg?branch=master)](https://travis-ci.org/molgenis/molgenis-ui-form)
+[![codecov](https://codecov.io/gh/molgenis/molgenis-ui-form/branch/master/graph/badge.svg)](https://codecov.io/gh/molgenis/molgenis-ui-form)
 [![Known Vulnerabilities](https://snyk.io/test/github/molgenis/molgenis-ui-form/badge.svg?targetFile=package.json)](https://snyk.io/test/github/molgenis/molgenis-ui-form?targetFile=package.json)
 
 > Library for generating HTML web forms
