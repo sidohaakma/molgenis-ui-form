@@ -91,6 +91,12 @@ describe('evaluator', () => {
       expect(result).to.equal(undefined)
     })
 
+    it('should return undefined in case of invalid date string', () => {
+      const entity = {date: '2018-foobar-19'}
+      const result = evaluator(expression, entity)
+      expect(result).to.equal(undefined)
+    })
+
     it('should return the age in years (4) if the property is a valid date', () => {
       const d = new Date()
       const year = d.getFullYear()
