@@ -51,7 +51,10 @@ describe('FormComponents shallow tests', () => {
   }
 
   const wrapper = shallow(FormComponent, {
-    propsData: propsData
+    propsData: propsData,
+    mocks: {
+      $t: () => 'mock i18n string'
+    }
   })
 
   describe('toggle show optional fields', () => {
@@ -108,6 +111,19 @@ describe('FormComponents shallow tests', () => {
       })
 
       expect(wrapper.vm.formData).to.deep.equal({'string': 'new data value'})
+    })
+  })
+
+  describe('Eye messages i18m', () => {
+    it('should return the default if i18n is not set', () => {
+      const wrapper = shallow(FormComponent, {
+        propsData: propsData,
+        mocks: {
+          $t: null
+        }
+      })
+
+      expect(wrapper.vm.eyeMessage).to.equal('Hide optional fields')
     })
   })
 })
