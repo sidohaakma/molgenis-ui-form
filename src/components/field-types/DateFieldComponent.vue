@@ -139,11 +139,8 @@
     },
     watch: {
       localValue (value) {
-        // Only emit a data change if the date is valid
-        if (this.isValidDateTime(value)) {
-          this.$emit('input', value)
-          this.$emit('dataChange')
-        }
+        this.$emit('input', value)
+        this.$emit('dataChange')
       }
     },
     created () {
