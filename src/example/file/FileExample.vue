@@ -4,10 +4,10 @@
 
       <div class="col-sm">
         <div class="card">
-          <h5 class="card-header text-center bg-info">Long field demo</h5>
+          <h5 class="card-header text-center bg-info">File field demo</h5>
           <div class="card-body">
             <form-component
-              id="long-example-form"
+              id="file-example-form"
               :options="formOptions"
               :formFields="formFields"
               :initialFormData="formData"
@@ -32,7 +32,7 @@
   import ModelSettings from '../components/ModelSettings'
 
   export default {
-    name: 'long-example',
+    name: 'file-example',
     components: {
       ModelSettings,
       FormComponent
@@ -44,10 +44,10 @@
         },
         formFields: [
           {
-            id: 'long-example',
-            label: 'Long Field',
-            description: 'Long type',
-            type: 'long',
+            id: 'file-example',
+            label: 'File Field',
+            description: 'File type example',
+            type: 'file',
             visible: () => true,
             required: () => false,
             validate: () => true
@@ -55,7 +55,7 @@
         ],
         formState: {},
         formData: {
-          'long-example': 9147483647
+          'file-example': 'test-file-name.txt'
         }
       }
     },

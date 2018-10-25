@@ -4,10 +4,11 @@
 
       <div class="col-sm">
         <div class="card">
-          <h5 class="card-header text-center bg-info">Long field demo</h5>
+          <h5 class="card-header text-center bg-info">Unique value demo</h5>
           <div class="card-body">
             <form-component
-              id="long-example-form"
+              ref="foo"
+              id="unique-example"
               :options="formOptions"
               :formFields="formFields"
               :initialFormData="formData"
@@ -32,7 +33,7 @@
   import ModelSettings from '../components/ModelSettings'
 
   export default {
-    name: 'long-example',
+    name: 'unique-example',
     components: {
       ModelSettings,
       FormComponent
@@ -44,18 +45,27 @@
         },
         formFields: [
           {
-            id: 'long-example',
-            label: 'Long Field',
-            description: 'Long type',
-            type: 'long',
+            id: 'unique-example',
+            label: 'Unique Field',
+            description: 'Enter \'test\' to trigger the constraint',
+            type: 'string',
             visible: () => true,
             required: () => false,
-            validate: () => true
+            validate: () => true,
+            unique: (proposedValue) => {
+              return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                  // 'demo valuetest' is work around for clearValue function not working in selemiun test
+                  // https://github.com/nightwatchjs/nightwatch/issues/504
+                  resolve(proposedValue !== 'test' && proposedValue !== 'demo valuetest')
+                }, 500)
+              })
+            }
           }
         ],
         formState: {},
         formData: {
-          'long-example': 9147483647
+          'unique-example': 'demo value'
         }
       }
     },

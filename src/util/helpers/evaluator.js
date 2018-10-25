@@ -126,12 +126,11 @@ export default function (script, entity) {
       age: function () {
         if (_isNull(this.val)) {
           this.val = undefined
-        } else {
-          if (typeof this.val === 'string') {
-            this.val = moment(this.val, 'YYYY-MM-DD', true).toDate()
-          }
-          this.val = Math.floor((Date.now() - this.val) / (365.2425 * 24 * 60 * 60 * 1000))
+          return this
         }
+
+        const dateValue = typeof this.val === 'string' ? moment(this.val, 'YYYY-MM-DD', true) : moment(this.val)
+        this.val = dateValue !== null && dateValue.isValid() ? moment().diff(dateValue, 'years') : undefined
         return this
       },
       /**

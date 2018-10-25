@@ -1,6 +1,6 @@
 {
   "name": "@molgenis/molgenis-ui-form",
-  "version": "0.12.0",
+  "version": "1.2.0",
   "description": "Library for generating HTML web forms",
   "author": "Mark-de-Haan <markdehaan90@gmail.com>",
   "keywords": [
@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "@molgenis/molgenis-api-client": "^2.1.2",
+    "@molgenis/rsql": "^0.1.1",
     "debounce": "^1.1.0",
     "moment": "^2.20.1",
     "vue-code": "^1.2.3",
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@molgenis/molgenis-i18n-js": "^0.1.1",
+    "archiver": "^3.0.0",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",

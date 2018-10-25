@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="customValidation">
+  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, range: isValidRange, unique: isUnique}" :debounce="validationDebounce">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -9,7 +9,7 @@
         :type="inputType"
         :name="field.id"
         class="form-control"
-        :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted) && fieldState.$invalid}"
+        :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
         :aria-describedby="field.id + '-description'"
         :required="isRequired"
         :disabled="field.disabled"
@@ -59,6 +59,10 @@
         type: Boolean,
         default: true
       },
+      isUnique: {
+        type: Function,
+        default: () => true
+      },
       isRequired: {
         type: Boolean,
         default: false
@@ -77,10 +81,7 @@
     },
     watch: {
       localValue: debounce(function (value) {
-        /*
-        Do not convert NaN field to number to allow for validation to generate warning
-         */
-        if (this.isNumberField(this.field) && !Number.isNaN(value)) {
+        if (this.isNumberField && !Number.isNaN(Number(value))) {
           this.$emit('input', Number(value))
         } else {
           this.$emit('input', value)
@@ -92,53 +93,59 @@
       }, debounceTime)
     },
     computed: {
-      customValidation () {
-        let validate = {'validate': this.isValid}
-        if (this.isNumberField(this.field)) {
-          if (this.field.type === 'integer') {
-            validate = { ...validate, integer: this.isCompatibleWithJavaInt() }
-          } else if (this.field.type === 'long') {
-            validate = { ...validate, long: this.isCompatibleWithJavaLong() }
-          }
-        }
-
-        if (this.isNumberField(this.field) && this.field.range) {
-          validate = { ...validate, range: this.isWithinRange }
-        }
-
-        return validate
-      },
       stepSize () {
         // Conditionally add step size, return false to omit step attribute
         return (this.field.type === 'integer' || this.field.type === 'long') ? 1 : false
       },
       inputType () {
-        return this.isNumberField(this.field) ? 'number' : this.field.type
-      }
-    },
-    methods: {
-      isWithinRange () {
-        if (this.field.range.hasOwnProperty('min') && this.localValue < this.field.range.min) {
+        return this.isNumberField ? 'number' : this.field.type
+      },
+      isValidRange () {
+        if (!this.isNumberField || !this.field.range) {
+          return true
+        }
+
+        const numberValue = Number(this.localValue)
+        if (Number.isNaN(numberValue)) {
           return false
         }
-        if (this.field.range.hasOwnProperty('max') && this.localValue > this.field.range.max) {
+        if (this.field.range.hasOwnProperty('min') && numberValue < this.field.range.min) {
+          return false
+        }
+        if (this.field.range.hasOwnProperty('max') && numberValue > this.field.range.max) {
           return false
         }
 
         return true
       },
-      isCompatibleWithJavaInt () {
-        return Number.isSafeInteger(this.value) && this.value <= MAX_JAVA_INT && this.value >= MIN_JAVA_INT
+      isValidInt () {
+        if (this.field.type !== 'integer') {
+          return true
+        }
+
+        const numberValue = Number(this.localValue)
+        if (Number.isNaN(this.localValue)) {
+          return false
+        }
+        return Number.isSafeInteger(numberValue) && numberValue <= MAX_JAVA_INT && numberValue >= MIN_JAVA_INT
       },
-      isCompatibleWithJavaLong () {
-        return Number.isInteger(this.value)
+      isValidLong () {
+        if (this.field.type !== 'long') {
+          return true
+        }
+        const numberValue = Number(this.localValue)
+        if (Number.isNaN(this.localValue)) {
+          return false
+        }
+        return Number.isInteger(numberValue)
       },
-      isNumberField (field) {
-        return field.type === 'integer' || field.type === 'long' || field.type === 'decimal'
+      isNumberField () {
+        return this.field.type === 'integer' || this.field.type === 'long' || this.field.type === 'decimal'
       }
     },
     created () {
       debounceTime = this.inputDebounceTime
+      this.validationDebounce = debounceTime + 200 // validate after event update debounce
     }
   }
 </script>

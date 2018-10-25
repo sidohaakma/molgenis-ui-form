@@ -12,6 +12,10 @@ import type {
 import evaluator from './helpers/evaluator'
 // $FlowFixMe
 import api from '@molgenis/molgenis-api-client'
+// $FlowFixMe
+import { encodeRsqlValue, transformToRSQL } from '@molgenis/rsql'
+// $FlowFixMe
+import moment from 'moment'
 
 const DEFAULTS = {
   mapperMode: 'UPDATE',
@@ -20,7 +24,8 @@ const DEFAULTS = {
     falseLabel: 'False',
     nillLabel: 'N/A'
   },
-  showNillableBooleanOption: true
+  showNillableBooleanOption: true,
+  showNonVisibleAttributes: false
 }
 
 // Create an object type UserException
@@ -212,14 +217,16 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
 
 /**
  * If there is a visible expression present, return a function which evaluates the expression.
- * If there is no expression present, return a function which evaluates to the value of attribute.visible
+ * If there is no expression present, check if mapper is run with showVisibleAttribute option set to true,
+ * if this is not the case attributes visible property is used
  *
  * @param attribute
+ * @param mapperOptions
  * @returns {Function} Function which evaluates to a boolean
  */
-const isVisible = (attribute): ((?Object) => boolean) => {
+const isVisible = (attribute, mapperOptions: MapperSettings): ((?Object) => boolean) => {
   const expression = attribute.visibleExpression
-  return expression ? (data) => evaluator(expression, data) : () => attribute.visible
+  return expression ? (data) => evaluator(expression, data) : () => mapperOptions.showNonVisibleAttributes || attribute.visible
 }
 
 /**
@@ -249,18 +256,67 @@ const isValid = (attribute): ((?Object) => boolean) => {
 }
 
 /**
+ * Construct function that queries backend to check for uniqueness.
+ * Returned function is expected to the called with resolve and reject functions to handle async callback and
+ * proposedValue to verify uniqueness for. When runnig the mapper in update mode the optional data param is expected to
+ * contain the id value of the entity to be updated.
+ * @param attribute
+ * @param entityMetadata
+ * @param mapperOptions
+ * @returns {*}
+ */
+const buildIsUniqueFunction = (attribute, entityMetadata: any, mapperOptions: MapperSettings): (() => Promise<boolean>) => {
+  // no need to check uniqueness if uniqueness is not required, or uniqueness check not supported for field type
+  // todo maybe add support for multi value field types
+  if (!attribute.unique || attribute.fieldType === 'CATEGORICAL_MREF' || attribute.fieldType === 'MREF' || attribute.fieldType === 'ONE_TO_MANY') {
+    return () => Promise.resolve(true)
+  }
+
+  return (proposedValue: any, data: any) => {
+    return new Promise((resolve, reject) => {
+      let query = {selector: attribute.name, comparison: '==', arguments: proposedValue}
+      if (mapperOptions.mapperMode === 'UPDATE') {
+        query = {
+          operator: 'AND',
+          operands: [
+            query,
+            {
+              selector: entityMetadata.idAttribute,
+              comparison: '!=',
+              arguments: data[entityMetadata.idAttribute] // to validate uniqueness in update mode there must be a id value present
+            }
+          ]
+        }
+      }
+
+      const testUniqueUrl = entityMetadata.hrefCollection + '?&num=1&q=' + encodeRsqlValue(transformToRSQL(query))
+      return api.get(testUniqueUrl).then((response) => {
+        resolve(response.items.length <= 0)
+      }, (error) => {
+        reject(error)
+      })
+    })
+  }
+}
+
+/**
  * Determine if field should be disabled
  * @param attribute
+ * @param entityMetaData
  * @param mapperOptions
  * @returns boolean
  */
-const isDisabledField = (attribute, mapperOptions: MapperSettings): boolean => {
+const isDisabledField = (attribute, entityMetaData, mapperOptions: MapperSettings): boolean => {
   if (attribute.fieldType === 'ONE_TO_MANY') {
     return true
   }
 
   if (mapperOptions.mapperMode === 'CREATE') {
     return false
+  }
+
+  if (mapperOptions.mapperMode === 'UPDATE' && attribute.name === entityMetaData.idAttribute) {
+    return true
   }
 
   return attribute.readOnly
@@ -270,13 +326,14 @@ const isDisabledField = (attribute, mapperOptions: MapperSettings): boolean => {
  * Generate a schema field object suitable for the forms
  *
  * @param attribute Attribute metadata from an EntityType V2 response
+ * @param entityMetadata object containing entityMetadata
  * @param mapperOptions MapperOptions optional object containing options to configure mapper
  * @returns {{type: String, id, label, description, required: boolean, disabled, visible, options: ({uri, id, label, multiple}|{uri, id, label})}}
  */
-const generateFormSchemaField = (attribute, mapperOptions: MapperSettings): FormField => {
+const generateFormSchemaField = (attribute, entityMetadata:any, mapperOptions: MapperSettings): FormField => {
   // options is a function that always returns an array of option objects
   const options = getFieldOptions(attribute, mapperOptions)
-  const isDisabled = isDisabledField(attribute, mapperOptions)
+  const isDisabled = isDisabledField(attribute, entityMetadata, mapperOptions)
   let fieldProperties = {
     id: attribute.name,
     label: attribute.label,
@@ -285,12 +342,13 @@ const generateFormSchemaField = (attribute, mapperOptions: MapperSettings): Form
     required: isRequired(attribute),
     disabled: isDisabled,
     readOnly: isDisabled,
-    visible: isVisible(attribute),
-    validate: isValid(attribute)
+    visible: isVisible(attribute, mapperOptions),
+    validate: isValid(attribute),
+    unique: buildIsUniqueFunction(attribute, entityMetadata, mapperOptions)
   }
 
   if (attribute.fieldType === 'COMPOUND') {
-    const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute, mapperOptions))
+    const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute, entityMetadata, mapperOptions))
     fieldProperties = {...fieldProperties, children}
   }
 
@@ -309,6 +367,39 @@ const generateFormSchemaField = (attribute, mapperOptions: MapperSettings): Form
   return options ? {...fieldProperties, options} : fieldProperties
 }
 
+const toISO8601DateString = (molgenisDate: string) => moment(molgenisDate, moment.ISO_8601, true).format('YYYY-MM-DD')
+
+const getFieldValue = (fieldType: HtmlFieldType, fieldData: any, refEntityIdAttribute: string) => {
+  switch (fieldType) {
+    case 'file':
+      return fieldData ? fieldData.filename : undefined
+    case 'checkbox':
+    case 'multi-select':
+      return fieldData && fieldData.map(data => data[refEntityIdAttribute])
+    case 'radio':
+    case 'single-select':
+      return fieldData && typeof fieldData === 'object' ? fieldData[refEntityIdAttribute] : fieldData
+    case 'date':
+      return fieldData && toISO8601DateString(fieldData)
+    default:
+      return fieldData
+  }
+}
+
+const getDefaultValue = (fieldType: EntityFieldType, defaultValue: any) => {
+  switch (fieldType) {
+    case 'BOOL':
+      return defaultValue === 'true' ? true : defaultValue === 'false' ? false : defaultValue === 'null' ? null : undefined
+    case 'CATEGORICAL_MREF':
+    case 'MREF':
+      return defaultValue && defaultValue.split(',').map(item => item.trim())
+    case 'DATE':
+      return defaultValue && toISO8601DateString(defaultValue)
+    default:
+      return defaultValue
+  }
+}
+
 /**
  * Generates a data object suitable for the forms
  * Recursively calls itself when a field of type "field-group" is present
@@ -317,36 +408,27 @@ const generateFormSchemaField = (attribute, mapperOptions: MapperSettings): Form
  * @param fields an array of field objects
  * @param data a data object containing everything a EntityType V2 response has in its item list
  * @param attributes an array of MOLGENIS attribute metadata, used for idAttribute
+ * @param options Object containing settings for the mapper
  * @returns a {fieldId: value} object
  */
-const generateFormData = (fields: any, data: any, attributes: any) => {
-  return fields.reduce((accumulator, field) => {
-    const fieldAttribute = attributes.find(attribute => attribute.name === field.id)
-    const idAttribute = fieldAttribute.refEntity && fieldAttribute.refEntity.idAttribute
+const generateFormData = (fields: any, data: any, attributes: any, options: MapperSettings) => {
+  return attributes.reduce((accumulator, attribute) => {
+    const field = fields.find(field => attribute.name === field.id)
+    const idAttribute = attribute.refEntity && attribute.refEntity.idAttribute
 
-    switch (field.type) {
-      case 'field-group':
-        // Recursively generate data for compounds
-        return {...accumulator, ...generateFormData(field.children, data, fieldAttribute.attributes)}
-      case 'file':
-        // Map MOLGENIS FileMeta entity to our form file object
-        // which only contains a name
-        const fileData = data[field.id]
-        accumulator[field.id] = fileData ? fileData.filename : data[field.id]
-        break
-      case 'checkbox':
-      case 'multi-select':
-        const checkboxData = data[field.id]
-        accumulator[field.id] = checkboxData && checkboxData.map(data => data[idAttribute])
-        break
-      case 'radio':
-      case 'single-select':
-        const radioData = data[field.id]
-        accumulator[field.id] = radioData && typeof radioData === 'object' ? radioData[idAttribute] : data[field.id]
-        break
-      default:
-        accumulator[field.id] = data[field.id]
+    if (!field) {
+      accumulator[attribute.name] = data[attribute.name]
+      return accumulator
     }
+
+    if (field.type === 'field-group') {
+      return {...accumulator, ...generateFormData(field.children, data, attribute.attributes, options)}
+    }
+
+    accumulator[field.id] = options.mapperMode === 'CREATE'
+      ? getDefaultValue(attribute.fieldType, attribute.defaultValue)
+      : getFieldValue(field.type, data[field.id], idAttribute)
+
     return accumulator
   }, {})
 }
@@ -354,27 +436,30 @@ const generateFormData = (fields: any, data: any, attributes: any) => {
 /**
  * Returns true if entity attribute should be included in form
  *
- * Some attributes do not map to a actionable from item ( for example a server side generated auto id field)
- *
  * @param attribute
  * @returns {boolean}
  */
-const isFormFieldAttribute = (attribute: any):boolean => {
-  return !(attribute.auto && !attribute.visible)
+const isFormFieldAttribute = (attribute: any): boolean => {
+  return !(
+    (attribute.auto && !attribute.visible) || // server side generated field
+    (attribute.hasOwnProperty('expression') && attribute.expression.length > 0) // computed field
+  )
 }
 
 /**
  * Generates an array for form fields
  *
- * @param attributes A list of MOLGENIS attribute metadata
+ * @param metaData object containing the entity metaData
  * @param options MapperOptions object containing options to configure mapper
  * @returns a an array of Field objects
  */
-const generateFormFields = (attributes: any, options: MapperSettings): Array<FormField> => attributes
-  .filter(isFormFieldAttribute)
-  .map((attr) => {
-    return generateFormSchemaField(attr, options)
-  })
+const generateFormFields = (metaData: any, options: MapperSettings): Array<FormField> => {
+  const {attributes, ...entityMetadata} = metaData
+  return attributes.filter(isFormFieldAttribute)
+    .map((attr) => {
+      return generateFormSchemaField(attr, entityMetadata, options)
+    })
+}
 
 /**
  * Construct mapper settings taking into account the user settings, if no settings are passed the defaults are used
@@ -387,6 +472,7 @@ const buildMapperSettings = (settings?: MapperOptions): MapperSettings => {
   }
 
   const mapperMode = settings.mapperMode ? settings.mapperMode : DEFAULTS.mapperMode
+
   let booleanLabels = DEFAULTS.booleanLabels
   if (settings.booleanLabels) {
     booleanLabels = {
@@ -395,15 +481,22 @@ const buildMapperSettings = (settings?: MapperOptions): MapperSettings => {
       nillLabel: settings.booleanLabels.nillLabel ? settings.booleanLabels.nillLabel : 'N/A'
     }
   }
+
   let showNillableBooleanOption = DEFAULTS.showNillableBooleanOption
   if (typeof (settings.showNillableBooleanOption) === 'boolean') {
     showNillableBooleanOption = settings.showNillableBooleanOption
   }
 
+  let showNonVisibleAttributes = DEFAULTS.showNonVisibleAttributes
+  if (typeof (settings.showNonVisibleAttributes) === 'boolean') {
+    showNonVisibleAttributes = settings.showNonVisibleAttributes
+  }
+
   return {
-    mapperMode: mapperMode,
-    booleanLabels: booleanLabels,
-    showNillableBooleanOption: showNillableBooleanOption
+    mapperMode,
+    booleanLabels,
+    showNillableBooleanOption,
+    showNonVisibleAttributes
   }
 }
 
@@ -416,10 +509,9 @@ const buildMapperSettings = (settings?: MapperOptions): MapperSettings => {
  * @returns {{formFields: Array<FormField>, formData: *}}
  */
 const generateForm = (metadata: any, data: ?any, userSettings?: MapperOptions) => {
-  const mapperOptions = buildMapperSettings(userSettings)
-  const attributes = metadata.attributes
-  const formFields = generateFormFields(attributes, mapperOptions)
-  const formData = data ? generateFormData(formFields, data, attributes) : {}
+  const mapperSettings = buildMapperSettings(userSettings)
+  const formFields = generateFormFields(metadata, mapperSettings)
+  const formData = generateFormData(formFields, data || {}, metadata.attributes, mapperSettings)
 
   return {
     formFields,

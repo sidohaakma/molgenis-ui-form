@@ -3,10 +3,14 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import ExamplePage from './example/ExamplePage'
-import FormDemo from './example/FormDemo'
+import UpdateEntityExample from './example/entity/UpdateEntityExample'
+import CreateEntityExample from './example/entity/CreateEntityExample'
 import IntegerExample from './example/number-field/IntegerExample'
 import LongExample from './example/number-field/LongExample'
 import DecimalExample from './example/number-field/DecimalExample'
+import UniqueExample from './example/unique/UniqueExample'
+import DateTimeExample from './example/date/DateTimeExample'
+import FileExample from './example/file/FileExample'
 import i18n from '@molgenis/molgenis-i18n-js'
 
 Vue.config.productionTip = false
@@ -18,8 +22,12 @@ const router = new Router({
   linkExactActiveClass: 'active',
   routes: [
     {
-      path: '/all',
-      component: FormDemo
+      path: '/update-entity',
+      component: UpdateEntityExample
+    },
+    {
+      path: '/create-entity',
+      component: CreateEntityExample
     },
     {
       path: '/integer/',
@@ -34,8 +42,20 @@ const router = new Router({
       component: DecimalExample
     },
     {
+      path: '/unique/',
+      component: UniqueExample
+    },
+    {
+      path: '/date-time/',
+      component: DateTimeExample
+    },
+    {
+      path: '/file/',
+      component: FileExample
+    },
+    {
       path: '/',
-      redirect: '/all'
+      redirect: '/update-entity'
     }]
 })
 
@@ -49,7 +69,7 @@ Vue.use(i18n, {
       el: '#form-demo',
       router,
       template: '<ExamplePage/>',
-      components: { ExamplePage }
+      components: {ExamplePage}
     })
   }
 })

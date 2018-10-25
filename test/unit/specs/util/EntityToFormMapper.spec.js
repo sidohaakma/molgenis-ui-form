@@ -22,6 +22,8 @@ const get = td.function('api.get')
 td.when(get('/api/v2/it_emx_datatypes_TypeTestRef')).thenResolve(response)
 td.when(get('/api/v2/it_emx_datatypes_TypeTestRef?q=value=like=ref1,label=like=ref1')).thenResolve(responseBySearch)
 td.when(get('/api/v2/it_emx_datatypes_TypeTestRef?q=value=in=(ref1,ref2,ref3),label=in=(ref1,ref2,ref3)')).thenResolve(response)
+td.when(get('/api/v2/sys_demo/unique_example?&num=1&q=unique_demo==\'am%20i%20unique%3F\'')).thenResolve({items: []})
+td.when(get('/api/v2/sys_demo/unique_example?&num=1&q=unique_demo==\'i%20am%20not%20unique%3F\';id!=123')).thenResolve({items: []})
 td.replace(api, 'get', get)
 
 describe('Entity to state mapper', () => {
@@ -595,7 +597,7 @@ describe('Entity to state mapper', () => {
 
   describe('Generate form fields and data for a [DATE] attribute', () => {
     const data = {
-      'date': '1947/04/07'
+      'date': '1947-04-07'
     }
 
     const form = EntityToFormMapper.generateForm(schemas.dateSchema, data)
@@ -613,7 +615,20 @@ describe('Entity to state mapper', () => {
 
     it('should map a [DATE] entity to a form data object', () => {
       const expectedData = {
-        'date': '1947/04/07'
+        'date': '1947-04-07'
+      }
+
+      expect(form.formData).to.deep.equal(expectedData)
+    })
+
+    it('should map a molgenis date string the a valid ISO-8601 date format', () => {
+      const data = {
+        'date': '1947-04-07T00:00'
+      }
+
+      const form = EntityToFormMapper.generateForm(schemas.dateSchema, data)
+      const expectedData = {
+        'date': '1947-04-07'
       }
 
       expect(form.formData).to.deep.equal(expectedData)
@@ -916,6 +931,157 @@ describe('Entity to state mapper', () => {
       expect(field.disabled).to.equal(true)
       expect(field.readOnly).to.equal(true)
       expect(field.visible()).to.equal(true)
+    })
+  })
+
+  describe('Computed expression field', () => {
+    it('should not be part of the form', () => {
+      const form = EntityToFormMapper.generateForm(schemas.computedXrefSchema, {})
+      expect(form.formFields.length).to.equal(0)
+    })
+  })
+
+  describe('Computed writable expression field', () => {
+    it('should not be part of the form', () => {
+      const form = EntityToFormMapper.generateForm(schemas.computedWritableXrefSchema, {})
+      expect(form.formFields.length).to.equal(0)
+    })
+  })
+
+  describe('MapperMode option: showNonVisibleAttributes', () => {
+    const data = {}
+
+    it('Setting showNonVisibleAttributes to true results in non visible attr mapping to visible field', () => {
+      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, {showNonVisibleAttributes: true})
+      const field = form.formFields[0]
+      expect(field.visible()).to.equal(true)
+    })
+
+    it('Setting showNonVisibleAttributes to false results in non visible attr mapping to non-visible field', () => {
+      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, {showNonVisibleAttributes: false})
+      const field = form.formFields[0]
+      expect(field.visible()).to.equal(false)
+    })
+
+    it('By default the mapper maps in non visible attr to non-visible field', () => {
+      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, {showNonVisibleAttributes: false})
+      const field = form.formFields[0]
+      expect(field.visible()).to.equal(false)
+    })
+  })
+
+  describe('buildIsUniqueFunction', () => {
+    const data = {}
+
+    describe('when running the mapper in CREATE mode', () => {
+      const form = EntityToFormMapper.generateForm(schemas.uniqueFieldSchema, data, {mapperMode: 'CREATE'})
+
+      it('should return a function that resolve for true in case of unique value', (done) => {
+        const promise = form.formFields[0].unique('am i unique?', {id: '123'})
+
+        promise.then((result) => {
+          expect(result).to.equal(true)
+          done()
+        }, () => {
+          expect(false).to.equal(true) // fail test
+          done()
+        })
+      })
+    })
+
+    describe('when running the mapper in UPDATE mode', () => {
+      const form = EntityToFormMapper.generateForm(schemas.uniqueFieldSchema, data, {mapperMode: 'UPDATE'})
+
+      it('should return a function that when querying the backend should exclude the row being updated', (done) => {
+        const promise = form.formFields[0].unique('i am not unique?', {id: '123'})
+
+        promise.then((result) => {
+          expect(result).to.equal(true)
+          done()
+        }, () => {
+          expect(false).to.equal(true) // fail test
+          done()
+        })
+      })
+    })
+  })
+
+  describe('Mapping default values', () => {
+    describe('when running the mapper in create mode', () => {
+      const data = {}
+      const mapperOptions = {
+        mapperMode: 'CREATE'
+      }
+      it('A default string value should be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultStringValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal('default string value')
+      })
+
+      it('A default boolean \'true\' value should be mapped to the form value true', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(true)
+      })
+
+      it('A default boolean \'false\' value should be mapped to the form value false', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanFalseValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(false)
+      })
+
+      it('A default boolean \'null\' value should be mapped to the form value null', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanNullValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(null)
+      })
+
+      it('A boolean without defualt value should be mapped to the form value undefined', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanNoValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(undefined)
+      })
+
+      it('A default file value should be mapped using the file name', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultFileValue, data, mapperOptions)
+        expect(form.formData['file-field']).to.equal('file_example.xlsx')
+      })
+
+      it('A default enum value should be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultEnumValue, data, mapperOptions)
+        expect(form.formData['enum-field']).to.equal('option1')
+      })
+
+      it('A default categorical mref value should be mapped to the form values', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultCategoricalMref, data, mapperOptions)
+        expect(form.formData['cat-mref-field']).to.deep.equal(['option1', 'option2'])
+      })
+
+      it('A default date value should be mapped to the form values', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultDateValue, data, mapperOptions)
+        expect(form.formData['date-of-birth']).to.equal('2015-03-28')
+      })
+    })
+
+    describe('when running the mapper in update mode', () => {
+      const data = {}
+      const mapperOptions = {
+        mapperMode: 'UPDATE'
+      }
+      it('A default string value should NOT be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultStringValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(undefined)
+      })
+
+      it('A default boolean value should NOT be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultBooleanValue, data, mapperOptions)
+        expect(form.formData['username']).to.equal(undefined)
+      })
+
+      it('A default file value should NOT be mapped using the file name', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultFileValue, data, mapperOptions)
+        expect(form.formData['file-field']).to.equal(undefined)
+      })
+
+      it('A default enum value should NOT be mapped to the form value', () => {
+        const form = EntityToFormMapper.generateForm(schemas.defaultEnumValue, data, mapperOptions)
+        expect(form.formData['enum-field']).to.equal(undefined)
+      })
     })
   })
 })

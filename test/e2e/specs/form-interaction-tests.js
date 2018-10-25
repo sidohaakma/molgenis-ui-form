@@ -5,6 +5,7 @@ module.exports = {
   beforeEach: function (browser) {
     // Wait for form to be loaded
     browser.url(browser.globals.devServerURL)
+    browser.url(browser.globals.devServerURL + '/update-entity')
     browser.pause(browser.globals.waitBeforeTestStart)
   },
 
