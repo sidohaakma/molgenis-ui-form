@@ -73,8 +73,8 @@ module.exports = {
           'form_bool_false': 'False',
           'form_bool_missing': 'N/A',
           'form_no_options': 'No options found.',
-          'hide_optional_hint': 'Hide optional fields',
-          'show_optional_hint': 'Show all fields'
+          'form_hide_optional_hint': 'Hide optional fields.',
+          'form_show_optional_hint': 'Show all fields.'
         }
         res.json(localizedMessages)
       })

@@ -84,12 +84,12 @@
       eyeMessage () {
         const defaultMessages = (key) => {
           return {
-            'ui-form:hide_optional_hint': 'Hide optional fields',
-            'ui-form:show_optional_hint': 'Show all fields'
+            'ui-form:form_hide_optional_hint': 'Hide optional fields',
+            'ui-form:form_show_optional_hint': 'Show all fields'
           }[key]
         }
         const localizedMessages = this.$t || defaultMessages
-        return this.showOptionalFields ? localizedMessages('ui-form:hide_optional_hint') : localizedMessages('ui-form:show_optional_hint')
+        return this.showOptionalFields ? localizedMessages('ui-form:form_hide_optional_hint') : localizedMessages('ui-form:form_show_optional_hint')
       },
 
       /**
