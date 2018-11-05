@@ -1,3 +1,14 @@
+<a name="2.0.0"></a>
+## 2.0.0
+### Features
+* Rename boolean i18 message keys to avoid clash with molgenis project
+   - `form_bool_true` renamed to `form_boolean_true`
+   - `form_bool_false` renamed to `form_boolean_false`
+   - `form_bool_missing` renamed to `form_boolean_missing`
+
+### Bugfixes
+* [203 Hide all optional fields/show all fields not internationalized](https://github.com/molgenis/molgenis-ui-form/issues/203)
+
 <a name="1.2.0"></a>
 ## 1.2.1 (18-10-2018)
 ### Bugfixes
