@@ -6,7 +6,7 @@
       <checkbox-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -18,7 +18,7 @@
       <code-editor-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -30,7 +30,7 @@
       <file-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange">
@@ -65,7 +65,7 @@
         :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange"
@@ -79,7 +79,7 @@
       <radio-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
         :isUnique="isUnique"
@@ -93,7 +93,7 @@
         :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isRequired="isRequired"
         :isValid="isValid"
         @dataChange="onDataChange"
@@ -107,7 +107,7 @@
       <text-area-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
         :inputDebounceTime="formComponentOptions.inputDebounceTime"
@@ -120,7 +120,7 @@
       <date-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
         @dataChange="onDataChange"
@@ -133,7 +133,7 @@
       <typed-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
         :isUnique="isUnique"
@@ -235,6 +235,12 @@
       }
     },
     computed: {
+      fieldState () {
+        return this.formState[this.field.id]
+      },
+      pending () {
+        return this.fieldState && this.fieldState.$pending
+      },
       isValid () {
         return this.field.validate(this.formData)
       },
@@ -259,6 +265,14 @@
         }
 
         return defaultNoOptionsMessage
+      }
+    },
+    watch: {
+      pending (isPending) {
+        if (!isPending) {
+          console.log(this.fieldState)
+          // this.emitDataChange()
+        }
       }
     },
     components: {

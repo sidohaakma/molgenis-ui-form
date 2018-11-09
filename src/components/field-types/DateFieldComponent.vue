@@ -138,9 +138,20 @@
       }
     },
     watch: {
-      localValue (value) {
-        this.$emit('input', value)
+      pending (pending) {
+        if (pending) {
+          return
+        }
+        // Emit value changes to the parent (form)
+        this.$emit('input', this.localValue)
+        // Emit value changes to trigger the onValueChange
+        // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
+      }
+    },
+    computed: {
+      pending () {
+        return this.fieldState && this.fieldState.$pending
       }
     },
     created () {

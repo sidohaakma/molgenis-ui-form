@@ -92,6 +92,11 @@
         this.fieldState.$touched = true
       }
     },
+    computed: {
+      pending () {
+        return this.fieldState && this.fieldState.$pending
+      }
+    },
     created () {
       this.field.options().then(response => {
         this.options = response

@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{'validate': isValid}">
+  <validate :state="fieldState" :custom="{'validate': isValid}" :debounce="inputDebounceTime">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -28,7 +28,6 @@
   import VueForm from 'vue-form'
   import { FormField } from '../../flow.types'
   import FormFieldMessages from '../FormFieldMessages'
-  import debounce from 'debounce'
 
   let debounceTime = 500
 
@@ -70,18 +69,21 @@
         localValue: this.value
       }
     },
-    watch: {
-      localValue: debounce(function (value) {
+    methods: {
+      emitDataChange () {
         // Emit value changes to the parent (form)
-        this.$emit('input', value)
+        this.$emit('input', this.localValue)
         // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
-      }, debounceTime)
+      }
     },
-    created () {
-      debounceTime = this.inputDebounceTime
-      this.validationDebounce = debounceTime + 200 // validate after event update debounce
+    watch: {
+      localValue () {
+        if (this.inputDebounceTime <= 0) {
+          this.emitDataChange()
+        }
+      }
     }
   }
 </script>

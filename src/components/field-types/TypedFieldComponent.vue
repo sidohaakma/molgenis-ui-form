@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, range: isValidRange, unique: isUnique}" :debounce="validationDebounce">
+  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, range: isValidRange, unique: isUnique}" :debounce="inputDebounceTime">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -29,7 +29,6 @@
   import VueForm from 'vue-form'
   import { FormField } from '../../flow.types'
   import FormFieldMessages from '../FormFieldMessages'
-  import debounce from 'debounce'
 
   const MIN_JAVA_INT = -2147483648
   const MAX_JAVA_INT = 2147483647
@@ -80,19 +79,25 @@
       }
     },
     watch: {
-      localValue: debounce(function (value) {
-        if (this.isNumberField && !Number.isNaN(Number(value))) {
-          this.$emit('input', Number(value))
+      pending (pending) {
+        if (pending) {
+          return
+        }
+        if (this.isNumberField && !Number.isNaN(Number(this.localValue))) {
+          this.$emit('input', Number(this.localValue))
         } else {
-          this.$emit('input', value)
+          this.$emit('input', this.localValue)
         }
 
         // Emit value changes to trigger the onValueChange
         // Do not use input event for this to prevent unwanted behavior
         this.$emit('dataChange')
-      }, debounceTime)
+      }
     },
     computed: {
+      pending () {
+        return this.fieldState && this.fieldState.$pending
+      },
       stepSize () {
         // Conditionally add step size, return false to omit step attribute
         return (this.field.type === 'integer' || this.field.type === 'long') ? 1 : false
@@ -142,10 +147,6 @@
       isNumberField () {
         return this.field.type === 'integer' || this.field.type === 'long' || this.field.type === 'decimal'
       }
-    },
-    created () {
-      debounceTime = this.inputDebounceTime
-      this.validationDebounce = debounceTime + 200 // validate after event update debounce
     }
   }
 </script>
