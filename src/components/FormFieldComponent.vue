@@ -105,13 +105,12 @@
     <!-- Render text area field -->
     <template v-else-if="field.type === 'text-area'">
       <text-area-field-component
-        v-model="formData[field.id]"
+        v-model="localValue"
         :field="field"
         :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
-        :inputDebounceTime="formComponentOptions.inputDebounceTime"
-        @dataChange="onDataChange">
+        :inputDebounceTime="formComponentOptions.inputDebounceTime">
       </text-area-field-component>
     </template>
 
@@ -222,6 +221,11 @@
         }
       }
     },
+    data () {
+      return {
+        localValue: this.formData[this.field.id]
+      }
+    },
     methods: {
       onDataChange () {
         this.$emit('dataChange')
@@ -268,10 +272,15 @@
       }
     },
     watch: {
+      localValue () {
+        this.formData[this.field.id] = this.localValue
+        if (this.formComponentOptions.inputDebounceTime <= 0) {
+          this.onDataChange()
+        }
+      },
       pending (isPending) {
         if (!isPending) {
-          console.log(this.fieldState)
-          // this.emitDataChange()
+          this.onDataChange()
         }
       }
     },

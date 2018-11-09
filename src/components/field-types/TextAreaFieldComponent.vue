@@ -69,20 +69,9 @@
         localValue: this.value
       }
     },
-    methods: {
-      emitDataChange () {
-        // Emit value changes to the parent (form)
-        this.$emit('input', this.localValue)
-        // Emit value changes to trigger the onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
-      }
-    },
     watch: {
       localValue () {
-        if (this.inputDebounceTime <= 0) {
-          this.emitDataChange()
-        }
+        this.$emit('input', this.localValue)
       }
     }
   }
