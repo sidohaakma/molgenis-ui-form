@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{'validate': isValid, 'unique': isUnique}" v-if="options.length > 0">
+  <validate :state="fieldState" :custom="{'validate': isValid, 'unique': isUnique}" v-if="options.length > 0" :debounce="1">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -76,20 +76,8 @@
       }
     },
     watch: {
-      pending (pending) {
-        if (pending) {
-          return
-        }
-        // Emit value changes to the parent (form)
+      localValue () {
         this.$emit('input', this.localValue)
-        // Emit value changes to trigger the onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
-      }
-    },
-    computed: {
-      pending () {
-        return this.fieldState && this.fieldState.$pending
       }
     },
     created () {

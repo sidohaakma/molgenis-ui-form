@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{'validate': isValid}" v-if="options.length > 0">
+  <validate :state="fieldState" :custom="{'validate': isValid}" v-if="options.length > 0" :debounce="1">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -77,9 +77,6 @@
       localValue (value) {
         // Emit value changes to the parent (form)
         this.$emit('input', value)
-        // Emit value changes to trigger the onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
       }
     },
     methods: {
@@ -90,11 +87,6 @@
       deSelectAll () {
         this.localValue = []
         this.fieldState.$touched = true
-      }
-    },
-    computed: {
-      pending () {
-        return this.fieldState && this.fieldState.$pending
       }
     },
     created () {

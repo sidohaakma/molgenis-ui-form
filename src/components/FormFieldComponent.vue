@@ -8,8 +8,7 @@
         :field="field"
         :fieldState="fieldState"
         :isValid="isValid"
-        :isRequired="isRequired"
-        @dataChange="onDataChange">
+        :isRequired="isRequired">
       </checkbox-field-component>
     </template>
 
@@ -20,8 +19,7 @@
         :field="field"
         :fieldState="fieldState"
         :isValid="isValid"
-        :isRequired="isRequired"
-        @dataChange="onDataChange">
+        :isRequired="isRequired">
       </code-editor-field-component>
     </template>
 
@@ -32,8 +30,7 @@
         :field="field"
         :fieldState="fieldState"
         :isValid="isValid"
-        :isRequired="isRequired"
-        @dataChange="onDataChange">
+        :isRequired="isRequired">
       </file-field-component>
     </template>
 
@@ -68,7 +65,6 @@
         :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
-        @dataChange="onDataChange"
         :allowAddingOptions="formComponentOptions.allowAddingOptions"
         :noOptionsMessage="noOptionsMessage">
       </multi-select-field-component>
@@ -82,8 +78,7 @@
         :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
-        :isUnique="isUnique"
-        @dataChange="onDataChange">
+        :isUnique="isUnique">
       </radio-field-component>
     </template>
 
@@ -96,7 +91,6 @@
         :fieldState="fieldState"
         :isRequired="isRequired"
         :isValid="isValid"
-        @dataChange="onDataChange"
         :allowAddingOptions="formComponentOptions.allowAddingOptions"
         :noOptionsMessage="noOptionsMessage">
       </single-select-field-component>
@@ -105,7 +99,7 @@
     <!-- Render text area field -->
     <template v-else-if="field.type === 'text-area'">
       <text-area-field-component
-        v-model="localValue"
+        v-model="formData[field.id]"
         :field="field"
         :fieldState="fieldState"
         :isValid="isValid"
@@ -122,7 +116,6 @@
         :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
-        @dataChange="onDataChange"
         :isTimeIncluded="field.type === 'date-time'">
       </date-field-component>
     </template>
@@ -136,8 +129,7 @@
         :isValid="isValid"
         :isRequired="isRequired"
         :isUnique="isUnique"
-        :inputDebounceTime="formComponentOptions.inputDebounceTime"
-        @dataChange="onDataChange">
+        :inputDebounceTime="formComponentOptions.inputDebounceTime">
       </typed-field-component>
     </template>
   </fieldset>
@@ -221,21 +213,16 @@
         }
       }
     },
-    data () {
-      return {
-        localValue: this.formData[this.field.id]
-      }
-    },
     methods: {
-      onDataChange () {
-        this.$emit('dataChange')
-      },
       isUnique (value) {
         if (this.field.hasOwnProperty('unique')) {
           return this.field.unique(value, this.formData)
         }
 
         return true
+      },
+      onDataChange () {
+        this.$emit('dataChange')
       }
     },
     computed: {
@@ -272,12 +259,6 @@
       }
     },
     watch: {
-      localValue () {
-        this.formData[this.field.id] = this.localValue
-        if (this.formComponentOptions.inputDebounceTime <= 0) {
-          this.onDataChange()
-        }
-      },
       pending (isPending) {
         if (!isPending) {
           this.onDataChange()

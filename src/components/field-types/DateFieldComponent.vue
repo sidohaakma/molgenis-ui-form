@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{'validate': isValidDateTime(localValue) && isValid}">
+  <validate :state="fieldState" :custom="{'validate': isValidDateTime(localValue) && isValid}" :debounce="1">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -138,20 +138,11 @@
       }
     },
     watch: {
-      pending (pending) {
-        if (pending) {
-          return
+      localValue (value) {
+        // Only emit a data change if the date is valid
+        if (this.isValidDateTime(value)) {
+          this.$emit('input', value)
         }
-        // Emit value changes to the parent (form)
-        this.$emit('input', this.localValue)
-        // Emit value changes to trigger the onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
-      }
-    },
-    computed: {
-      pending () {
-        return this.fieldState && this.fieldState.$pending
       }
     },
     created () {

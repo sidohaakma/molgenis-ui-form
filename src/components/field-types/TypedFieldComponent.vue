@@ -79,25 +79,15 @@
       }
     },
     watch: {
-      pending (pending) {
-        if (pending) {
-          return
-        }
+      localValue () {
         if (this.isNumberField && !Number.isNaN(Number(this.localValue))) {
           this.$emit('input', Number(this.localValue))
         } else {
           this.$emit('input', this.localValue)
         }
-
-        // Emit value changes to trigger the onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
       }
     },
     computed: {
-      pending () {
-        return this.fieldState && this.fieldState.$pending
-      },
       stepSize () {
         // Conditionally add step size, return false to omit step attribute
         return (this.field.type === 'integer' || this.field.type === 'long') ? 1 : false

@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{'validate': isValid}">
+  <validate :state="fieldState" :custom="{'validate': isValid}" :debounce="1">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -115,9 +115,6 @@
         } else {
           this.$emit('input', null)
         }
-        // Emit value changes to trigger the onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
       }
     },
     created () {
