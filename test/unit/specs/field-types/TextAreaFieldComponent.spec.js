@@ -47,7 +47,6 @@ describe('TextAreaFieldComponent unit tests', () => {
     wrapper.setData({localValue: 'test text area MESSAGE!!'})
     setTimeout(function () {
       expect(wrapper.emitted().input[0]).to.deep.equal(['test text area MESSAGE!!'])
-      expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
       done()
     }, 1000)
   })

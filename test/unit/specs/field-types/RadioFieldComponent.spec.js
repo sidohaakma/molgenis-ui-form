@@ -68,7 +68,5 @@ describe('RadioFieldComponent unit tests', () => {
   it('should emit an updated value on change', () => {
     wrapper.setData({localValue: '1'})
     expect(wrapper.emitted().input[0]).to.deep.equal(['1'])
-
-    expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
   })
 })

@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, range: isValidRange, unique: isUnique}" :debounce="validationDebounce">
+  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, range: isValidRange, unique: isUnique}" :debounce="inputDebounceTime">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -29,7 +29,6 @@
   import VueForm from 'vue-form'
   import { FormField } from '../../flow.types'
   import FormFieldMessages from '../FormFieldMessages'
-  import debounce from 'debounce'
 
   const MIN_JAVA_INT = -2147483648
   const MAX_JAVA_INT = 2147483647
@@ -80,17 +79,17 @@
       }
     },
     watch: {
-      localValue: debounce(function (value) {
-        if (this.isNumberField && !Number.isNaN(Number(value))) {
-          this.$emit('input', Number(value))
-        } else {
-          this.$emit('input', value)
-        }
+      localValue (value) {
+        let typedValue = this.isNumberField && !Number.isNaN(Number(value)) ? this.toNumber(value)
+          : value
 
-        // Emit value changes to trigger the onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
-      }, debounceTime)
+        this.$emit('input', typedValue)
+      }
+    },
+    methods: {
+      toNumber (input) {
+        return input !== '' ? Number(input) : null
+      }
     },
     computed: {
       stepSize () {
@@ -101,11 +100,11 @@
         return this.isNumberField ? 'number' : this.field.type
       },
       isValidRange () {
-        if (!this.isNumberField || !this.field.range) {
+        if (!this.isNumberField || !this.field.range || this.localValue === '') {
           return true
         }
 
-        const numberValue = Number(this.localValue)
+        const numberValue = this.toNumber(this.localValue)
         if (Number.isNaN(numberValue)) {
           return false
         }
@@ -119,7 +118,7 @@
         return true
       },
       isValidInt () {
-        if (this.field.type !== 'integer') {
+        if (this.field.type !== 'integer' || this.localValue === '') {
           return true
         }
 
@@ -130,7 +129,7 @@
         return Number.isSafeInteger(numberValue) && numberValue <= MAX_JAVA_INT && numberValue >= MIN_JAVA_INT
       },
       isValidLong () {
-        if (this.field.type !== 'long') {
+        if (this.field.type !== 'long' || this.localValue === '') {
           return true
         }
         const numberValue = Number(this.localValue)
@@ -142,10 +141,6 @@
       isNumberField () {
         return this.field.type === 'integer' || this.field.type === 'long' || this.field.type === 'decimal'
       }
-    },
-    created () {
-      debounceTime = this.inputDebounceTime
-      this.validationDebounce = debounceTime + 200 // validate after event update debounce
     }
   }
 </script>
