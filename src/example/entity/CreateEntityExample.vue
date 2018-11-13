@@ -84,9 +84,9 @@
     created () {
       const mapperOptions = {
         booleanLabels: {
-          trueLabel: this.$t('form_bool_true'), // $t is set via @molgenis/molgenis-i18n-js plugin
-          falseLabel: this.$t('form_bool_false'),
-          nillLabel: this.$t('form_bool_missing')
+          trueLabel: this.$t('form_boolean_true'), // $t is set via @molgenis/molgenis-i18n-js plugin
+          falseLabel: this.$t('form_boolean_false'),
+          nillLabel: this.$t('form_boolean_missing')
         },
         mapperMode: 'CREATE'
       }
