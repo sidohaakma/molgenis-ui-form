@@ -1,5 +1,13 @@
-## 1.2.2 (draft)
+<a name="2.0.0"></a>
+## 2.0.0
+### Features
+* Rename boolean i18 message keys to avoid clash with molgenis project
+   - `form_bool_true` renamed to `form_boolean_true`
+   - `form_bool_false` renamed to `form_boolean_false`
+   - `form_bool_missing` renamed to `form_boolean_missing`
+
 ### Bugfixes
+* [203 Hide all optional fields/show all fields not internationalized](https://github.com/molgenis/molgenis-ui-form/issues/203)
 * [#233 Set the value to null on clearing a number field](https://github.com/molgenis/molgenis-ui-form/issues/233)
 * [#226 Allow clearing of a date / date-time field](https://github.com/molgenis/molgenis-ui-form/issues/226)
 * [#236 Age function is off by one year for future dates](https://github.com/molgenis/molgenis-ui-form/issues/236)
