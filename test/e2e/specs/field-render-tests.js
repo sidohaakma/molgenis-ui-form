@@ -68,7 +68,9 @@ module.exports = {
     browser.options.desiredCapabilities.name = 'Correctly render a multi select field with a list of options'
 
     browser.expect.element('#mref-fs').to.be.visible
-    browser.expect.element('#mref-fs').to.be.a('fieldset')
+    browser.getTagName('#mref-fs', function(result) {
+      this.assert.equal(result.value.toLowerCase(), 'fieldset')
+    })
 
     browser.expect.element('#mref-fs input').to.be.visible
 
