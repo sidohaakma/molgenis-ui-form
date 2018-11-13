@@ -226,16 +226,21 @@ describe('FormFieldComponents unit tests', () => {
       }
     }
 
-    const propsData = {
-      formData: {'string': 'data', id: 'abc'},
-      field: field,
-      formState: formState,
-      showOptionalFields: false,
-      eventBus: {}
-    }
+    let propsData
+    let wrapper
 
-    const wrapper = shallow(FormFieldComponent, {
-      propsData: propsData
+    beforeEach(() => {
+      propsData = {
+        formData: {'string': 'data', id: 'abc'},
+        field: field,
+        formState: formState,
+        showOptionalFields: false,
+        eventBus: {}
+      }
+
+      wrapper = shallow(FormFieldComponent, {
+        propsData: propsData
+      })
     })
 
     it('should return a promise that resolve to a boolean', (done) => {
@@ -246,6 +251,17 @@ describe('FormFieldComponents unit tests', () => {
       }, (error) => {
         console.log(error)
       })
+    })
+
+    it('should emit dataChange when validation is no longer pending', () => {
+      propsData.formData.string = 'data123'
+      propsData.formState.string.$pending = true
+      wrapper.setProps(propsData)
+      // eslint-disable-next-line no-unused-expressions
+      expect(wrapper.emitted().dataChange).to.be.undefined
+      propsData.formState.string.$pending = false
+      wrapper.setProps(propsData)
+      expect(wrapper.emitted().dataChange.length).to.eq(1)
     })
   })
 })
