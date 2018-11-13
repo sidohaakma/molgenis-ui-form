@@ -79,12 +79,16 @@
       }
     },
     watch: {
-      localValue () {
-        if (this.isNumberField && !Number.isNaN(Number(this.localValue))) {
-          this.$emit('input', Number(this.localValue))
-        } else {
-          this.$emit('input', this.localValue)
-        }
+      localValue (value) {
+        let typedValue = this.isNumberField && !Number.isNaN(Number(value)) ? this.toNumber(value)
+          : value
+
+        this.$emit('input', typedValue)
+      }
+    },
+    methods: {
+      toNumber (input) {
+        return input !== '' ? Number(input) : null
       }
     },
     computed: {
@@ -96,11 +100,11 @@
         return this.isNumberField ? 'number' : this.field.type
       },
       isValidRange () {
-        if (!this.isNumberField || !this.field.range) {
+        if (!this.isNumberField || !this.field.range || this.localValue === '') {
           return true
         }
 
-        const numberValue = Number(this.localValue)
+        const numberValue = this.toNumber(this.localValue)
         if (Number.isNaN(numberValue)) {
           return false
         }
@@ -114,7 +118,7 @@
         return true
       },
       isValidInt () {
-        if (this.field.type !== 'integer') {
+        if (this.field.type !== 'integer' || this.localValue === '') {
           return true
         }
 
@@ -125,7 +129,7 @@
         return Number.isSafeInteger(numberValue) && numberValue <= MAX_JAVA_INT && numberValue >= MIN_JAVA_INT
       },
       isValidLong () {
-        if (this.field.type !== 'long') {
+        if (this.field.type !== 'long' || this.localValue === '') {
           return true
         }
         const numberValue = Number(this.localValue)

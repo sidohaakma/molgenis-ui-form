@@ -116,6 +116,30 @@ describe('evaluator', () => {
       const expected = moment().diff(date, 'years')
       expect(actual).to.equal(expected)
     })
+
+    it('future dates should start at -1', () => {
+      const date = moment().add(3, 'days').format('YYYY-MM-DD')
+      const entity = {date: date}
+      const actual = evaluator(expression, entity)
+
+      expect(actual).to.equal(-1)
+    })
+
+    it('current dates should start at 0', () => {
+      const date = moment().format('YYYY-MM-DD')
+      const entity = {date: date}
+      const actual = evaluator(expression, entity)
+
+      expect(actual).to.equal(0)
+    })
+
+    it('past dates should start at 0', () => {
+      const date = moment().subtract(3, 'days').format('YYYY-MM-DD')
+      const entity = {date: date}
+      const actual = evaluator(expression, entity)
+
+      expect(actual).to.equal(0)
+    })
   })
 
   describe('map', () => {

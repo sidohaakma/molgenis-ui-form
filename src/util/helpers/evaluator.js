@@ -130,7 +130,7 @@ export default function (script, entity) {
         }
 
         const dateValue = typeof this.val === 'string' ? moment(this.val, 'YYYY-MM-DD', true) : moment(this.val)
-        this.val = dateValue !== null && dateValue.isValid() ? moment().diff(dateValue, 'years') : undefined
+        this.val = dateValue !== null && dateValue.isValid() ? Math.floor((Date.now() - dateValue.toDate()) / (365.2425 * 24 * 60 * 60 * 1000)) : undefined
         return this
       },
       /**
