@@ -249,7 +249,7 @@ describe('FormFieldComponents unit tests', () => {
         expect(result).to.equal(true)
         done()
       }, (error) => {
-        console.log(error)
+        done(error)
       })
     })
 
