@@ -261,6 +261,7 @@
     watch: {
       pending (isPending) {
         if (!isPending) {
+          // validation finished
           this.onDataChange()
         }
       }
