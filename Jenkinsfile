@@ -94,7 +94,7 @@ pipeline {
 
           sh "git push --tags origin ${BRANCH_NAME}"
 
-          sh "echo //${NPM_REGISTRY}/:_authToken=${NPM_TOKEN} > ~/.npmrc"
+          sh "echo //${env.NPM_REGISTRY}/:_authToken=${NPM_TOKEN} > ~/.npmrc"
 
           sh "npm publish"
         }
