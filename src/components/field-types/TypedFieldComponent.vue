@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, range: isValidRange, unique: isUnique}" :debounce="validationDebounce">
+  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, range: isValidRange, unique: isUnique}" :debounce="inputDebounceTime">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -29,7 +29,6 @@
   import VueForm from 'vue-form'
   import { FormField } from '../../flow.types'
   import FormFieldMessages from '../FormFieldMessages'
-  import debounce from 'debounce'
 
   const MIN_JAVA_INT = -2147483648
   const MAX_JAVA_INT = 2147483647
@@ -80,15 +79,12 @@
       }
     },
     watch: {
-      localValue: debounce(function (value) {
-        let typedValue = this.isNumberField && !Number.isNaN(Number(value)) ? this.toNumber(value) : value
+      localValue (value) {
+        let typedValue = this.isNumberField && !Number.isNaN(Number(value)) ? this.toNumber(value)
+          : value
 
         this.$emit('input', typedValue)
-
-        // Emit value changes to trigger the onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
-      }, debounceTime)
+      }
     },
     methods: {
       toNumber (input) {
@@ -145,10 +141,6 @@
       isNumberField () {
         return this.field.type === 'integer' || this.field.type === 'long' || this.field.type === 'decimal'
       }
-    },
-    created () {
-      debounceTime = this.inputDebounceTime
-      this.validationDebounce = debounceTime + 200 // validate after event update debounce
     }
   }
 </script>
