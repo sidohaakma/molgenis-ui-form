@@ -1,3 +1,7 @@
+## 1.2.2 (draft)
+### Bugfixes
+* [236 Age function is off by one year for future dates](https://github.com/molgenis/molgenis-ui-form/issues/236)
+
 <a name="1.2.0"></a>
 ## 1.2.1 (18-10-2018)
 ### Bugfixes
