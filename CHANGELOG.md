@@ -1,5 +1,5 @@
-<a name="2.0.0"></a>
-## 2.0.0
+<a name="2.0.2"></a>
+## 2.0.2
 ### Features
 * Rename boolean i18 message keys to avoid clash with molgenis project
    - `form_bool_true` renamed to `form_boolean_true`
