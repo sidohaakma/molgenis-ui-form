@@ -1,4 +1,5 @@
 <template>
+  <!-- Tiny debounce to make sure that validation will always flip the fieldState.$pending flag -->
   <validate :state="fieldState" :custom="{'validate': isValid}" v-if="options.length > 0" :debounce="1">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>

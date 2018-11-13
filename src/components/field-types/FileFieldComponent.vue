@@ -1,4 +1,5 @@
 <template>
+  <!-- Tiny debounce to make sure that validation will always flip the fieldState.$pending flag -->
   <validate :state="fieldState" :custom="{'validate': isValid}" :debounce="1">
     <!-- add hidden input to serve a holder for file input ( input with type file may not contain a value -->
     <input
