@@ -1,5 +1,6 @@
 <template>
-  <validate :state="fieldState" :custom="{'validate': isValid, 'unique': isUnique}" v-if="options.length > 0">
+  <!-- Tiny debounce to make sure that validation will always flip the fieldState.$pending flag -->
+  <validate :state="fieldState" :custom="{'validate': isValid, 'unique': isUnique}" v-if="options.length > 0" :debounce="1">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -76,12 +77,8 @@
       }
     },
     watch: {
-      localValue (value) {
-        // Emit value changes to the parent (form)
-        this.$emit('input', value)
-        // Emit value changes to trigger the onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
+      localValue () {
+        this.$emit('input', this.localValue)
       }
     },
     created () {

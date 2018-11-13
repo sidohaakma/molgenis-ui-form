@@ -1,7 +1,13 @@
+## 1.2.2 (draft)
+### Bugfixes
+* [#233 Set the value to null on clearing a number field](https://github.com/molgenis/molgenis-ui-form/issues/233)
+* [#226 Allow clearing of a date / date-time field](https://github.com/molgenis/molgenis-ui-form/issues/226)
+* [#236 Age function is off by one year for future dates](https://github.com/molgenis/molgenis-ui-form/issues/236)
+
 <a name="1.2.0"></a>
 ## 1.2.1 (18-10-2018)
 ### Bugfixes
-* [220 Molgenis alternative data format is seen as invalid](https://github.com/molgenis/molgenis-ui-form/issues/220)
+* [#220 Molgenis alternative data format is seen as invalid](https://github.com/molgenis/molgenis-ui-form/issues/220)
 
 <a name="1.2.0"></a>
 ## 1.2.0 (17-10-2018)
@@ -9,8 +15,8 @@
 * Feature/map default entity values when mapping in create mode
    
 ### Bugfixes
-* [201 Selecting File does not trigger vue-from change detect](https://github.com/molgenis/molgenis-ui-form/issues/201)
-* [211 When using Safari browser Molgenis datatime format result is empty date picker ](https://github.com/molgenis/molgenis-ui-form/issues/211)
+* [#201 Selecting File does not trigger vue-from change detect](https://github.com/molgenis/molgenis-ui-form/issues/201)
+* [#211 When using Safari browser Molgenis datatime format result is empty date picker ](https://github.com/molgenis/molgenis-ui-form/issues/211)
 
 <a name="1.1.0"></a>
 ## 1.1.0 (24-09-2018)

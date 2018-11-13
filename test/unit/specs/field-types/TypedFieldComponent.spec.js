@@ -156,10 +156,18 @@ describe('TypedFieldComponent unit tests', () => {
       )
     })
 
-    it('should emit an updated integer if value us valid integer on change', (done) => {
+    it('should emit an updated integer if value is valid integer on change', (done) => {
       wrapper.setData({localValue: '1'})
       setTimeout(function () {
         expect(wrapper.emitted().input[0]).to.deep.equal([1])
+        done()
+      }, 1000)
+    })
+
+    it('should emit null if value empty on change', (done) => {
+      wrapper.setData({localValue: ''})
+      setTimeout(function () {
+        expect(wrapper.emitted().input[0]).to.deep.equal([null])
         done()
       }, 1000)
     })
