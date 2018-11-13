@@ -91,6 +91,12 @@ describe('evaluator', () => {
       expect(result).to.equal(undefined)
     })
 
+    it('should return undefined in case of invalid date string', () => {
+      const entity = {date: '2018-foobar-19'}
+      const result = evaluator(expression, entity)
+      expect(result).to.equal(undefined)
+    })
+
     it('should return the age in years (4) if the property is a valid date', () => {
       const d = new Date()
       const year = d.getFullYear()
@@ -109,6 +115,30 @@ describe('evaluator', () => {
 
       const expected = moment().diff(date, 'years')
       expect(actual).to.equal(expected)
+    })
+
+    it('future dates should start at -1', () => {
+      const date = moment().add(3, 'days').format('YYYY-MM-DD')
+      const entity = {date: date}
+      const actual = evaluator(expression, entity)
+
+      expect(actual).to.equal(-1)
+    })
+
+    it('current dates should start at 0', () => {
+      const date = moment().format('YYYY-MM-DD')
+      const entity = {date: date}
+      const actual = evaluator(expression, entity)
+
+      expect(actual).to.equal(0)
+    })
+
+    it('past dates should start at 0', () => {
+      const date = moment().subtract(3, 'days').format('YYYY-MM-DD')
+      const entity = {date: date}
+      const actual = evaluator(expression, entity)
+
+      expect(actual).to.equal(0)
     })
   })
 

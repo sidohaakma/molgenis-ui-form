@@ -411,3 +411,30 @@ Please make sure you add the name of the specific test in the test. This is need
 ```javascript
 browser.options.desiredCapabilities.name = 'Example testname'
 ```
+
+### Integration with `vue-form`
+We use the [`vue-form`](https://github.com/fergaldoyle/vue-form) library for validation.
+
+The component tree mingles elements from `vue-form` and `molgenis-ui-form` like this:
+```
+<FormComponent :formState :initialFormData>
+  <VueForm :state="formState">
+    <FormFieldComponent :formState :formData :field>
+      <TypedFieldComponent v-model="formData[field.id]">
+        <Validate :state :debounce>
+          <input v-model="localValue"> 
+          <FormFieldMessages> 
+```
+
+The `TypedFieldComponent` creates a `localValue` data element and
+binds it to a type-specific input inside a `Validate` component.
+The `TypedFieldComponent` fires `@Input` events whenever `localValue` changes.
+These `@Input` events are bound to `formData[field.id]`
+
+![Event handling](https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgaW5wdXQgdmFsaWRhdGlvbiBhbmQgZGVib3VuY2UKClVzZXIgLT4gSW5wdXQ6IHR5cGUgdHlwZS4uLgoADwUgLT4gVHlwZWRGaWVsZENvbXBvbmVudDogOmxvY2FsVmFsdWUKAA4TIC0-IGZvcm1EYXRhOiA6AAMIW2ZpZWxkLmlkXQoAFgggLT4gVnVlRm9ybTogd2F0Y2gKAAgHAD8FaWVsZFN0YXRlOiAkcGVuZGluZz10cnVlCgAQCiAtPiAAgQ8QAEQFACkJCgpsb29wAF8IAIF3CXMAgg0Md2hpbGUgdXNlciBpcyB0eXBpbmcKICAgIACCCBwgICAAgjYGAIIDJSAgIACCORQAggoiICAgAIJFCQCCHRNlbmQKAIIpDACCRgkAg3EHZQphY3RpdmF0ZQCBegkAgkwYc2V0cyAkAIQrBQCCZiFmYWxzZQpkZQBNEAoAgm0vAIQoEkZvcm0AhGELQGRhdGFDaGFuZ2UKCgAPDSAtPiAuLi46IEB2YWx1ZQAeBg&s=napkin)
+
+
+`vue-form` debounces the validation until input ceases. 
+The `FormFieldComponent` listens for `formState[field.id].$pending` to become `false` to make
+sure that validation is done and the `fieldState` is up to date.
+Then it emits a `@dataChange` event to the `FormComponent` and the `FormComponent` emits `@valueChange`.

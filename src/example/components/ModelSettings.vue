@@ -9,7 +9,7 @@
       <hr/>
 
       <h5 class="card-title">data</h5>
-        <pre>{{ fieldData }}</pre>
+        <pre class="field-data-json">{{ fieldData }}</pre>
     </div>
   </div>
 
