@@ -1,5 +1,6 @@
 <template>
-  <validate :state="fieldState" :custom="{'validate': isValid}">
+  <!-- Tiny debounce to make sure that validation will always flip the fieldState.$pending flag -->
+  <validate :state="fieldState" :custom="{'validate': isValid}" :debounce="1">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
       <div :class="{'border border-danger': isInvalid}">
@@ -104,9 +105,6 @@
       localValue (value) {
         // Emit value changes to the parent (form)
         this.$emit('input', value)
-        // Emit value changes to trigger the onValueChange
-        // Do not use input event for this to prevent unwanted behavior
-        this.$emit('dataChange')
         this.fieldState.$touched = true
         this.fieldState.$dirty = true
       }

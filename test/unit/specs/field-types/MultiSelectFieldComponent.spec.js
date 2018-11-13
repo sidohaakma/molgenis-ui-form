@@ -110,10 +110,15 @@ describe('MultiSelectFieldComponent unit tests', () => {
       stubs: {'fieldMessages': '<div>This field is required</div>'}
     })
 
-    wrapper.vm.fetchOptions('ref1', (loading) => true)
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.options).to.deep.equal([{id: 'ref1', label: 'label1', value: 'ref1'}])
-      done()
+    wrapper.vm.fetchOptions('ref1', (loading) => {
+      if (loading === false) {
+        try {
+          expect(wrapper.vm.options).to.deep.equal([{id: 'ref1', label: 'label1', value: 'ref1'}])
+          done()
+        } catch (ex) {
+          done(ex)
+        }
+      }
     })
   })
 
@@ -123,10 +128,15 @@ describe('MultiSelectFieldComponent unit tests', () => {
       stubs: {'fieldMessages': '<div>This field is required</div>'}
     })
 
-    wrapper.vm.fetchOptions('non existing option', (loading) => true)
-    wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.options).to.deep.equal([])
-      done()
+    wrapper.vm.fetchOptions('non existing option', (loading) => {
+      if (loading === false) {
+        try {
+          expect(wrapper.vm.options).to.deep.equal([])
+          done()
+        } catch (ex) {
+          done(ex)
+        }
+      }
     })
   })
 
@@ -138,11 +148,9 @@ describe('MultiSelectFieldComponent unit tests', () => {
 
     wrapper.setData({localValue: [{id: 'ref1'}]})
     expect(wrapper.emitted().input[0]).to.deep.equal([['ref1']])
-    expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
 
     wrapper.setData({localValue: []})
     expect(wrapper.emitted().input[1]).to.deep.equal([[]])
-    expect(wrapper.emitted().dataChange[1]).to.deep.equal([])
   })
 
   it('should emit an "addOption" event when the "addOptionClicked" function is called', () => {
