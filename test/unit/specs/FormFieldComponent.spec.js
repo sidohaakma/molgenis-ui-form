@@ -1,5 +1,6 @@
 import FormFieldComponent from '@/components/FormFieldComponent'
 import { mount, shallow } from 'vue-test-utils'
+import Vue from 'vue'
 
 describe('FormFieldComponents unit tests', () => {
   const field = {
@@ -12,6 +13,7 @@ describe('FormFieldComponents unit tests', () => {
 
   const formState = {
     'string': {
+      $pending: false,
       $touched: false,
       $submitted: false,
       $invalid: false,
@@ -47,9 +49,17 @@ describe('FormFieldComponents unit tests', () => {
   })
 
   describe('onDataChange', () => {
-    it('should emit a dataChange event on dataChange', () => {
-      wrapper.vm.onDataChange()
-      expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
+    it('should emit a dataChange when its field\'s pending validation finishes in the formState', (done) => {
+      formState.string.$pending = true
+      Vue.nextTick(() => {
+        // eslint-disable-next-line no-unused-expressions
+        expect(wrapper.emitted().dataChange).to.be.undefined
+        formState.string.$pending = false
+        Vue.nextTick(() => {
+          expect(wrapper.emitted().dataChange).to.deep.equal([[]])
+          done()
+        })
+      })
     })
   })
 

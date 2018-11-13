@@ -30,6 +30,9 @@
       <li class="nav-item">
         <router-link to="/file" class="nav-link">File</router-link>
       </li>
+      <li class="nav-item">
+        <router-link to="/age" class="nav-link">Age</router-link>
+      </li>
     </ul>
 
     <div>
