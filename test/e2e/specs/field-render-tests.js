@@ -28,7 +28,7 @@ module.exports = {
     browser.expect.element('#compound-field-fs hr').to.be.visible
     browser.expect.element('#compound-field-fs div').to.have.attribute('class').which.contains('pl-2')
 
-    browser.expect.element('#compound-int-fs').to.be.visible')
+    browser.expect.element('#compound-int-fs').to.be.visible
     browser.getTagName('#compound-int-fs', function(result) {
       this.assert.equal(result.value.toLowerCase(), 'fieldset')
     })
