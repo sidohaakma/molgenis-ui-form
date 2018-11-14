@@ -83,7 +83,10 @@ module.exports = {
     browser.options.desiredCapabilities.name = 'Correctly render a single select field with a list of options'
 
     browser.expect.element('#xref-fs').to.be.visible
-    browser.expect.element('#xref-fs').to.be.a('fieldset')
+    browser.getTagName('#xref-fs', function(result) {
+      this.assert.equal(result.value.toLowerCase(), 'fieldset')
+    })
+
 
     browser.expect.element('#xref-fs input').to.be.visible
 
@@ -97,7 +100,10 @@ module.exports = {
 
     browser.expect.element('#nested-compound-string-fs').to.be.present
     browser.expect.element('#nested-compound-string-fs').to.be.visible
-    browser.expect.element('#nested-compound-string-fs').to.be.a('fieldset')
+    browser.getTagName('#nested-compound-string-fs', function(result) {
+      this.assert.equal(result.value.toLowerCase(), 'fieldset')
+    })
+
 
     browser.setValue('#nested-compound-string', 'show')
     browser.expect.element('#compound-string-fs').to.be.visible
