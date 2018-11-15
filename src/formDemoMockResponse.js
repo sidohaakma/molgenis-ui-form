@@ -75,7 +75,7 @@ const metadata = {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/integer',
       'fieldType': 'INT',
       'name': 'integer',
-      'label': 'Integer Field',
+      'label': 'Integer Field that, to test line wrapping, is supercalifragilisticexpialidocious',
       'attributes': [],
       'auto': false,
       'nillable': false,

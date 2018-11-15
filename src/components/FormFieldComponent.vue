@@ -136,8 +136,9 @@
 </template>
 
 <style>
+  /* Adds asterisk to required fields. The \a0 is a non-breaking space */
   fieldset.required-field > div > div.form-group > label::after {
-    content: ' *';
+    content: '\a0*';
   }
 
   /*  Styling to have v-select look like bootstrap field */
