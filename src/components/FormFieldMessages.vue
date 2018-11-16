@@ -1,20 +1,26 @@
 <template>
   <field-messages :name="fieldId" :state="fieldState" show="$touched || $submitted || $dirty" class="form-control-feedback">
-    <div class="invalid-message" slot="required">{{ requiredFieldMsg }}</div>
-    <div class="invalid-message" slot="email">{{ notAValidEmailMsg }}</div>
-    <div class="invalid-message" slot="url">{{ notAValidUrlMsg }}</div>
-    <div class="invalid-message" slot="integer">{{ notAValidIntegerMsg }}</div>
-    <div class="invalid-message" slot="long">{{ notAValidLongMsg }}</div>
-    <div class="invalid-message" slot="number">{{ notAValidNumberMsg }}</div>
-    <div class="invalid-message" slot="unique">{{ notUniqueMsg}}</div>
-    <div class="invalid-message" slot="validate">{{ validationFailedMsg }}</div>
-    <div v-if="range" class="invalid-message" slot="range">
+    <div class="invalid-feedback" slot="required">{{ requiredFieldMsg }}</div>
+    <div class="invalid-feedback" slot="email">{{ notAValidEmailMsg }}</div>
+    <div class="invalid-feedback" slot="url">{{ notAValidUrlMsg }}</div>
+    <div class="invalid-feedback" slot="integer">{{ notAValidIntegerMsg }}</div>
+    <div class="invalid-feedback" slot="long">{{ notAValidLongMsg }}</div>
+    <div class="invalid-feedback" slot="number">{{ notAValidNumberMsg }}</div>
+    <div class="invalid-feedback" slot="unique">{{ notUniqueMsg}}</div>
+    <div class="invalid-feedback" slot="validate">{{ validationFailedMsg }}</div>
+    <div v-if="range" class="invalid-feedback" slot="range">
       <span v-if="range.hasOwnProperty('min') && range.hasOwnProperty('max')">{{ notWithInRangeMsg }} ({{ range.min }} - {{ range.max }})</span>
       <span v-else-if="range.hasOwnProperty('min') && !range.hasOwnProperty('max')">{{ belowMinValueMsg }} {{ range.min }} </span>
       <span v-else>{{ aboveMaxValueMsg }} {{ range.max }} </span>
     </div>
   </field-messages>
 </template>
+
+<style>
+  .form-control-feedback .invalid-feedback {
+    display: block;
+  }
+</style>
 
 <script>
   import VueForm from 'vue-form'

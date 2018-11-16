@@ -38,7 +38,7 @@ describe('TypedFieldComponent unit tests', () => {
       wrapper = mount(TypedFieldComponent,
         {
           propsData: propsData,
-          stubs: {'formFieldMessages': '<div class="form-control-feedback"><div class="invalid-message">This field is required</div></div>'}
+          stubs: {'formFieldMessages': '<div class="form-control-feedback"><div class="invalid-feedback">This field is required</div></div>'}
         }
       )
     })
