@@ -64,6 +64,5 @@ describe('FileFieldComponent unit tests', () => {
 
     wrapper.vm.handleFileChange(event)
     expect(wrapper.emitted().input[0]).deep.equal(['file'])
-    expect(wrapper.emitted().dataChange[0]).to.deep.equal([])
   })
 })

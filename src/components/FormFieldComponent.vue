@@ -6,10 +6,9 @@
       <checkbox-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
-        :isRequired="isRequired"
-        @dataChange="onDataChange">
+        :isRequired="isRequired">
       </checkbox-field-component>
     </template>
 
@@ -18,10 +17,9 @@
       <code-editor-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
-        :isRequired="isRequired"
-        @dataChange="onDataChange">
+        :isRequired="isRequired">
       </code-editor-field-component>
     </template>
 
@@ -30,10 +28,9 @@
       <file-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
-        :isRequired="isRequired"
-        @dataChange="onDataChange">
+        :isRequired="isRequired">
       </file-field-component>
     </template>
 
@@ -65,10 +62,9 @@
         :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
-        @dataChange="onDataChange"
         :allowAddingOptions="formComponentOptions.allowAddingOptions"
         :noOptionsMessage="noOptionsMessage">
       </multi-select-field-component>
@@ -79,11 +75,10 @@
       <radio-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
-        :isUnique="isUnique"
-        @dataChange="onDataChange">
+        :isUnique="isUnique">
       </radio-field-component>
     </template>
 
@@ -93,10 +88,9 @@
         :eventBus="eventBus"
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isRequired="isRequired"
         :isValid="isValid"
-        @dataChange="onDataChange"
         :allowAddingOptions="formComponentOptions.allowAddingOptions"
         :noOptionsMessage="noOptionsMessage">
       </single-select-field-component>
@@ -107,11 +101,10 @@
       <text-area-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
-        :inputDebounceTime="formComponentOptions.inputDebounceTime"
-        @dataChange="onDataChange">
+        :inputDebounceTime="formComponentOptions.inputDebounceTime">
       </text-area-field-component>
     </template>
 
@@ -120,10 +113,9 @@
       <date-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
-        @dataChange="onDataChange"
         :isTimeIncluded="field.type === 'date-time'">
       </date-field-component>
     </template>
@@ -133,20 +125,20 @@
       <typed-field-component
         v-model="formData[field.id]"
         :field="field"
-        :fieldState="formState[field.id]"
+        :fieldState="fieldState"
         :isValid="isValid"
         :isRequired="isRequired"
         :isUnique="isUnique"
-        :inputDebounceTime="formComponentOptions.inputDebounceTime"
-        @dataChange="onDataChange">
+        :inputDebounceTime="formComponentOptions.inputDebounceTime">
       </typed-field-component>
     </template>
   </fieldset>
 </template>
 
 <style>
+  /* Adds asterisk to required fields. The \a0 is a non-breaking space */
   fieldset.required-field > div > div.form-group > label::after {
-    content: ' *';
+    content: '\a0*';
   }
 
   /*  Styling to have v-select look like bootstrap field */
@@ -223,18 +215,24 @@
       }
     },
     methods: {
-      onDataChange () {
-        this.$emit('dataChange')
-      },
       isUnique (value) {
         if (this.field.hasOwnProperty('unique')) {
           return this.field.unique(value, this.formData)
         }
 
         return true
+      },
+      onDataChange () {
+        this.$emit('dataChange')
       }
     },
     computed: {
+      fieldState () {
+        return this.formState[this.field.id]
+      },
+      pending () {
+        return this.fieldState && this.fieldState.$pending
+      },
       isValid () {
         return this.field.validate(this.formData)
       },
@@ -259,6 +257,14 @@
         }
 
         return defaultNoOptionsMessage
+      }
+    },
+    watch: {
+      pending (isPending) {
+        if (!isPending) {
+          // validation finished
+          this.onDataChange()
+        }
       }
     },
     components: {

@@ -1,5 +1,6 @@
 <template>
-  <validate :state="fieldState" :custom="{'validate': isValidDateTime(localValue) && isValid}">
+  <!-- Tiny debounce to make sure that validation will always flip the fieldState.$pending flag -->
+  <validate :state="fieldState" :custom="{'validate': isValidDateTime(localValue) && isValid}" :debounce="1">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -139,8 +140,10 @@
     },
     watch: {
       localValue (value) {
-        this.$emit('input', value)
-        this.$emit('dataChange')
+        // Only emit a data change if the date is valid
+        if (this.isValidDateTime(value)) {
+          this.$emit('input', value)
+        }
       }
     },
     created () {

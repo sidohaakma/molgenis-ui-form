@@ -11,6 +11,7 @@ import DecimalExample from './example/number-field/DecimalExample'
 import UniqueExample from './example/unique/UniqueExample'
 import DateTimeExample from './example/date/DateTimeExample'
 import FileExample from './example/file/FileExample'
+import AgeExample from './example/validation-functions/AgeExample'
 import i18n from '@molgenis/molgenis-i18n-js'
 
 Vue.config.productionTip = false
@@ -52,6 +53,10 @@ const router = new Router({
     {
       path: '/file/',
       component: FileExample
+    },
+    {
+      path: '/age/',
+      component: AgeExample
     },
     {
       path: '/',
