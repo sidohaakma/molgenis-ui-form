@@ -40,8 +40,8 @@ module.exports = {
 
       browser.pause(1000)
       browser.expect.element('#integer-example').to.have.attribute('class').which.contains('vf-invalid-integer')
-      browser.expect.element('.invalid-message').to.be.present
-      browser.expect.element('.invalid-message').text.to.be.equal('Not a valid integer value')
+      browser.expect.element('.invalid-feedback').to.be.present
+      browser.expect.element('.invalid-feedback').text.to.be.equal('Not a valid integer value')
       browser.setValue('#integer-example', '\u0008')
       browser.setValue('#integer-example', '\u0008')
       browser.setValue('#integer-example', '\u0008')
