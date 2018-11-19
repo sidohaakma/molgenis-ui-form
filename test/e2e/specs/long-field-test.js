@@ -16,22 +16,5 @@ module.exports = {
     })
     browser.expect.element('#long-example').to.have.attribute('class').which.contains('vf-valid')
     browser.end()
-  },
-
-  'Long field should be invalid with decimal value': function (browser) {
-    browser.options.desiredCapabilities.name = 'Long field not valid for decimal value'
-    browser.expect.element('#long-example').to.be.present
-
-    browser.click('#long-example')
-    browser.clearValue('#long-example')
-    browser.setValue('#long-example', '0.25')
-
-    browser.keys(browser.Keys.TAB)
-    browser.click('h5.card-header.text-center') // click outside of input to trigger validation
-    browser.pause(1000)
-    browser.expect.element('#long-example').to.have.attribute('class').which.contains('vf-invalid-long')
-    browser.expect.element('.invalid-message').to.be.present
-    browser.expect.element('.invalid-message').text.to.be.equal('Not a valid long value')
-    browser.end()
   }
 }
