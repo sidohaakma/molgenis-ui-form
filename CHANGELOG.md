@@ -11,6 +11,7 @@
 * [#233 Set the value to null on clearing a number field](https://github.com/molgenis/molgenis-ui-form/issues/233)
 * [#226 Allow clearing of a date / date-time field](https://github.com/molgenis/molgenis-ui-form/issues/226)
 * [#236 Age function is off by one year for future dates](https://github.com/molgenis/molgenis-ui-form/issues/236)
+* [#242 Number input does not show validation errors if you enter text](https://github.com/molgenis/molgenis-ui-form/issues/242)
 
 <a name="1.2.0"></a>
 ## 1.2.1 (18-10-2018)
