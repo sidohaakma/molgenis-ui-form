@@ -9,7 +9,7 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 const FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin')
 
-const HOST = process.env.HOST
+const HOST = process.env.JENKINS_AGENT_NAME || process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
 const devWebpackConfig = merge(baseWebpackConfig, {
@@ -26,7 +26,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     hot: true,
     compress: true,
     // In CI mode, Safari cannot contact "localhost", so as a workaround, run the dev server using the jenkins agent pod dns instead.
-    host: process.env.JENKINS_AGENT_NAME || 'localhost',
+    host: HOST || config.dev.host,
     port: PORT || config.dev.port,
     open: config.dev.autoOpenBrowser,
     overlay: config.dev.errorOverlay
