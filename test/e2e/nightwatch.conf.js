@@ -51,7 +51,7 @@ module.exports = {
         browserName: 'chrome'
       },
       globals: {
-        devServerUrl: ciDevServer,
+        devServerURL: ciDevServer,
         waitForConditionTimeout: 10000,
         waitBeforeTestStart: defaultPauzeBeforeTestStart
       }
@@ -71,7 +71,7 @@ module.exports = {
         browserName: 'firefox'
       },
       globals: {
-        devServerUrl: ciDevServer,
+        devServerURL: ciDevServer,
         waitForConditionTimeout: 10000,
         waitBeforeTestStart: defaultPauzeBeforeTestStart
       }
@@ -93,7 +93,7 @@ module.exports = {
         version: '11.103',
       },
       globals: {
-        devServerUrl: ciDevServer,
+        devServerURL: ciDevServer,
         waitForConditionTimeout: 10000,
         waitBeforeTestStart: defaultPauzeBeforeTestStart
       }
@@ -113,7 +113,7 @@ module.exports = {
         browserName: 'safari'
       },
       globals: {
-        devServerUrl: ciDevServer,
+        devServerURL: ciDevServer,
         waitForConditionTimeout: 10000,
         waitBeforeTestStart: 5000
       }
