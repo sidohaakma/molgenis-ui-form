@@ -25,7 +25,8 @@
     "debug": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --browsers Chrome",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "build": "node build/build.js",
-    "preversion": "yarn install; yarn unit; yarn build"
+    "preversion": "yarn install; yarn unit",
+    "postversion": "yarn build"
   },
   "publishConfig": {
     "access": "public",
