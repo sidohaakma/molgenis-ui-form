@@ -29,7 +29,7 @@ yarn add @molgenis/molgenis-ui-form
       :initialFormData="formData"
       :formState="formState"
       :options="options"
-      @valueChanged="onValueChanged"
+      @valueChange="onValueChanged"
       @addOptionRequest="handleAddOptionRequest">
     </form-component>
 </template>
