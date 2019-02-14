@@ -26,7 +26,7 @@ yarn add @molgenis/molgenis-ui-form
     <form-component
       id="example-form"
       :formFields="formFields"
-      :initialFormData="initialFormData"
+      :initialFormData="formData"
       :formState="formState"
       :options="options"
       @valueChanged="onValueChanged"
@@ -49,7 +49,7 @@ yarn add @molgenis/molgenis-ui-form
     data () {
       return {
         formFields: [],
-        initialFormData: {},
+        formData: {},
         formState: {},
         options: {
           showEyeButton: true
@@ -78,7 +78,7 @@ yarn add @molgenis/molgenis-ui-form
       // Or create fields based on the specs (Form specifications)
       const form = EntityToFormMapper.generateForm(metadata, items[0])
       this.formFields = form.formFields
-      this.initialFormData = form.formData
+      this.formData = form.formData
     },
     components: {
       FormComponent
