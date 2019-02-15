@@ -29,7 +29,7 @@ yarn add @molgenis/molgenis-ui-form
       :initialFormData="formData"
       :formState="formState"
       :options="options"
-      @valueChanged="onValueChanged"
+      @valueChange="onValueChanged"
       @addOptionRequest="handleAddOptionRequest">
     </form-component>
 </template>
@@ -40,13 +40,16 @@ yarn add @molgenis/molgenis-ui-form
 
   // Import EntityToFormMapper
   import { EntityToFormMapper } from '@molgenis/molgenis-ui-form'
-
+  
+  // Import all form component styles
+  import '../node_modules/@molgenis/molgenis-ui-form/dist/static/css/molgenis-ui-form.css'
+  
   export default {
     name: 'ExampleComponent',
     data () {
       return {
         formFields: [],
-        initialFormData: {},
+        formData: {},
         formState: {},
         options: {
           showEyeButton: true
@@ -73,9 +76,12 @@ yarn add @molgenis/molgenis-ui-form
     created () {
       // Generate a form from a MOLGENIS v2 API response
       // Or create fields based on the specs (Form specifications)
-      const form = EntityToFormMapper(metadata, items[0])
+      const form = EntityToFormMapper.generateForm(metadata, items[0])
       this.formFields = form.formFields
-      this.initialFormData = form.formData
+      this.formData = form.formData
+    },
+    components: {
+      FormComponent
     }
   }
 </script>
