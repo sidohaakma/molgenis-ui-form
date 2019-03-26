@@ -79,6 +79,11 @@
     watch: {
       localValue () {
         this.$emit('input', this.localValue)
+
+        this.fieldState.$dirty = true
+        this.fieldState.$pristine = false
+        this.fieldState.$touched = true
+        this.fieldState.$untouched = false
       }
     },
     created () {

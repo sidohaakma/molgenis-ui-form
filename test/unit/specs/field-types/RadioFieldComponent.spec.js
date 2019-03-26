@@ -65,8 +65,12 @@ describe('RadioFieldComponent unit tests', () => {
     expect(inputs.at(2).element.id).to.equal('radio-field-2')
   })
 
-  it('should emit an updated value on change', () => {
+  it('should emit an updated value and set fieldState on change', () => {
     wrapper.setData({localValue: '1'})
     expect(wrapper.emitted().input[0]).to.deep.equal(['1'])
+    expect(fieldState.$touched).to.equal(true)
+    expect(fieldState.$untouched).to.equal(false)
+    expect(fieldState.$dirty).to.equal(true)
+    expect(fieldState.$pristine).to.equal(false)
   })
 })
