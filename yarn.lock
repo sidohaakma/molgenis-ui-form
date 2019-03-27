@@ -9229,9 +9229,10 @@ vue-router@^3.0.1:
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"
   integrity sha512-vLLoY452L+JBpALMP5UHum9+7nzR9PeIBCghU9ZtJ1eWm6ieUI8Zb/DI3MYxH32bxkjzYV1LRjNv4qr8d+uX/w==
 
-vue-select@ConnorStroomberg/vue-select.git#release/patch-for-update-issue:
-  version "2.4.0"
-  resolved "https://codeload.github.com/ConnorStroomberg/vue-select/tar.gz/3bee82380e07634b4d5d7d1c2450d7101581a9b0"
+vue-select@^2.6.3:
+  version "2.6.3"
+  resolved "https://registry.yarnpkg.com/vue-select/-/vue-select-2.6.3.tgz#c123630dbcda28225dd7697fc2f4f34333a5ae58"
+  integrity sha512-0zZ0/LEe9mNcDVKPiGSDun2qJ0e51ts5Z9f17XyL6bPMzw6rxNYPpx+fcSZsbfNYxwXuK3q4uFkucybw/EeQcA==
 
 vue-style-loader@^3.0.0, vue-style-loader@^3.0.1:
   version "3.1.2"
