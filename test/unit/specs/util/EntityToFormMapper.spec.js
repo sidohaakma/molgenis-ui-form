@@ -899,9 +899,9 @@ describe('Entity to state mapper', () => {
 
   describe('Auto generated ( server side) field value validation', () => {
     const data = {}
-    const form = EntityToFormMapper.generateForm(schemas.autoIdSchema, data)
 
-    it('should not map auto, non-visible attribute to field', () => {
+    it('should not map auto, non-visible attribute to field in create mode', () => {
+      const form = EntityToFormMapper.generateForm(schemas.autoIdSchema, data, {mapperMode: 'CREATE'})
       expect(form.formFields.length).to.equal(0)
     })
   })

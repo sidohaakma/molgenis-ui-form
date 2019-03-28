@@ -437,11 +437,12 @@ const generateFormData = (fields: any, data: any, attributes: any, options: Mapp
  * Returns true if entity attribute should be included in form
  *
  * @param attribute
+ * @param options
  * @returns {boolean}
  */
-const isFormFieldAttribute = (attribute: any): boolean => {
+const isFormFieldAttribute = (attribute: any, options: MapperSettings): boolean => {
   return !(
-    (attribute.auto && !attribute.visible) || // server side generated field
+    (options.mapperMode === 'CREATE' ? attribute.auto : attribute.auto && !attribute.visible) || // server side generated field
     (attribute.hasOwnProperty('expression') && attribute.expression.length > 0) // computed field
   )
 }
@@ -455,7 +456,10 @@ const isFormFieldAttribute = (attribute: any): boolean => {
  */
 const generateFormFields = (metaData: any, options: MapperSettings): Array<FormField> => {
   const {attributes, ...entityMetadata} = metaData
-  return attributes.filter(isFormFieldAttribute)
+  return attributes
+    .filter((attr) => {
+      return isFormFieldAttribute(attr, options)
+    })
     .map((attr) => {
       return generateFormSchemaField(attr, entityMetadata, options)
     })
