@@ -7,9 +7,6 @@ const ciDevServer = 'http://' + process.env.JENKINS_AGENT_NAME + ':' + (process.
 
 var defaultPauzeBeforeTestStart = 3000
 
-const buildName = packageJson.name + '#PR-' + process.env.CHANGE_ID + '-build-' + process.env.BUILD_NUMBER
-const ciDevServer = 'http://' + process.env.JENKINS_AGENT_NAME + ':' + (process.env.PORT || config.dev.port)
-
 // http://nightwatchjs.org/gettingstarted#settings-file
 module.exports = {
   src_folders: ['test/e2e/specs'],
