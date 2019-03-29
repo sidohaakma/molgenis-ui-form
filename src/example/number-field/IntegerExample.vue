@@ -7,7 +7,7 @@
           <h5 class="card-header text-center bg-info">Integer field demo</h5>
           <div class="card-body">
             <form-component
-              id="integer-example"
+              id="integer-example-form"
               :options="formOptions"
               :formFields="formFields"
               :initialFormData="formData"

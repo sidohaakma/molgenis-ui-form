@@ -1,5 +1,5 @@
-<a name="2.0.2"></a>
-## 2.0.2
+<a name="2.1.0"></a>
+## 2.1.0 (19-11-2018)
 ### Features
 * Rename boolean i18 message keys to avoid clash with molgenis project
    - `form_bool_true` renamed to `form_boolean_true`
@@ -11,6 +11,8 @@
 * [#233 Set the value to null on clearing a number field](https://github.com/molgenis/molgenis-ui-form/issues/233)
 * [#226 Allow clearing of a date / date-time field](https://github.com/molgenis/molgenis-ui-form/issues/226)
 * [#236 Age function is off by one year for future dates](https://github.com/molgenis/molgenis-ui-form/issues/236)
+* [#242 Number input does not show validation errors if you enter text](https://github.com/molgenis/molgenis-ui-form/issues/242)
+* [#245 Validation messages are in black](https://github.com/molgenis/molgenis-ui-form/issues/245)
 
 <a name="1.2.0"></a>
 ## 1.2.1 (18-10-2018)

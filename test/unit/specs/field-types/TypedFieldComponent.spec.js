@@ -38,7 +38,7 @@ describe('TypedFieldComponent unit tests', () => {
       wrapper = mount(TypedFieldComponent,
         {
           propsData: propsData,
-          stubs: {'formFieldMessages': '<div class="form-control-feedback"><div class="invalid-message">This field is required</div></div>'}
+          stubs: {'formFieldMessages': '<div class="form-control-feedback"><div class="invalid-feedback">This field is required</div></div>'}
         }
       )
     })
@@ -425,6 +425,54 @@ describe('TypedFieldComponent unit tests', () => {
     it('should render an input of type url', () => {
       const input = wrapper.find('input')
       expect(input.element.type).to.equal('url')
+    })
+  })
+
+  describe('onKeyUp method', () => {
+    let propsData
+    let event = {target: {validity: {badInput: true}}}
+
+    beforeEach(() => {
+      propsData = {
+        field: {
+          id: 'typed-field',
+          type: 'integer'
+        },
+        fieldState: {
+          $touched: false,
+          $submitted: false,
+          $invalid: false,
+          _addControl: mockParentFunction
+        }
+      }
+    })
+
+    it('should do nothing if the event is valid', () => {
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      wrapper.setData({localValue: null})
+      wrapper.setData({value: 4})
+      event.target.validity.badInput = false
+      wrapper.vm.onKeyUp(event)
+      expect(wrapper.vm.localValue).to.equal(null)
+    })
+
+    it('should do nothing if the field type is not a number', () => {
+      propsData.field.type = 'text'
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      wrapper.setData({localValue: 'hello'})
+      wrapper.setData({value: 'hell'})
+      event.target.validity.badInput = true
+      wrapper.vm.onKeyUp(event)
+      expect(wrapper.vm.localValue).to.equal('hello')
+    })
+
+    it('should put back the "old" value if the event target input is bad', () => {
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      wrapper.setData({localValue: null})
+      wrapper.setData({value: 4})
+      event.target.validity.badInput = true
+      wrapper.vm.onKeyUp(event)
+      expect(wrapper.vm.localValue).to.equal(4)
     })
   })
 })

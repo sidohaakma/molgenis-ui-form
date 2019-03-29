@@ -1,6 +1,6 @@
 {
   "name": "@molgenis/molgenis-ui-form",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Library for generating HTML web forms",
   "author": "Mark-de-Haan <markdehaan90@gmail.com>",
   "keywords": [
@@ -25,7 +25,8 @@
     "debug": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --browsers Chrome",
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs",
     "build": "node build/build.js",
-    "preversion": "yarn install; yarn unit; yarn build"
+    "preversion": "yarn install; yarn unit",
+    "postversion": "yarn build"
   },
   "publishConfig": {
     "access": "public",
@@ -39,7 +40,7 @@
     "vue-code": "^1.2.3",
     "vue-flatpickr-component": "^8.0.0",
     "vue-form": "^4.10.1",
-    "vue-select": "ConnorStroomberg/vue-select.git#release/patch-for-update-issue"
+    "vue-select": "^2.6.3"
   },
   "peerDependencies": {
     "vue": "^2.5.x"
@@ -83,7 +84,7 @@
     "flow": "^0.2.3",
     "flow-babel-webpack-plugin": "^1.1.1",
     "friendly-errors-webpack-plugin": "^1.6.1",
-    "geckodriver": "^1.10.0",
+    "geckodriver": "^1.14.1",
     "html-webpack-plugin": "^2.30.1",
     "inject-loader": "^3.0.0",
     "karma": "^1.4.1",
