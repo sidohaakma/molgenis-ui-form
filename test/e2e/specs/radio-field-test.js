@@ -16,7 +16,7 @@ module.exports = {
     browser.click('label.form-check-label')
     browser.expect.element('#radio-example-form.vf-form-touched.vf-form-dirty').to.be.present
     browser.expect.element('#radio-example-0.vf-touched.vf-dirty').to.be.present
-    browser.getValue('input[name="radio-example"]', function (result) {
+    browser.getValue('input[name="radio-example"]:checked', function (result) {
       this.assert.equal(result.value, 1)
     })
     browser.end()
