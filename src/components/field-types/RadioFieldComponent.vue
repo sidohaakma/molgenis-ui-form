@@ -80,6 +80,7 @@
       localValue () {
         this.$emit('input', this.localValue)
 
+        // Fixes #254. For some reason the vue form does not pick up mouse clicks in some browsers.
         this.fieldState.$dirty = true
         this.fieldState.$pristine = false
         this.fieldState.$touched = true
