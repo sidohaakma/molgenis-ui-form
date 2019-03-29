@@ -24,6 +24,23 @@ const metadata = {
       'visible': false
     },
     {
+      'attributes': [],
+      'auto': true,
+      'description': 'auto value',
+      'fieldType': 'STRING',
+      'href': '/api/v2/it_emx_datatypes_TypeTest/meta/auto',
+      'isAggregatable': false,
+      'label': 'auto',
+      'labelAttribute': false,
+      'lookupAttribute': false,
+      'maxLength': 255,
+      'name': 'auto val',
+      'nillable': false,
+      'readOnly': true,
+      'unique': false,
+      'visible': true
+    },
+    {
       'href': '/api/v2/it_emx_datatypes_TypeTest/meta/string',
       'fieldType': 'STRING',
       'name': 'string',
