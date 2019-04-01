@@ -345,7 +345,7 @@ Vue.use(i18n, {
 
 If no 'ui-form' namespace is set on the supplied Vue instance the default (English) messages are used.
 
-#####message keys and defaults
+##### message keys and defaults
 | Key                             | Default message                 | Additional Info                         |
 | ------------------------------- |---------------------------------| ----------------------------------------|
 | ui-form:form_required_field     | 'This field is required'        |                                         |
