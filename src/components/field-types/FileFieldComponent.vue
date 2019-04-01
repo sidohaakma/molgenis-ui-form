@@ -7,6 +7,7 @@
       :name="field.id"
       v-model="localValue"
       v-show="false"
+      :required="isRequired"
     />
     <div class="form-group">
       <label
@@ -23,6 +24,7 @@
         <input
           :required="isRequired"
           class="custom-file-input"
+          :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
           type="file"
           @change="handleFileChange"/>
       </div>
