@@ -6,6 +6,7 @@ The mapper option `showNillableBooleanOption` is removed, the N/A option is now 
 field whenever it is required. This takes the current value of a nullable expressions into account.
 
 ### Bugfixes
+* [#260 Empty required file field does not invalidate the form](https://github.com/molgenis/molgenis-ui-form/issues/260)
 * [#255 Auto generated dates not working](https://github.com/molgenis/molgenis-ui-form/issues/255)
 * [#254 No way to figure out if radio button values have changed](https://github.com/molgenis/molgenis-ui-form/issues/254)
 
