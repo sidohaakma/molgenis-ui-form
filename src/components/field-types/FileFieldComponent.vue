@@ -15,17 +15,15 @@
       >
         {{ field.label }}
       </label>
-      <div class="custom-file">
-        <label class="custom-file-label" :for="field.id">
-          {{ label }}
-        </label>
-
+      <div class="custom-file" @click="clear">
         <input
           :required="isRequired"
           class="custom-file-input"
           type="file"
           @change="handleFileChange"/>
+        <label class="custom-file-label" :for="field.id" :data-browse="buttonText">{{ label }}</label>
       </div>
+
 
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
@@ -77,7 +75,23 @@
         localValue: this.value
       }
     },
+    watch: {
+      value (value) {
+        this.localValue = value
+      }
+    },
     methods: {
+      clear () {
+        this.fieldState.$touched = true
+        this.fieldState.$untouched = false
+        if (this.isRequired) {
+          return
+        }
+        this.localValue = null
+        this.$emit('input', this.localValue)
+        this.fieldState.$dirty = true
+        this.fieldState.$pristine = false
+      },
       handleFileChange (e) {
         // Whenever the file changes, emit the 'input' event with the file data.
         this.localValue = e.target.files[0]
@@ -90,9 +104,13 @@
       }
     },
     computed: {
+      buttonText () {
+        const key = this.localValue ? 'ui-form:form_file_change' : 'ui-form:form_file_browse'
+        return this.$t ? this.$t(key) : key
+      },
       label () {
-        return typeof this.value === 'string' ? this.value
-          : this.value instanceof Blob ? this.value.name : ''
+        return typeof this.localValue === 'string' ? this.localValue
+          : this.localValue instanceof Blob ? this.localValue.name : ''
       }
     }
   }

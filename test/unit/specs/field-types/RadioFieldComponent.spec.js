@@ -56,6 +56,7 @@ describe('RadioFieldComponent unit tests', () => {
       stubs: {'fieldMessages': '<div>This field is required</div>'}
     }
   )
+  wrapper.vm.$t = (x) => x
 
   it('should render an input for every option', () => {
     const inputs = wrapper.findAll('input')
@@ -65,9 +66,29 @@ describe('RadioFieldComponent unit tests', () => {
     expect(inputs.at(2).element.id).to.equal('radio-field-2')
   })
 
-  it('should emit an updated value and set fieldState on change', () => {
+  it('should render an N/A option when nullable', () => {
+    propsData.isRequired = false
+    wrapper.setProps(propsData)
+    const inputs = wrapper.findAll('input')
+    const input = inputs.at(3)
+    const element = input.element
+    expect(element.id).to.equal('radio-field-null')
+    element.checked = true
+    input.trigger('click')
+    input.trigger('change')
+    expect(wrapper.emitted().input.slice(-1)[0]).to.deep.equal([null])
+    expect(wrapper.vm.localValue).to.equal(null)
+  })
+
+  it('should render the form_bool_missing text as option label', () => {
+    propsData.isRequired = false
+    wrapper.setProps(propsData)
+    expect(wrapper.find("label[for='radio-field-null']").text()).to.equal('ui-form:form_boolean_missing')
+  })
+
+  it('should emit an updated value and set the fieldState on change', () => {
     wrapper.setData({localValue: '1'})
-    expect(wrapper.emitted().input[0]).to.deep.equal(['1'])
+    expect(wrapper.emitted().input.slice(-1)[0]).to.deep.equal(['1'])
     expect(fieldState.$touched).to.equal(true)
     expect(fieldState.$untouched).to.equal(false)
     expect(fieldState.$dirty).to.equal(true)

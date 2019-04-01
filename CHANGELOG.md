@@ -1,10 +1,10 @@
 <a name="next release"></a>
 ## next release (xx-xx-xxxx)
-### Features
-### Bugfixes
 
-<a name="2.1.1"></a>
-## 2.1.1 (xx-xx-xxxx)
+### Breaking changes
+The mapper option `showNillableBooleanOption` is removed, the N/A option is now added to any radio
+field whenever it is required. This takes the current value of a nullable expressions into account.
+
 ### Bugfixes
 * [#255 Auto generated dates not working](https://github.com/molgenis/molgenis-ui-form/issues/255)
 * [#254 No way to figure out if radio button values have changed](https://github.com/molgenis/molgenis-ui-form/issues/254)
