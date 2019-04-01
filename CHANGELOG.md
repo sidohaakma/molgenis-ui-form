@@ -1,6 +1,5 @@
-<a name="next release"></a>
-## next release (xx-xx-xxxx)
-
+<a name="3.0.0"></a>
+## 3.0.0 (1-4-2019)
 ### Breaking changes
 The mapper option `showNillableBooleanOption` is removed, the N/A option is now added to any radio
 field whenever it is required. This takes the current value of a nullable expressions into account.
