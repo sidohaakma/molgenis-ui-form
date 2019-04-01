@@ -1,10 +1,10 @@
 <a name="next release"></a>
-## next release
+## next release (xx-xx-xxxx)
 ### Features
 ### Bugfixes
 
 <a name="2.1.1"></a>
-## 2.1.1 (19-11-2018)
+## 2.1.1 (xx-xx-xxxx)
 ### Bugfixes
 * [#255 Auto generated dates not working](https://github.com/molgenis/molgenis-ui-form/issues/255)
 * [#254 No way to figure out if radio button values have changed](https://github.com/molgenis/molgenis-ui-form/issues/254)
