@@ -1,4 +1,7 @@
 /* eslint-disable no-unused-expressions */
+var moment = require('moment')
+
+/* eslint-disable no-unused-expressions */
 module.exports = {
   tags: ['fields'], // run this suite with 'yarn e2e --tag <tag>'
 
@@ -123,7 +126,7 @@ module.exports = {
     browser.click('#form-demo') // click outside calender (work around for IE11 issue: https://github.com/chmln/flatpickr/issues/900)
     browser.expect.element('.flatpickr-calendar').to.be.not.visible
 
-    const today = new Date().toJSON().slice(0, 10)
+    const today = moment().toJSON().slice(0, 10)
     browser.expect.element('#date').to.have.value.that.equals(today)
   },
 
@@ -157,7 +160,7 @@ module.exports = {
     browser.click('#form-demo') // click outside calender (work around for IE11 issue: https://github.com/chmln/flatpickr/issues/900)
     browser.expect.element('.flatpickr-calendar').to.be.not.visible
 
-    const today = new Date().toJSON().slice(0, 10)
+    const today = moment().format('YYYY-MM-DD');
     browser.expect.element('#date_time').to.have.value.which.contains(today)
   },
 
