@@ -143,7 +143,10 @@
 
   /*  Styling to have v-select look like bootstrap field */
   .v-select {
-    padding: 0 0 0 10px;
+    padding-top: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-left: 0.75rem;
   }
 
   .v-select.disabled {
@@ -152,6 +155,12 @@
 
   .mg-ui-form-field .v-select > .dropdown-toggle {
     border: none;
+    height: calc(2.25rem + 2px);
+  }
+
+  .mg-ui-form-field .v-select.single .selected-tag {
+    padding-left: 0;
+    margin-left: 0;
   }
 
   /* fix to hide input[type=search] as webkit forces browser style */
