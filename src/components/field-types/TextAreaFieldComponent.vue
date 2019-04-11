@@ -11,6 +11,7 @@
         :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
         :aria-describedby="field.id + '-description'"
         :required="isRequired"
+        :maxlength="maxlength"
         :disabled="field.disabled">
       </textarea>
 
@@ -60,6 +61,10 @@
       inputDebounceTime: {
         type: Number,
         default: debounceTime
+      },
+      maxlength: {
+        type: Number,
+        default: 65535
       }
     },
     mixins: [VueForm],

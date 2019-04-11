@@ -9,6 +9,7 @@
         :type="inputType"
         :min="min"
         :max="max"
+        :maxlength="maxlength"
         :name="field.id"
         class="form-control"
         :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
@@ -22,7 +23,7 @@
         {{ field.description }}
       </small>
 
-      <form-field-messages :field-id="field.id" :type="field.type" :min="min" :max="max" :field-state="fieldState">
+      <form-field-messages :field-id="field.id" :type="field.type" :min="min" :max="max" :maxlength="maxlength" :field-state="fieldState">
       </form-field-messages>
     </div>
   </validate>
@@ -128,6 +129,16 @@
       stepSize () {
         // Conditionally add step size, return false to omit step attribute
         return (this.field.type === 'integer' || this.field.type === 'long') ? 1 : false
+      },
+      maxlength () {
+        switch (this.field.type) {
+          case 'text':
+          case 'url':
+          case 'email':
+            return 255
+          default:
+            return null
+        }
       },
       inputType () {
         return this.isNumberField ? 'number' : this.field.type
