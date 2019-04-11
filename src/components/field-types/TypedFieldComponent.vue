@@ -20,7 +20,7 @@
         {{ field.description }}
       </small>
 
-      <form-field-messages :field-id="field.id" :type="field.type" :range="field.range" :field-state="fieldState">
+      <form-field-messages :field-id="field.id" :type="field.type" :range="range" :field-state="fieldState">
       </form-field-messages>
     </div>
   </validate>
@@ -106,8 +106,35 @@
       inputType () {
         return this.isNumberField ? 'number' : this.field.type
       },
+      range () {
+        let min = -Infinity
+        let max = Infinity
+        if (this.field.type === 'integer') {
+          min = MIN_JAVA_INT
+          max = MAX_JAVA_INT
+        } else if (this.field.type === 'long') {
+          min = Number.MIN_SAFE_INTEGER
+          max = Number.MAX_SAFE_INTEGER
+        }
+        if (this.field.range) {
+          if (this.field.range.hasOwnProperty('min')) {
+            min = Math.max(this.field.range.min, min)
+          }
+          if (this.field.range.hasOwnProperty('max')) {
+            max = Math.min(this.field.range.max, max)
+          }
+        }
+        const result = {}
+        if (min !== -Infinity) {
+          result.min = min
+        }
+        if (max !== Infinity) {
+          result.max = max
+        }
+        return result
+      },
       isValidRange () {
-        if (!this.isNumberField || !this.field.range || this.localValue === '') {
+        if (!this.isNumberField || !this.range || this.localValue === '') {
           return true
         }
 
@@ -115,10 +142,10 @@
         if (Number.isNaN(numberValue)) {
           return false
         }
-        if (this.field.range.hasOwnProperty('min') && numberValue < this.field.range.min) {
+        if (this.range.hasOwnProperty('min') && numberValue < this.range.min) {
           return false
         }
-        if (this.field.range.hasOwnProperty('max') && numberValue > this.field.range.max) {
+        if (this.range.hasOwnProperty('max') && numberValue > this.range.max) {
           return false
         }
 

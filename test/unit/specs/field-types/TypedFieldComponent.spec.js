@@ -1,6 +1,9 @@
 import TypedFieldComponent from '@/components/field-types/TypedFieldComponent'
 import { mount } from 'vue-test-utils'
 
+const MIN_JAVA_INT = -2147483648
+const MAX_JAVA_INT = 2147483647
+
 describe('TypedFieldComponent unit tests', () => {
   const mockParentFunction = () => {
     return null
@@ -117,7 +120,7 @@ describe('TypedFieldComponent unit tests', () => {
     })
   })
 
-  describe('TypedFieldComponent with type integer', () => {
+  describe('TypedFieldComponent with number', () => {
     const field = {
       id: 'typed-field',
       label: 'Typed Field',
@@ -180,6 +183,40 @@ describe('TypedFieldComponent unit tests', () => {
     it('should return 1 for integer stepSize', () => {
       const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
       expect(wrapper.vm.stepSize).to.equal(1)
+    })
+
+    it('should use range from props when one is set', () => {
+      expect(wrapper.vm.range).to.deep.equal({min: 1, max: 9})
+    })
+
+    it('should use range for integer datatype when no range is set in props', () => {
+      wrapper.setProps({...propsData, field: {...propsData.field, range: undefined}})
+      expect(wrapper.vm.range).to.deep.equal({min: MIN_JAVA_INT, max: MAX_JAVA_INT})
+    })
+
+    it('should use range for long datatype when no range is set in props', () => {
+      wrapper.setProps({...propsData, field: {...propsData.field, range: undefined, type: 'long'}})
+      expect(wrapper.vm.range).to.deep.equal({min: Number.MIN_SAFE_INTEGER, max: Number.MAX_SAFE_INTEGER})
+    })
+
+    it('should combine strictest min value from ranges', () => {
+      wrapper.setProps({...propsData, field: {...propsData.field, range: {min: 0}}})
+      expect(wrapper.vm.range).to.deep.equal({min: 0, max: MAX_JAVA_INT})
+    })
+
+    it('should combine strictest max value from ranges', () => {
+      wrapper.setProps({...propsData, field: {...propsData.field, range: {max: 0}}})
+      expect(wrapper.vm.range).to.deep.equal({min: MIN_JAVA_INT, max: 0})
+    })
+
+    it('should set specified range max for decimal datatype', () => {
+      wrapper.setProps({...propsData, field: {...propsData.field, range: {max: 0}, type: 'decimal'}})
+      expect(wrapper.vm.range).to.deep.equal({max: 0})
+    })
+
+    it('should set specified range min for decimal datatype', () => {
+      wrapper.setProps({...propsData, field: {...propsData.field, range: {min: 0}, type: 'decimal'}})
+      expect(wrapper.vm.range).to.deep.equal({min: 0})
     })
   })
 
