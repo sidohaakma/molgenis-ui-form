@@ -110,7 +110,7 @@ methods: {
 ```
 
 ##### addOptionRequest event
-To allow the use to add new options to a select list the `handleAddOptionRequest` should be a function with the following properties:
+To allow the user to add new options to a select list the `handleAddOptionRequest` should be a function with the following properties:
  * `completedFunction` a callback function that should be called passing the `option` to be added.
  * `event` the original event triggering the request.
  * `data` object with form field state data.
