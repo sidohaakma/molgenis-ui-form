@@ -1,6 +1,12 @@
 <a name="next release"></a>
 ## next release (xx-xx-xxxx)
 
+<a name="3.0.1"></a>
+## 3.0.1 (xx-xx-xxxx)
+
+### Bugfixes
+* [#267 Should enforce min and max long values](https://github.com/molgenis/molgenis-ui-form/issues/267)
+
 <a name="3.0.0"></a>
 ## 3.0.0 (1-4-2019)
 ### Breaking changes
