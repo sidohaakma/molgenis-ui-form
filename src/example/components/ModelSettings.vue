@@ -6,10 +6,18 @@
 
       <h5 class="card-title">model</h5>
       <pre>{{ fieldSettings | pretty }}</pre>
+      
       <hr/>
 
       <h5 class="card-title">data</h5>
-        <pre class="field-data-json">{{ fieldData }}</pre>
+      <pre class="field-data-json">{{ fieldData }}</pre>
+
+      <template v-if="formState">
+        <hr/>
+        <h5 class="card-title">form state</h5>
+        <pre class="field-data-json">{{ formState }}</pre>
+      </template>
+
     </div>
   </div>
 
@@ -26,6 +34,10 @@
       fieldData: {
         type: Object,
         required: true
+      },
+      formState: {
+        type: Object,
+        required: false
       }
     },
     filters: {
