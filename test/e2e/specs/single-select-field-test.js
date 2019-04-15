@@ -14,8 +14,8 @@ module.exports = {
       browser.expect.element('#single-select-form-example.vf-form-untouched.vf-form-pristine').to.be.present
       browser.expect.element('.v-select.vf-untouched.vf-pristine').to.be.present
       browser.click('#single-select-form-example')
-      browser.keys('o')
-      browser.keys(browser.Keys.ENTER)
+      browser.setValue('input[type=search]', ['o']);
+      browser.setValue('input[type=search]', [browser.Keys.ENTER]);
       browser.expect.element('#single-select-form-example.vf-form-dirty.vf-form-valid.vf-form-touched').to.be.present
       browser.end() 
     }
