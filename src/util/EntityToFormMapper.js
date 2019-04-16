@@ -21,10 +21,8 @@ const DEFAULTS = {
   mapperMode: 'UPDATE',
   booleanLabels: {
     trueLabel: 'True',
-    falseLabel: 'False',
-    nillLabel: 'N/A'
+    falseLabel: 'False'
   },
-  showNillableBooleanOption: true,
   showNonVisibleAttributes: false
 }
 
@@ -142,22 +140,12 @@ const getFieldOptions = (attribute, options: MapperSettings): ?(() => Promise<Ar
           label: option
         }
       })
-
-      if (attribute.nillable) {
-        enumOptions.push({id: 'null', value: 'null', label: 'N/A'})
-      }
-
       return (): Promise<Array<FieldOption>> => Promise.resolve(enumOptions)
     case 'BOOL':
       const boolOptions = [
         {id: 'true', value: true, label: options.booleanLabels.trueLabel},
         {id: 'false', value: false, label: options.booleanLabels.falseLabel}
       ]
-
-      if (attribute.nillable && options.showNillableBooleanOption) {
-        boolOptions.push({id: 'null', value: null, label: options.booleanLabels.nillLabel})
-      }
-
       return (): Promise<Array<FieldOption>> => Promise.resolve(boolOptions)
     default:
       return null
@@ -437,11 +425,12 @@ const generateFormData = (fields: any, data: any, attributes: any, options: Mapp
  * Returns true if entity attribute should be included in form
  *
  * @param attribute
+ * @param options
  * @returns {boolean}
  */
-const isFormFieldAttribute = (attribute: any): boolean => {
+const isFormFieldAttribute = (attribute: any, options: MapperSettings): boolean => {
   return !(
-    (attribute.auto && !attribute.visible) || // server side generated field
+    (options.mapperMode === 'CREATE' ? attribute.auto : attribute.auto && !attribute.visible) || // server side generated field
     (attribute.hasOwnProperty('expression') && attribute.expression.length > 0) // computed field
   )
 }
@@ -455,7 +444,10 @@ const isFormFieldAttribute = (attribute: any): boolean => {
  */
 const generateFormFields = (metaData: any, options: MapperSettings): Array<FormField> => {
   const {attributes, ...entityMetadata} = metaData
-  return attributes.filter(isFormFieldAttribute)
+  return attributes
+    .filter((attr) => {
+      return isFormFieldAttribute(attr, options)
+    })
     .map((attr) => {
       return generateFormSchemaField(attr, entityMetadata, options)
     })
@@ -464,7 +456,7 @@ const generateFormFields = (metaData: any, options: MapperSettings): Array<FormF
 /**
  * Construct mapper settings taking into account the user settings, if no settings are passed the defaults are used
  * @param settings
- * @returns {{mapperMode: *, booleanLabels: {trueLabel: string, falseLabel: string, nillLabel: string}, showNillableBooleanOption: boolean}}
+ * @returns {{mapperMode: *, booleanLabels: {trueLabel: string, falseLabel: string, nillLabel: string}}}
  */
 const buildMapperSettings = (settings?: MapperOptions): MapperSettings => {
   if (!settings) {
@@ -477,14 +469,8 @@ const buildMapperSettings = (settings?: MapperOptions): MapperSettings => {
   if (settings.booleanLabels) {
     booleanLabels = {
       trueLabel: settings.booleanLabels.trueLabel ? settings.booleanLabels.trueLabel : 'True',
-      falseLabel: settings.booleanLabels.falseLabel ? settings.booleanLabels.falseLabel : 'False',
-      nillLabel: settings.booleanLabels.nillLabel ? settings.booleanLabels.nillLabel : 'N/A'
+      falseLabel: settings.booleanLabels.falseLabel ? settings.booleanLabels.falseLabel : 'False'
     }
-  }
-
-  let showNillableBooleanOption = DEFAULTS.showNillableBooleanOption
-  if (typeof (settings.showNillableBooleanOption) === 'boolean') {
-    showNillableBooleanOption = settings.showNillableBooleanOption
   }
 
   let showNonVisibleAttributes = DEFAULTS.showNonVisibleAttributes
@@ -495,7 +481,6 @@ const buildMapperSettings = (settings?: MapperOptions): MapperSettings => {
   return {
     mapperMode,
     booleanLabels,
-    showNillableBooleanOption,
     showNonVisibleAttributes
   }
 }

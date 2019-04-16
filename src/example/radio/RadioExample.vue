@@ -4,10 +4,10 @@
 
       <div class="col-sm">
         <div class="card">
-          <h5 class="card-header text-center bg-info">Long field demo</h5>
+          <h5 class="card-header text-center bg-info">Radio field demo</h5>
           <div class="card-body">
             <form-component
-              id="long-example-form"
+              id="radio-example-form"
               :options="formOptions"
               :formFields="formFields"
               :initialFormData="formData"
@@ -15,6 +15,10 @@
               @valueChange="onValueChanged">
             </form-component>
           </div>
+        </div>
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="nillable" v-model="nillable">
+          <label class="custom-control-label" for="nillable">required</label>
         </div>
       </div>
 
@@ -32,7 +36,7 @@
   import ModelSettings from '../components/ModelSettings'
 
   export default {
-    name: 'long-example',
+    name: 'radio-example',
     components: {
       ModelSettings,
       FormComponent
@@ -44,19 +48,35 @@
         },
         formFields: [
           {
-            id: 'long-example',
-            label: 'Long Field',
-            description: 'Long type',
-            type: 'long',
+            id: 'radio-example',
+            label: 'Radio Field',
+            description: 'Radio type',
+            type: 'radio',
+            options: () => Promise.resolve([
+              {value: 1, label: 'Option 1'},
+              {value: 2, label: 'Option 2'},
+              {value: 3, label: 'Option 3'}
+            ]),
             visible: () => true,
-            required: () => false,
-            validate: () => true,
-            range: {}
+            required: () => true,
+            validate: () => true
           }
         ],
         formState: {},
         formData: {
-          'long-example': 9147483647
+          'radio-example': null
+        }
+      }
+    },
+    computed: {
+      nillable: {
+        // getter
+        get: function () {
+          return this.formFields[0].required()
+        },
+        // setter
+        set: function (newValue) {
+          this.formFields[0].required = () => newValue
         }
       }
     },

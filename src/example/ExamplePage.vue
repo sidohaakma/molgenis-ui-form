@@ -33,6 +33,9 @@
       <li class="nav-item">
         <router-link to="/age" class="nav-link">Age</router-link>
       </li>
+      <li class="nav-item">
+        <router-link to="/radio" class="nav-link">Radio</router-link>
+      </li>
     </ul>
 
     <div>

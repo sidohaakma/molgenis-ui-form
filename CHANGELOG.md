@@ -1,3 +1,23 @@
+<a name="next release"></a>
+## next release (xx-xx-xxxx)
+
+<a name="3.0.1"></a>
+## 3.0.1 (xx-xx-xxxx)
+
+### Bugfixes
+* [#267 Should enforce min and max long values](https://github.com/molgenis/molgenis-ui-form/issues/267)
+
+<a name="3.0.0"></a>
+## 3.0.0 (1-4-2019)
+### Breaking changes
+The mapper option `showNillableBooleanOption` is removed, the N/A option is now added to any radio
+field whenever it is required. This takes the current value of a nullable expressions into account.
+
+### Bugfixes
+* [#260 Empty required file field does not invalidate the form](https://github.com/molgenis/molgenis-ui-form/issues/260)
+* [#255 Auto generated dates not working](https://github.com/molgenis/molgenis-ui-form/issues/255)
+* [#254 No way to figure out if radio button values have changed](https://github.com/molgenis/molgenis-ui-form/issues/254)
+
 <a name="2.1.0"></a>
 ## 2.1.0 (19-11-2018)
 ### Features
@@ -7,7 +27,7 @@
    - `form_bool_missing` renamed to `form_boolean_missing`
 
 ### Bugfixes
-* [203 Hide all optional fields/show all fields not internationalized](https://github.com/molgenis/molgenis-ui-form/issues/203)
+* [#203 Hide all optional fields/show all fields not internationalized](https://github.com/molgenis/molgenis-ui-form/issues/203)
 * [#233 Set the value to null on clearing a number field](https://github.com/molgenis/molgenis-ui-form/issues/233)
 * [#226 Allow clearing of a date / date-time field](https://github.com/molgenis/molgenis-ui-form/issues/226)
 * [#236 Age function is off by one year for future dates](https://github.com/molgenis/molgenis-ui-form/issues/236)

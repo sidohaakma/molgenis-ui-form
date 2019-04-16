@@ -16,6 +16,10 @@
             </form-component>
           </div>
         </div>
+        <div class="custom-control custom-switch">
+          <input type="checkbox" class="custom-control-input" id="nillable" v-model="nillable">
+          <label class="custom-control-label" for="nillable">required</label>
+        </div>
       </div>
 
       <div class="col-sm">
@@ -56,6 +60,16 @@
         formState: {},
         formData: {
           'file-example': 'test-file-name.txt'
+        }
+      }
+    },
+    computed: {
+      nillable: {
+        get: function () {
+          return this.formFields[0].required()
+        },
+        set: function (newValue) {
+          this.formFields[0].required = () => newValue
         }
       }
     },

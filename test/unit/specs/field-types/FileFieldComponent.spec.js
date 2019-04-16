@@ -24,7 +24,7 @@ describe('FileFieldComponent unit tests', () => {
   const propsData = {
     field: field,
     fieldState: fieldState,
-    isRequired: true,
+    isRequired: false,
     isValid: true
   }
 
@@ -32,6 +32,7 @@ describe('FileFieldComponent unit tests', () => {
     propsData: propsData,
     stubs: {'fieldMessages': '<div>This field is required</div>'}
   })
+  wrapper.vm.$t = (x) => x
 
   it('should render a an empty label when no initial value is set', () => {
     expect(wrapper.vm.label).to.equal('')
@@ -53,6 +54,34 @@ describe('FileFieldComponent unit tests', () => {
     expect(wrapper.vm.label).to.equal('new_file.zip')
   })
 
+  it('should render the correct button text when a file is selected', () => {
+    propsData.value = 'file.zip'
+    wrapper.setProps(propsData)
+    expect(wrapper.vm.buttonText).to.equal('ui-form:form_file_change')
+  })
+
+  it('should render the correct button text when no file is selected', () => {
+    propsData.value = null
+    wrapper.setProps(propsData)
+    expect(wrapper.vm.buttonText).to.equal('ui-form:form_file_browse')
+  })
+
+  it('should clear file input if the field is nillable', () => {
+    expect(wrapper.vm.isRequired).to.equal(false)
+    wrapper.vm.clear()
+    expect(wrapper.vm.label).to.equal('')
+    expect(wrapper.emitted().input.slice(-1)[0]).deep.equal([null])
+  })
+
+  it('should not clear file input if the field is required', () => {
+    propsData.isRequired = true
+    propsData.value = 'file.zip'
+    wrapper.setProps(propsData)
+    expect(wrapper.vm.isRequired).to.equal(true)
+    wrapper.vm.clear()
+    expect(wrapper.vm.label).to.equal('file.zip')
+  })
+
   it('should emit change when the file input is updated', () => {
     const event = {
       target: {
@@ -61,8 +90,7 @@ describe('FileFieldComponent unit tests', () => {
         ]
       }
     }
-
     wrapper.vm.handleFileChange(event)
-    expect(wrapper.emitted().input[0]).deep.equal(['file'])
+    expect(wrapper.emitted().input.slice(-1)[0]).deep.equal(['file'])
   })
 })
