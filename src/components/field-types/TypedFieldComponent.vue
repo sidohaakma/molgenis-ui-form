@@ -1,5 +1,5 @@
 <template>
-  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, range: isValidRange, unique: isUnique}" :debounce="inputDebounceTime">
+  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, unique: isUnique}" :debounce="inputDebounceTime">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -7,6 +7,8 @@
         :id="field.id"
         v-model="localValue"
         :type="inputType"
+        :min="min"
+        :max="max"
         :name="field.id"
         class="form-control"
         :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
@@ -20,7 +22,7 @@
         {{ field.description }}
       </small>
 
-      <form-field-messages :field-id="field.id" :type="field.type" :range="field.range" :field-state="fieldState">
+      <form-field-messages :field-id="field.id" :type="field.type" :min="min" :max="max" :field-state="fieldState">
       </form-field-messages>
     </div>
   </validate>
@@ -99,30 +101,36 @@
       }
     },
     computed: {
+      min () {
+        if (this.field.range && this.field.range.hasOwnProperty('min')) {
+          return this.field.range.min
+        }
+        if (this.field.type === 'integer') {
+          return MIN_JAVA_INT
+        }
+        if (this.field.type === 'long') {
+          return Number.MIN_SAFE_INTEGER
+        }
+        return null
+      },
+      max () {
+        if (this.field.range && this.field.range.hasOwnProperty('max')) {
+          return this.field.range.max
+        }
+        if (this.field.type === 'integer') {
+          return MAX_JAVA_INT
+        }
+        if (this.field.type === 'long') {
+          return Number.MAX_SAFE_INTEGER
+        }
+        return null
+      },
       stepSize () {
         // Conditionally add step size, return false to omit step attribute
         return (this.field.type === 'integer' || this.field.type === 'long') ? 1 : false
       },
       inputType () {
         return this.isNumberField ? 'number' : this.field.type
-      },
-      isValidRange () {
-        if (!this.isNumberField || !this.field.range || this.localValue === '') {
-          return true
-        }
-
-        const numberValue = this.toNumber(this.localValue)
-        if (Number.isNaN(numberValue)) {
-          return false
-        }
-        if (this.field.range.hasOwnProperty('min') && numberValue < this.field.range.min) {
-          return false
-        }
-        if (this.field.range.hasOwnProperty('max') && numberValue > this.field.range.max) {
-          return false
-        }
-
-        return true
       },
       isValidInt () {
         if (this.field.type !== 'integer' || this.localValue === '') {

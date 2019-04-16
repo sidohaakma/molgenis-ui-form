@@ -8,11 +8,8 @@
     <div class="invalid-feedback" slot="number">{{ notAValidNumberMsg }}</div>
     <div class="invalid-feedback" slot="unique">{{ notUniqueMsg}}</div>
     <div class="invalid-feedback" slot="validate">{{ validationFailedMsg }}</div>
-    <div v-if="range" class="invalid-feedback" slot="range">
-      <span v-if="range.hasOwnProperty('min') && range.hasOwnProperty('max')">{{ notWithInRangeMsg }} ({{ range.min }} - {{ range.max }})</span>
-      <span v-else-if="range.hasOwnProperty('min') && !range.hasOwnProperty('max')">{{ belowMinValueMsg }} {{ range.min }} </span>
-      <span v-else>{{ aboveMaxValueMsg }} {{ range.max }} </span>
-    </div>
+    <div class="invalid-feedback" slot="min">{{ minMessage }}</div>
+    <div class="invalid-feedback" slot="max">{{ maxMessage }}</div>
   </field-messages>
 </template>
 
@@ -50,14 +47,31 @@
       fieldState: {
         type: Object
       },
-      range: {
-        type: Object,
-        required: false
+      min: {
+        type: Number,
+        required: false,
+        default: null
+      },
+      max: {
+        type: Number,
+        required: false,
+        default: null
       }
     },
     data () {
       return {
         localizedMessages: {}
+      }
+    },
+    computed: {
+      minMaxMessage () {
+        return `${this.notWithInRangeMsg} (${this.min} - ${this.max})`
+      },
+      minMessage () {
+        return this.max !== null ? this.minMaxMessage : `${this.belowMinValueMsg} ${this.min}`
+      },
+      maxMessage () {
+        return this.min !== null ? this.minMaxMessage : `${this.aboveMaxValueMsg} ${this.max}`
       }
     },
     methods: {
