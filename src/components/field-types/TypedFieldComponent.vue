@@ -15,8 +15,7 @@
         :aria-describedby="field.id + '-description'"
         :required="isRequired"
         :disabled="field.disabled"
-        :step="stepSize"
-        v-on:keyup="onKeyUp">
+        :step="stepSize">
 
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
@@ -92,12 +91,6 @@
     methods: {
       toNumber (input) {
         return input !== '' ? Number(input) : null
-      },
-      onKeyUp (event) {
-        // In case of numeric check validity, if invalid place back the old value
-        if (this.isNumberField && event.target.validity && event.target.validity.badInput) {
-          this.localValue = this.value
-        }
       }
     },
     computed: {
