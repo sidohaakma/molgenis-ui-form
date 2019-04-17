@@ -7,7 +7,7 @@
       <div class="input-group">
 
         <v-select v-model="localValue"
-                  class="form-control"
+                  class="form-control mg-multi-select"
                   :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
                   :options="options"
                   :onSearch="fetchOptions"
@@ -23,8 +23,8 @@
           </div>
         </v-select>
 
-        <div v-if="!field.disabled && allowAddingOptions" class="input-group-append">
-          <button @click="addOptionClicked($event)" class="btn btn-outline-secondary" type="button">
+        <div v-if="!field.disabled && allowAddingOptions" >
+          <button @click="addOptionClicked($event)" class="btn btn-outline-secondary mg-select-add-btn" type="button">
             <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
         </div>

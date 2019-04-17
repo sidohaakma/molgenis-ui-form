@@ -141,26 +141,46 @@
     content: '\a0*';
   }
 
-  /*  Styling to have v-select look like bootstrap field */
-  .v-select {
-    padding-top: 0;
-    padding-right: 0;
+  /*  Styling to have v-select look like bootstrap field */ 
+  .mg-ui-form-field .v-select .dropdown-toggle {
+    background-color: white; /* $input-bg */
     padding-bottom: 0;
-    padding-left: 0.75rem;
+    min-height: calc(2.25rem + 2px);
   }
-
-  .v-select.disabled {
+  
+  .mg-ui-form-field .v-select.disabled .dropdown-toggle {
     background-color: #f8f8f8;
   }
 
-  .mg-ui-form-field .v-select > .dropdown-toggle {
-    border: none;
-    height: calc(2.25rem + 2px);
+  .mg-ui-form-field .mg-select-add-btn {
+    margin-left: 0.5rem;
   }
 
-  .mg-ui-form-field .v-select.single .selected-tag {
+  .mg-ui-form-field .v-select .vs__selected-options {
+    padding-left: 0.75rem;
+  }
+
+  .mg-ui-form-field .dropdown.v-select.form-control.searchable {
+    padding: 0;
+    border: 0;
+  }
+
+  .mg-ui-form-field .v-select .selected-tag {
+    margin-top: 0.375rem;
+    margin-bottom: 0.375rem;
+  }
+
+  .mg-ui-form-field .v-select.single .vs__selected-options .selected-tag {
     padding-left: 0;
+    margin-left: 0; 
+  }
+
+  .mg-ui-form-field .v-select .vs__selected-options :first-child {
     margin-left: 0;
+  }
+
+  .mg-multi-select {
+    height: auto;
   }
 
   /* fix to hide input[type=search] as webkit forces browser style */
