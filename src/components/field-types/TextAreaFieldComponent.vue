@@ -19,7 +19,7 @@
         {{ field.description }}
       </small>
 
-      <form-field-messages :field-id="field.id" :field-state="fieldState">
+      <form-field-messages :field-id="field.id" :field-state="fieldState" :maxlength="maxlength">
       </form-field-messages>
     </div>
   </validate>
