@@ -50,7 +50,8 @@
             type: 'long',
             visible: () => true,
             required: () => false,
-            validate: () => true
+            validate: () => true,
+            range: {}
           }
         ],
         formState: {},

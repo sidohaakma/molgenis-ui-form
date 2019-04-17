@@ -183,7 +183,7 @@ describe('TypedFieldComponent unit tests', () => {
     })
   })
 
-  describe('isWithinRange', () => {
+  describe('min', () => {
     let propsData = {
       field: {
         id: 'typed-field',
@@ -196,49 +196,64 @@ describe('TypedFieldComponent unit tests', () => {
         _addControl: mockParentFunction
       }
     }
-    describe('should return true if range is (1, 9) and value is 5', () => {
-      propsData.field.range = {
-        min: 1,
-        max: 9
-      }
-      propsData.value = 5
+    it('should return range.min if it is present', () => {
+      propsData.field.range = { min: 0 }
       const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-      it('if the value is between min and max', () => {
-        expect(wrapper.vm.isValidRange).to.equal(true)
-      })
+      expect(wrapper.vm.min).to.equal(0)
     })
-    describe('should return false if range is (1, 9) and value is 11', () => {
-      propsData.field.range = {
-        min: 1,
-        max: 9
-      }
-      propsData.value = 11
+    it('should return Number.MIN_SAFE_INTEGER if type is long and range has no min value', () => {
+      propsData.field.range = { max: 10 }
+      propsData.field.type = 'long'
       const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-      it('if the value is between min and max', () => {
-        expect(wrapper.vm.isValidRange).to.equal(false)
-      })
+      expect(wrapper.vm.min).to.equal(Number.MIN_SAFE_INTEGER)
     })
-    describe('should return false if range is (1, 9) and value is -1', () => {
-      propsData.field.range = {
-        min: 1,
-        max: 9
-      }
-      propsData.value = -1
+    it('should return min java int value if type is integer', () => {
+      propsData.field.range = { max: 10 }
+      propsData.field.type = 'integer'
       const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-      it('if the value is between min and max', () => {
-        expect(wrapper.vm.isValidRange).to.equal(false)
-      })
+      expect(wrapper.vm.min).to.equal(-2147483648)
     })
-    describe('should return false if range is (1, 9) and value is \'foo\'', () => {
-      propsData.field.range = {
-        min: 1,
-        max: 9
-      }
-      propsData.value = 'foo'
+    it('should return null for text type', () => {
+      propsData.field.type = 'text'
       const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
-      it('if the value is not a number', () => {
-        expect(wrapper.vm.isValidRange).to.equal(false)
-      })
+      expect(wrapper.vm.min).to.equal(null)
+    })
+  })
+
+  describe('max', () => {
+    let propsData = {
+      field: {
+        id: 'typed-field',
+        type: 'long'
+      },
+      fieldState: {
+        $touched: false,
+        $submitted: false,
+        $invalid: false,
+        _addControl: mockParentFunction
+      }
+    }
+    it('should return range.max if it is present', () => {
+      propsData.field.range = { max: 0 }
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      expect(wrapper.vm.max).to.equal(0)
+    })
+    it('should return Number.MAX_SAFE_INTEGER if type is long and range has no max value', () => {
+      propsData.field.range = { min: 10 }
+      propsData.field.type = 'long'
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      expect(wrapper.vm.max).to.equal(Number.MAX_SAFE_INTEGER)
+    })
+    it('should return max java int value if type is integer and range has no max value', () => {
+      propsData.field.range = { min: 10 }
+      propsData.field.type = 'integer'
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      expect(wrapper.vm.max).to.equal(2147483647)
+    })
+    it('should return null for text type', () => {
+      propsData.field.type = 'text'
+      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      expect(wrapper.vm.max).to.equal(null)
     })
   })
 
