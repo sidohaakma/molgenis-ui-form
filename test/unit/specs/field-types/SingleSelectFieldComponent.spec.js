@@ -3,53 +3,51 @@ import { mount } from 'vue-test-utils'
 import td from 'testdouble'
 
 describe('SingleSelectFieldComponent unit tests', () => {
-  const field = {
-    id: 'xref',
-    label: 'Xref Field',
-    description: 'This is an xref field',
-    type: 'single-select',
-    disabled: false,
-    options: (search) => {
-      if (search === 'ref1') {
-        return new Promise((resolve) => {
-          resolve([
-            {
-              id: 'ref1',
-              label: 'label1',
-              value: 'ref1'
-            }
-          ])
-        })
-      } else if (search === 'non existing option') {
-        return new Promise((resolve) => {
-          resolve([])
-        })
-      }
-    }
-  }
-
-  const mockParentFunction = () => {
-    return null
-  }
-
-  const fieldState = {
-    $touched: false,
-    $submitted: false,
-    $invalid: false,
-    _addControl: mockParentFunction
-  }
-
+  let propsData
   let mockEmit = td.function()
 
-  const propsData = {
-    field: field,
-    fieldState: fieldState,
-    isRequired: true,
-    isValid: true,
-    eventBus: {
-      $emit: mockEmit
+  beforeEach(() => {
+    propsData = {
+      field: {
+        id: 'xref',
+        label: 'Xref Field',
+        description: 'This is an xref field',
+        type: 'single-select',
+        disabled: false,
+        options: (search) => {
+          if (search === 'ref1') {
+            return new Promise((resolve) => {
+              resolve([
+                {
+                  id: 'ref1',
+                  label: 'label1',
+                  value: 'ref1'
+                }
+              ])
+            })
+          } else if (search === 'non existing option') {
+            return new Promise((resolve) => {
+              resolve([])
+            })
+          }
+        }
+      },
+      fieldState: {
+        $touched: false,
+        $submitted: false,
+        $invalid: false,
+        $dirty: false,
+        $pristine: true,
+        $untouched: true,
+        _addControl: () => null
+      },
+      isRequired: true,
+      isValid: true,
+      eventBus: {
+        $emit: mockEmit
+      }
     }
-  }
+  })
 
   it('should have an empty option list when no initial value is present', done => {
     const wrapper = mount(SingleSelectFieldComponent, {
@@ -111,11 +109,21 @@ describe('SingleSelectFieldComponent unit tests', () => {
       stubs: {'fieldMessages': '<div>This field is required</div>'}
     })
 
+    expect(wrapper.vm.fieldState.$dirty).to.equal(false)
+    expect(wrapper.vm.fieldState.$pristine).to.equal(true)
+    expect(wrapper.vm.fieldState.$touched).to.equal(false)
+    expect(wrapper.vm.fieldState.$untouched).to.equal(true)
+
     wrapper.setData({localValue: {id: 'ref1', label: 'label1'}})
     expect(wrapper.emitted().input[0]).to.deep.equal(['ref1'])
 
     wrapper.setData({localValue: null})
     expect(wrapper.emitted().input[1]).to.deep.equal([null])
+
+    expect(wrapper.vm.fieldState.$dirty).to.equal(true)
+    expect(wrapper.vm.fieldState.$pristine).to.equal(false)
+    expect(wrapper.vm.fieldState.$touched).to.equal(true)
+    expect(wrapper.vm.fieldState.$untouched).to.equal(false)
   })
 
   it('should emit an "addOption" event when the "addOptionClicked" function is called', () => {
@@ -162,6 +170,6 @@ describe('SingleSelectFieldComponent unit tests', () => {
       propsData: propsData,
       stubs: ['fieldMessages']
     })
-    expect(wrapper.findAll('.input-group-append').exists()).to.equal(true)
+    expect(wrapper.findAll('.mg-select-add-btn').exists()).to.equal(true)
   })
 })

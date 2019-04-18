@@ -237,6 +237,6 @@ describe('MultiSelectFieldComponent unit tests', () => {
       propsData: propsData,
       stubs: {'fieldMessages': '<div>This field is required</div>'}
     })
-    expect(wrapper.findAll('.input-group-append').exists()).to.equal(true)
+    expect(wrapper.findAll('.mg-select-add-btn').exists()).to.equal(true)
   })
 })

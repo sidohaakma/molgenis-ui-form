@@ -21,8 +21,8 @@
           </div>
         </v-select>
 
-        <div v-if="allowAddingOptions" class="input-group-append">
-          <button @click="addOptionClicked($event)" class="btn btn-outline-secondary" type="button">
+        <div v-if="allowAddingOptions">
+          <button @click="addOptionClicked($event)" class="btn btn-outline-secondary mg-select-add-btn" type="button">
             <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
         </div>
@@ -110,12 +110,14 @@
     },
     watch: {
       localValue (value) {
-        if (value) {
-          // Emit value changes to the parent (form)
-          this.$emit('input', value.id)
-        } else {
-          this.$emit('input', null)
-        }
+        this.fieldState.$dirty = true
+        this.fieldState.$pristine = false
+        this.fieldState.$touched = true
+        this.fieldState.$untouched = false
+        // Emit value changes to the parent (form)
+        this.$emit('input', value ? value.id : null)
+        this.$emit('focus')
+        this.$emit('blur')
       }
     },
     created () {
