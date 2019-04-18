@@ -7,7 +7,7 @@
           <h5 class="card-header text-center bg-info">Max length demo</h5>
           <div class="card-body">
             <form-component
-              id="max-length-string-example"
+              id="max-length-example"
               :options="formOptions"
               :formFields="formFields"
               :initialFormData="formData"
@@ -16,7 +16,7 @@
             </form-component>
           </div>
           <div class="card-footer">
-            <button id="save-btn" class="btn btn-primary" type="submit" @click.prevent="onSubmit">Validate</button>
+            <button id="validate-btn" class="btn btn-primary" type="submit" @click.prevent="onSubmit">Validate</button>
           </div>
         </div>
       </div>
