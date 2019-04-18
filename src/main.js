@@ -14,6 +14,7 @@ import FileExample from './example/file/FileExample'
 import AgeExample from './example/validation-functions/AgeExample'
 import RadioExample from './example/radio/RadioExample'
 import SingleSelectExample from './example/single-select/SingleSelectExample'
+import MultiSelectExample from './example/multi-select/MultiSelectExample'
 import i18n from '@molgenis/molgenis-i18n-js'
 
 Vue.config.productionTip = false
@@ -67,6 +68,10 @@ const router = new Router({
     {
       path: '/single-select/',
       component: SingleSelectExample
+    },
+    {
+      path: '/multi-select/',
+      component: MultiSelectExample
     },
     {
       path: '/',

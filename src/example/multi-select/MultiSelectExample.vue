@@ -3,10 +3,10 @@
     <div class="row mb-1">
       <div class="col-sm">
         <div class="card">
-          <h5 class="card-header text-center bg-info">Single select demo</h5>
+          <h5 class="card-header text-center bg-info">Multi select demo</h5>
           <div class="card-body">
             <form-component
-              id="single-select-form-example"
+              id="multi-select-form-example"
               :options="formOptions"
               :formFields="formFields"
               :initialFormData="formData"
@@ -33,7 +33,7 @@ import { FormComponent } from '../../molgenisUiForm'
 import ModelSettings from '../components/ModelSettings'
 
 export default {
-  name: 'single-select-example',
+  name: 'multi-select-example',
   components: {
     ModelSettings,
     FormComponent
@@ -45,10 +45,10 @@ export default {
       },
       formFields: [
         {
-          id: 'single-select-example',
-          label: 'Single select field',
-          description: 'test the single select',
-          type: 'single-select',
+          id: 'multi-select-example',
+          label: 'Multi select field',
+          description: 'test the multi select',
+          type: 'multi-select',
           options: () =>
             Promise.resolve([
               {
@@ -65,6 +65,16 @@ export default {
                 id: '3',
                 label: 'Option 3',
                 value: 'val-3'
+              },
+              {
+                id: '4',
+                label: 'Option 4',
+                value: 'val-4'
+              },
+              {
+                id: '5',
+                label: 'Option 5',
+                value: 'val-5'
               }
             ]),
           visible: () => true,
