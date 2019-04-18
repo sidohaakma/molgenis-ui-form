@@ -112,6 +112,10 @@
     },
     watch: {
       localValue (newValues) {
+        this.fieldState.$dirty = true
+        this.fieldState.$pristine = false
+        this.fieldState.$touched = true
+        this.fieldState.$untouched = false
         // Emit value changes to the parent (form)
         this.$emit('input', newValues.map(value => value.id))
         this.$emit('focus')

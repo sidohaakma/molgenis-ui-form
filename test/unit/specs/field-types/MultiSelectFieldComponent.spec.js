@@ -3,69 +3,70 @@ import { mount } from 'vue-test-utils'
 import td from 'testdouble'
 
 describe('MultiSelectFieldComponent unit tests', () => {
-  const field = {
-    id: 'mref',
-    label: 'MREF Field',
-    type: 'multi-select',
-    disabled: false,
-    options: (search) => {
-      let optionsSearchResult
-      if (Array.isArray(search)) {
-        optionsSearchResult = [
-          {
-            id: 'ref1',
-            label: 'label1',
-            value: 'ref1'
-          },
-          {
-            id: 'ref2',
-            label: 'label2',
-            value: 'ref2'
-          },
-          {
-            id: 'ref3',
-            label: 'label3',
-            value: 'ref3'
-          }
-        ]
-      } else if (search === 'ref1') {
-        optionsSearchResult = [
-          {
-            id: 'ref1',
-            label: 'label1',
-            value: 'ref1'
-          }
-        ]
-      } else if (search === 'non existing option') {
-        optionsSearchResult = []
-      }
-
-      return Promise.resolve(optionsSearchResult)
-    }
-  }
-
-  const mockParentFunction = () => {
-    return null
-  }
-
-  const fieldState = {
-    $touched: false,
-    $submitted: false,
-    $invalid: false,
-    _addControl: mockParentFunction
-  }
-
+  let propsData
   let mockEmit = td.function()
 
-  const propsData = {
-    field: field,
-    fieldState: fieldState,
-    isRequired: true,
-    isValid: true,
-    eventBus: {
-      $emit: mockEmit
+  beforeEach(() => {
+    propsData = {
+      field: {
+        id: 'mref',
+        label: 'MREF Field',
+        type: 'multi-select',
+        disabled: false,
+        options: (search) => {
+          if (Array.isArray(search)) {
+            return new Promise((resolve) => {
+              resolve([
+                {
+                  id: 'ref1',
+                  label: 'label1',
+                  value: 'ref1'
+                },
+                {
+                  id: 'ref2',
+                  label: 'label2',
+                  value: 'ref2'
+                },
+                {
+                  id: 'ref3',
+                  label: 'label3',
+                  value: 'ref3'
+                }
+              ])
+            })
+          } else if (search === 'ref1') {
+            return new Promise((resolve) => {
+              resolve([
+                {
+                  id: 'ref1',
+                  label: 'label1',
+                  value: 'ref1'
+                }
+              ])
+            })
+          } else if (search === 'non existing option') {
+            return new Promise((resolve) => {
+              resolve([])
+            })
+          }
+        }
+      },
+      fieldState: {
+        $touched: false,
+        $submitted: false,
+        $invalid: false,
+        $dirty: false,
+        $pristine: true,
+        $untouched: true,
+        _addControl: () => null
+      },
+      isRequired: true,
+      isValid: true,
+      eventBus: {
+        $emit: mockEmit
+      }
     }
-  }
+  })
 
   it('should fetch with empty search parmam when no initial value is present', done => {
     const wrapper = mount(MultiSelectFieldComponent, {
@@ -159,11 +160,22 @@ describe('MultiSelectFieldComponent unit tests', () => {
       stubs: { 'fieldMessages': '<div>This field is required</div>' }
     })
 
-    wrapper.setData({ localValue: [{ id: 'ref1' }] })
+    expect(wrapper.vm.fieldState.$dirty).to.equal(false)
+    expect(wrapper.vm.fieldState.$pristine).to.equal(true)
+    expect(wrapper.vm.fieldState.$touched).to.equal(false)
+    expect(wrapper.vm.fieldState.$untouched).to.equal(true)
+
+    wrapper.setData({localValue: [{id: 'ref1'}]})
+
     expect(wrapper.emitted().input[0]).to.deep.equal([['ref1']])
 
     wrapper.setData({ localValue: [] })
     expect(wrapper.emitted().input[1]).to.deep.equal([[]])
+
+    expect(wrapper.vm.fieldState.$dirty).to.equal(true)
+    expect(wrapper.vm.fieldState.$pristine).to.equal(false)
+    expect(wrapper.vm.fieldState.$touched).to.equal(true)
+    expect(wrapper.vm.fieldState.$untouched).to.equal(false)
   })
 
   it('should emit an "addOption" event when the "addOptionClicked" function is called', () => {
@@ -204,27 +216,7 @@ describe('MultiSelectFieldComponent unit tests', () => {
   })
 
   it('should not render the add btn when the field is disabled ', () => {
-    const field = {
-      id: 'mref',
-      label: 'MREF Field',
-      type: 'multi-select',
-      disabled: true,
-      options: () => {
-        return new Promise((resolve) => {
-          resolve([])
-        })
-      }
-    }
-
-    const propsData = {
-      field: field,
-      fieldState: fieldState,
-      isRequired: true,
-      isValid: true,
-      eventBus: {
-        $emit: mockEmit
-      }
-    }
+    propsData.field.disabled = true
 
     const wrapper = mount(MultiSelectFieldComponent, {
       propsData: propsData,
