@@ -119,19 +119,16 @@
       }
     },
     created () {
-      // If there is a value set, fetch an initial list of options
-      if (this.value.length > 0) {
-        // Call the field.options with the initial array of values
-        const that = this
-        this.field.options(this.value).then(response => {
-          that.options = response
-
-          // Replace localValue with the entire object so vue-select can use the label property
-          // Filter the list of the options based on the actual selected IDs
-          // a like query can return more then just your IDs
-          that.localValue = that.options.filter(option => that.value.includes(option.id))
-        })
-      }
+      // Fetch an initial list of options
+      this.field.options(this.value).then(response => {
+        this.options = response
+        // Replace localValue with the entire object so vue-select can use the label property
+        // Filter the list of the options based on the actual selected IDs
+        // a like query can return more then just your IDs
+        if (this.value.length > 0) {
+          this.localValue = this.options.filter(option => this.value.includes(option.id))
+        }
+      })
     },
     components: {
       vSelect,
