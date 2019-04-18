@@ -163,7 +163,7 @@ module.exports = {
 
   'Add new option to muli select': function (browser) {
     browser.options.desiredCapabilities.name = 'Add new option to muli select'
-    const btnSelector = '#mref-fs > div > div > div.input-group > div.input-group-append > button'
+    const btnSelector = '#mref-fs > div > div > div.input-group > div:nth-child(2) > button'
     browser.expect.element(btnSelector).to.be.visible
     browser.click(btnSelector)
     const newOption = '#mref-fs .selected-tag'

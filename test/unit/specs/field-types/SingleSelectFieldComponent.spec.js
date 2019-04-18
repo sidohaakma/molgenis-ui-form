@@ -170,6 +170,6 @@ describe('SingleSelectFieldComponent unit tests', () => {
       propsData: propsData,
       stubs: ['fieldMessages']
     })
-    expect(wrapper.findAll('.input-group-append').exists()).to.equal(true)
+    expect(wrapper.findAll('.mg-select-add-btn').exists()).to.equal(true)
   })
 })

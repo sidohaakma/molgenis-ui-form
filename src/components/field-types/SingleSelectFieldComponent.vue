@@ -21,8 +21,8 @@
           </div>
         </v-select>
 
-        <div v-if="allowAddingOptions" class="input-group-append">
-          <button @click="addOptionClicked($event)" class="btn btn-outline-secondary" type="button">
+        <div v-if="allowAddingOptions">
+          <button @click="addOptionClicked($event)" class="btn btn-outline-secondary mg-select-add-btn" type="button">
             <i class="fa fa-plus" aria-hidden="true"></i>
           </button>
         </div>
