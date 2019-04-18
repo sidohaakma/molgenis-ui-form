@@ -15,7 +15,6 @@ module.exports = {
     browser.expect.element('#max-length-string-example').to.have.attribute('class').which.contains('vf-invalid')
     browser.expect.element('#max-length-text-example').to.have.attribute('class').which.contains('vf-invalid')
     browser.expect.element('#max-length-url-example').to.have.attribute('class').which.contains('vf-invalid')
-    browser.expect.element('#max-length-script-example').to.have.attribute('class').which.contains('vf-invalid')
     browser.expect.element('#max-length-email-example').to.have.attribute('class').which.contains('vf-invalid')
     browser.end()
   },
@@ -23,9 +22,9 @@ module.exports = {
     const stringValue = 'This is not too long!'
     browser.options.desiredCapabilities.name = 'String with not too many values should be valid'
     browser.expect.element('#validate-btn').to.be.present
-    browser.click('input[type=text]#max-length-string-example')
-    browser.clearValue('input[type=text]#max-length-string-example')
-    browser.setValue('input[type=text]#max-length-string-example', stringValue)
+    browser.click('#max-length-example input[type=text]')
+    browser.clearValue('#max-length-example input[type=text]')
+    browser.setValue('#max-length-example input[type=text]', stringValue)
     browser.expect.element('#max-length-string-example').to.have.value.that.equals(stringValue)
     browser.click('#validate-btn')
     browser.expect.element('#max-length-string-example').to.have.attribute('class').which.contains('vf-valid')
