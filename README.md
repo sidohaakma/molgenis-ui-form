@@ -161,7 +161,7 @@ We support most HTML input types like number, text, and email. Below is a list o
 |------|-------------|
 | radios | A list of radio buttons |
 | single-select | A Vue select dropdown which supports asynchronous and synchronous option lists |
-| mukti-select | A Vue Multiselect dropdown which supports asynchronous and synchronous option lists |
+| multi-select | A Vue Multiselect dropdown which supports asynchronous and synchronous option lists |
 | number | A HTML5 number input |
 | integer | A HTML5 number input, with step size set to 1 and may not include a fraction and must lie between --2147483648 and 2147483647
 | long |  A HTML5 number input, Long may not include a fraction and should fit into javascript number type.
