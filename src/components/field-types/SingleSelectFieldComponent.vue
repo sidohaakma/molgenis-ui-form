@@ -125,7 +125,7 @@
       this.field.options(this.value).then(response => {
         this.options = response
         if (this.value) {
-        // Replace localValue with the entire object so vue-select can use the label property
+          // Replace localValue with the entire object so vue-select can use the label property
           this.localValue = this.options.find(option => option.id === this.value)
         }
       })
