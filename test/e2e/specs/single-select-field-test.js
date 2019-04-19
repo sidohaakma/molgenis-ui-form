@@ -18,6 +18,14 @@ module.exports = {
       browser.setValue('input[type=search]', [browser.Keys.ENTER]);
       browser.expect.element('#single-select-form-example.vf-form-dirty.vf-form-valid.vf-form-touched').to.be.present
       browser.end() 
+    },
+
+    'Empty search param still yields options': function (browser) {
+      browser.options.desiredCapabilities.name = 'Empty search param still yields options'
+      browser.expect.element('#single-select-form-example').to.be.present
+      browser.click('#single-select-form-example')
+      browser.assert.elementCount('ul.dropdown-menu > li', 3)
+      browser.end() 
     }
   }
   

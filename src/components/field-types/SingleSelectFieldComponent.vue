@@ -121,15 +121,14 @@
       }
     },
     created () {
-      // If there is a value set, fetch an initial list of options
-      if (this.value) {
-        this.field.options(this.value).then(response => {
-          this.options = response
-
+      // Fetch an initial list of options
+      this.field.options(this.value).then(response => {
+        this.options = response
+        if (this.value) {
           // Replace localValue with the entire object so vue-select can use the label property
           this.localValue = this.options.find(option => option.id === this.value)
-        })
-      }
+        }
+      })
     },
     components: {
       vSelect,

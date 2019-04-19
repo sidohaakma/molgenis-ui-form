@@ -15,21 +15,37 @@ describe('SingleSelectFieldComponent unit tests', () => {
         type: 'single-select',
         disabled: false,
         options: (search) => {
+          let optionsSearchResult
           if (search === 'ref1') {
-            return new Promise((resolve) => {
-              resolve([
-                {
-                  id: 'ref1',
-                  label: 'label1',
-                  value: 'ref1'
-                }
-              ])
-            })
+            optionsSearchResult = [
+              {
+                id: 'ref1',
+                label: 'label1',
+                value: 'ref1'
+              }
+            ]
           } else if (search === 'non existing option') {
-            return new Promise((resolve) => {
-              resolve([])
-            })
+            optionsSearchResult = []
+          } else {
+            optionsSearchResult = [
+              {
+                id: 'option-1',
+                label: 'Option 1',
+                value: 'option-1'
+              },
+              {
+                id: 'option-2',
+                label: 'Option 2',
+                value: 'option-2'
+              },
+              {
+                id: 'option-3',
+                label: 'Option 3',
+                value: 'option-3'
+              }
+            ]
           }
+          return Promise.resolve(optionsSearchResult)
         }
       },
       fieldState: {
@@ -49,14 +65,30 @@ describe('SingleSelectFieldComponent unit tests', () => {
     }
   })
 
-  it('should have an empty option list when no initial value is present', done => {
+  it('should fetch with empty search parmam when no initial value is present', done => {
     const wrapper = mount(SingleSelectFieldComponent, {
       propsData: propsData,
       stubs: {'fieldMessages': '<div>This field is required</div>'}
     })
 
     wrapper.vm.$nextTick(() => {
-      expect(wrapper.vm.options).to.deep.equal([])
+      expect(wrapper.vm.options).to.deep.equal([
+        {
+          id: 'option-1',
+          label: 'Option 1',
+          value: 'option-1'
+        },
+        {
+          id: 'option-2',
+          label: 'Option 2',
+          value: 'option-2'
+        },
+        {
+          id: 'option-3',
+          label: 'Option 3',
+          value: 'option-3'
+        }
+      ])
       done()
     })
   })
