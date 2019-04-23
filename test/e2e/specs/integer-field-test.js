@@ -57,9 +57,6 @@ module.exports = {
         browser.execute(function () {
           document.getElementById('integer-example').value = ''
         })
-
-        browser.setValue('#integer-example', '\u0008')
-        browser.pause(100)
         browser.setValue('#integer-example', '1,2')
       }
 
