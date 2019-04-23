@@ -68,8 +68,7 @@ module.exports = {
         name: packageJson.name,
         build: buildName,
         'tunnel-identifier': process.env.TUNNEL_IDENTIFIER,
-        browserName: 'firefox',
-        platform: 'MAC'
+        browserName: 'firefox'
       },
       globals: {
         devServerURL: ciDevServer,
