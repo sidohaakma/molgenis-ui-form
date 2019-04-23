@@ -38,7 +38,7 @@ module.exports = {
     },
 
     ci_chrome: {
-      launch_url: "http://ondemand.saucelabs.com:80",
+      launch_url: 'http://ondemand.saucelabs.com:80',
       selenium_port: 80,
       selenium_host: 'ondemand.saucelabs.com',
       silent: true,
@@ -58,7 +58,7 @@ module.exports = {
     },
 
     ci_firefox: {
-      launch_url: "http://ondemand.saucelabs.com:80",
+      launch_url: 'http://ondemand.saucelabs.com:80',
       selenium_port: 80,
       selenium_host: 'ondemand.saucelabs.com',
       silent: true,
@@ -68,7 +68,8 @@ module.exports = {
         name: packageJson.name,
         build: buildName,
         'tunnel-identifier': process.env.TUNNEL_IDENTIFIER,
-        browserName: 'firefox'
+        browserName: 'firefox',
+        platform: 'MAC'
       },
       globals: {
         devServerURL: ciDevServer,
@@ -78,7 +79,7 @@ module.exports = {
     },
 
     ci_ie11: {
-      launch_url: "http://ondemand.saucelabs.com:80",
+      launch_url: 'http://ondemand.saucelabs.com:80',
       selenium_port: 80,
       selenium_host: 'ondemand.saucelabs.com',
       silent: true,
@@ -90,7 +91,7 @@ module.exports = {
         'tunnel-identifier': process.env.TUNNEL_IDENTIFIER,
         browserName: 'internet explorer',
         platform: 'Windows 10',
-        version: '11.103',
+        version: '11.103'
       },
       globals: {
         devServerURL: ciDevServer,
@@ -100,7 +101,7 @@ module.exports = {
     },
 
     ci_safari: {
-      launch_url: "http://ondemand.saucelabs.com:80",
+      launch_url: 'http://ondemand.saucelabs.com:80',
       selenium_port: 80,
       selenium_host: 'ondemand.saucelabs.com',
       silent: true,

@@ -1,5 +1,9 @@
 <template>
-  <validate :state="fieldState" :custom="{validate: isValid, integer: isValidInt, long: isValidLong, unique: isUnique}" :debounce="inputDebounceTime">
+  <validate 
+    :class="{'mlg-was-validated': wasValidated}"
+    :state="fieldState" 
+    :custom="{validate: isValid, integer: isValidInt, long: isValidLong, unique: isUnique}" 
+    :debounce="inputDebounceTime">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
@@ -11,12 +15,11 @@
         :max="max"
         :name="field.id"
         class="form-control"
-        :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
+        :class="{ 'is-invalid' : wasValidated && fieldState.$invalid}"
         :aria-describedby="field.id + '-description'"
         :required="isRequired"
         :disabled="field.disabled"
-        :step="stepSize"
-        v-on:keyup="onKeyUp">
+        :step="stepSize">
 
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
@@ -27,6 +30,15 @@
     </div>
   </validate>
 </template>
+
+<style scoped>
+  .mlg-was-validated .form-control:invalid {
+    border-color: #dc3545;
+  }
+  .mlg-was-validated .form-control:invalid:focus {
+    box-shadow: 0 0 0 .2rem rgba(220,53,69,.25);
+  }
+</style>
 
 <script>
   import VueForm from 'vue-form'
@@ -92,15 +104,12 @@
     methods: {
       toNumber (input) {
         return input !== '' ? Number(input) : null
-      },
-      onKeyUp (event) {
-        // In case of numeric check validity, if invalid place back the old value
-        if (this.isNumberField && event.target.validity && event.target.validity.badInput) {
-          this.localValue = this.value
-        }
       }
     },
     computed: {
+      wasValidated () {
+        return this.fieldState && (this.fieldState.$touched || this.fieldState.$submitted || this.fieldState.$dirty)
+      },
       min () {
         if (this.field.range && this.field.range.hasOwnProperty('min')) {
           return this.field.range.min
@@ -126,8 +135,7 @@
         return null
       },
       stepSize () {
-        // Conditionally add step size, return false to omit step attribute
-        return (this.field.type === 'integer' || this.field.type === 'long') ? 1 : false
+        return (this.field.type === 'integer' || this.field.type === 'long') ? 1 : 1e-10
       },
       inputType () {
         return this.isNumberField ? 'number' : this.field.type
