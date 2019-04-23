@@ -23,7 +23,10 @@ module.exports = {
     browser.options.desiredCapabilities.name = 'String with not too many values should be valid'
     browser.expect.element('#validate-btn').to.be.present
     browser.click('#max-length-example input[type=text]')
-    browser.clearValue('#max-length-example input[type=text]')
+    // Workaround since clearValue is not working
+    browser.execute(function () {
+      document.getElementById('max-length-string-example').value = ''
+    })
     browser.setValue('#max-length-example input[type=text]', stringValue)
     browser.expect.element('#max-length-string-example').to.have.value.that.equals(stringValue)
     browser.click('#validate-btn')
@@ -35,7 +38,10 @@ module.exports = {
     browser.options.desiredCapabilities.name = 'Text with not too many values should be valid'
     browser.expect.element('#validate-btn').to.be.present
     browser.click('#max-length-text-example')
-    browser.clearValue('#max-length-text-example')
+    // Workaround since clearValue is not working
+    browser.execute(function () {
+      document.getElementById('max-length-text-example').value = ''
+    })
     browser.setValue('#max-length-text-example', textValue)
     browser.expect.element('#max-length-text-example').to.have.value.that.equals(textValue)
     browser.click('#validate-btn')
@@ -47,7 +53,10 @@ module.exports = {
     browser.options.desiredCapabilities.name = 'URL with not too many values should be valid'
     browser.expect.element('#validate-btn').to.be.present
     browser.click('#max-length-url-example')
-    browser.clearValue('#max-length-url-example')
+    // Workaround since clearValue is not working
+    browser.execute(function () {
+      document.getElementById('max-length-url-example').value = ''
+    })
     browser.setValue('#max-length-url-example', urlValue)
     browser.expect.element('#max-length-url-example').to.have.value.that.equals(urlValue)
     browser.click('#validate-btn')
@@ -59,7 +68,10 @@ module.exports = {
     browser.options.desiredCapabilities.name = 'Email with not too many values should be valid'
     browser.expect.element('#validate-btn').to.be.present
     browser.click('#max-length-email-example')
-    browser.clearValue('#max-length-email-example')
+    // Workaround since clearValue is not working
+    browser.execute(function () {
+      document.getElementById('max-length-email-example').value = ''
+    })
     browser.setValue('#max-length-email-example', urlValue)
     browser.expect.element('#max-length-email-example').to.have.value.that.equals(urlValue)
     browser.click('#validate-btn')
