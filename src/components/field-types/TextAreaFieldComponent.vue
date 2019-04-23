@@ -11,6 +11,7 @@
         :class="{ 'is-invalid' : fieldState && (fieldState.$touched || fieldState.$submitted || fieldState.$dirty) && fieldState.$invalid}"
         :aria-describedby="field.id + '-description'"
         :required="isRequired"
+        :maxlength="maxlength"
         :disabled="field.disabled">
       </textarea>
 
@@ -18,7 +19,7 @@
         {{ field.description }}
       </small>
 
-      <form-field-messages :field-id="field.id" :field-state="fieldState">
+      <form-field-messages :field-id="field.id" :field-state="fieldState" :maxlength="maxlength">
       </form-field-messages>
     </div>
   </validate>
@@ -60,6 +61,10 @@
       inputDebounceTime: {
         type: Number,
         default: debounceTime
+      },
+      maxlength: {
+        type: Number,
+        default: 65535
       }
     },
     mixins: [VueForm],

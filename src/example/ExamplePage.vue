@@ -37,6 +37,9 @@
         <router-link to="/radio" class="nav-link">Radio</router-link>
       </li>
       <li class="nav-item">
+        <router-link to="/max-length" class="nav-link">Max length</router-link>
+      </li>
+      <li class="nav-item">
         <router-link to="/single-select" class="nav-link">Single Select</router-link>
       </li>
       <li class="nav-item">

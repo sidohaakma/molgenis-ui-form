@@ -1,6 +1,6 @@
 <template>
   <!-- Tiny debounce to make sure that validation will always flip the fieldState.$pending flag -->
-  <validate :state="fieldState" :custom="{'validate': isValid}" :debounce="1">
+  <validate :state="fieldState" :custom="{'validate': isValid, maxlength: notTooLong}" :debounce="1">
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
       <div :class="{'border border-danger': isInvalid}">
@@ -15,7 +15,7 @@
         {{ field.description }}
       </small>
 
-      <form-field-messages :field-id="field.id" :field-state="fieldState">
+      <form-field-messages :field-id="field.id" :field-state="fieldState" :maxlength="maxlength">
       </form-field-messages>
     </div>
   </validate>
@@ -70,12 +70,21 @@
       isRequired: {
         type: Boolean,
         default: false
+      },
+      maxlength: {
+        type: Number,
+        default: 65535
       }
     },
     data () {
       return {
         // Store a local value to prevent changing the parent state
         localValue: this.value
+      }
+    },
+    methods: {
+      notTooLong () {
+        return this.localValue.length < this.maxlength
       }
     },
     computed: {

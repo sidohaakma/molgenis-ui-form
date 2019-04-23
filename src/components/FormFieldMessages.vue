@@ -10,6 +10,7 @@
     <div class="invalid-feedback" slot="validate">{{ validationFailedMsg }}</div>
     <div class="invalid-feedback" slot="min">{{ minMessage }}</div>
     <div class="invalid-feedback" slot="max">{{ maxMessage }}</div>
+    <div class="invalid-feedback" slot="maxlength">{{ maxlengthMsg }} {{ maxlength }}</div>
   </field-messages>
 </template>
 
@@ -33,7 +34,8 @@
     'ui-form:form_not_a_valid_email': 'Not a valid email',
     'ui-form:form_not_within_range': 'Value is outside of range',
     'ui-form:form_below_min_value': 'Value is below allowed value',
-    'ui-form:form_above_max_value': 'Value is above allowed value'
+    'ui-form:form_above_max_value': 'Value is above allowed value',
+    'ui-form:form_maxlength_exceeded': 'Maximum length is'
   }
 
   export default {
@@ -53,6 +55,11 @@
         default: null
       },
       max: {
+        type: Number,
+        required: false,
+        default: null
+      },
+      maxlength: {
         type: Number,
         required: false,
         default: null
@@ -97,6 +104,7 @@
       this.notWithInRangeMsg = this.getLocalizedMessage('ui-form:form_not_within_range')
       this.belowMinValueMsg = this.getLocalizedMessage('ui-form:form_below_min_value')
       this.aboveMaxValueMsg = this.getLocalizedMessage('ui-form:form_above_max_value')
+      this.maxlengthMsg = this.getLocalizedMessage('ui-form:form_maxlength_exceeded')
     }
   }
 </script>
