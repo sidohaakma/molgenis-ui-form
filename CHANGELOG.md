@@ -1,9 +1,11 @@
 <a name="3.0.1"></a>
-## 3.0.1 (xx-xx-xxxx)
+## 3.0.1 (24-04-2019)
 
 ### Bugfixes
 * [#267 Should enforce min and max long values](https://github.com/molgenis/molgenis-ui-form/issues/267)
+* [#269 Should enforce max string lengths](https://github.com/molgenis/molgenis-ui-form/issues/269)
 * [#274 Single select selection does not update form state](https://github.com/molgenis/molgenis-ui-form/issues/274)
+* [#277 Cannot enter negative numbers](https://github.com/molgenis/molgenis-ui-form/issues/277)
 
 <a name="3.0.0"></a>
 ## 3.0.0 (1-4-2019)
