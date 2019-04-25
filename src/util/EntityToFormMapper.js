@@ -10,6 +10,7 @@ import type {
 } from '../flow.types'
 
 import evaluator from './helpers/evaluator'
+import UriGenerator from './helpers/uriGenerator'
 // $FlowFixMe
 import api from '@molgenis/molgenis-api-client'
 // $FlowFixMe
@@ -55,17 +56,7 @@ const fetchFieldOptions = (refEntity: RefEntityType, search: ?string | ?Array<st
   // map refEntity.hrefCollection v1 URLs to v2 to enable the use of RSQL queries
   let uri = refEntity.hrefCollection.replace('/v1/', '/v2/')
 
-  if (search) {
-    if (Array.isArray(search)) {
-      // Join array into a string
-      const value = search.join(',')
-      // Use =in= query
-      uri = uri + '?q=' + idAttribute + '=in=(' + value + '),' + labelAttribute + '=in=(' + value + ')'
-    } else if (typeof search === 'string') {
-      const value = search
-      uri = uri + '?q=' + idAttribute + '=like=' + value + ',' + labelAttribute + '=like=' + value
-    }
-  }
+  uri = UriGenerator.generateUri(search, uri, idAttribute, labelAttribute)
 
   return api.get(uri).then(response => {
     return response.items.map(item => {
