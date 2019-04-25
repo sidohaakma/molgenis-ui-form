@@ -1,3 +1,18 @@
+<a name="unreleased"></a>
+## unreleased (xx-xx-xxxx)
+
+### Breaking
+
+### Features
+
+### Bugfixes
+
+<a name="3.0.2"></a>
+## 3.0.2 (25-04-2019)
+
+### Bugfixes
+* [#291 Cannot add new rows in molgenis for tables with ](https://github.com/molgenis/molgenis-ui-form/issues/291)
+
 <a name="3.0.1"></a>
 ## 3.0.1 (24-04-2019)
 
