@@ -18,5 +18,5 @@ const generateUri = (
 }
 
 export default {
-  generateUri,
+  generateUri
 }
