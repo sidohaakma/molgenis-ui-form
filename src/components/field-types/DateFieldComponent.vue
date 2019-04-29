@@ -143,7 +143,7 @@
       // Store a local value to prevent changing the parent state
       if (!this.value) {
         // 'null' is the correct flatpicker no value value
-        this.localValue = null 
+        this.localValue = null
       } else if (this.isTimeIncluded) {
         const parsedValue = moment(this.value, moment.ISO_8601, true)
         this.localValue = parsedValue ? parsedValue.toDate() : null
