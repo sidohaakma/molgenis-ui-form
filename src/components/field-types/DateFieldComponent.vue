@@ -100,8 +100,7 @@
     },
     data () {
       return {
-        // Store a local value to prevent changing the parent state
-        localValue: this.isTimeIncluded ? moment(this.value, moment.ISO_8601, true).toDate() : this.value,
+        localValue: null,
         config: {
           wrap: true,
           allowInput: true,
@@ -141,6 +140,16 @@
       }
     },
     created () {
+      // Store a local value to prevent changing the parent state
+      if (!this.value) {
+        this.localValue = null
+      } else if (this.isTimeIncluded) {
+        const parsedValue = moment(this.value, moment.ISO_8601, true)
+        this.localValue = parsedValue ? parsedValue.toDate : null
+      } else {
+        this.localValue = this.value
+      }
+
       if (flatpickerLangMap[this.$lng]) {
         this.config.locale = flatpickerLangMap[this.$lng]
       }

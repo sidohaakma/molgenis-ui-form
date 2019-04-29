@@ -49,7 +49,7 @@ describe('DateFieldComponent', () => {
 
         const expectedDateValue = '2018-03-13'
 
-        expect(wrapper.emitted().input[0]).to.deep.equal([expectedDateValue])
+        expect(wrapper.emitted().input[1]).to.deep.equal([expectedDateValue])
       })
     })
 
