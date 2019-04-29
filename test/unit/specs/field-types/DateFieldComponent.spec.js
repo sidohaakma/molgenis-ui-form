@@ -96,7 +96,7 @@ describe('DateFieldComponent', () => {
 
         const expectedDateTimeValue = '2018-08-12T11:12:13+0500'
 
-        expect(wrapper.emitted().input[0]).to.deep.equal([expectedDateTimeValue])
+        expect(wrapper.emitted().input[1]).to.deep.equal([expectedDateTimeValue])
       })
     })
 
@@ -109,6 +109,12 @@ describe('DateFieldComponent', () => {
 
       it('set the language', () => {
         expect(wrapper.vm.config.locale.months.longhand[0]).to.equal('januari')
+      })
+
+      it('falsy value should be coverted to null', () => {
+        propsData.value = undefined
+        const wrapper = mount(DateFieldComponent, {propsData: propsData, mocks: mocks})
+        expect(wrapper.vm.localValue).to.equal(null)
       })
     })
 
