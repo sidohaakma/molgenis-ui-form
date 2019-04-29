@@ -116,25 +116,19 @@
     },
     methods: {
       /**
-       * Convert a date string to a Moment Date.
-       * Include hours and minutes if time is enabled
-       *
-       * @param dateString
-       * @returns {Moment} A date object created by moment
-       */
-      getDateFromValue (dateString) {
-        const format = this.isTimeIncluded ? DATA_TIME_DISPLAY : 'YYYY-MM-DD'
-        return moment(dateString, format, true)
-      },
-
-      /**
        * Validates a date string to see if it is a proper date
+       * Empty dates are seen as valid (requiredness is checked else where)
        *
        * @param dateString
        * @returns {boolean}
        */
       isValidDateTime (dateString) {
-        const date = this.getDateFromValue(dateString)
+        if (dateString === null || dateString === undefined) {
+          return true
+        }
+
+        const format = this.isTimeIncluded ? DATA_TIME_DISPLAY : 'YYYY-MM-DD'
+        const date = moment(dateString, format, true)
         return date != null && date.isValid()
       }
     },

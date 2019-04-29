@@ -1,6 +1,5 @@
 import DateFieldComponent from '@/components/field-types/DateFieldComponent'
 import { mount, shallow } from 'vue-test-utils'
-import moment from 'moment'
 
 describe('DateFieldComponent', () => {
   describe('component', () => {
@@ -51,18 +50,6 @@ describe('DateFieldComponent', () => {
         const expectedDateValue = '2018-03-13'
 
         expect(wrapper.emitted().input[0]).to.deep.equal([expectedDateValue])
-      })
-    })
-
-    describe('getDateFromValue', () => {
-      const wrapper = mount(DateFieldComponent, {propsData: propsData})
-
-      it('should return a moment object for a date string', () => {
-        const date = '2018-01-02'
-        const actual = wrapper.vm.getDateFromValue(date)
-        const expected = moment(date, 'YYYY-MM-DD', true)
-
-        expect(actual).to.deep.equal(expected)
       })
     })
 
@@ -125,18 +112,6 @@ describe('DateFieldComponent', () => {
       })
     })
 
-    describe('getDateTimeFromValue', () => {
-      const wrapper = mount(DateFieldComponent, {propsData: propsData})
-
-      it('should return a moment object for a date string', () => {
-        const date = '2018-08-12T11:12:13+0500'
-        const actual = wrapper.vm.getDateFromValue(date)
-        const expected = moment(date, 'Y-MM-DD\\THH:mm:ssZ', true)
-
-        expect(actual).to.deep.equal(expected)
-      })
-    })
-
     describe('isValidDateTime', () => {
       const wrapper = mount(DateFieldComponent, {propsData: propsData})
 
@@ -146,6 +121,18 @@ describe('DateFieldComponent', () => {
 
       it('should return false if the localValue is set to a invalid date', () => {
         expect(wrapper.vm.isValidDateTime('2018-14-12T11:62:13+0500')).to.equal(false)
+      })
+
+      it('should return true if non required field is null', () => {
+        expect(wrapper.vm.isValidDateTime(null)).to.equal(true)
+      })
+
+      it('should return true if non required field is undefined', () => {
+        expect(wrapper.vm.isValidDateTime(null)).to.equal(true)
+      })
+
+      it('should return false if non required field is not date (foo)', () => {
+        expect(wrapper.vm.isValidDateTime('foo')).to.equal(false)
       })
     })
   })
