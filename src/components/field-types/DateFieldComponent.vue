@@ -100,8 +100,7 @@
     },
     data () {
       return {
-        // Store a local value to prevent changing the parent state
-        localValue: this.isTimeIncluded ? moment(this.value, moment.ISO_8601, true).toDate() : this.value,
+        localValue: null,
         config: {
           wrap: true,
           allowInput: true,
@@ -116,25 +115,19 @@
     },
     methods: {
       /**
-       * Convert a date string to a Moment Date.
-       * Include hours and minutes if time is enabled
-       *
-       * @param dateString
-       * @returns {Moment} A date object created by moment
-       */
-      getDateFromValue (dateString) {
-        const format = this.isTimeIncluded ? DATA_TIME_DISPLAY : 'YYYY-MM-DD'
-        return moment(dateString, format, true)
-      },
-
-      /**
        * Validates a date string to see if it is a proper date
+       * Empty dates are seen as valid (requiredness is checked else where)
        *
        * @param dateString
        * @returns {boolean}
        */
       isValidDateTime (dateString) {
-        const date = this.getDateFromValue(dateString)
+        if (dateString === null || dateString === undefined) {
+          return true
+        }
+
+        const format = this.isTimeIncluded ? DATA_TIME_DISPLAY : 'YYYY-MM-DD'
+        const date = moment(dateString, format, true)
         return date != null && date.isValid()
       }
     },
@@ -147,6 +140,17 @@
       }
     },
     created () {
+      // Store a local value to prevent changing the parent state
+      if (!this.value) {
+        // 'null' is the correct flatpicker no value value
+        this.localValue = null
+      } else if (this.isTimeIncluded) {
+        const parsedValue = moment(this.value, moment.ISO_8601, true)
+        this.localValue = parsedValue ? parsedValue.toDate() : null
+      } else {
+        this.localValue = this.value
+      }
+
       if (flatpickerLangMap[this.$lng]) {
         this.config.locale = flatpickerLangMap[this.$lng]
       }
