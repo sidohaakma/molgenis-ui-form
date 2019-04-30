@@ -1,16 +1,16 @@
 <template>
   <field-messages :name="fieldId" :state="fieldState" show="$touched || $submitted || $dirty" class="form-control-feedback">
-    <div class="invalid-feedback" slot="required">{{ requiredFieldMsg }}</div>
-    <div class="invalid-feedback" slot="email">{{ notAValidEmailMsg }}</div>
-    <div class="invalid-feedback" slot="url">{{ notAValidUrlMsg }}</div>
-    <div class="invalid-feedback" slot="integer">{{ notAValidIntegerMsg }}</div>
-    <div class="invalid-feedback" slot="long">{{ notAValidLongMsg }}</div>
-    <div class="invalid-feedback" slot="number">{{ notAValidNumberMsg }}</div>
-    <div class="invalid-feedback" slot="unique">{{ notUniqueMsg}}</div>
-    <div class="invalid-feedback" slot="validate">{{ validationFailedMsg }}</div>
-    <div class="invalid-feedback" slot="min">{{ minMessage }}</div>
-    <div class="invalid-feedback" slot="max">{{ maxMessage }}</div>
-    <div class="invalid-feedback" slot="maxlength">{{ maxlengthMsg }} {{ maxlength }}</div>
+    <div class="invalid-feedback" slot="required" key="required">{{ requiredFieldMsg }}</div>
+    <div class="invalid-feedback" slot="email" key="email">{{ notAValidEmailMsg }}</div>
+    <div class="invalid-feedback" slot="url" key="url">{{ notAValidUrlMsg }}</div>
+    <div class="invalid-feedback" slot="integer" key="integer">{{ notAValidIntegerMsg }}</div>
+    <div class="invalid-feedback" slot="long" key="long">{{ notAValidLongMsg }}</div>
+    <div class="invalid-feedback" slot="number" key="number">{{ notAValidNumberMsg }}</div>
+    <div class="invalid-feedback" slot="unique" key="unique">{{ notUniqueMsg}}</div>
+    <div class="invalid-feedback" slot="validate" key="validate">{{ validationFailedMsg }}</div>
+    <div class="invalid-feedback" slot="min" key="min">{{ minMessage }}</div>
+    <div class="invalid-feedback" slot="max" key="max">{{ maxMessage }}</div>
+    <div class="invalid-feedback" slot="maxlength" key="maxlength">{{ maxlengthMsg }} {{ maxlength }}</div>
   </field-messages>
 </template>
 
