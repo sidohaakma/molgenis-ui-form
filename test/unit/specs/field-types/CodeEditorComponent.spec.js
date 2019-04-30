@@ -30,7 +30,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
 
   const wrapper = mount(CodeEditorFieldComponent, {
     propsData: propsData,
-    stubs: {'fieldMessages': '<div>This field is required</div>'}
+    stubs: { 'fieldMessages': '<div>This field is required</div>' }
   })
 
   describe('General checks', () => {
@@ -59,7 +59,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
 
       const altWrapper = mount(CodeEditorFieldComponent, {
         propsData: altPropsData,
-        stubs: {'fieldMessages': '<div>This field is required</div>'}
+        stubs: { 'fieldMessages': '<div>This field is required</div>' }
       })
       expect(altWrapper.vm.options.readOnly).to.equal(true)
     })
@@ -67,22 +67,22 @@ describe('CodeEditorFieldComponent unit tests', () => {
 
   describe('Check programming languages', () => {
     it('should set language mode to python if code programmed in python', () => {
-      wrapper.setData({localValue: 'def greet():\n    print("hello")'})
+      wrapper.setData({ localValue: 'def greet():\n    print("hello")' })
       expect(wrapper.vm.options.mode).to.equal('python')
     })
 
     it('should set language mode to javascript if code programmed in javascript', () => {
-      wrapper.setData({localValue: 'var price1 = 5;\nvar price2 = 6;\nvar total = price1 + price2;\ndocument.getElementById("demo").innerHTML ="The total is: " + total;'})
+      wrapper.setData({ localValue: 'var price1 = 5;\nvar price2 = 6;\nvar total = price1 + price2;\ndocument.getElementById("demo").innerHTML ="The total is: " + total;' })
       expect(wrapper.vm.options.mode).to.equal('javascript')
     })
 
     it('should set language mode to r if code programmed in r', () => {
-      wrapper.setData({localValue: 'test <- "hello world"'})
+      wrapper.setData({ localValue: 'test <- "hello world"' })
       expect(wrapper.vm.options.mode).to.equal('r')
     })
 
     it('should set language mode to r if code programmed in unrecognized language', () => {
-      wrapper.setData({localValue: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'})
+      wrapper.setData({ localValue: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...' })
       expect(wrapper.vm.options.mode).to.equal('r')
     })
 
@@ -103,7 +103,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
 
       const htmlWrapper = mount(CodeEditorFieldComponent, {
         propsData: htmlPropsData,
-        stubs: {'fieldMessages': '<div>This field is required</div>'}
+        stubs: { 'fieldMessages': '<div>This field is required</div>' }
       })
       expect(htmlWrapper.vm.options.mode).to.equal('htmlmixed')
     })
@@ -134,7 +134,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
 
     const altWrapper = mount(CodeEditorFieldComponent, {
       propsData: altPropsData,
-      stubs: {'fieldMessages': '<div>This field is required</div>'}
+      stubs: { 'fieldMessages': '<div>This field is required</div>' }
     })
 
     it('should correctly set value to invalid', () => {
@@ -143,7 +143,7 @@ describe('CodeEditorFieldComponent unit tests', () => {
     })
 
     it('should correctly set value to valid', () => {
-      altWrapper.setData({localValue: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...'})
+      altWrapper.setData({ localValue: 'Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit...' })
       expect(altWrapper.vm.isInvalid).to.equal(false)
     })
   })

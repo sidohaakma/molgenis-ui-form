@@ -32,7 +32,7 @@ describe('TextAreaFieldComponent unit tests', () => {
 
   const wrapper = mount(TextAreaFieldComponent, {
     propsData: propsData,
-    stubs: {'fieldMessages': '<div>This field is required</div>'}
+    stubs: { 'fieldMessages': '<div>This field is required</div>' }
   })
 
   it('should set localValue if value is defined', () => {
@@ -44,7 +44,7 @@ describe('TextAreaFieldComponent unit tests', () => {
   })
 
   it('should emit an updated value on change', (done) => {
-    wrapper.setData({localValue: 'test text area MESSAGE!!'})
+    wrapper.setData({ localValue: 'test text area MESSAGE!!' })
     setTimeout(function () {
       expect(wrapper.emitted().input[0]).to.deep.equal(['test text area MESSAGE!!'])
       done()

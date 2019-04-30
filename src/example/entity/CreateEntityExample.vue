@@ -36,62 +36,62 @@
 </template>
 
 <script>
-  import { EntityToFormMapper, FormComponent } from '@/molgenisUiForm'
-  import EntityTypeV2Response from '@/formDemoMockResponse'
+import { EntityToFormMapper, FormComponent } from '@/molgenisUiForm'
+import EntityTypeV2Response from '@/formDemoMockResponse'
 
-  export default {
-    name: 'create-entity-example',
-    components: {
-      FormComponent
-    },
-    data () {
-      return {
-        message: null,
-        formFields: [],
-        formState: {},
-        formData: {},
-        options: {
-          showEyeButton: true,
-          allowAddingOptions: true,
-          inputDebounceTime: 300
-        }
+export default {
+  name: 'create-entity-example',
+  components: {
+    FormComponent
+  },
+  data () {
+    return {
+      message: null,
+      formFields: [],
+      formState: {},
+      formData: {},
+      options: {
+        showEyeButton: true,
+        allowAddingOptions: true,
+        inputDebounceTime: 300
       }
-    },
-    methods: {
-      onSubmit () {
-        this.message = 'onSubmit: ' + JSON.stringify(this.formData)
-      },
-      onCancel () {
-        this.message = 'onCancel'
-      },
-      onValueChanged (formData) {
-        this.message = 'onValueChanged: ' + JSON.stringify(formData)
-        this.formData = formData
-      },
-      handleAddOptionRequest (completedFunction, event, data) {
-        const newMockOption = {
-          id: Math.floor(Math.random() * 1000),
-          label: 'New Demo item',
-          value: 'Demo value'
-        }
-        completedFunction(newMockOption)
-      },
-      changeData () {
-        this.formData['nested-compound-string'] = 'show'
-        this.formData['comppound-int'] = '1'
-      }
-    },
-    created () {
-      const mapperOptions = {
-        booleanLabels: {
-          trueLabel: this.$t('form_boolean_true'), // $t is set via @molgenis/molgenis-i18n-js plugin
-          falseLabel: this.$t('form_boolean_false')
-        },
-        mapperMode: 'CREATE'
-      }
-      const form = EntityToFormMapper.generateForm(EntityTypeV2Response.metadata, EntityTypeV2Response.items, mapperOptions)
-      this.formFields = form.formFields
-      this.formData = form.formData
     }
+  },
+  methods: {
+    onSubmit () {
+      this.message = 'onSubmit: ' + JSON.stringify(this.formData)
+    },
+    onCancel () {
+      this.message = 'onCancel'
+    },
+    onValueChanged (formData) {
+      this.message = 'onValueChanged: ' + JSON.stringify(formData)
+      this.formData = formData
+    },
+    handleAddOptionRequest (completedFunction, event, data) {
+      const newMockOption = {
+        id: Math.floor(Math.random() * 1000),
+        label: 'New Demo item',
+        value: 'Demo value'
+      }
+      completedFunction(newMockOption)
+    },
+    changeData () {
+      this.formData['nested-compound-string'] = 'show'
+      this.formData['comppound-int'] = '1'
+    }
+  },
+  created () {
+    const mapperOptions = {
+      booleanLabels: {
+        trueLabel: this.$t('form_boolean_true'), // $t is set via @molgenis/molgenis-i18n-js plugin
+        falseLabel: this.$t('form_boolean_false')
+      },
+      mapperMode: 'CREATE'
+    }
+    const form = EntityToFormMapper.generateForm(EntityTypeV2Response.metadata, EntityTypeV2Response.items, mapperOptions)
+    this.formFields = form.formFields
+    this.formData = form.formData
   }
+}
 </script>

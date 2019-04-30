@@ -42,7 +42,7 @@ describe('FormComponents shallow tests', () => {
 
   const propsData = {
     id: 'test',
-    initialFormData: {'string': 'data'},
+    initialFormData: { 'string': 'data' },
     formFields: [field],
     formState: formState,
     options: {
@@ -59,7 +59,7 @@ describe('FormComponents shallow tests', () => {
 
   describe('toggle show optional fields', () => {
     it('should toggle to false', () => {
-      wrapper.setData({showOptionalFields: true})
+      wrapper.setData({ showOptionalFields: true })
       wrapper.vm.toggleOptionalFields()
       expect(wrapper.vm.showOptionalFields).to.equal(false)
     })
@@ -73,7 +73,7 @@ describe('FormComponents shallow tests', () => {
     it('should not show the eye button', () => {
       wrapper.setProps({
         id: 'test',
-        initialFormData: {'string': 'data'},
+        initialFormData: { 'string': 'data' },
         formFields: [field],
         formState: formState,
         options: {
@@ -94,8 +94,8 @@ describe('FormComponents shallow tests', () => {
 
   describe('handleValueChange', () => {
     it('should emit a valueChange event when data changes', () => {
-      wrapper.vm.handleValueChange({'string': 'test event'})
-      expect(wrapper.emitted().valueChange[0]).to.deep.equal([{'string': 'test event'}])
+      wrapper.vm.handleValueChange({ 'string': 'test event' })
+      expect(wrapper.emitted().valueChange[0]).to.deep.equal([{ 'string': 'test event' }])
     })
   })
 
@@ -103,14 +103,14 @@ describe('FormComponents shallow tests', () => {
     it('should update the computed formData object when the initialFormData prop is updated', () => {
       wrapper.setProps({
         id: 'test',
-        initialFormData: {'string': 'new data value'},
+        initialFormData: { 'string': 'new data value' },
         formFields: [field],
         options: {
           showEyeButton: false
         }
       })
 
-      expect(wrapper.vm.formData).to.deep.equal({'string': 'new data value'})
+      expect(wrapper.vm.formData).to.deep.equal({ 'string': 'new data value' })
     })
   })
 

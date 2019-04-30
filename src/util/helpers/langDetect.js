@@ -44,75 +44,75 @@
 let languages = {
   'JavaScript': [
     // undefined keyword
-    {pattern: /undefined/g, points: 2},
+    { pattern: /undefined/g, points: 2 },
     // console.log('ayy lmao')
-    {pattern: /console\.log( )*\(/, points: 2},
+    { pattern: /console\.log( )*\(/, points: 2 },
     // Variable declaration
-    {pattern: /(var|const|let)( )+\w+( )*=?/, points: 2},
+    { pattern: /(var|const|let)( )+\w+( )*=?/, points: 2 },
     // Array/Object declaration
     // eslint-disable-next-line
     {pattern: /(('|").+('|")( )*|\w+):( )*[{\[]/, points: 2},
     // === operator
-    {pattern: /===/g, points: 1},
+    { pattern: /===/g, points: 1 },
     // !== operator
-    {pattern: /!==/g, points: 1},
+    { pattern: /!==/g, points: 1 },
     // Function definition
     // eslint-disable-next-line
     {pattern: /function\*?(( )+[\$\w]+( )*\(.*\)|( )*\(.*\))\n?[\t ]*{/g, points: 2},
     // null keyword
-    {pattern: /null/g, points: 1},
+    { pattern: /null/g, points: 1 },
     // lambda expression
-    {pattern: /\(.*\)( )*=>( )*.+/, points: 1},
+    { pattern: /\(.*\)( )*=>( )*.+/, points: 1 },
     // (else )if statement
-    {pattern: /(else )?if( )+\(.+\)/, points: 1},
+    { pattern: /(else )?if( )+\(.+\)/, points: 1 },
     // while loop
-    {pattern: /while( )+\(.+\)/, points: 1},
+    { pattern: /while( )+\(.+\)/, points: 1 },
     // C style variable declaration.
-    {pattern: /(^|\s)(char|long|int|float|double)( )+\w+( )*=?/, points: -1},
+    { pattern: /(^|\s)(char|long|int|float|double)( )+\w+( )*=?/, points: -1 },
     // pointer
-    {pattern: /(\w+)( )*\*( )*\w+/, points: -1},
+    { pattern: /(\w+)( )*\*( )*\w+/, points: -1 },
     // HTML <script> tag
-    {pattern: /<(\/)?script( type=('|")text\/javascript('|"))?>/, points: -50}
+    { pattern: /<(\/)?script( type=('|")text\/javascript('|"))?>/, points: -50 }
   ],
 
   'Python': [
     // Function definition
-    {pattern: /def( )+\w+\(.*\)( )*:/, points: 2},
+    { pattern: /def( )+\w+\(.*\)( )*:/, points: 2 },
     // while loop
-    {pattern: /while (.+):/, points: 2},
+    { pattern: /while (.+):/, points: 2 },
     // from library import something
     // eslint-disable-next-line
     {pattern: /from [\w\.]+ import (\w+|\*)/, points: 2},
     // class keyword
-    {pattern: /class( )*\w+(\(( )*\w+( )*\))?( )*:/, points: 2},
+    { pattern: /class( )*\w+(\(( )*\w+( )*\))?( )*:/, points: 2 },
     // if keyword
-    {pattern: /if( )+(.+)( )*:/, points: 2},
+    { pattern: /if( )+(.+)( )*:/, points: 2 },
     // elif keyword
-    {pattern: /elif( )+(.+)( )*:/, points: 2},
+    { pattern: /elif( )+(.+)( )*:/, points: 2 },
     // else keyword
-    {pattern: /else:/, points: 2},
+    { pattern: /else:/, points: 2 },
     // for loop
-    {pattern: /for (\w+|\(?\w+,( )*\w+\)?) in (.+):/, points: 2},
+    { pattern: /for (\w+|\(?\w+,( )*\w+\)?) in (.+):/, points: 2 },
     // Python variable declaration.
-    {pattern: /\w+( )*=( )*\w+(?!;)(\n|$)/, points: 1},
+    { pattern: /\w+( )*=( )*\w+(?!;)(\n|$)/, points: 1 },
     // import something
     // eslint-disable-next-line
     {pattern: /import ([[^\.]\w])+/, points: 1, nearTop: true},
     // print statement/function
-    {pattern: /print((( )*\(.+\))|( )+.+)/, points: 1},
+    { pattern: /print((( )*\(.+\))|( )+.+)/, points: 1 },
     // &&/|| operators
-    {pattern: /(&{2}|\|{2})/, points: -1}
+    { pattern: /(&{2}|\|{2})/, points: -1 }
   ],
 
   'HTML': [
-    {pattern: /<!DOCTYPE (html|HTML PUBLIC .+)>/, points: 2, nearTop: true},
+    { pattern: /<!DOCTYPE (html|HTML PUBLIC .+)>/, points: 2, nearTop: true },
     // Tags
-    {pattern: /<[a-z0-9]+(( )*[\w]+=('|").+('|")( )*)?>.*<\/[a-z0-9]+>/g, points: 2},
+    { pattern: /<[a-z0-9]+(( )*[\w]+=('|").+('|")( )*)?>.*<\/[a-z0-9]+>/g, points: 2 },
     // Properties
     // eslint-disable-next-line
     {pattern: /[a-z\-]+=("|').+("|')/g, points: 2},
     // PHP tag
-    {pattern: /<\?php/, points: -50}
+    { pattern: /<\?php/, points: -50 }
   ],
 
   'CSS': [
@@ -120,32 +120,32 @@ let languages = {
     // eslint-disable-next-line
     {pattern: /[a-z\-]+:(?!:).+;/, points: 2},
     // <style> tag from HTML
-    {pattern: /<(\/)?style>/, points: -50}
+    { pattern: /<(\/)?style>/, points: -50 }
   ],
 
   'R': [
     // undefined keyword for numbers
-    {pattern: /NaN/g, points: 2},
+    { pattern: /NaN/g, points: 2 },
     // undefined keyword for strings
-    {pattern: /NA/g, points: 2},
+    { pattern: /NA/g, points: 2 },
     // print statement
-    {pattern: /print\(.*\)/, points: 1},
+    { pattern: /print\(.*\)/, points: 1 },
     // Variable declaration
-    {pattern: /\w+ ?<-/, points: 10},
+    { pattern: /\w+ ?<-/, points: 10 },
     // Vector declaration
-    {pattern: /c\(.*\)/, points: 2},
+    { pattern: /c\(.*\)/, points: 2 },
     // == operator
-    {pattern: /==/g, points: 1},
+    { pattern: /==/g, points: 1 },
     // != operator
-    {pattern: /!=/g, points: 1},
+    { pattern: /!=/g, points: 1 },
     // Function definition
-    {pattern: /function ?\((.*\n)*?\n?[\t ]*{/g, points: 1},
+    { pattern: /function ?\((.*\n)*?\n?[\t ]*{/g, points: 1 },
     // null keyword
-    {pattern: /NULL/g, points: 2},
+    { pattern: /NULL/g, points: 2 },
     // (else )if statement
-    {pattern: /((else )|([\n \t]+))if ?\(!?.+\)\n?[\t ]*{?/, points: 2},
+    { pattern: /((else )|([\n \t]+))if ?\(!?.+\)\n?[\t ]*{?/, points: 2 },
     // while loop
-    {pattern: /while\(.+\).*\n?[\t ]*{/, points: 1}
+    { pattern: /while\(.+\).*\n?[\t ]*{/, points: 1 }
   ],
 
   'Unknown': []
@@ -164,8 +164,8 @@ const nearTop = (index, linesOfCode) => {
   return linesOfCode.length <= 10 ? true : index < linesOfCode.length / 10
 }
 
-export default (snippet, {heuristic = true, statistics = false} = {}) => {
-  const opts = {statistics: statistics, heuristic: heuristic}
+export default (snippet, { heuristic = true, statistics = false } = {}) => {
+  const opts = { statistics: statistics, heuristic: heuristic }
 
   let linesOfCode = snippet
     .replace(/\r\n?/g, '\n')
@@ -179,7 +179,7 @@ export default (snippet, {heuristic = true, statistics = false} = {}) => {
   }
 
   const pairs = Object.keys(languages).map((key) => {
-    return {language: key, checkers: languages[key]}
+    return { language: key, checkers: languages[key] }
   })
 
   const results = pairs.map((pairs) => {
@@ -187,7 +187,7 @@ export default (snippet, {heuristic = true, statistics = false} = {}) => {
     const checkers = pairs.checkers
 
     if (language === 'Unknown') {
-      return {language: 'Unknown', points: 1}
+      return { language: 'Unknown', points: 1 }
     } else {
       const pointsList = linesOfCode.map((lineOfCode, index) => {
         return !nearTop(index, linesOfCode) ? (
@@ -199,7 +199,7 @@ export default (snippet, {heuristic = true, statistics = false} = {}) => {
 
       const points = pointsList.reduce((memo, num) => memo + num)
 
-      return {language: language, points: points}
+      return { language: language, points: points }
     }
   })
 
@@ -215,7 +215,7 @@ export default (snippet, {heuristic = true, statistics = false} = {}) => {
       statistics[result.language] = result.points
     }
 
-    return {detected: bestResult.language, statistics: statistics}
+    return { detected: bestResult.language, statistics: statistics }
   } else {
     return bestResult.language
   }

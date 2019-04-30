@@ -53,7 +53,7 @@ describe('RadioFieldComponent unit tests', () => {
   const wrapper = mount(RadioFieldComponent,
     {
       propsData: propsData,
-      stubs: {'fieldMessages': '<div>This field is required</div>'}
+      stubs: { 'fieldMessages': '<div>This field is required</div>' }
     }
   )
   wrapper.vm.$t = (x) => x
@@ -87,7 +87,7 @@ describe('RadioFieldComponent unit tests', () => {
   })
 
   it('should emit an updated value and set the fieldState on change', () => {
-    wrapper.setData({localValue: '1'})
+    wrapper.setData({ localValue: '1' })
     expect(wrapper.emitted().input.slice(-1)[0]).to.deep.equal(['1'])
     expect(fieldState.$touched).to.equal(true)
     expect(fieldState.$untouched).to.equal(false)

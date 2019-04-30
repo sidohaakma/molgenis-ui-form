@@ -32,63 +32,63 @@
 </template>
 
 <script>
-  import { FormComponent } from '../../molgenisUiForm'
-  import ModelSettings from '../components/ModelSettings'
+import { FormComponent } from '../../molgenisUiForm'
+import ModelSettings from '../components/ModelSettings'
 
-  export default {
-    name: 'radio-example',
-    components: {
-      ModelSettings,
-      FormComponent
-    },
-    data () {
-      return {
-        formOptions: {
-          showEyeButton: false
-        },
-        formFields: [
-          {
-            id: 'radio-example',
-            label: 'Radio Field',
-            description: 'Radio type',
-            type: 'radio',
-            options: () => Promise.resolve([
-              {value: 1, label: 'Option 1'},
-              {value: 2, label: 'Option 2'},
-              {value: 3, label: 'Option 3'}
-            ]),
-            visible: () => true,
-            required: () => true,
-            validate: () => true
-          }
-        ],
-        formState: {},
-        formData: {
-          'radio-example': null
+export default {
+  name: 'radio-example',
+  components: {
+    ModelSettings,
+    FormComponent
+  },
+  data () {
+    return {
+      formOptions: {
+        showEyeButton: false
+      },
+      formFields: [
+        {
+          id: 'radio-example',
+          label: 'Radio Field',
+          description: 'Radio type',
+          type: 'radio',
+          options: () => Promise.resolve([
+            { value: 1, label: 'Option 1' },
+            { value: 2, label: 'Option 2' },
+            { value: 3, label: 'Option 3' }
+          ]),
+          visible: () => true,
+          required: () => true,
+          validate: () => true
         }
-      }
-    },
-    computed: {
-      nillable: {
-        // getter
-        get: function () {
-          return this.formFields[0].required()
-        },
-        // setter
-        set: function (newValue) {
-          this.formFields[0].required = () => newValue
-        }
-      }
-    },
-    methods: {
-      onValueChanged (formData) {
-        this.formData = formData
-      }
-    },
-    filters: {
-      pretty (value) {
-        return JSON.stringify(value, null, 2)
+      ],
+      formState: {},
+      formData: {
+        'radio-example': null
       }
     }
+  },
+  computed: {
+    nillable: {
+      // getter
+      get: function () {
+        return this.formFields[0].required()
+      },
+      // setter
+      set: function (newValue) {
+        this.formFields[0].required = () => newValue
+      }
+    }
+  },
+  methods: {
+    onValueChanged (formData) {
+      this.formData = formData
+    }
+  },
+  filters: {
+    pretty (value) {
+      return JSON.stringify(value, null, 2)
+    }
   }
+}
 </script>

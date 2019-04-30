@@ -1,4 +1,4 @@
-import {isValidSchema} from '@/util/SchemaService'
+import { isValidSchema } from '@/util/SchemaService'
 
 describe('SchemaService', () => {
   describe('isValidSchema', () => {

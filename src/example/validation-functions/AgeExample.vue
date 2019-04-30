@@ -46,55 +46,55 @@
 </template>
 
 <script>
-  import { FormComponent } from '../../molgenisUiForm'
-  import ModelSettings from '../components/ModelSettings'
-  import moment from 'moment'
-  import evaluator from '@/util/helpers/evaluator'
+import { FormComponent } from '../../molgenisUiForm'
+import ModelSettings from '../components/ModelSettings'
+import moment from 'moment'
+import evaluator from '@/util/helpers/evaluator'
 
-  export default {
-    name: 'age-example',
-    components: {
-      ModelSettings,
-      FormComponent
-    },
-    data () {
-      return {
-        formOptions: {
-          showEyeButton: false
-        },
-        formFields: [
-          {
-            id: 'age-example-field',
-            label: 'Date Field',
-            description: 'With age validation',
-            type: 'date',
-            visible: () => true,
-            required: () => false,
-            validate: () => true
-          }
-        ],
-        formState: {},
-        formData: {
-          'age-example-field': moment().format('YYYY-MM-DD')
+export default {
+  name: 'age-example',
+  components: {
+    ModelSettings,
+    FormComponent
+  },
+  data () {
+    return {
+      formOptions: {
+        showEyeButton: false
+      },
+      formFields: [
+        {
+          id: 'age-example-field',
+          label: 'Date Field',
+          description: 'With age validation',
+          type: 'date',
+          visible: () => true,
+          required: () => false,
+          validate: () => true
         }
-      }
-    },
-    computed: {
-      age () {
-        const expression = '$("date").age().value()'
-        const entity = {date: this.formData['age-example-field']}
-        return evaluator(expression, entity)
-      }
-    },
-    methods: {
-      onValueChanged (formData) {
-        this.formData = formData
-      }
-    },
-    filters: {
-      pretty (value) {
-        return JSON.stringify(value, null, 2)
+      ],
+      formState: {},
+      formData: {
+        'age-example-field': moment().format('YYYY-MM-DD')
       }
     }
+  },
+  computed: {
+    age () {
+      const expression = '$("date").age().value()'
+      const entity = { date: this.formData['age-example-field'] }
+      return evaluator(expression, entity)
+    }
+  },
+  methods: {
+    onValueChanged (formData) {
+      this.formData = formData
+    }
+  },
+  filters: {
+    pretty (value) {
+      return JSON.stringify(value, null, 2)
+    }
   }
+}
 </script>

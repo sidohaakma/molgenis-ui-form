@@ -30,7 +30,7 @@ describe('FileFieldComponent unit tests', () => {
 
   const wrapper = mount(FileFieldComponent, {
     propsData: propsData,
-    stubs: {'fieldMessages': '<div>This field is required</div>'}
+    stubs: { 'fieldMessages': '<div>This field is required</div>' }
   })
   wrapper.vm.$t = (x) => x
 
@@ -45,7 +45,7 @@ describe('FileFieldComponent unit tests', () => {
   })
 
   it('should render the file name when initial value is a file ', () => {
-    const blob = new Blob([''], {type: 'text/html'})
+    const blob = new Blob([''], { type: 'text/html' })
     blob['lastModifiedDate'] = ''
     blob['name'] = 'new_file.zip'
 

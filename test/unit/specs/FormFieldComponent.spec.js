@@ -22,7 +22,7 @@ describe('FormFieldComponents unit tests', () => {
   }
 
   const propsData = {
-    formData: {'string': 'data'},
+    formData: { 'string': 'data' },
     field: field,
     formState: formState,
     showOptionalFields: true,
@@ -103,7 +103,7 @@ describe('FormFieldComponents unit tests', () => {
   describe('isRequired passed as true in component', () => {
     const wrapper = mount(FormFieldComponent, {
       propsData: propsData,
-      stubs: {'fieldMessages': '<div>This field is required</div>'}
+      stubs: { 'fieldMessages': '<div>This field is required</div>' }
     })
 
     it('should return true if schema-field required is set to true', () => {
@@ -125,7 +125,7 @@ describe('FormFieldComponents unit tests', () => {
     }
 
     const propsData = {
-      formData: {'string': 'data'},
+      formData: { 'string': 'data' },
       field: field,
       formState: formState,
       showOptionalFields: true,
@@ -151,7 +151,7 @@ describe('FormFieldComponents unit tests', () => {
     }
 
     const propsData = {
-      formData: {'string': 'data'},
+      formData: { 'string': 'data' },
       field: field,
       formState: formState,
       showOptionalFields: true,
@@ -161,7 +161,7 @@ describe('FormFieldComponents unit tests', () => {
     let wrapper
 
     it('should return the default message is i18n message is not configured', () => {
-      wrapper = mount(FormFieldComponent, {propsData: propsData})
+      wrapper = mount(FormFieldComponent, { propsData: propsData })
       expect(wrapper.vm.noOptionsMessage).to.equal('No options found for given search term.')
     })
 
@@ -196,7 +196,7 @@ describe('FormFieldComponents unit tests', () => {
     }
 
     const propsData = {
-      formData: {'string': 'data'},
+      formData: { 'string': 'data' },
       field: field,
       formState: formState,
       showOptionalFields: false,
@@ -231,7 +231,7 @@ describe('FormFieldComponents unit tests', () => {
 
     beforeEach(() => {
       propsData = {
-        formData: {'string': 'data', id: 'abc'},
+        formData: { 'string': 'data', id: 'abc' },
         field: field,
         formState: formState,
         showOptionalFields: false,

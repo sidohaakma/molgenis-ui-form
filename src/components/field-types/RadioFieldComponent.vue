@@ -4,7 +4,12 @@
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
-      <div v-for="(option, index) in options" class="form-check" :aria-describedby="field.id + '-description'">
+      <div
+        v-for="(option, index) in options"
+        class="form-check"
+        :aria-describedby="field.id + '-description'"
+        :key="option.value"
+      >
         <!-- Hardcode input type to prevent compile time errors with dynamic value + v-model on same input  -->
         <input
           :id="field.id + '-' + index"
@@ -42,70 +47,70 @@
 </template>
 
 <script>
-  import VueForm from 'vue-form'
-  import { FormField } from '../../flow.types'
-  import FormFieldMessages from '../FormFieldMessages'
+import VueForm from 'vue-form'
+import { FormField } from '../../flow.types'
+import FormFieldMessages from '../FormFieldMessages'
 
-  export default {
-    name: 'RadioFieldComponent',
-    components: {
-      FormFieldMessages
+export default {
+  name: 'RadioFieldComponent',
+  components: {
+    FormFieldMessages
+  },
+  props: {
+    value: {
+      // ID of select field can be of type: Integer, Long, String etc.
+      type: [String, Number, Boolean],
+      required: false
     },
-    props: {
-      value: {
-        // ID of select field can be of type: Integer, Long, String etc.
-        type: [String, Number, Boolean],
-        required: false
-      },
-      field: {
-        type: FormField,
-        required: true
-      },
-      fieldState: {
-        type: Object,
-        required: false
-      },
-      isValid: {
-        type: Boolean,
-        default: true
-      },
-      isRequired: {
-        type: Boolean,
-        default: false
-      },
-      isUnique: {
-        type: Function,
-        default: () => true
-      }
+    field: {
+      type: FormField,
+      required: true
     },
-    mixins: [VueForm],
-    data () {
-      return {
-        // Store a local value to prevent changing the parent state
-        localValue: this.value,
-        options: []
-      }
+    fieldState: {
+      type: Object,
+      required: false
     },
-    computed: {
-      nullOptionLabel () {
-        return this.$t ? this.$t('ui-form:form_boolean_missing') : 'form_boolean_missing'
-      }
+    isValid: {
+      type: Boolean,
+      default: true
     },
-    watch: {
-      localValue () {
-        this.$emit('input', this.localValue)
-
-        // Fixes #254. For some reason the vue form does not pick up mouse clicks in some browsers.
-        this.fieldState.$dirty = true
-        this.fieldState.$pristine = false
-        this.fieldState.$touched = true
-        this.fieldState.$untouched = false
-      }
+    isRequired: {
+      type: Boolean,
+      default: false
     },
-    created () {
-      this.field.options().then(response => {
-        this.options = response
-      })
+    isUnique: {
+      type: Function,
+      default: () => true
     }
+  },
+  mixins: [VueForm],
+  data () {
+    return {
+      // Store a local value to prevent changing the parent state
+      localValue: this.value,
+      options: []
+    }
+  },
+  computed: {
+    nullOptionLabel () {
+      return this.$t ? this.$t('ui-form:form_boolean_missing') : 'form_boolean_missing'
+    }
+  },
+  watch: {
+    localValue () {
+      this.$emit('input', this.localValue)
+
+      // Fixes #254. For some reason the vue form does not pick up mouse clicks in some browsers.
+      this.fieldState.$dirty = true
+      this.fieldState.$pristine = false
+      this.fieldState.$touched = true
+      this.fieldState.$untouched = false
+    }
+  },
+  created () {
+    this.field.options().then(response => {
+      this.options = response
+    })
   }
+}
 </script>

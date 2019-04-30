@@ -165,7 +165,7 @@ describe('MultiSelectFieldComponent unit tests', () => {
     expect(wrapper.vm.fieldState.$touched).to.equal(false)
     expect(wrapper.vm.fieldState.$untouched).to.equal(true)
 
-    wrapper.setData({localValue: [{id: 'ref1'}]})
+    wrapper.setData({ localValue: [{ id: 'ref1' }] })
 
     expect(wrapper.emitted().input[0]).to.deep.equal([['ref1']])
 

@@ -26,7 +26,6 @@
         <label class="custom-file-label" :for="field.id" :data-browse="buttonText">{{ label }}</label>
       </div>
 
-
       <small :id="field.id + '-description'" class="form-text text-muted">
         {{ field.description }}
       </small>
@@ -39,81 +38,81 @@
 </template>
 
 <script>
-  import VueForm from 'vue-form'
-  import { FormField } from '../../flow.types'
-  import FormFieldMessages from '../FormFieldMessages'
+import VueForm from 'vue-form'
+import { FormField } from '../../flow.types'
+import FormFieldMessages from '../FormFieldMessages'
 
-  export default {
-    name: 'FileFieldComponent',
-    components: {
-      FormFieldMessages
+export default {
+  name: 'FileFieldComponent',
+  components: {
+    FormFieldMessages
+  },
+  props: {
+    value: {
+      type: [File, String],
+      required: false
     },
-    props: {
-      value: {
-        type: [File, String],
-        required: false
-      },
-      field: {
-        type: FormField,
-        required: true
-      },
-      fieldState: {
-        type: Object,
-        required: false
-      },
-      isValid: {
-        type: Boolean,
-        default: true
-      },
-      isRequired: {
-        type: Boolean,
-        default: false
+    field: {
+      type: FormField,
+      required: true
+    },
+    fieldState: {
+      type: Object,
+      required: false
+    },
+    isValid: {
+      type: Boolean,
+      default: true
+    },
+    isRequired: {
+      type: Boolean,
+      default: false
+    }
+  },
+  mixins: [VueForm],
+  data () {
+    return {
+      // Store a local value to prevent changing the parent state
+      localValue: this.value
+    }
+  },
+  watch: {
+    value (value) {
+      this.localValue = value
+    }
+  },
+  methods: {
+    clear () {
+      this.fieldState.$touched = true
+      this.fieldState.$untouched = false
+      if (this.isRequired) {
+        return
       }
+      this.localValue = null
+      this.$emit('input', this.localValue)
+      this.fieldState.$dirty = true
+      this.fieldState.$pristine = false
     },
-    mixins: [VueForm],
-    data () {
-      return {
-        // Store a local value to prevent changing the parent state
-        localValue: this.value
-      }
-    },
-    watch: {
-      value (value) {
-        this.localValue = value
-      }
-    },
-    methods: {
-      clear () {
-        this.fieldState.$touched = true
-        this.fieldState.$untouched = false
-        if (this.isRequired) {
-          return
-        }
-        this.localValue = null
-        this.$emit('input', this.localValue)
-        this.fieldState.$dirty = true
-        this.fieldState.$pristine = false
-      },
-      handleFileChange (e) {
-        // Whenever the file changes, emit the 'input' event with the file data.
-        this.localValue = e.target.files[0]
-        this.$emit('input', this.localValue)
+    handleFileChange (e) {
+      // Whenever the file changes, emit the 'input' event with the file data.
+      this.localValue = e.target.files[0]
+      this.$emit('input', this.localValue)
 
-        this.fieldState.$dirty = true
-        this.fieldState.$pristine = false
-        this.fieldState.$touched = true
-        this.fieldState.$untouched = false
-      }
+      this.fieldState.$dirty = true
+      this.fieldState.$pristine = false
+      this.fieldState.$touched = true
+      this.fieldState.$untouched = false
+    }
+  },
+  computed: {
+    buttonText () {
+      const key = this.localValue ? 'ui-form:form_file_change' : 'ui-form:form_file_browse'
+      return this.$t ? this.$t(key) : key
     },
-    computed: {
-      buttonText () {
-        const key = this.localValue ? 'ui-form:form_file_change' : 'ui-form:form_file_browse'
-        return this.$t ? this.$t(key) : key
-      },
-      label () {
-        return typeof this.localValue === 'string' ? this.localValue
-          : this.localValue instanceof Blob ? this.localValue.name : ''
-      }
+    label () {
+      return typeof this.localValue === 'string' ? this.localValue
+        : this.localValue instanceof Blob ? this.localValue.name : ''
     }
   }
+}
 </script>

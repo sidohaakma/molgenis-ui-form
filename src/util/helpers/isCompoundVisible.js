@@ -1,6 +1,6 @@
 // @flow
 
-import type {FormField} from '../../flow.types'
+import type { FormField } from '../../flow.types'
 
 /**
  * Checks whether a compound should be shown based on the visibility of its children
