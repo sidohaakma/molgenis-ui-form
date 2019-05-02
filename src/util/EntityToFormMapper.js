@@ -9,7 +9,7 @@ import type {
   MapperSettings
 } from '../flow.types'
 
-import evaluator from './helpers/evaluator'
+import { isValid, isRequired, isVisible } from './helpers/expressionEvaluators'
 import UriGenerator from './helpers/uriGenerator'
 // $FlowFixMe
 import api from '@molgenis/molgenis-api-client'
@@ -192,46 +192,6 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
     default:
       throw new MappingException(`unknown fieldType (${fieldType})`)
   }
-}
-
-/**
- * If there is a visible expression present, return a function which evaluates the expression.
- * If there is no expression present, check if mapper is run with showVisibleAttribute option set to true,
- * if this is not the case attributes visible property is used
- *
- * @param attribute
- * @param mapperOptions
- * @returns {Function} Function which evaluates to a boolean
- */
-const isVisible = (attribute, mapperOptions: MapperSettings): ((?Object) => boolean) => {
-  const expression = attribute.visibleExpression
-  return expression ? (data) => evaluator(expression, data) : () => mapperOptions.showNonVisibleAttributes || attribute.visible
-}
-
-/**
- * If there is a nullable expression present, return a function which evaluates said expression.
- * If there is no expression present, return a function which evaluates to the !value of attribute.nillable
- *
- * @param attribute
- * @returns {Function} Function which evaluates to a boolean
- */
-const isRequired = (attribute): ((?Object) => boolean) => {
-  const expression = attribute.nullableExpression
-
-  // If an attribute is nullable, it is NOT required
-  return expression ? (data) => !evaluator(expression, data) : () => !attribute.nillable
-}
-
-/**
- * If there is a validation expression present, return a function which evaluates said expression.
- * If there is no expression present, return a function which always evaluates to true
- *
- * @param attribute
- * @returns {Function} Function which evaluates to a boolean
- */
-const isValid = (attribute): ((?Object) => boolean) => {
-  const expression = attribute.validationExpression
-  return expression ? (data) => evaluator(expression, data) : () => true
 }
 
 /**

@@ -365,6 +365,12 @@ The options param is a object that can contain the following properties:
 - `booleanLabels` Optional Object used to set labels for boolean type fields, can be use in combination with i18n plugin to translate boolean labels.
 - `showNonVisibleAttributes` Optional boolean if set to true maps non visible attributes to visible field, defaults to false
 - `mapperMode` Optional string (valid modes are `UPDATE` and `CREATE`) if set to `CREATE` readonly attributes map to writable fields, defaults to `CREATE`
+
+#### Invalid validation expression handling
+
+Erroneous validation expressions in the `visibleExpression` and `nullableExpression` metadata fields will fallback to the respective 
+`visible` and `nillable` values. A broken `validationExpression` will fall back to being `true`.
+
 ## Development
 The general guidelines and setup of the development environment are described here.
 
