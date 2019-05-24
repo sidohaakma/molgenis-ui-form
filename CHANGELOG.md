@@ -7,6 +7,12 @@
 
 ### Bugfixes
 
+<a name="4.0.1"></a>
+## 4.0.1 (24-5-2019)
+
+### Bugfixes
+* [#299 Date(time) field clear button does not clear the value](https://github.com/molgenis/molgenis-ui-form/pull/300)
+
 <a name="4.0.0"></a>
 ## 4.0.0 (2-5-2019)
 
