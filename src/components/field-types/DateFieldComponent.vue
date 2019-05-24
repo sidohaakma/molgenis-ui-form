@@ -25,7 +25,7 @@
             </i>
           </button>
           <button v-if="!isRequired" class="date-field-clear-btn btn btn-outline-secondary" type="button" title="Clear"
-                  data-clear>
+                  @click="clearValue">
             <i class="fa fa-times">
               <span aria-hidden="true" class="sr-only">Clear</span>
             </i>
@@ -129,6 +129,9 @@
         const format = this.isTimeIncluded ? DATA_TIME_DISPLAY : 'YYYY-MM-DD'
         const date = moment(dateString, format, true)
         return date != null && date.isValid()
+      },
+      clearValue () {
+        this.localValue = null
       }
     },
     watch: {

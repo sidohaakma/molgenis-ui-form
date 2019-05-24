@@ -142,4 +142,35 @@ describe('DateFieldComponent', () => {
       })
     })
   })
+
+  describe('when the clear button is pressed', () => {
+    let wrapper
+    let propsData = {
+      value: '2018-01-01',
+      field: {
+        id: 'date-field',
+        label: 'Date Field',
+        type: 'date',
+        disabled: false
+      },
+      fieldState: {
+        $touched: false,
+        $submitted: false,
+        $invalid: false,
+        _addControl: () => null
+      },
+      isRequired: false,
+      isValid: true
+    }
+
+    beforeEach(() => {
+      wrapper = shallow(DateFieldComponent, {propsData: propsData})
+    })
+
+    it('should clear the value', () => {
+      expect(wrapper.vm.localValue).to.equal('2018-01-01')
+      wrapper.find('.date-field-clear-btn').trigger('click')
+      expect(wrapper.vm.localValue).to.equal(null)
+    })
+  })
 })
