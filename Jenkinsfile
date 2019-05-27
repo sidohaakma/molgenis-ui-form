@@ -97,7 +97,7 @@ pipeline {
           sh "echo //${env.NPM_REGISTRY}/:_authToken=${NPM_TOKEN} > ~/.npmrc"
 
           sh "npm publish"
-          hubotSend(message: '${env.REPOSITORY} has been successfully deployed on ${env.NPM_REGISTRY}.', status:'SUCCESS')
+          hubotSend(message: "${env.REPOSITORY} has been successfully deployed on ${env.NPM_REGISTRY}.", status:'SUCCESS')
         }
       }
     }
