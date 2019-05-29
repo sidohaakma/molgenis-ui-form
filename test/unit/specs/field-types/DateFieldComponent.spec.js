@@ -164,7 +164,7 @@ describe('DateFieldComponent', () => {
     }
 
     beforeEach(() => {
-      wrapper = shallow(DateFieldComponent, {propsData: propsData})
+      wrapper = shallow(DateFieldComponent, { propsData: propsData })
     })
 
     it('should clear the value', () => {

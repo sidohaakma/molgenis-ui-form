@@ -1,4 +1,4 @@
-import type {MapperSettings} from '../../flow.types'
+import type { MapperSettings } from '../../flow.types'
 import evaluator from './evaluator'
 
 /**
