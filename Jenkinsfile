@@ -73,17 +73,16 @@ pipeline {
             }
           }
         }
-        environment {
-          GIT_AUTHOR_EMAIL = 'molgenis+ci@gmail.com'
-          GIT_AUTHOR_NAME = 'molgenis-jenkins'
-          GIT_COMMITTER_EMAIL = 'molgenis+ci@gmail.com'
-          GIT_COMMITTER_NAME = 'molgenis-jenkins'
-        }
-        steps {
-          milestone 2
-          container('node') {
-            sh "npx semantic-release"
-          }
+      environment {
+        GIT_AUTHOR_EMAIL = 'molgenis+ci@gmail.com'
+        GIT_AUTHOR_NAME = 'molgenis-jenkins'
+        GIT_COMMITTER_EMAIL = 'molgenis+ci@gmail.com'
+        GIT_COMMITTER_NAME = 'molgenis-jenkins'
+      }
+      steps {
+        milestone 2
+        container('node') {
+          sh "npx semantic-release"
         }
       }
     }
