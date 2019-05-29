@@ -80,7 +80,7 @@ describe('langDetect', () => {
   describe('Use statistics option', () => {
     it('should return object (not string) with two keys: detected and statistics', () => {
       const text = 'Hello world'
-      const output = detectLang(text, {heuristic: true, statistics: true})
+      const output = detectLang(text, { heuristic: true, statistics: true })
       expect(typeof output).to.equal('object')
       expect(typeof output.detected).to.equal('string')
       expect(typeof output.statistics).to.equal('object')
@@ -88,19 +88,19 @@ describe('langDetect', () => {
 
     it('should return 8 points for HTML', () => {
       const htmlCode = '<!DOCTYPE html>\n<html>\n<body>\n\n<h1>This is heading 1</h1>\n<h2>This is heading 2</h2>\n<h3>This is heading 3</h3>\n<h4>This is heading 4</h4>\n<h5>This is heading 5</h5>\n<h6>This is heading 6</h6>\n\n</body>\n</html>\n'
-      const output = detectLang(htmlCode, {heuristic: true, statistics: true})
+      const output = detectLang(htmlCode, { heuristic: true, statistics: true })
       expect(output.statistics.HTML).to.equal(8)
     })
 
     it('should return 23 points for R', () => {
       const RCode = 'countdown <- function(from) #test\n{\n  print(from)\n  while(from!=0)\n  {\n    Sys.sleep(1)\n    from <- from - 1\n    print(from)\n  }\n}'
-      const output = detectLang(RCode, {heuristic: true, statistics: true})
+      const output = detectLang(RCode, { heuristic: true, statistics: true })
       expect(output.statistics.R).to.equal(23)
     })
 
     it('should return the same amount of points for python and R', () => {
       const python3Code = 'print("Hello world")'
-      const output = detectLang(python3Code, {heuristic: true, statistics: true})
+      const output = detectLang(python3Code, { heuristic: true, statistics: true })
       expect(output.statistics.Python).to.equal(1)
       expect(output.statistics.R).to.equal(1)
     })

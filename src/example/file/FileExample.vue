@@ -32,56 +32,56 @@
 </template>
 
 <script>
-  import { FormComponent } from '../../molgenisUiForm'
-  import ModelSettings from '../components/ModelSettings'
+import { FormComponent } from '../../molgenisUiForm'
+import ModelSettings from '../components/ModelSettings'
 
-  export default {
-    name: 'file-example',
-    components: {
-      ModelSettings,
-      FormComponent
-    },
-    data () {
-      return {
-        formOptions: {
-          showEyeButton: false
-        },
-        formFields: [
-          {
-            id: 'file-example',
-            label: 'File Field',
-            description: 'File type example',
-            type: 'file',
-            visible: () => true,
-            required: () => false,
-            validate: () => true
-          }
-        ],
-        formState: {},
-        formData: {
-          'file-example': 'test-file-name.txt'
+export default {
+  name: 'file-example',
+  components: {
+    ModelSettings,
+    FormComponent
+  },
+  data () {
+    return {
+      formOptions: {
+        showEyeButton: false
+      },
+      formFields: [
+        {
+          id: 'file-example',
+          label: 'File Field',
+          description: 'File type example',
+          type: 'file',
+          visible: () => true,
+          required: () => false,
+          validate: () => true
         }
-      }
-    },
-    computed: {
-      nillable: {
-        get: function () {
-          return this.formFields[0].required()
-        },
-        set: function (newValue) {
-          this.formFields[0].required = () => newValue
-        }
-      }
-    },
-    methods: {
-      onValueChanged (formData) {
-        this.formData = formData
-      }
-    },
-    filters: {
-      pretty (value) {
-        return JSON.stringify(value, null, 2)
+      ],
+      formState: {},
+      formData: {
+        'file-example': 'test-file-name.txt'
       }
     }
+  },
+  computed: {
+    nillable: {
+      get: function () {
+        return this.formFields[0].required()
+      },
+      set: function (newValue) {
+        this.formFields[0].required = () => newValue
+      }
+    }
+  },
+  methods: {
+    onValueChanged (formData) {
+      this.formData = formData
+    }
+  },
+  filters: {
+    pretty (value) {
+      return JSON.stringify(value, null, 2)
+    }
   }
+}
 </script>

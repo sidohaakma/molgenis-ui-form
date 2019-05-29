@@ -42,10 +42,10 @@ describe('DateFieldComponent', () => {
     }
 
     describe('on value change', () => {
-      const wrapper = shallow(DateFieldComponent, {propsData: propsData})
+      const wrapper = shallow(DateFieldComponent, { propsData: propsData })
 
       it('should emit an updated Date object on change', () => {
-        wrapper.setData({localValue: '2018-03-13'})
+        wrapper.setData({ localValue: '2018-03-13' })
 
         const expectedDateValue = '2018-03-13'
 
@@ -54,7 +54,7 @@ describe('DateFieldComponent', () => {
     })
 
     describe('isValidDateTime', () => {
-      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+      const wrapper = mount(DateFieldComponent, { propsData: propsData })
 
       it('should return true if the localValue is set to a valid date', () => {
         expect(wrapper.vm.isValidDateTime('2018-01-02')).to.equal(true)
@@ -89,10 +89,10 @@ describe('DateFieldComponent', () => {
     }
 
     describe('on value change', () => {
-      const wrapper = shallow(DateFieldComponent, {propsData: propsData})
+      const wrapper = shallow(DateFieldComponent, { propsData: propsData })
 
       it('should emit an updated Date object including time on change', () => {
-        wrapper.setData({localValue: '2018-08-12T11:12:13+0500'})
+        wrapper.setData({ localValue: '2018-08-12T11:12:13+0500' })
 
         const expectedDateTimeValue = '2018-08-12T11:12:13+0500'
 
@@ -105,7 +105,7 @@ describe('DateFieldComponent', () => {
         $lng: 'nl'
       }
 
-      const wrapper = mount(DateFieldComponent, {propsData: propsData, mocks: mocks})
+      const wrapper = mount(DateFieldComponent, { propsData: propsData, mocks: mocks })
 
       it('set the language', () => {
         expect(wrapper.vm.config.locale.months.longhand[0]).to.equal('januari')
@@ -113,13 +113,13 @@ describe('DateFieldComponent', () => {
 
       it('falsy value should be coverted to null', () => {
         propsData.value = undefined
-        const wrapper = mount(DateFieldComponent, {propsData: propsData, mocks: mocks})
+        const wrapper = mount(DateFieldComponent, { propsData: propsData, mocks: mocks })
         expect(wrapper.vm.localValue).to.equal(null)
       })
     })
 
     describe('isValidDateTime', () => {
-      const wrapper = mount(DateFieldComponent, {propsData: propsData})
+      const wrapper = mount(DateFieldComponent, { propsData: propsData })
 
       it('should return true if the localValue is set to a valid date', () => {
         expect(wrapper.vm.isValidDateTime('2018-08-12T11:12:13+0500')).to.equal(true)
@@ -164,7 +164,7 @@ describe('DateFieldComponent', () => {
     }
 
     beforeEach(() => {
-      wrapper = shallow(DateFieldComponent, {propsData: propsData})
+      wrapper = shallow(DateFieldComponent, { propsData: propsData })
     })
 
     it('should clear the value', () => {

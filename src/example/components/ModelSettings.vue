@@ -6,7 +6,7 @@
 
       <h5 class="card-title">model</h5>
       <pre>{{ fieldSettings | pretty }}</pre>
-      
+
       <hr/>
 
       <h5 class="card-title">data</h5>
@@ -24,26 +24,26 @@
 </template>
 
 <script>
-  export default {
-    name: 'model-settings',
-    props: {
-      fieldSettings: {
-        type: Object,
-        required: true
-      },
-      fieldData: {
-        type: Object,
-        required: true
-      },
-      formState: {
-        type: Object,
-        required: false
-      }
+export default {
+  name: 'model-settings',
+  props: {
+    fieldSettings: {
+      type: Object,
+      required: true
     },
-    filters: {
-      pretty (value) {
-        return JSON.stringify(value, null, 2)
-      }
+    fieldData: {
+      type: Object,
+      required: true
+    },
+    formState: {
+      type: Object,
+      required: false
+    }
+  },
+  filters: {
+    pretty (value) {
+      return JSON.stringify(value, null, 2)
     }
   }
+}
 </script>

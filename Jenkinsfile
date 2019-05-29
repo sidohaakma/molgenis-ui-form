@@ -32,6 +32,7 @@ pipeline {
       steps {
         container('node') {
           sh "yarn install"
+          sh "yarn lint"
           sh "yarn unit"
           sh "yarn e2e --env ci_chrome,ci_safari,ci_ie11,ci_firefox"
         }
@@ -52,6 +53,7 @@ pipeline {
         milestone 1
         container('node') {
           sh "yarn install"
+          sh "yarn lint"
           sh "yarn unit"
           sh "yarn e2e --env ci_chrome,ci_safari,ci_ie11,ci_firefox"
         }

@@ -756,20 +756,20 @@ const items = {
   hyperlink: 'www.nu.nl',
   boolean: true,
   nillable_date: '2017-09-06',
-  categorical: {href: 'url', value: 'ref1', label: 'label1'},
+  categorical: { href: 'url', value: 'ref1', label: 'label1' },
   categorical_mref: [
-    {href: 'url', value: 'ref1', label: 'label1'},
-    {href: 'url', value: 'ref2', label: 'label2'}
+    { href: 'url', value: 'ref1', label: 'label1' },
+    { href: 'url', value: 'ref2', label: 'label2' }
   ],
-  xref: {href: 'url', value: 'ref1', label: 'label1'},
+  xref: { href: 'url', value: 'ref1', label: 'label1' },
   mref: [
-    {href: 'url', value: 'ref1', label: 'label1'},
-    {href: 'url', value: 'ref2', label: 'label2'},
-    {href: 'url', value: 'ref3', label: 'label3'}
+    { href: 'url', value: 'ref1', label: 'label1' },
+    { href: 'url', value: 'ref2', label: 'label2' },
+    { href: 'url', value: 'ref3', label: 'label3' }
   ],
   one_to_many: [
-    {href: 'url', value: 'ref1', label: 'label1'},
-    {href: 'url', value: 'ref2', label: 'label2'}
+    { href: 'url', value: 'ref1', label: 'label1' },
+    { href: 'url', value: 'ref2', label: 'label2' }
   ],
   enum: 'enum2',
   html: '<h1>test</h1>',

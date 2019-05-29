@@ -134,8 +134,8 @@ const getFieldOptions = (attribute, options: MapperSettings): ?(() => Promise<Ar
       return (): Promise<Array<FieldOption>> => Promise.resolve(enumOptions)
     case 'BOOL':
       const boolOptions = [
-        {id: 'true', value: true, label: options.booleanLabels.trueLabel},
-        {id: 'false', value: false, label: options.booleanLabels.falseLabel}
+        { id: 'true', value: true, label: options.booleanLabels.trueLabel },
+        { id: 'false', value: false, label: options.booleanLabels.falseLabel }
       ]
       return (): Promise<Array<FieldOption>> => Promise.resolve(boolOptions)
     default:
@@ -213,7 +213,7 @@ const buildIsUniqueFunction = (attribute, entityMetadata: any, mapperOptions: Ma
 
   return (proposedValue: any, data: any) => {
     return new Promise((resolve, reject) => {
-      let query = {selector: attribute.name, comparison: '==', arguments: proposedValue}
+      let query = { selector: attribute.name, comparison: '==', arguments: proposedValue }
       if (mapperOptions.mapperMode === 'UPDATE') {
         query = {
           operator: 'AND',
@@ -288,7 +288,7 @@ const generateFormSchemaField = (attribute, entityMetadata:any, mapperOptions: M
 
   if (attribute.fieldType === 'COMPOUND') {
     const children = attribute.attributes.map(attribute => generateFormSchemaField(attribute, entityMetadata, mapperOptions))
-    fieldProperties = {...fieldProperties, children}
+    fieldProperties = { ...fieldProperties, children }
   }
 
   if ((attribute.fieldType === 'INT' || attribute.fieldType === 'LONG') && attribute.range) {
@@ -300,10 +300,10 @@ const generateFormSchemaField = (attribute, entityMetadata:any, mapperOptions: M
       range.max = attribute.range.max
     }
 
-    fieldProperties = {...fieldProperties, range}
+    fieldProperties = { ...fieldProperties, range }
   }
 
-  return options ? {...fieldProperties, options} : fieldProperties
+  return options ? { ...fieldProperties, options } : fieldProperties
 }
 
 const toISO8601DateString = (molgenisDate: string) => moment(molgenisDate, moment.ISO_8601, true).format('YYYY-MM-DD')
@@ -361,7 +361,7 @@ const generateFormData = (fields: any, data: any, attributes: any, options: Mapp
     }
 
     if (field.type === 'field-group') {
-      return {...accumulator, ...generateFormData(field.children, data, attribute.attributes, options)}
+      return { ...accumulator, ...generateFormData(field.children, data, attribute.attributes, options) }
     }
 
     accumulator[field.id] = options.mapperMode === 'CREATE'
@@ -394,7 +394,7 @@ const isFormFieldAttribute = (attribute: any, options: MapperSettings): boolean 
  * @returns a an array of Field objects
  */
 const generateFormFields = (metaData: any, options: MapperSettings): Array<FormField> => {
-  const {attributes, ...entityMetadata} = metaData
+  const { attributes, ...entityMetadata } = metaData
   return attributes
     .filter((attr) => {
       return isFormFieldAttribute(attr, options)

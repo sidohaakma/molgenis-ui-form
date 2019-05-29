@@ -28,46 +28,46 @@
 </template>
 
 <script>
-  import { FormComponent } from '../../molgenisUiForm'
-  import ModelSettings from '../components/ModelSettings'
+import { FormComponent } from '../../molgenisUiForm'
+import ModelSettings from '../components/ModelSettings'
 
-  export default {
-    name: 'datetime-example',
-    components: {
-      ModelSettings,
-      FormComponent
-    },
-    data () {
-      return {
-        formOptions: {
-          showEyeButton: false
-        },
-        formFields: [
-          {
-            id: 'datetime-example-field',
-            label: 'Datetime Field',
-            description: 'Datetime type',
-            type: 'date-time',
-            visible: () => true,
-            required: () => false,
-            validate: () => true
-          }
-        ],
-        formState: {},
-        formData: {
-          'datetime-example-field': '1985-08-12T11:12:13+0500'
+export default {
+  name: 'datetime-example',
+  components: {
+    ModelSettings,
+    FormComponent
+  },
+  data () {
+    return {
+      formOptions: {
+        showEyeButton: false
+      },
+      formFields: [
+        {
+          id: 'datetime-example-field',
+          label: 'Datetime Field',
+          description: 'Datetime type',
+          type: 'date-time',
+          visible: () => true,
+          required: () => false,
+          validate: () => true
         }
-      }
-    },
-    methods: {
-      onValueChanged (formData) {
-        this.formData = formData
-      }
-    },
-    filters: {
-      pretty (value) {
-        return JSON.stringify(value, null, 2)
+      ],
+      formState: {},
+      formData: {
+        'datetime-example-field': '1985-08-12T11:12:13+0500'
       }
     }
+  },
+  methods: {
+    onValueChanged (formData) {
+      this.formData = formData
+    }
+  },
+  filters: {
+    pretty (value) {
+      return JSON.stringify(value, null, 2)
+    }
   }
+}
 </script>

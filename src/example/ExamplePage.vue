@@ -55,7 +55,7 @@
 </template>
 
 <script>
-  export default {
-    name: 'ExamplePage'
-  }
+export default {
+  name: 'ExamplePage'
+}
 </script>

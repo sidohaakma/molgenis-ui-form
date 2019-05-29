@@ -38,7 +38,7 @@ describe('TypedFieldComponent unit tests', () => {
       wrapper = mount(TypedFieldComponent,
         {
           propsData: propsData,
-          stubs: {'formFieldMessages': '<div class="form-control-feedback"><div class="invalid-feedback">This field is required</div></div>'}
+          stubs: { 'formFieldMessages': '<div class="form-control-feedback"><div class="invalid-feedback">This field is required</div></div>' }
         }
       )
     })
@@ -84,7 +84,7 @@ describe('TypedFieldComponent unit tests', () => {
     })
 
     it('should emit an updated value on change', (done) => {
-      wrapper.setData({localValue: 'test'})
+      wrapper.setData({ localValue: 'test' })
       setTimeout(function () {
         expect(wrapper.emitted().input[0]).to.deep.equal(['test'])
         done()
@@ -151,13 +151,13 @@ describe('TypedFieldComponent unit tests', () => {
       wrapper = mount(TypedFieldComponent,
         {
           propsData: propsData,
-          stubs: {'fieldMessages': '<div>This field is required</div>'}
+          stubs: { 'fieldMessages': '<div>This field is required</div>' }
         }
       )
     })
 
     it('should emit an updated integer if value is valid integer on change', (done) => {
-      wrapper.setData({localValue: '1'})
+      wrapper.setData({ localValue: '1' })
       setTimeout(function () {
         expect(wrapper.emitted().input[0]).to.deep.equal([1])
         done()
@@ -165,7 +165,7 @@ describe('TypedFieldComponent unit tests', () => {
     })
 
     it('should emit null if value empty on change', (done) => {
-      wrapper.setData({localValue: ''})
+      wrapper.setData({ localValue: '' })
       setTimeout(function () {
         expect(wrapper.emitted().input[0]).to.deep.equal([null])
         done()
@@ -178,7 +178,7 @@ describe('TypedFieldComponent unit tests', () => {
     })
 
     it('should return 1 for integer stepSize', () => {
-      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
       expect(wrapper.vm.stepSize).to.equal(1)
     })
   })
@@ -198,24 +198,24 @@ describe('TypedFieldComponent unit tests', () => {
     }
     it('should return range.min if it is present', () => {
       propsData.field.range = { min: 0 }
-      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
       expect(wrapper.vm.min).to.equal(0)
     })
     it('should return Number.MIN_SAFE_INTEGER if type is long and range has no min value', () => {
       propsData.field.range = { max: 10 }
       propsData.field.type = 'long'
-      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
       expect(wrapper.vm.min).to.equal(Number.MIN_SAFE_INTEGER)
     })
     it('should return min java int value if type is integer', () => {
       propsData.field.range = { max: 10 }
       propsData.field.type = 'integer'
-      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
       expect(wrapper.vm.min).to.equal(-2147483648)
     })
     it('should return null for text type', () => {
       propsData.field.type = 'text'
-      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
       expect(wrapper.vm.min).to.equal(null)
     })
   })
@@ -235,24 +235,24 @@ describe('TypedFieldComponent unit tests', () => {
     }
     it('should return range.max if it is present', () => {
       propsData.field.range = { max: 0 }
-      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
       expect(wrapper.vm.max).to.equal(0)
     })
     it('should return Number.MAX_SAFE_INTEGER if type is long and range has no max value', () => {
       propsData.field.range = { min: 10 }
       propsData.field.type = 'long'
-      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
       expect(wrapper.vm.max).to.equal(Number.MAX_SAFE_INTEGER)
     })
     it('should return max java int value if type is integer and range has no max value', () => {
       propsData.field.range = { min: 10 }
       propsData.field.type = 'integer'
-      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
       expect(wrapper.vm.max).to.equal(2147483647)
     })
     it('should return null for text type', () => {
       propsData.field.type = 'text'
-      const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+      const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
       expect(wrapper.vm.max).to.equal(null)
     })
   })
@@ -278,22 +278,22 @@ describe('TypedFieldComponent unit tests', () => {
     describe('isValidInt should return true for valid integer values', () => {
       it('if value is 19 in integer validation should return true', () => {
         propsData.value = 19
-        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
         expect(wrapper.vm.isValidInt).to.equal(true)
       })
       it('if value is -2 should return true', () => {
         propsData.value = -2
-        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
         expect(wrapper.vm.isValidInt).to.equal(true)
       })
       it('if value is 0.25 should return false', () => {
         propsData.value = 0.25
-        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
         expect(wrapper.vm.isValidInt).to.equal(false)
       })
       it('if value is \'foo\' should return false', () => {
         propsData.value = 'foo'
-        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
         expect(wrapper.vm.isValidInt).to.equal(false)
       })
     })
@@ -316,17 +316,17 @@ describe('TypedFieldComponent unit tests', () => {
       it('if value is 2147483657 (max java int + 10) should return true', () => {
         const maxJavaInt = 2147483647
         propsData.value = maxJavaInt + 10
-        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
         expect(wrapper.vm.isValidLong).to.equal(true)
       })
       it('if value is 0.25 should return false', () => {
         propsData.value = 0.25
-        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
         expect(wrapper.vm.isValidLong).to.equal(false)
       })
       it('if value is \'foo\' return false', () => {
         propsData.value = 'foo'
-        const wrapper = mount(TypedFieldComponent, {propsData: propsData, stubs: ['fieldMessages']})
+        const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
         expect(wrapper.vm.isValidLong).to.equal(false)
       })
     })
@@ -359,7 +359,7 @@ describe('TypedFieldComponent unit tests', () => {
     const wrapper = mount(TypedFieldComponent,
       {
         propsData: propsData,
-        stubs: {'fieldMessages': '<div>This field is required</div>'}
+        stubs: { 'fieldMessages': '<div>This field is required</div>' }
       }
     )
 
@@ -396,7 +396,7 @@ describe('TypedFieldComponent unit tests', () => {
     const wrapper = mount(TypedFieldComponent,
       {
         propsData: propsData,
-        stubs: {'fieldMessages': '<div>This field is required</div>'}
+        stubs: { 'fieldMessages': '<div>This field is required</div>' }
       }
     )
 
@@ -433,7 +433,7 @@ describe('TypedFieldComponent unit tests', () => {
     const wrapper = mount(TypedFieldComponent,
       {
         propsData: propsData,
-        stubs: {'fieldMessages': '<div>This field is required</div>'}
+        stubs: { 'fieldMessages': '<div>This field is required</div>' }
       }
     )
 

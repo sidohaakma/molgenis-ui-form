@@ -40,99 +40,99 @@
 </template>
 
 <script>
-  import VueForm from 'vue-form'
-  import vSelect from 'vue-select'
-  import FormFieldMessages from '../FormFieldMessages'
+import VueForm from 'vue-form'
+import vSelect from 'vue-select'
+import FormFieldMessages from '../FormFieldMessages'
 
-  import { FormField } from '../../flow.types'
+import { FormField } from '../../flow.types'
 
-  export default {
-    name: 'SingleSelectFieldComponent',
-    mixins: [VueForm],
-    props: {
-      value: {
-        // ID of select field can be of type: Integer, Long, String etc.
-        type: [String, Number],
-        required: false
-      },
-      field: {
-        type: FormField,
-        required: true
-      },
-      fieldState: {
-        type: Object,
-        required: false
-      },
-      isValid: {
-        type: Boolean,
-        default: true
-      },
-      isRequired: {
-        type: Boolean,
-        default: false
-      },
-      eventBus: {
-        type: Object,
-        required: true
-      },
-      allowAddingOptions: {
-        type: Boolean,
-        required: false,
-        default: false
-      },
-      noOptionsMessage: {
-        type: String,
-        required: false
-      }
+export default {
+  name: 'SingleSelectFieldComponent',
+  mixins: [VueForm],
+  props: {
+    value: {
+      // ID of select field can be of type: Integer, Long, String etc.
+      type: [String, Number],
+      required: false
     },
-    data () {
-      return {
-        // Store a local value to prevent changing the parent state
-        localValue: this.value,
-        options: []
-      }
+    field: {
+      type: FormField,
+      required: true
     },
-    methods: {
-      fetchOptions (search, loading) {
-        loading(true)
-        this.field.options(search).then(response => {
-          this.options = response
-          loading(false)
-        })
-      },
-      addOptionClicked (event) {
-        this.eventBus.$emit('addOption', this.afterOptionCreation, event, this.field)
-      },
-      afterOptionCreation (newOption) {
-        this.options.push(newOption)
-        this.localValue = newOption
-      }
+    fieldState: {
+      type: Object,
+      required: false
     },
-    watch: {
-      localValue (value) {
-        this.fieldState.$dirty = true
-        this.fieldState.$pristine = false
-        this.fieldState.$touched = true
-        this.fieldState.$untouched = false
-        // Emit value changes to the parent (form)
-        this.$emit('input', value ? value.id : null)
-        this.$emit('focus')
-        this.$emit('blur')
-      }
+    isValid: {
+      type: Boolean,
+      default: true
     },
-    created () {
-      // Fetch an initial list of options
-      this.field.options(this.value).then(response => {
+    isRequired: {
+      type: Boolean,
+      default: false
+    },
+    eventBus: {
+      type: Object,
+      required: true
+    },
+    allowAddingOptions: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    noOptionsMessage: {
+      type: String,
+      required: false
+    }
+  },
+  data () {
+    return {
+      // Store a local value to prevent changing the parent state
+      localValue: this.value,
+      options: []
+    }
+  },
+  methods: {
+    fetchOptions (search, loading) {
+      loading(true)
+      this.field.options(search).then(response => {
         this.options = response
-        if (this.value) {
-          // Replace localValue with the entire object so vue-select can use the label property
-          this.localValue = this.options.find(option => option.id === this.value)
-        }
+        loading(false)
       })
     },
-    components: {
-      vSelect,
-      FormFieldMessages
+    addOptionClicked (event) {
+      this.eventBus.$emit('addOption', this.afterOptionCreation, event, this.field)
+    },
+    afterOptionCreation (newOption) {
+      this.options.push(newOption)
+      this.localValue = newOption
     }
+  },
+  watch: {
+    localValue (value) {
+      this.fieldState.$dirty = true
+      this.fieldState.$pristine = false
+      this.fieldState.$touched = true
+      this.fieldState.$untouched = false
+      // Emit value changes to the parent (form)
+      this.$emit('input', value ? value.id : null)
+      this.$emit('focus')
+      this.$emit('blur')
+    }
+  },
+  created () {
+    // Fetch an initial list of options
+    this.field.options(this.value).then(response => {
+      this.options = response
+      if (this.value) {
+        // Replace localValue with the entire object so vue-select can use the label property
+        this.localValue = this.options.find(option => option.id === this.value)
+      }
+    })
+  },
+  components: {
+    vSelect,
+    FormFieldMessages
   }
+}
 </script>

@@ -6,15 +6,15 @@ import * as schemas from './test-schemas'
 
 const response = {
   items: [
-    {value: 'ref1', label: 'label1'},
-    {value: 'ref2', label: 'label2'},
-    {value: 'ref3', label: 'label3'}
+    { value: 'ref1', label: 'label1' },
+    { value: 'ref2', label: 'label2' },
+    { value: 'ref3', label: 'label3' }
   ]
 }
 
 const responseBySearch = {
   items: [
-    {value: 'ref1', label: 'label1'}
+    { value: 'ref1', label: 'label1' }
   ]
 }
 
@@ -22,8 +22,8 @@ const get = td.function('api.get')
 td.when(get('/api/v2/it_emx_datatypes_TypeTestRef')).thenResolve(response)
 td.when(get('/api/v2/it_emx_datatypes_TypeTestRef?q=value=like=ref1,label=like=ref1')).thenResolve(responseBySearch)
 td.when(get('/api/v2/it_emx_datatypes_TypeTestRef?q=value=in=(ref1,ref2,ref3),label=in=(ref1,ref2,ref3)')).thenResolve(response)
-td.when(get('/api/v2/sys_demo/unique_example?&num=1&q=unique_demo==\'am%20i%20unique%3F\'')).thenResolve({items: []})
-td.when(get('/api/v2/sys_demo/unique_example?&num=1&q=unique_demo==\'i%20am%20not%20unique%3F\';id!=123')).thenResolve({items: []})
+td.when(get('/api/v2/sys_demo/unique_example?&num=1&q=unique_demo==\'am%20i%20unique%3F\'')).thenResolve({ items: [] })
+td.when(get('/api/v2/sys_demo/unique_example?&num=1&q=unique_demo==\'i%20am%20not%20unique%3F\';id!=123')).thenResolve({ items: [] })
 td.replace(api, 'get', get)
 
 describe('Entity to state mapper', () => {
@@ -65,18 +65,18 @@ describe('Entity to state mapper', () => {
 
     const compoundString = field.children[2]
     it('should have working validation expressions', () => {
-      expect(compoundString.validate({'compound-string': 'valid'})).to.equal(true)
-      expect(compoundString.validate({'compound-string': 'not valid'})).to.equal(false)
+      expect(compoundString.validate({ 'compound-string': 'valid' })).to.equal(true)
+      expect(compoundString.validate({ 'compound-string': 'not valid' })).to.equal(false)
     })
 
     it('should have working required expressions', () => {
-      expect(compoundString.required({'compound-int': 1})).to.equal(false)
-      expect(compoundString.required({'compound-int': 2})).to.equal(true)
+      expect(compoundString.required({ 'compound-int': 1 })).to.equal(false)
+      expect(compoundString.required({ 'compound-int': 2 })).to.equal(true)
     })
 
     it('should have working visible expressions', () => {
-      expect(compoundString.visible({'nested-compound-string': 'show'})).to.equal(true)
-      expect(compoundString.visible({'nested-compound-string': 'don not show'})).to.equal(false)
+      expect(compoundString.visible({ 'nested-compound-string': 'show' })).to.equal(true)
+      expect(compoundString.visible({ 'nested-compound-string': 'don not show' })).to.equal(false)
     })
 
     const compoundInt = field.children[0]
@@ -115,12 +115,12 @@ describe('Entity to state mapper', () => {
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
       expect(field.visible()).to.equal(true)
-      expect(field.required({'text': 'not test'})).to.equal(false)
-      expect(field.required({'text': 'test'})).to.equal(true)
+      expect(field.required({ 'text': 'not test' })).to.equal(false)
+      expect(field.required({ 'text': 'test' })).to.equal(true)
 
       expect(typeof field.validate).to.equal('function')
-      expect(field.validate({'string': 'valid'})).to.equal(true)
-      expect(field.validate({'string': 'not-valid'})).to.equal(false)
+      expect(field.validate({ 'string': 'valid' })).to.equal(true)
+      expect(field.validate({ 'string': 'not-valid' })).to.equal(false)
     })
 
     it('should map a [STRING] entity to a form data object', () => {
@@ -206,8 +206,8 @@ describe('Entity to state mapper', () => {
 
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'true', value: true, label: 'True'},
-          {id: 'false', value: false, label: 'False'}
+          { id: 'true', value: true, label: 'True' },
+          { id: 'false', value: false, label: 'False' }
         ])
         done()
       })
@@ -236,8 +236,8 @@ describe('Entity to state mapper', () => {
 
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'true', value: true, label: 'True'},
-          {id: 'false', value: false, label: 'False'}
+          { id: 'true', value: true, label: 'True' },
+          { id: 'false', value: false, label: 'False' }
         ])
         done()
       })
@@ -264,8 +264,8 @@ describe('Entity to state mapper', () => {
 
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'true', value: true, label: 'oui'},
-          {id: 'false', value: false, label: 'non'}
+          { id: 'true', value: true, label: 'oui' },
+          { id: 'false', value: false, label: 'non' }
         ])
         done()
       })
@@ -529,9 +529,9 @@ describe('Entity to state mapper', () => {
 
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'enum1', value: 'enum1', label: 'enum1'},
-          {id: 'enum2', value: 'enum2', label: 'enum2'},
-          {id: 'enum3', value: 'enum3', label: 'enum3'}
+          { id: 'enum1', value: 'enum1', label: 'enum1' },
+          { id: 'enum2', value: 'enum2', label: 'enum2' },
+          { id: 'enum3', value: 'enum3', label: 'enum3' }
         ])
         done()
       })
@@ -560,9 +560,9 @@ describe('Entity to state mapper', () => {
 
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'enum1', value: 'enum1', label: 'enum1'},
-          {id: 'enum2', value: 'enum2', label: 'enum2'},
-          {id: 'enum3', value: 'enum3', label: 'enum3'}
+          { id: 'enum1', value: 'enum1', label: 'enum1' },
+          { id: 'enum2', value: 'enum2', label: 'enum2' },
+          { id: 'enum3', value: 'enum3', label: 'enum3' }
         ])
         done()
       })
@@ -659,9 +659,9 @@ describe('Entity to state mapper', () => {
 
         field.options().then(response => {
           expect(response).to.deep.equal([
-            {id: 'ref1', value: 'ref1', label: 'ref1'},
-            {id: 'ref2', value: 'ref2', label: 'ref2'},
-            {id: 'ref3', value: 'ref3', label: 'ref3'}
+            { id: 'ref1', value: 'ref1', label: 'ref1' },
+            { id: 'ref2', value: 'ref2', label: 'ref2' },
+            { id: 'ref3', value: 'ref3', label: 'ref3' }
           ])
           done()
         })
@@ -687,8 +687,8 @@ describe('Entity to state mapper', () => {
 
         field.options().then(response => {
           expect(response).to.deep.equal([
-            {id: 'ref1', value: 'ref1', label: 'label1'},
-            {id: 'ref2', value: 'ref2', label: 'label2'}
+            { id: 'ref1', value: 'ref1', label: 'label1' },
+            { id: 'ref2', value: 'ref2', label: 'label2' }
           ])
           done()
         })
@@ -699,8 +699,8 @@ describe('Entity to state mapper', () => {
   describe('Generate form fields and data for a [CATEGORICAL_MREF] attribute', () => {
     const data = {
       'categorical_mref': [
-        {value: 'ref1', label: 'label2'},
-        {value: 'ref2', label: 'label2'}
+        { value: 'ref1', label: 'label2' },
+        { value: 'ref2', label: 'label2' }
       ]
     }
 
@@ -719,9 +719,9 @@ describe('Entity to state mapper', () => {
 
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'ref1', value: 'ref1', label: 'label1'},
-          {id: 'ref2', value: 'ref2', label: 'label2'},
-          {id: 'ref3', value: 'ref3', label: 'label3'}
+          { id: 'ref1', value: 'ref1', label: 'label1' },
+          { id: 'ref2', value: 'ref2', label: 'label2' },
+          { id: 'ref3', value: 'ref3', label: 'label3' }
         ])
         done()
       })
@@ -739,7 +739,7 @@ describe('Entity to state mapper', () => {
   describe('Generate form fields and data for a [MREF] attribute', () => {
     const data = {
       'mref': [
-        {value: 'ref1', label: 'label2'}
+        { value: 'ref1', label: 'label2' }
       ]
     }
 
@@ -756,9 +756,9 @@ describe('Entity to state mapper', () => {
       expect(typeof field.options).to.equal('function')
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'ref1', value: 'ref1', label: 'label1'},
-          {id: 'ref2', value: 'ref2', label: 'label2'},
-          {id: 'ref3', value: 'ref3', label: 'label3'}
+          { id: 'ref1', value: 'ref1', label: 'label1' },
+          { id: 'ref2', value: 'ref2', label: 'label2' },
+          { id: 'ref3', value: 'ref3', label: 'label3' }
         ])
         done()
       })
@@ -767,9 +767,9 @@ describe('Entity to state mapper', () => {
     it('should filter [MREF] response based on search', done => {
       field.options(['ref1', 'ref2', 'ref3']).then(response => {
         expect(response).to.deep.equal([
-          {id: 'ref1', value: 'ref1', label: 'label1'},
-          {id: 'ref2', value: 'ref2', label: 'label2'},
-          {id: 'ref3', value: 'ref3', label: 'label3'}
+          { id: 'ref1', value: 'ref1', label: 'label1' },
+          { id: 'ref2', value: 'ref2', label: 'label2' },
+          { id: 'ref3', value: 'ref3', label: 'label3' }
         ])
         done()
       })
@@ -805,9 +805,9 @@ describe('Entity to state mapper', () => {
       expect(typeof field.options).to.equal('function')
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'ref1', value: 'ref1', label: 'label1'},
-          {id: 'ref2', value: 'ref2', label: 'label2'},
-          {id: 'ref3', value: 'ref3', label: 'label3'}
+          { id: 'ref1', value: 'ref1', label: 'label1' },
+          { id: 'ref2', value: 'ref2', label: 'label2' },
+          { id: 'ref3', value: 'ref3', label: 'label3' }
         ])
         done()
       })
@@ -816,7 +816,7 @@ describe('Entity to state mapper', () => {
     it('should filter [XREF] response based on search', done => {
       field.options('ref1').then(response => {
         expect(response).to.deep.equal([
-          {id: 'ref1', value: 'ref1', label: 'label1'}
+          { id: 'ref1', value: 'ref1', label: 'label1' }
         ])
         done()
       })
@@ -834,9 +834,9 @@ describe('Entity to state mapper', () => {
   describe('Generate form fields and data for a [ONE_TO_MANY] attribute', () => {
     const data = {
       'one_to_many': [
-        {value: 'ref1'},
-        {value: 'ref2'},
-        {value: 'ref3'}
+        { value: 'ref1' },
+        { value: 'ref2' },
+        { value: 'ref3' }
       ]
     }
 
@@ -854,9 +854,9 @@ describe('Entity to state mapper', () => {
       expect(typeof field.options).to.equal('function')
       field.options().then(response => {
         expect(response).to.deep.equal([
-          {id: 'ref1', value: 'ref1', label: 'label1'},
-          {id: 'ref2', value: 'ref2', label: 'label2'},
-          {id: 'ref3', value: 'ref3', label: 'label3'}
+          { id: 'ref1', value: 'ref1', label: 'label1' },
+          { id: 'ref2', value: 'ref2', label: 'label2' },
+          { id: 'ref3', value: 'ref3', label: 'label3' }
         ])
         done()
       })
@@ -875,7 +875,7 @@ describe('Entity to state mapper', () => {
     const data = {}
 
     it('should not map auto, non-visible attribute to field in create mode', () => {
-      const form = EntityToFormMapper.generateForm(schemas.autoIdSchema, data, {mapperMode: 'CREATE'})
+      const form = EntityToFormMapper.generateForm(schemas.autoIdSchema, data, { mapperMode: 'CREATE' })
       expect(form.formFields.length).to.equal(0)
     })
   })
@@ -884,7 +884,7 @@ describe('Entity to state mapper', () => {
     const data = {}
 
     it('Setting the mapper mode to CREATE should set readonly fields to enabled', () => {
-      const form = EntityToFormMapper.generateForm(schemas.createRowSchema, data, {mapperMode: 'CREATE'})
+      const form = EntityToFormMapper.generateForm(schemas.createRowSchema, data, { mapperMode: 'CREATE' })
       const field = form.formFields[0]
       expect(field.disabled).to.equal(false)
       expect(field.readOnly).to.equal(false)
@@ -892,7 +892,7 @@ describe('Entity to state mapper', () => {
     })
 
     it('Setting the mapper mode to UPDATE should set readonly fields to disabled', () => {
-      const form = EntityToFormMapper.generateForm(schemas.createRowSchema, data, {mapperMode: 'UPDATE'})
+      const form = EntityToFormMapper.generateForm(schemas.createRowSchema, data, { mapperMode: 'UPDATE' })
       const field = form.formFields[0]
       expect(field.disabled).to.equal(true)
       expect(field.readOnly).to.equal(true)
@@ -926,19 +926,19 @@ describe('Entity to state mapper', () => {
     const data = {}
 
     it('Setting showNonVisibleAttributes to true results in non visible attr mapping to visible field', () => {
-      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, {showNonVisibleAttributes: true})
+      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, { showNonVisibleAttributes: true })
       const field = form.formFields[0]
       expect(field.visible()).to.equal(true)
     })
 
     it('Setting showNonVisibleAttributes to false results in non visible attr mapping to non-visible field', () => {
-      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, {showNonVisibleAttributes: false})
+      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, { showNonVisibleAttributes: false })
       const field = form.formFields[0]
       expect(field.visible()).to.equal(false)
     })
 
     it('By default the mapper maps in non visible attr to non-visible field', () => {
-      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, {showNonVisibleAttributes: false})
+      const form = EntityToFormMapper.generateForm(schemas.showNonVisibleAttributeSchema, data, { showNonVisibleAttributes: false })
       const field = form.formFields[0]
       expect(field.visible()).to.equal(false)
     })
@@ -948,10 +948,10 @@ describe('Entity to state mapper', () => {
     const data = {}
 
     describe('when running the mapper in CREATE mode', () => {
-      const form = EntityToFormMapper.generateForm(schemas.uniqueFieldSchema, data, {mapperMode: 'CREATE'})
+      const form = EntityToFormMapper.generateForm(schemas.uniqueFieldSchema, data, { mapperMode: 'CREATE' })
 
       it('should return a function that resolve for true in case of unique value', (done) => {
-        const promise = form.formFields[0].unique('am i unique?', {id: '123'})
+        const promise = form.formFields[0].unique('am i unique?', { id: '123' })
 
         promise.then((result) => {
           expect(result).to.equal(true)
@@ -964,10 +964,10 @@ describe('Entity to state mapper', () => {
     })
 
     describe('when running the mapper in UPDATE mode', () => {
-      const form = EntityToFormMapper.generateForm(schemas.uniqueFieldSchema, data, {mapperMode: 'UPDATE'})
+      const form = EntityToFormMapper.generateForm(schemas.uniqueFieldSchema, data, { mapperMode: 'UPDATE' })
 
       it('should return a function that when querying the backend should exclude the row being updated', (done) => {
-        const promise = form.formFields[0].unique('i am not unique?', {id: '123'})
+        const promise = form.formFields[0].unique('i am not unique?', { id: '123' })
 
         promise.then((result) => {
           expect(result).to.equal(true)

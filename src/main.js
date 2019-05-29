@@ -94,7 +94,7 @@ Vue.use(i18n, {
       el: '#form-demo',
       router,
       template: '<ExamplePage/>',
-      components: {ExamplePage}
+      components: { ExamplePage }
     })
   }
 })

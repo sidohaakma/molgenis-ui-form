@@ -28,47 +28,47 @@
 </template>
 
 <script>
-  import { FormComponent } from '../../molgenisUiForm'
-  import ModelSettings from '../components/ModelSettings'
+import { FormComponent } from '../../molgenisUiForm'
+import ModelSettings from '../components/ModelSettings'
 
-  export default {
-    name: 'long-example',
-    components: {
-      ModelSettings,
-      FormComponent
-    },
-    data () {
-      return {
-        formOptions: {
-          showEyeButton: false
-        },
-        formFields: [
-          {
-            id: 'long-example',
-            label: 'Long Field',
-            description: 'Long type',
-            type: 'long',
-            visible: () => true,
-            required: () => false,
-            validate: () => true,
-            range: {}
-          }
-        ],
-        formState: {},
-        formData: {
-          'long-example': 9147483647
+export default {
+  name: 'long-example',
+  components: {
+    ModelSettings,
+    FormComponent
+  },
+  data () {
+    return {
+      formOptions: {
+        showEyeButton: false
+      },
+      formFields: [
+        {
+          id: 'long-example',
+          label: 'Long Field',
+          description: 'Long type',
+          type: 'long',
+          visible: () => true,
+          required: () => false,
+          validate: () => true,
+          range: {}
         }
-      }
-    },
-    methods: {
-      onValueChanged (formData) {
-        this.formData = formData
-      }
-    },
-    filters: {
-      pretty (value) {
-        return JSON.stringify(value, null, 2)
+      ],
+      formState: {},
+      formData: {
+        'long-example': 9147483647
       }
     }
+  },
+  methods: {
+    onValueChanged (formData) {
+      this.formData = formData
+    }
+  },
+  filters: {
+    pretty (value) {
+      return JSON.stringify(value, null, 2)
+    }
   }
+}
 </script>

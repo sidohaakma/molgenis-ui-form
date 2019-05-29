@@ -141,13 +141,13 @@
     content: '\a0*';
   }
 
-  /*  Styling to have v-select look like bootstrap field */ 
+  /*  Styling to have v-select look like bootstrap field */
   .mg-ui-form-field .v-select .dropdown-toggle {
     background-color: white; /* $input-bg */
     padding-bottom: 0;
     min-height: calc(2.25rem + 2px);
   }
-  
+
   .mg-ui-form-field .v-select.disabled .dropdown-toggle {
     background-color: #f8f8f8;
   }
@@ -172,7 +172,7 @@
 
   .mg-ui-form-field .v-select.single .vs__selected-options .selected-tag {
     padding-left: 0;
-    margin-left: 0; 
+    margin-left: 0;
   }
 
   .mg-ui-form-field .v-select .vs__selected-options :first-child {
@@ -190,122 +190,122 @@
 </style>
 
 <script>
-  import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
-  import CodeEditorFieldComponent from './field-types/CodeEditorFieldComponent'
-  import DateFieldComponent from './field-types/DateFieldComponent'
-  import FileFieldComponent from './field-types/FileFieldComponent'
-  import MultiSelectFieldComponent from './field-types/MultiSelectFieldComponent'
-  import RadioFieldComponent from './field-types/RadioFieldComponent'
-  import SingleSelectFieldComponent from './field-types/SingleSelectFieldComponent'
-  import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
-  import TypedFieldComponent from './field-types/TypedFieldComponent'
+import CheckboxFieldComponent from './field-types/CheckboxFieldComponent'
+import CodeEditorFieldComponent from './field-types/CodeEditorFieldComponent'
+import DateFieldComponent from './field-types/DateFieldComponent'
+import FileFieldComponent from './field-types/FileFieldComponent'
+import MultiSelectFieldComponent from './field-types/MultiSelectFieldComponent'
+import RadioFieldComponent from './field-types/RadioFieldComponent'
+import SingleSelectFieldComponent from './field-types/SingleSelectFieldComponent'
+import TextAreaFieldComponent from './field-types/TextAreaFieldComponent'
+import TypedFieldComponent from './field-types/TypedFieldComponent'
 
-  import { FormField, FormComponentOptions } from '../flow.types'
-  import isCompoundVisible from '../util/helpers/isCompoundVisible'
+import { FormField, FormComponentOptions } from '../flow.types'
+import isCompoundVisible from '../util/helpers/isCompoundVisible'
 
-  const defaultNoOptionsMessage = 'No options found for given search term.'
+const defaultNoOptionsMessage = 'No options found for given search term.'
 
-  export default {
-    name: 'FormFieldComponent',
-    props: {
-      eventBus: {
-        type: Object,
-        required: true
-      },
-      formData: {
-        type: Object,
-        required: true
-      },
-      field: {
-        type: FormField,
-        required: true
-      },
-      formState: {
-        type: Object,
-        required: true
-      },
-      level: {
-        type: Number,
-        required: false,
-        default: 0
-      },
-      showOptionalFields: {
-        type: Boolean,
-        required: true
-      },
-      formComponentOptions: {
-        type: FormComponentOptions,
-        required: false,
-        default: () => {
-          return {
-            inputDebounceTime: 500
-          }
+export default {
+  name: 'FormFieldComponent',
+  props: {
+    eventBus: {
+      type: Object,
+      required: true
+    },
+    formData: {
+      type: Object,
+      required: true
+    },
+    field: {
+      type: FormField,
+      required: true
+    },
+    formState: {
+      type: Object,
+      required: true
+    },
+    level: {
+      type: Number,
+      required: false,
+      default: 0
+    },
+    showOptionalFields: {
+      type: Boolean,
+      required: true
+    },
+    formComponentOptions: {
+      type: FormComponentOptions,
+      required: false,
+      default: () => {
+        return {
+          inputDebounceTime: 500
         }
       }
-    },
-    methods: {
-      isUnique (value) {
-        if (this.field.hasOwnProperty('unique')) {
-          return this.field.unique(value, this.formData)
-        }
-
-        return true
-      },
-      onDataChange () {
-        this.$emit('dataChange')
-      }
-    },
-    computed: {
-      fieldState () {
-        return this.formState[this.field.id]
-      },
-      pending () {
-        return this.fieldState && this.fieldState.$pending
-      },
-      isValid () {
-        return this.field.validate(this.formData)
-      },
-      isRequired () {
-        return this.field.required(this.formData)
-      },
-      isVisible () {
-        if (this.field.type === 'field-group') {
-          return isCompoundVisible(this.field, this.formData)
-        }
-        return (this.showOptionalFields || this.isRequired) && this.field.visible(this.formData)
-      },
-      noOptionsMessage () {
-        const msgKey = 'form_no_options'
-        const namespace = 'ui-form'
-
-        if (this.$t) {
-          const i18nMessage = this.$t(namespace + ':' + msgKey)
-          if (i18nMessage !== msgKey) {
-            return i18nMessage
-          }
-        }
-
-        return defaultNoOptionsMessage
-      }
-    },
-    watch: {
-      pending (isPending) {
-        if (!isPending) {
-          // validation finished
-          this.onDataChange()
-        }
-      }
-    },
-    components: {
-      CheckboxFieldComponent,
-      CodeEditorFieldComponent,
-      DateFieldComponent,
-      FileFieldComponent,
-      MultiSelectFieldComponent,
-      RadioFieldComponent,
-      SingleSelectFieldComponent,
-      TextAreaFieldComponent,
-      TypedFieldComponent
     }
+  },
+  methods: {
+    isUnique (value) {
+      if (this.field.hasOwnProperty('unique')) {
+        return this.field.unique(value, this.formData)
+      }
+
+      return true
+    },
+    onDataChange () {
+      this.$emit('dataChange')
+    }
+  },
+  computed: {
+    fieldState () {
+      return this.formState[this.field.id]
+    },
+    pending () {
+      return this.fieldState && this.fieldState.$pending
+    },
+    isValid () {
+      return this.field.validate(this.formData)
+    },
+    isRequired () {
+      return this.field.required(this.formData)
+    },
+    isVisible () {
+      if (this.field.type === 'field-group') {
+        return isCompoundVisible(this.field, this.formData)
+      }
+      return (this.showOptionalFields || this.isRequired) && this.field.visible(this.formData)
+    },
+    noOptionsMessage () {
+      const msgKey = 'form_no_options'
+      const namespace = 'ui-form'
+
+      if (this.$t) {
+        const i18nMessage = this.$t(namespace + ':' + msgKey)
+        if (i18nMessage !== msgKey) {
+          return i18nMessage
+        }
+      }
+
+      return defaultNoOptionsMessage
+    }
+  },
+  watch: {
+    pending (isPending) {
+      if (!isPending) {
+        // validation finished
+        this.onDataChange()
+      }
+    }
+  },
+  components: {
+    CheckboxFieldComponent,
+    CodeEditorFieldComponent,
+    DateFieldComponent,
+    FileFieldComponent,
+    MultiSelectFieldComponent,
+    RadioFieldComponent,
+    SingleSelectFieldComponent,
+    TextAreaFieldComponent,
+    TypedFieldComponent
   }
+}
 </script>

@@ -4,7 +4,12 @@
     <div class="form-group">
       <label :for="field.id">{{ field.label }}</label>
 
-      <div v-for="(option, index) in options" class="form-check" :aria-describedby="field.id + '-description'">
+      <div
+        v-for="(option, index) in options"
+        class="form-check"
+        :aria-describedby="field.id + '-description'"
+        :key="option.value"
+        >
         <!-- Hardcode input type to prevent compile time errors with dynamic value + v-model on same input  -->
         <input
           :id="field.id + '-' + index"
@@ -34,66 +39,66 @@
 </template>
 
 <script>
-  import VueForm from 'vue-form'
-  import FormFieldMessages from '../FormFieldMessages'
-  import { FormField } from '../../flow.types'
+import VueForm from 'vue-form'
+import FormFieldMessages from '../FormFieldMessages'
+import { FormField } from '../../flow.types'
 
-  export default {
-    name: 'CheckboxFieldComponent',
-    components: {
-      FormFieldMessages
+export default {
+  name: 'CheckboxFieldComponent',
+  components: {
+    FormFieldMessages
+  },
+  mixins: [VueForm],
+  props: {
+    value: {
+      type: Array,
+      required: false,
+      default: () => []
     },
-    mixins: [VueForm],
-    props: {
-      value: {
-        type: Array,
-        required: false,
-        default: () => []
-      },
-      field: {
-        type: FormField,
-        required: true
-      },
-      fieldState: {
-        type: Object,
-        required: false
-      },
-      isValid: {
-        type: Boolean,
-        default: true
-      },
-      isRequired: {
-        type: Boolean,
-        default: false
-      }
+    field: {
+      type: FormField,
+      required: true
     },
-    data () {
-      return {
-        // Store a local value to prevent changing the parent state
-        localValue: this.value,
-        options: []
-      }
+    fieldState: {
+      type: Object,
+      required: false
     },
-    watch: {
-      localValue (value) {
-        // Emit value changes to the parent (form)
-        this.$emit('input', value)
-      }
+    isValid: {
+      type: Boolean,
+      default: true
     },
-    methods: {
-      selectAll () {
-        this.localValue = this.options.map(option => option.id)
-        this.fieldState.$touched = true
-      },
-      deSelectAll () {
-        this.localValue = []
-        this.fieldState.$touched = true
-      }
-    },
-    created () {
-      this.field.options().then(response => {
-        this.options = response
-      })
+    isRequired: {
+      type: Boolean,
+      default: false
     }
+  },
+  data () {
+    return {
+      // Store a local value to prevent changing the parent state
+      localValue: this.value,
+      options: []
+    }
+  },
+  watch: {
+    localValue (value) {
+      // Emit value changes to the parent (form)
+      this.$emit('input', value)
+    }
+  },
+  methods: {
+    selectAll () {
+      this.localValue = this.options.map(option => option.id)
+      this.fieldState.$touched = true
+    },
+    deSelectAll () {
+      this.localValue = []
+      this.fieldState.$touched = true
+    }
+  },
+  created () {
+    this.field.options().then(response => {
+      this.options = response
+    })
   }
+}
 </script>

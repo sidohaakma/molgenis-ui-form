@@ -18,8 +18,8 @@
       </div>
 
       <div class="col-sm">
-        <model-settings 
-        :field-settings="formFields[0]" 
+        <model-settings
+        :field-settings="formFields[0]"
         :field-data="formData"
         :form-state="formState"
         ></model-settings>
