@@ -46,7 +46,12 @@ pipeline {
     }
     stage('Build: [ master ]') {
       when {
-        branch 'master'
+        allOf {
+          branch 'master'
+          not {
+            changelog '.*\\[skip ci\\]$'
+          }
+        }
       }
       steps {
         milestone 1
@@ -68,11 +73,11 @@ pipeline {
       when {
         allOf {
           branch 'master'
-            not { 
-              changelog '.*\\[skip ci\\]$'
-            }
+          not { 
+            changelog '.*\\[skip ci\\]$'
           }
         }
+      }
       environment {
         GIT_AUTHOR_EMAIL = 'molgenis+ci@gmail.com'
         GIT_AUTHOR_NAME = 'molgenis-jenkins'
@@ -92,9 +97,6 @@ pipeline {
       container('node') {
         sh "daemon --name=sauceconnect --stop"
       }
-    }
-    success {
-      hubotSend(message: 'Build success', status:'INFO', site: 'slack-pr-app-team')
     }
     failure {
       hubotSend(message: 'Build failed', status:'ERROR', site: 'slack-pr-app-team')
