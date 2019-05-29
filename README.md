@@ -397,6 +397,14 @@ yarn run e2e
 yarn test
 ```
 
+### How to commit
+We use conventional commits to generate changelogs and release notes. Please check: https://www.conventionalcommits.org/
+
+**Example**
+```
+git commit file.ext -m "fix(file.ext): fixes something"
+```
+
 ### How to publish
 Each time a PR is merged a release will be done to NPM. The CHANGELOG.md and GitHub release will be ammended. 
 
