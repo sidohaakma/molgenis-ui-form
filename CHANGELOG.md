@@ -1,12 +1,3 @@
-<a name="unreleased"></a>
-## unreleased (xx-xx-xxxx)
-
-### Breaking
-
-### Features
-
-### Bugfixes
-
 <a name="4.0.1"></a>
 ## 4.0.1 (24-5-2019)
 
