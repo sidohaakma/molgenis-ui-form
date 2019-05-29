@@ -1,14 +1,12 @@
 # molgenis-ui-form
-
-[![Build Status](https://travis-ci.org/molgenis/molgenis-ui-form.svg?branch=master)](https://travis-ci.org/molgenis/molgenis-ui-form)
 [![codecov](https://codecov.io/gh/molgenis/molgenis-ui-form/branch/master/graph/badge.svg)](https://codecov.io/gh/molgenis/molgenis-ui-form)
 [![Known Vulnerabilities](https://snyk.io/test/github/molgenis/molgenis-ui-form/badge.svg?targetFile=package.json)](https://snyk.io/test/github/molgenis/molgenis-ui-form?targetFile=package.json)
+[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 
 > Library for generating HTML web forms
 
 ## Changelog
-Details changes for each release are documented in the [CHANGELOG.md](https://github.com/molgenis/molgenis-ui-form/blob/master/CHANGELOG.md).
-
+Details changes for each release generated in the [CHANGELOG.md](https://github.com/molgenis/molgenis-ui-form/blob/master/CHANGELOG.md). You can view the changes on GitHub as well (https://github.com/molgenis/molgenis-ui-form/releases)
 
 ## Usage
 
@@ -400,17 +398,9 @@ yarn test
 ```
 
 ### How to publish
-```bash
+Each time a PR is merged a release will be done to NPM. The CHANGELOG.md and GitHub release will be ammended. 
 
-# Login to NPM with your credentials
-npm login
-
-# Run the NPM publish command to the correct scope
-npm publish --scope=@molgenis/molgenis-ui-form --access=public
-
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+The version of the package is based upon convential commits. Check: http://commitizen.github.io/cz-cli/.
 
 ### Tests
 To develop tests please acknowledge the following guidelines.
