@@ -1,3 +1,13 @@
+## [4.0.2](https://github.com/molgenis/molgenis-ui-form/compare/v4.0.1...v4.0.2) (2019-05-31)
+
+
+### Bug Fixes
+
+* **Jenkinsfile:** fix indentation for Jenkinsfile ([963425f](https://github.com/molgenis/molgenis-ui-form/commit/963425f))
+* **merge:** updated DataFieldComponent because of faulty merge ([4ea7220](https://github.com/molgenis/molgenis-ui-form/commit/4ea7220))
+* **semantic-deps:** add plugins for auto release ([#303](https://github.com/molgenis/molgenis-ui-form/issues/303)) ([b6cefb1](https://github.com/molgenis/molgenis-ui-form/commit/b6cefb1))
+* **today:** initialize other today's also with same syntax ([79940be](https://github.com/molgenis/molgenis-ui-form/commit/79940be))
+
 <a name="4.0.1"></a>
 ## 4.0.1 (24-5-2019)
 
