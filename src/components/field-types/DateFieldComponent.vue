@@ -132,6 +132,17 @@ export default {
     },
     clearValue () {
       this.localValue = null
+    },
+    parsePropValue (propValue) {
+      if (!propValue) {
+        // 'null' is the correct flatpicker no value value
+        return null
+      } else if (this.isTimeIncluded) {
+        const parsedValue = moment(propValue, moment.ISO_8601, true)
+        return parsedValue ? parsedValue.toDate() : null
+      } else {
+        return propValue
+      }
     }
   },
   watch: {
@@ -139,6 +150,11 @@ export default {
       // Only emit a data change if the date is valid
       if (this.isValidDateTime(value)) {
         this.$emit('input', value)
+      }
+    },
+    value (newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.localValue = this.parsePropValue(newValue)
       }
     }
   },
@@ -148,16 +164,7 @@ export default {
     }
   },
   mounted () {
-    // Store a local value to prevent changing the parent state
-    if (!this.value) {
-      // 'null' is the correct flatpicker no value value
-      this.localValue = null
-    } else if (this.isTimeIncluded) {
-      const parsedValue = moment(this.value, moment.ISO_8601, true)
-      this.localValue = parsedValue ? parsedValue.toDate() : null
-    } else {
-      this.localValue = this.value
-    }
+    this.localValue = this.parsePropValue(this.value)
   },
   components: {
     flatPickr,
