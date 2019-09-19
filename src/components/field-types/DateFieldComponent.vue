@@ -143,6 +143,11 @@ export default {
     }
   },
   created () {
+    if (flatpickerLangMap[this.$lng]) {
+      this.config.locale = flatpickerLangMap[this.$lng]
+    }
+  },
+  mounted () {
     // Store a local value to prevent changing the parent state
     if (!this.value) {
       // 'null' is the correct flatpicker no value value
@@ -152,10 +157,6 @@ export default {
       this.localValue = parsedValue ? parsedValue.toDate() : null
     } else {
       this.localValue = this.value
-    }
-
-    if (flatpickerLangMap[this.$lng]) {
-      this.config.locale = flatpickerLangMap[this.$lng]
     }
   },
   components: {
