@@ -139,7 +139,7 @@ export default {
         return null
       } else if (this.isTimeIncluded) {
         const parsedValue = moment(propValue, moment.ISO_8601, true)
-        return parsedValue ? parsedValue.toDate() : null
+        return parsedValue != null && parsedValue.isValid() ? parsedValue.toDate() : null
       } else {
         return propValue
       }
@@ -152,19 +152,19 @@ export default {
         this.$emit('input', value)
       }
     },
-    value (newValue, oldValue) {
-      if (newValue !== oldValue) {
-        this.localValue = this.parsePropValue(newValue)
-      }
+    value: {
+      handler: function (newValue, oldValue) {
+        if (newValue !== oldValue) {
+          this.localValue = this.parsePropValue(newValue)
+        }
+      },
+      immediate: true
     }
   },
   created () {
     if (flatpickerLangMap[this.$lng]) {
       this.config.locale = flatpickerLangMap[this.$lng]
     }
-  },
-  mounted () {
-    this.localValue = this.parsePropValue(this.value)
   },
   components: {
     flatPickr,

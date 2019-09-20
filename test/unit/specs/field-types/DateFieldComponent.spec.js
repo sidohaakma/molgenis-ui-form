@@ -141,6 +141,42 @@ describe('DateFieldComponent', () => {
         expect(wrapper.vm.isValidDateTime('foo')).to.equal(false)
       })
     })
+
+    describe('parsePropValue', () => {
+      let props = {
+        value: '2018-01-01',
+        field: {
+          id: 'date-field',
+          label: 'Date Field',
+          type: 'date'
+        },
+        fieldState: {
+          $touched: false,
+          $submitted: false,
+          $invalid: false,
+          _addControl: () => null
+        },
+        isRequired: true,
+        isValid: true
+      }
+
+      it('should transform empty to null', () => {
+        const wrapper = mount(DateFieldComponent, { propsData: props })
+        expect(wrapper.vm.parsePropValue()).to.equal(null)
+      })
+
+      it('should pass through input in case of no time part is included', () => {
+        props.isTimeIncluded = false
+        const wrapper = mount(DateFieldComponent, { propsData: props })
+        expect(wrapper.vm.parsePropValue('foo')).to.equal('foo')
+      })
+
+      it('should return null in case invalid data with time us passed', () => {
+        props.isTimeIncluded = true
+        const wrapper = mount(DateFieldComponent, { propsData: props })
+        expect(wrapper.vm.parsePropValue('foo')).to.equal(null)
+      })
+    })
   })
 
   describe('when the clear button is pressed', () => {
