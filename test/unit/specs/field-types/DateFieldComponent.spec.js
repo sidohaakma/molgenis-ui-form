@@ -1,5 +1,6 @@
 import DateFieldComponent from '@/components/field-types/DateFieldComponent'
 import { mount, shallow } from 'vue-test-utils'
+import moment from 'moment'
 
 describe('DateFieldComponent', () => {
   describe('component', () => {
@@ -93,10 +94,8 @@ describe('DateFieldComponent', () => {
 
       it('should emit an updated Date object including time on change', () => {
         wrapper.setData({ localValue: '2018-08-12T11:12:13+0500' })
-
-        const expectedDateTimeValue = '2018-08-12T11:12:13+0500'
-
-        expect(wrapper.emitted().input[1]).to.deep.equal([expectedDateTimeValue])
+        const expected = moment('2018-08-12T11:12:13+0500').format('Y-MM-DD\\THH:mm:ssZ')
+        expect(wrapper.emitted().input[1]).to.deep.equal([expected])
       })
     })
 
@@ -139,6 +138,42 @@ describe('DateFieldComponent', () => {
 
       it('should return false if non required field is not date (foo)', () => {
         expect(wrapper.vm.isValidDateTime('foo')).to.equal(false)
+      })
+    })
+
+    describe('toInternalDate', () => {
+      let props = {
+        value: '2018-01-01',
+        field: {
+          id: 'date-field',
+          label: 'Date Field',
+          type: 'date'
+        },
+        fieldState: {
+          $touched: false,
+          $submitted: false,
+          $invalid: false,
+          _addControl: () => null
+        },
+        isRequired: true,
+        isValid: true
+      }
+
+      it('should transform empty to null', () => {
+        const wrapper = mount(DateFieldComponent, { propsData: props })
+        expect(wrapper.vm.toInternalDate()).to.equal(null)
+      })
+
+      it('should pass through input in case of no time part is included', () => {
+        props.isTimeIncluded = false
+        const wrapper = mount(DateFieldComponent, { propsData: props })
+        expect(wrapper.vm.toInternalDate('foo')).to.equal('foo')
+      })
+
+      it('should return null in case invalid data with time us passed', () => {
+        props.isTimeIncluded = true
+        const wrapper = mount(DateFieldComponent, { propsData: props })
+        expect(wrapper.vm.toInternalDate('foo')).to.equal(null)
       })
     })
   })

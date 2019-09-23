@@ -20,6 +20,14 @@
 
       <div class="col-sm">
         <model-settings :field-settings="formFields[0]" :field-data="formData"></model-settings>
+
+        <div class="card">
+          <h5 class="card-header text-center">Edit props</h5>
+          <div class="card-body">
+            <input class="form-control" type="text" v-model="formData['datetime-example-field']"/>
+          </div>
+        </div>
+
       </div>
 
     </div>

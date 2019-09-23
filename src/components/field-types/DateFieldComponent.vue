@@ -66,7 +66,7 @@ const flatpickerLangMap = {
   de: German
 }
 
-const DATA_TIME_DISPLAY = 'Y-MM-DD\\THH:mm:ssZ'
+const DATE_TIME_DISPLAY = 'Y-MM-DD\\THH:mm:ssZ'
 
 export default {
   name: 'DateFieldComponent',
@@ -107,9 +107,7 @@ export default {
         enableSeconds: this.isTimeIncluded,
         enableTime: this.isTimeIncluded,
         dateFormat: 'Y-m-d',
-        formatDate: this.isTimeIncluded ? (date) => {
-          return moment(date).format(DATA_TIME_DISPLAY)
-        } : undefined
+        formatDate: this.isTimeIncluded ? this.toExternalDateString : undefined
       }
     }
   },
@@ -126,34 +124,44 @@ export default {
         return true
       }
 
-      const format = this.isTimeIncluded ? DATA_TIME_DISPLAY : 'YYYY-MM-DD'
+      const format = this.isTimeIncluded ? DATE_TIME_DISPLAY : 'YYYY-MM-DD'
       const date = moment(dateString, format, true)
       return date != null && date.isValid()
     },
     clearValue () {
       this.localValue = null
+    },
+    toInternalDate (propValue) {
+      // Note: 'null' is the correct flatpicker no value value
+      if (!propValue) {
+        return null
+      } else if (this.isTimeIncluded) {
+        const parsedValue = moment(propValue, moment.ISO_8601, true)
+        return parsedValue != null && parsedValue.isValid() ? parsedValue.toDate() : null
+      } else {
+        return propValue
+      }
+    },
+    toExternalDateString (internalDate) {
+      return internalDate && this.isTimeIncluded ? moment(internalDate).format(DATE_TIME_DISPLAY) : internalDate
     }
   },
   watch: {
-    localValue (value) {
-      // Only emit a data change if the date is valid
-      if (this.isValidDateTime(value)) {
-        this.$emit('input', value)
+    localValue (newValue, oldValue) {
+      if (newValue !== oldValue && this.isValidDateTime(newValue)) {
+        this.$emit('input', this.toExternalDateString(newValue))
       }
+    },
+    value: {
+      handler: function (newValue, oldValue) {
+        if (newValue !== oldValue) {
+          this.localValue = this.toInternalDate(newValue)
+        }
+      },
+      immediate: true
     }
   },
   created () {
-    // Store a local value to prevent changing the parent state
-    if (!this.value) {
-      // 'null' is the correct flatpicker no value value
-      this.localValue = null
-    } else if (this.isTimeIncluded) {
-      const parsedValue = moment(this.value, moment.ISO_8601, true)
-      this.localValue = parsedValue ? parsedValue.toDate() : null
-    } else {
-      this.localValue = this.value
-    }
-
     if (flatpickerLangMap[this.$lng]) {
       this.config.locale = flatpickerLangMap[this.$lng]
     }
