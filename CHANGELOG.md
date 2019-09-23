@@ -1,3 +1,16 @@
+## [4.0.3](https://github.com/molgenis/molgenis-ui-form/compare/v4.0.2...v4.0.3) (2019-09-23)
+
+
+### Bug Fixes
+
+* [#305](https://github.com/molgenis/molgenis-ui-form/issues/305) parse value prop on mount and prop change, indirect 2 way binding with value parsing inbetween ([2714b4f](https://github.com/molgenis/molgenis-ui-form/commit/2714b4f))
+* CI build failure, set unsafe-perm to true to allow CI root user to build/release ([f77a9f6](https://github.com/molgenis/molgenis-ui-form/commit/f77a9f6))
+* **dataFieldComponent:** add test for input value parser and improve validity check ([d9a4113](https://github.com/molgenis/molgenis-ui-form/commit/d9a4113))
+* fix spelling errors ([7264141](https://github.com/molgenis/molgenis-ui-form/commit/7264141))
+* fix unit test, make expected date dependent on location ([c67f1cc](https://github.com/molgenis/molgenis-ui-form/commit/c67f1cc))
+* Move data formating from created to mounted to have it init the data on each mount ([86a4dae](https://github.com/molgenis/molgenis-ui-form/commit/86a4dae))
+* transform internal date back to external format to avoid looping updates in two way binding. ([5247b6f](https://github.com/molgenis/molgenis-ui-form/commit/5247b6f))
+
 ## [4.0.2](https://github.com/molgenis/molgenis-ui-form/compare/v4.0.1...v4.0.2) (2019-05-31)
 
 
