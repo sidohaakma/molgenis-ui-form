@@ -66,7 +66,7 @@ const flatpickerLangMap = {
   de: German
 }
 
-const DATA_TIME_DISPLAY = 'Y-MM-DD\\THH:mm:ssZ'
+const DATE_TIME_DISPLAY = 'Y-MM-DD\\THH:mm:ssZ'
 
 export default {
   name: 'DateFieldComponent',
@@ -107,7 +107,7 @@ export default {
         enableSeconds: this.isTimeIncluded,
         enableTime: this.isTimeIncluded,
         dateFormat: 'Y-m-d',
-        formatDate: this.isTimeIncluded ? this.toExternalDataString : undefined
+        formatDate: this.isTimeIncluded ? this.toExternalDateString : undefined
       }
     }
   },
@@ -124,7 +124,7 @@ export default {
         return true
       }
 
-      const format = this.isTimeIncluded ? DATA_TIME_DISPLAY : 'YYYY-MM-DD'
+      const format = this.isTimeIncluded ? DATE_TIME_DISPLAY : 'YYYY-MM-DD'
       const date = moment(dateString, format, true)
       return date != null && date.isValid()
     },
@@ -142,14 +142,14 @@ export default {
         return propValue
       }
     },
-    toExternalDataString (internalDate) {
-      return internalDate && this.isTimeIncluded ? moment(internalDate).format(DATA_TIME_DISPLAY) : internalDate
+    toExternalDateString (internalDate) {
+      return internalDate && this.isTimeIncluded ? moment(internalDate).format(DATE_TIME_DISPLAY) : internalDate
     }
   },
   watch: {
     localValue (newValue, oldValue) {
       if (newValue !== oldValue && this.isValidDateTime(newValue)) {
-        this.$emit('input', this.toExternalDataString(newValue))
+        this.$emit('input', this.toExternalDateString(newValue))
       }
     },
     value: {
