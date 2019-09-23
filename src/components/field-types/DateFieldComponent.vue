@@ -107,9 +107,7 @@ export default {
         enableSeconds: this.isTimeIncluded,
         enableTime: this.isTimeIncluded,
         dateFormat: 'Y-m-d',
-        formatDate: this.isTimeIncluded ? (date) => {
-          return moment(date).format(DATA_TIME_DISPLAY)
-        } : undefined
+        formatDate: this.isTimeIncluded ? this.toExternalDataString : undefined
       }
     }
   },
@@ -133,9 +131,9 @@ export default {
     clearValue () {
       this.localValue = null
     },
-    parsePropValue (propValue) {
+    toInternalDate (propValue) {
+      // Note: 'null' is the correct flatpicker no value value
       if (!propValue) {
-        // 'null' is the correct flatpicker no value value
         return null
       } else if (this.isTimeIncluded) {
         const parsedValue = moment(propValue, moment.ISO_8601, true)
@@ -143,19 +141,21 @@ export default {
       } else {
         return propValue
       }
+    },
+    toExternalDataString (internalDate) {
+      return internalDate && this.isTimeIncluded ? moment(internalDate).format(DATA_TIME_DISPLAY) : internalDate
     }
   },
   watch: {
-    localValue (value) {
-      // Only emit a data change if the date is valid
-      if (this.isValidDateTime(value)) {
-        this.$emit('input', value)
+    localValue (newValue, oldValue) {
+      if (newValue !== oldValue && this.isValidDateTime(newValue)) {
+        this.$emit('input', this.toExternalDataString(newValue))
       }
     },
     value: {
       handler: function (newValue, oldValue) {
         if (newValue !== oldValue) {
-          this.localValue = this.parsePropValue(newValue)
+          this.localValue = this.toInternalDate(newValue)
         }
       },
       immediate: true

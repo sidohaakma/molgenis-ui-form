@@ -93,10 +93,7 @@ describe('DateFieldComponent', () => {
 
       it('should emit an updated Date object including time on change', () => {
         wrapper.setData({ localValue: '2018-08-12T11:12:13+0500' })
-
-        const expectedDateTimeValue = '2018-08-12T11:12:13+0500'
-
-        expect(wrapper.emitted().input[1]).to.deep.equal([expectedDateTimeValue])
+        expect(wrapper.emitted().input[1]).to.deep.equal(['2018-08-12T08:12:13+02:00'])
       })
     })
 
@@ -142,7 +139,7 @@ describe('DateFieldComponent', () => {
       })
     })
 
-    describe('parsePropValue', () => {
+    describe('toInternalDate', () => {
       let props = {
         value: '2018-01-01',
         field: {
@@ -162,19 +159,19 @@ describe('DateFieldComponent', () => {
 
       it('should transform empty to null', () => {
         const wrapper = mount(DateFieldComponent, { propsData: props })
-        expect(wrapper.vm.parsePropValue()).to.equal(null)
+        expect(wrapper.vm.toInternalDate()).to.equal(null)
       })
 
       it('should pass through input in case of no time part is included', () => {
         props.isTimeIncluded = false
         const wrapper = mount(DateFieldComponent, { propsData: props })
-        expect(wrapper.vm.parsePropValue('foo')).to.equal('foo')
+        expect(wrapper.vm.toInternalDate('foo')).to.equal('foo')
       })
 
       it('should return null in case invalid data with time us passed', () => {
         props.isTimeIncluded = true
         const wrapper = mount(DateFieldComponent, { propsData: props })
-        expect(wrapper.vm.parsePropValue('foo')).to.equal(null)
+        expect(wrapper.vm.toInternalDate('foo')).to.equal(null)
       })
     })
   })
