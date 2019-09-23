@@ -1,5 +1,6 @@
 import DateFieldComponent from '@/components/field-types/DateFieldComponent'
 import { mount, shallow } from 'vue-test-utils'
+import moment from 'moment'
 
 describe('DateFieldComponent', () => {
   describe('component', () => {
@@ -93,7 +94,8 @@ describe('DateFieldComponent', () => {
 
       it('should emit an updated Date object including time on change', () => {
         wrapper.setData({ localValue: '2018-08-12T11:12:13+0500' })
-        expect(wrapper.emitted().input[1]).to.deep.equal(['2018-08-12T08:12:13+02:00'])
+        const expected = moment('2018-08-12T11:12:13+0500').format('Y-MM-DD\\THH:mm:ssZ')
+        expect(wrapper.emitted().input[1]).to.deep.equal([expected])
       })
     })
 
