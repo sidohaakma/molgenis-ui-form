@@ -3,7 +3,8 @@ var config = require('../../config')
 var packageJson = require('../../package.json')
 
 const buildName = packageJson.name + '#PR-' + process.env.CHANGE_ID + '-build-' + process.env.BUILD_NUMBER
-const ciDevServer = 'http://' + process.env.JENKINS_AGENT_NAME + ':' + (process.env.PORT || config.dev.port)
+const ciDevServerHost = process.env.JENKINS_AGENT_NAME || 'localhost'
+const ciDevServer = 'http://' + ciDevServerHost + ':' + (process.env.PORT || config.dev.port)
 
 var defaultPauzeBeforeTestStart = 3000
 
