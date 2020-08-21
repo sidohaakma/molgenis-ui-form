@@ -182,7 +182,7 @@ const getHtmlFieldType = (fieldType: EntityFieldType): HtmlFieldType => {
     case 'STRING':
       return 'text'
     case 'HYPERLINK':
-      return 'url'
+      return 'hyperlink'
     case 'EMAIL':
       return 'email'
     case 'FILE':
