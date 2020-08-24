@@ -491,7 +491,7 @@ describe('Entity to state mapper', () => {
     const field = form.formFields[0]
 
     it('should map a [HYPERLINK] attribute to a form field object', () => {
-      expect(field.type).to.equal('url')
+      expect(field.type).to.equal('hyperlink')
       expect(field.id).to.equal('hyperlink')
       expect(field.label).to.equal('Hyperlink Field')
       expect(field.description).to.equal('Hyperlink description')

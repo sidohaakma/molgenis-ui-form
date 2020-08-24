@@ -332,6 +332,41 @@ describe('TypedFieldComponent unit tests', () => {
     })
   })
 
+  describe('isValidHyperlink', () => {
+    let propsData = {
+      field: {
+        id: 'typed-field',
+        type: 'hyperlink'
+      },
+      fieldState: {
+        $touched: false,
+        $submitted: false,
+        $invalid: false,
+        _addControl: mockParentFunction
+      }
+    }
+
+    describe('should return true for valid molgenis hyperlink values', () => {
+      it('if value is https://molgenis.com should return true', () => {
+        propsData.value = 'https://molgenis.com'
+        const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
+        expect(wrapper.vm.isValidHyperlink).to.equal(true)
+      })
+
+      it('if value is //file/location.foo should return true', () => {
+        propsData.value = '//file/location.foo'
+        const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
+        expect(wrapper.vm.isValidHyperlink).to.equal(true)
+      })
+
+      it('if value is :^^# should return false', () => {
+        propsData.value = ':^^#'
+        const wrapper = mount(TypedFieldComponent, { propsData: propsData, stubs: ['fieldMessages'] })
+        expect(wrapper.vm.isValidHyperlink).to.equal(false)
+      })
+    })
+  })
+
   describe('TypedFieldComponent with type email', () => {
     const field = {
       id: 'typed-field',
@@ -406,12 +441,12 @@ describe('TypedFieldComponent unit tests', () => {
     })
   })
 
-  describe('TypedFieldComponent with type url', () => {
+  describe('TypedFieldComponent with type hyperlink', () => {
     const field = {
       id: 'typed-field',
       label: 'Typed Field',
       description: 'This is a field that supports many types',
-      type: 'url',
+      type: 'hyperlink',
       disabled: false
     }
 
@@ -437,9 +472,9 @@ describe('TypedFieldComponent unit tests', () => {
       }
     )
 
-    it('should render an input of type url', () => {
+    it('should render an input of type text as we use custom molgenis hyperlink validator', () => {
       const input = wrapper.find('input')
-      expect(input.element.type).to.equal('url')
+      expect(input.element.type).to.equal('text')
     })
   })
 })

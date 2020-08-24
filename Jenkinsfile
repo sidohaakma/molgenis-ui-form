@@ -34,7 +34,8 @@ pipeline {
           sh "yarn install"
           sh "yarn lint"
           sh "yarn unit"
-          sh "yarn e2e --env ci_chrome,ci_safari,ci_ie11,ci_firefox"
+          // sh "yarn e2e --env ci_chrome,ci_safari,ci_ie11,ci_firefox" skip safari untill K8s JENKINS_AGENT_NAME issue can be fixed
+          sh "yarn e2e --env ci_chrome,ci_ie11,ci_firefox"
         }
       }
       post {
