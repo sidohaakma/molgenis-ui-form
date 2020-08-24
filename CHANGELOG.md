@@ -1,3 +1,21 @@
+# [5.0.0](https://github.com/molgenis/molgenis-ui-form/compare/v4.0.3...v5.0.0) (2020-08-24)
+
+
+### Bug Fixes
+
+* added missing flow type ([6c4587b](https://github.com/molgenis/molgenis-ui-form/commit/6c4587b))
+* validate molgenis hyperlink type as uri instead of url ([0e05f6a](https://github.com/molgenis/molgenis-ui-form/commit/0e05f6a)), closes [#316](https://github.com/molgenis/molgenis-ui-form/issues/316)
+
+
+* task!: remove safari e2e test from master  build (#320) ([cf501c0](https://github.com/molgenis/molgenis-ui-form/commit/cf501c0)), closes [#320](https://github.com/molgenis/molgenis-ui-form/issues/320)
+* task!: Replace url type with hyperlink type (#319) ([3354e95](https://github.com/molgenis/molgenis-ui-form/commit/3354e95)), closes [#319](https://github.com/molgenis/molgenis-ui-form/issues/319)
+
+
+### BREAKING CHANGES
+
+* release previously unreleased change due to build issue
+* i18n key 'ui-form:form_not_a_valid_url' replaced with to 'ui-form:form_not_a_valid_hyperlink'
+
 ## [4.0.3](https://github.com/molgenis/molgenis-ui-form/compare/v4.0.2...v4.0.3) (2019-09-23)
 
 
