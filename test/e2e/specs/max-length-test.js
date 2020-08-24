@@ -14,7 +14,7 @@ module.exports = {
     browser.expect.element('#max-length-example').to.have.attribute('class').which.contains('vf-form-invalid')
     browser.expect.element('#max-length-string-example').to.have.attribute('class').which.contains('vf-invalid')
     browser.expect.element('#max-length-text-example').to.have.attribute('class').which.contains('vf-invalid')
-    browser.expect.element('#max-length-url-example').to.have.attribute('class').which.contains('vf-invalid')
+    browser.expect.element('#max-length-hyperlink-example').to.have.attribute('class').which.contains('vf-invalid')
     browser.expect.element('#max-length-email-example').to.have.attribute('class').which.contains('vf-invalid')
     browser.end()
   },
@@ -50,17 +50,17 @@ module.exports = {
   },
   'URL with valid length should be valid': function (browser) {
     const urlValue = 'https://not-too-long.com'
-    browser.options.desiredCapabilities.name = 'URL with valid length should be valid'
+    browser.options.desiredCapabilities.name = 'Hyperlink with valid length should be valid'
     browser.expect.element('#validate-btn').to.be.present
-    browser.click('#max-length-url-example')
+    browser.click('#max-length-hyperlink-example')
     // Workaround since clearValue is not working
     browser.execute(function () {
-      document.getElementById('max-length-url-example').value = ''
+      document.getElementById('max-length-hyperlink-example').value = ''
     })
-    browser.setValue('#max-length-url-example', urlValue)
-    browser.expect.element('#max-length-url-example').to.have.value.that.equals(urlValue)
+    browser.setValue('#max-length-hyperlink-example', urlValue)
+    browser.expect.element('#max-length-hyperlink-example').to.have.value.that.equals(urlValue)
     browser.click('#validate-btn')
-    browser.expect.element('#max-length-url-example').to.have.attribute('class').which.contains('vf-valid')
+    browser.expect.element('#max-length-hyperlink-example').to.have.attribute('class').which.contains('vf-valid')
     browser.end()
   },
   'Email with valid length should be valid': function (browser) {

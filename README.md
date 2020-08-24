@@ -169,7 +169,7 @@ We support most HTML input types like number, text, and email. Below is a list o
 | date-time | A Vue Flatpickr Date component with 'enableTime = true' |
 | checkboxes | A list of checkboxes |
 | text | A HTML5 text input |
-| url | A HTML5 text url |
+| hyperlink | A HTML5 text, only valid uri is allowed |
 | email | A HTML5 text email |
 | password | A HTML5 password input |
 | file | A HTML5 file input |
@@ -350,7 +350,7 @@ If no 'ui-form' namespace is set on the supplied Vue instance the default (Engli
 | ui-form:form_required_field     | 'This field is required'        |                                         |
 | ui-form:form_validation_failed  | 'Validation failed'             |                                         |
 | ui-form:form_not_a_valid_number | 'Not a valid number'            |                                         |
-| ui-form:form_not_a_valid_url    | 'Not a valid URL'               |                                         |
+| ui-form:form_not_a_valid_hyperlink    | 'Not a valid Hyperlink'               |                                         |
 | ui-form:form_not_a_valid_email  | 'Not a valid email'             |                                         |
 | ui-form:form_not_within_range   | 'Value is outside of range'     |  min, max is added as: ' ($min - $max)' | 
 | ui-form:form_below_min_value    | 'Value is below allowed value'  | min value is added as: ' $min'          |

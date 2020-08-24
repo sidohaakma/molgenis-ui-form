@@ -151,7 +151,7 @@ export default {
     maxlength () {
       switch (this.field.type) {
         case 'text':
-        case 'url':
+        case 'hyperlink':
         case 'email':
           return 255
         default:

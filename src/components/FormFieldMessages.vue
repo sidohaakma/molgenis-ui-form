@@ -2,7 +2,7 @@
   <field-messages :name="fieldId" :state="fieldState" show="$touched || $submitted || $dirty" class="form-control-feedback">
     <div class="invalid-feedback" slot="required" key="required">{{ requiredFieldMsg }}</div>
     <div class="invalid-feedback" slot="email" key="email">{{ notAValidEmailMsg }}</div>
-    <div class="invalid-feedback" slot="url" key="url">{{ notAValidUrlMsg }}</div>
+    <div class="invalid-feedback" slot="hyperlink" key="hyperlink">{{ notAValidHyperlinkMsg }}</div>
     <div class="invalid-feedback" slot="integer" key="integer">{{ notAValidIntegerMsg }}</div>
     <div class="invalid-feedback" slot="long" key="long">{{ notAValidLongMsg }}</div>
     <div class="invalid-feedback" slot="number" key="number">{{ notAValidNumberMsg }}</div>
@@ -30,7 +30,7 @@ const defaultMessages = {
   'ui-form:form_not_a_valid_number': 'Not a valid number',
   'ui-form:form_not_a_valid_integer': 'Not a valid integer value',
   'ui-form:form_not_a_valid_long': 'Not a valid long value',
-  'ui-form:form_not_a_valid_url': 'Not a valid URL',
+  'ui-form:form_not_a_valid_hyperlink': 'Not a valid hyperlink',
   'ui-form:form_not_a_valid_email': 'Not a valid email',
   'ui-form:form_not_within_range': 'Value is outside of range',
   'ui-form:form_below_min_value': 'Value is below allowed value',
@@ -98,9 +98,8 @@ export default {
     this.notAValidNumberMsg = this.getLocalizedMessage('ui-form:form_not_a_valid_number')
     this.notAValidIntegerMsg = this.getLocalizedMessage('ui-form:form_not_a_valid_integer')
     this.notAValidLongMsg = this.getLocalizedMessage('ui-form:form_not_a_valid_long')
-    this.notAValidUrlMsg = this.getLocalizedMessage('ui-form:form_not_a_valid_url')
+    this.notAValidHyperlinkMsg = this.getLocalizedMessage('ui-form:form_not_a_valid_hyperlink')
     this.notAValidEmailMsg = this.getLocalizedMessage('ui-form:form_not_a_valid_email')
-
     this.notWithInRangeMsg = this.getLocalizedMessage('ui-form:form_not_within_range')
     this.belowMinValueMsg = this.getLocalizedMessage('ui-form:form_below_min_value')
     this.aboveMaxValueMsg = this.getLocalizedMessage('ui-form:form_above_max_value')

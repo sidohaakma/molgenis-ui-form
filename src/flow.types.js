@@ -5,7 +5,7 @@ export type EntityFieldType = 'BOOL' | 'CATEGORICAL' | 'ENUM' | 'XREF' | 'MREF' 
   'STRING' | 'HYPERLINK' | 'EMAIL' | 'FILE' | 'ONE_TO_MANY' | 'COMPOUND'
 
 export type HtmlFieldType = 'radio' | 'select' | 'integer' | 'long' | 'decimal' | 'text-area' | 'date' | 'date-time' | 'checkbox' |
-  'text' | 'url' | 'email' | 'file' | 'field-group' | 'multi-select' | 'single-select' | 'script' | 'html' | 'hyperlink'
+  'text' | 'email' | 'file' | 'field-group' | 'multi-select' | 'single-select' | 'script' | 'html' | 'hyperlink'
 
 export type MapperMode = 'UPDATE' | 'CREATE'
 

@@ -67,10 +67,10 @@ export default {
           range: {}
         },
         {
-          id: 'max-length-url-example',
-          label: 'URL field with too many characters',
-          description: 'This URL is too long',
-          type: 'url',
+          id: 'max-length-hyperlink-example',
+          label: 'Hyperlink field with too many characters',
+          description: 'This Hyperlink is too long',
+          type: 'hyperlink',
           visible: () => true,
           required: () => false,
           validate: () => true,
@@ -91,7 +91,7 @@ export default {
       formData: {
         'max-length-string-example': 'This string consists of more than 255 characters and therefore after clicking on the field, it will be marked as invalid. Strings cannot exceed the length of 255 characters, so please remove a few characters in order to make this invalid field valid again. Thank you!',
         'max-length-text-example': this.generateString(65536),
-        'max-length-url-example': 'https://www.somerandomurl.org/welcome-to-this-page/unfortunately-way-too-long/some-other-location/maybe-you-want-to-look-here/or-maybe-not/so-go-here/van-het-kastje-naar-de-muur/van-de-muur-naar-het-kastje/en-weer-terug/en-nog-een-keer-heen/en-toch-maar-weer-terug',
+        'max-length-hyperlink-example': 'https://www.somerandomurl.org/welcome-to-this-page/unfortunately-way-too-long/some-other-location/maybe-you-want-to-look-here/or-maybe-not/so-go-here/van-het-kastje-naar-de-muur/van-de-muur-naar-het-kastje/en-weer-terug/en-nog-een-keer-heen/en-toch-maar-weer-terug',
         'max-length-email-example': 'i.am.not.sure.why.you.would.create.an.email.address.consisting.of.more.than.two.hundred.fifty.five.characters.but.you.cannot.enter.it.in.this.field.anyway.since.the.maximum.length.of.an.email.field.is.two.hundred.fifty.five.characters@idontknowsomeprovider.co.uk'
       }
     }
